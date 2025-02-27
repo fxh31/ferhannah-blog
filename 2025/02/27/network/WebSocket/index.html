@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm7njdwo6001kv8vsbpyl1qln" class="article article-type-post" itemscope
+    <article id="post-cm7njggkj001pcovs1ac4htbb" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -240,7 +240,27 @@
 <blockquote>
 <p>心跳自定义的。</p>
 </blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> state = &#123;</span><br><span class="line">  <span class="attr">HEART</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">MESSAGE</span>: <span class="number">2</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">let</span> heartInreaval = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">heartCheck</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (socket.<span class="property">readyState</span> === ws.<span class="property">OPEN</span>) &#123;</span><br><span class="line">    <span class="comment">// socket.send(&quot;ping&quot;);</span></span><br><span class="line">    socket.<span class="title function_">send</span>(</span><br><span class="line">      <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">        <span class="attr">type</span>: state.<span class="property">HEART</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;心跳检测&quot;</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">    );</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">clearInterval</span>(heartInreaval);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">heartInreaval = <span class="built_in">setInterval</span>(heartCheck, <span class="number">5000</span>);</span><br></pre></td></tr></table></figure>
+<pre><code class="js">const state = &#123;
+  HEART: 1,
+  MESSAGE: 2,
+&#125;;
+// ...
+let heartInreaval = null;
+const heartCheck = () =&gt; &#123;
+  if (socket.readyState === ws.OPEN) &#123;
+    // socket.send(&quot;ping&quot;);
+    socket.send(
+      JSON.stringify(&#123;
+        type: state.HEART,
+        message: &quot;心跳检测&quot;,
+      &#125;)
+    );
+  &#125; else &#123;
+    clearInterval(heartInreaval);
+  &#125;
+&#125;;
+heartInreaval = setInterval(heartCheck, 5000);
+</code></pre>
 
         </div>
 
@@ -372,7 +392,7 @@
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
           </li>
         
       </ul>

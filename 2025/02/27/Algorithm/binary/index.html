@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm7njdwnj0002v8vs3iovhmxz" class="article article-type-post" itemscope
+    <article id="post-cm7njggjl0002covs8ira8fev" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -235,8 +235,19 @@
 <ul>
 <li>用于比较一个二进制数的高位是否为 1。</li>
 </ul>
-<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> num = <span class="number">15</span>; <span class="comment">// 最多为 2^3，也就是 8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> x = num;</span><br><span class="line"><span class="keyword">const</span> ans = [];</span><br><span class="line"><span class="keyword">while</span> (x &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  ans.<span class="title function_">push</span>(<span class="title function_">lowbit</span>(x));</span><br><span class="line">  x -= <span class="title function_">lowbit</span>(x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">lowbit</span>(<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
 
+let x = num;
+const ans = [];
+while (x &gt; 0) &#123;
+  ans.push(lowbit(x));
+  x -= lowbit(x);
+&#125;
+
+function lowbit(x) &#123;
+  return x &amp; -x;
+&#125;
+</code></pre>
 <h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
 <blockquote>
 <p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
@@ -372,7 +383,7 @@
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
           </li>
         
       </ul>

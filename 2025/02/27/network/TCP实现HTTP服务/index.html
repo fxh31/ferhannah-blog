@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm7njdwo5001dv8vsgiam1jwv" class="article article-type-post" itemscope
+    <article id="post-cm7njggkh001jcovs0jlgewqf" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -212,7 +212,34 @@
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
             <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
-<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> net <span class="keyword">from</span> <span class="string">&quot;net&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">html</span>: string = <span class="string">`&lt;h1&gt;BLG&lt;/h1&gt;`</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> header = [</span><br><span class="line">  <span class="string">&quot;HTTP/1.1 200 OK&quot;</span>,</span><br><span class="line">  <span class="string">&quot;Content-Type: text/html&quot;</span>,</span><br><span class="line">  <span class="string">`Content-Length: <span class="subst">$&#123;html.length&#125;</span>`</span>,</span><br><span class="line">  <span class="string">&quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;</span>,</span><br><span class="line">  <span class="string">`\r\n`</span>,</span><br><span class="line">  html,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = net.<span class="title function_">createServer</span>(<span class="function">(<span class="params">socket</span>) =&gt;</span> &#123;</span><br><span class="line">  socket.<span class="title function_">on</span>(<span class="string">&quot;data&quot;</span>, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(data.<span class="title function_">toString</span>());</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/GET/</span>.<span class="title function_">test</span>(data.<span class="title function_">toString</span>())) &#123;</span><br><span class="line">      socket.<span class="title function_">write</span>(headers.<span class="title function_">join</span>(<span class="string">&quot;\r\n&quot;</span>));</span><br><span class="line">      socket.<span class="title function_">end</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听 TCP 服务</span></span><br><span class="line">server.<span class="title function_">listen</span>(<span class="number">8080</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;server is running&quot;</span>, server.<span class="title function_">address</span>());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
+
+const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
+
+const header = [
+  &quot;HTTP/1.1 200 OK&quot;,
+  &quot;Content-Type: text/html&quot;,
+  `Content-Length: $&#123;html.length&#125;`,
+  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
+  `\r\n`,
+  html,
+];
+
+const server = net.createServer((socket) =&gt; &#123;
+  socket.on(&quot;data&quot;, (data) =&gt; &#123;
+    console.log(data.toString());
+    if (/GET/.test(data.toString())) &#123;
+      socket.write(headers.join(&quot;\r\n&quot;));
+      socket.end();
+    &#125;
+  &#125;);
+&#125;);
+
+// 监听 TCP 服务
+server.listen(8080, () =&gt; &#123;
+  console.log(&quot;server is running&quot;, server.address());
+&#125;);
+</code></pre>
 
         </div>
 
@@ -344,7 +371,7 @@
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
           </li>
         
       </ul>

@@ -314,8 +314,19 @@ class="article article-type-post"
 <ul>
 <li>用于比较一个二进制数的高位是否为 1。</li>
 </ul>
-<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> num = <span class="number">15</span>; <span class="comment">// 最多为 2^3，也就是 8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> x = num;</span><br><span class="line"><span class="keyword">const</span> ans = [];</span><br><span class="line"><span class="keyword">while</span> (x &gt; <span class="number">0</span>) &#123;</span><br><span class="line">  ans.<span class="title function_">push</span>(<span class="title function_">lowbit</span>(x));</span><br><span class="line">  x -= <span class="title function_">lowbit</span>(x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">lowbit</span>(<span class="params">x</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
 
+let x = num;
+const ans = [];
+while (x &gt; 0) &#123;
+  ans.push(lowbit(x));
+  x -= lowbit(x);
+&#125;
+
+function lowbit(x) &#123;
+  return x &amp; -x;
+&#125;
+</code></pre>
 <h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
 <blockquote>
 <p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
@@ -487,8 +498,13 @@ class="article article-type-post"
 <ul>
 <li>在 window 监听 online&#x2F;offine 事件：</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;online&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;online&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;offline&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;online&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
+<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+window.addEventListener(&quot;offline&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+</code></pre>
 <h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
 <ul>
 <li>downlink：当前网络连接的估计下行速度</li>
@@ -750,7 +766,27 @@ class="article article-type-post"
 <blockquote>
 <p>心跳自定义的。</p>
 </blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> state = &#123;</span><br><span class="line">  <span class="attr">HEART</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">MESSAGE</span>: <span class="number">2</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">let</span> heartInreaval = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">heartCheck</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (socket.<span class="property">readyState</span> === ws.<span class="property">OPEN</span>) &#123;</span><br><span class="line">    <span class="comment">// socket.send(&quot;ping&quot;);</span></span><br><span class="line">    socket.<span class="title function_">send</span>(</span><br><span class="line">      <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">        <span class="attr">type</span>: state.<span class="property">HEART</span>,</span><br><span class="line">        <span class="attr">message</span>: <span class="string">&quot;心跳检测&quot;</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">    );</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">clearInterval</span>(heartInreaval);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">heartInreaval = <span class="built_in">setInterval</span>(heartCheck, <span class="number">5000</span>);</span><br></pre></td></tr></table></figure>
+<pre><code class="js">const state = &#123;
+  HEART: 1,
+  MESSAGE: 2,
+&#125;;
+// ...
+let heartInreaval = null;
+const heartCheck = () =&gt; &#123;
+  if (socket.readyState === ws.OPEN) &#123;
+    // socket.send(&quot;ping&quot;);
+    socket.send(
+      JSON.stringify(&#123;
+        type: state.HEART,
+        message: &quot;心跳检测&quot;,
+      &#125;)
+    );
+  &#125; else &#123;
+    clearInterval(heartInreaval);
+  &#125;
+&#125;;
+heartInreaval = setInterval(heartCheck, 5000);
+</code></pre>
 
         
     </div>
@@ -926,7 +962,34 @@ class="article article-type-post"
     <div class="article-entry post-inner-html">
         
         <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
-<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> net <span class="keyword">from</span> <span class="string">&quot;net&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">html</span>: string = <span class="string">`&lt;h1&gt;BLG&lt;/h1&gt;`</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> header = [</span><br><span class="line">  <span class="string">&quot;HTTP/1.1 200 OK&quot;</span>,</span><br><span class="line">  <span class="string">&quot;Content-Type: text/html&quot;</span>,</span><br><span class="line">  <span class="string">`Content-Length: <span class="subst">$&#123;html.length&#125;</span>`</span>,</span><br><span class="line">  <span class="string">&quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;</span>,</span><br><span class="line">  <span class="string">`\r\n`</span>,</span><br><span class="line">  html,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = net.<span class="title function_">createServer</span>(<span class="function">(<span class="params">socket</span>) =&gt;</span> &#123;</span><br><span class="line">  socket.<span class="title function_">on</span>(<span class="string">&quot;data&quot;</span>, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(data.<span class="title function_">toString</span>());</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/GET/</span>.<span class="title function_">test</span>(data.<span class="title function_">toString</span>())) &#123;</span><br><span class="line">      socket.<span class="title function_">write</span>(headers.<span class="title function_">join</span>(<span class="string">&quot;\r\n&quot;</span>));</span><br><span class="line">      socket.<span class="title function_">end</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听 TCP 服务</span></span><br><span class="line">server.<span class="title function_">listen</span>(<span class="number">8080</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;server is running&quot;</span>, server.<span class="title function_">address</span>());</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
+
+const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
+
+const header = [
+  &quot;HTTP/1.1 200 OK&quot;,
+  &quot;Content-Type: text/html&quot;,
+  `Content-Length: $&#123;html.length&#125;`,
+  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
+  `\r\n`,
+  html,
+];
+
+const server = net.createServer((socket) =&gt; &#123;
+  socket.on(&quot;data&quot;, (data) =&gt; &#123;
+    console.log(data.toString());
+    if (/GET/.test(data.toString())) &#123;
+      socket.write(headers.join(&quot;\r\n&quot;));
+      socket.end();
+    &#125;
+  &#125;);
+&#125;);
+
+// 监听 TCP 服务
+server.listen(8080, () =&gt; &#123;
+  console.log(&quot;server is running&quot;, server.address());
+&#125;);
+</code></pre>
 
         
     </div>
@@ -1024,7 +1087,7 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
           </li>
         
       </ul>

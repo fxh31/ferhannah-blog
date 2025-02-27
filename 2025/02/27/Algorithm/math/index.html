@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm7njdwnv000fv8vsf4o1hu0s" class="article article-type-post" itemscope
+    <article id="post-cm7njggjw000acovs6seo03c9" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -210,8 +210,19 @@
             <h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p>用于求两个正整数的<strong>最大公约数</strong>（Greatest Common Divisor，GCD）。</p>
 <p>基本思想：<br>以<strong>除数</strong>和<strong>余数</strong>反复做除法运算，当余数为 0 时，取当前算式除数为最大公约数。</p>
 <p>$$<br>gcd(a, b) &#x3D; gcd(b, a mod b)<br>$$</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 递归</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">gcd</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> a % b ? <span class="title function_">gcd</span>(b, a % b) : b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 迭代</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">gcd</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">  <span class="keyword">while</span> (a % b) &#123;</span><br><span class="line">    [a, b] = [b, a % b];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="js">// 递归
+function gcd(a, b) &#123;
+  return a % b ? gcd(b, a % b) : b;
+&#125;
 
+// 迭代
+function gcd(a, b) &#123;
+  while (a % b) &#123;
+    [a, b] = [b, a % b];
+  &#125;
+  return b;
+&#125;
+</code></pre>
 <blockquote>
 <p>补充：扩展的欧几里得算法可用于 RSA 加密算法等领域。</p>
 </blockquote>
@@ -348,7 +359,7 @@
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
           </li>
         
       </ul>

@@ -333,17 +333,91 @@ class="article article-type-post"
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="后端（express）"><a href="#后端（express）" class="headerlink" title="后端（express）"></a>后端（express）</h3><ul>
 <li>安装所需依赖</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pnpm i express cors jsonwebtoken</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">pnpm i express cors jsonwebtoken
+</code></pre>
 <blockquote>
 <p>cors：用于解决跨域。</p>
 </blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> express <span class="keyword">from</span> <span class="string">&quot;express&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> jwt <span class="keyword">from</span> <span class="string">&quot;jsonwebtoken&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> cors <span class="keyword">from</span> <span class="string">&quot;cors&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="title class_">Key</span> = <span class="string">&quot;SVCSD&quot;</span>; <span class="comment">// 加验私钥，一般藏在环境变量里</span></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">express</span>();</span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">json</span>()); <span class="comment">// 中间件支持json</span></span><br><span class="line">app.<span class="title function_">use</span>(express.<span class="title function_">urlencoded</span>(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;));</span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">cors</span>()); <span class="comment">// 中间件解决跨域</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">  <span class="attr">password</span>: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1.登录返回前端token用于授权</span></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&quot;/api/login&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (req.<span class="property">body</span>.<span class="property">name</span> == user.<span class="property">name</span> &amp;&amp; req.<span class="property">body</span>.<span class="property">password</span> == user.<span class="property">password</span>) &#123;</span><br><span class="line">    res.<span class="title function_">json</span>(&#123;</span><br><span class="line">      <span class="attr">message</span>: <span class="string">&quot;登录成功&quot;</span>,</span><br><span class="line">      <span class="attr">token</span>: jwt.<span class="title function_">sign</span>(&#123; <span class="attr">id</span>: user.<span class="property">id</span> &#125;, <span class="title class_">Key</span>, &#123; <span class="attr">expiresIn</span>: <span class="string">&quot;1h&quot;</span> &#125;), <span class="comment">// payload，私钥，token配置对象（如 token 过期时间）</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    res.<span class="title function_">status</span>(<span class="number">403</span>).<span class="title function_">json</span>(&#123; <span class="attr">message</span>: <span class="string">&quot;用户名或密码错误&quot;</span> &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.列表接口，只有授权状态才能访问，不然就会403</span></span><br><span class="line">app.<span class="title function_">post</span>(<span class="string">&quot;/api/list&quot;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> token = req.<span class="property">headers</span>.<span class="property">authorization</span>; <span class="comment">// 前端 token 存放在请求头的 authorization 里，规范</span></span><br><span class="line">  jwt.<span class="title function_">verify</span>(token, <span class="title class_">Key</span>, <span class="function">(<span class="params">err, decode</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 使用 jwt 去验证 token 是否正确</span></span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="comment">// token 没有权限按规范返回403</span></span><br><span class="line">      res.<span class="title function_">status</span>(<span class="number">403</span>).<span class="title function_">json</span>(&#123; <span class="attr">message</span>: <span class="string">&quot;无权限&quot;</span> &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      res.<span class="title function_">json</span>(&#123;</span><br><span class="line">        <span class="attr">list</span>: [</span><br><span class="line">          &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">title</span>: <span class="string">&quot;标题1&quot;</span> &#125;,</span><br><span class="line">          &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">title</span>: <span class="string">&quot;标题2&quot;</span> &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">listen</span>(<span class="number">3000</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;server started&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<pre><code class="js">import express from &quot;express&quot;;
+import jwt from &quot;jsonwebtoken&quot;;
+import cors from &quot;cors&quot;;
 
-<h3 id="前端（fetch）"><a href="#前端（fetch）" class="headerlink" title="前端（fetch）"></a>前端（fetch）</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">btn.<span class="property">onclick</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">fetch</span>(<span class="string">&quot;http://localhost:3000/api/login&quot;</span>, &#123;</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>,</span><br><span class="line">    <span class="attr">headers</span>: &#123;</span><br><span class="line">      <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">      <span class="attr">name</span>: name.<span class="property">value</span>,</span><br><span class="line">      <span class="attr">password</span>: password.<span class="property">value</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>())</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">      cnosole.<span class="title function_">log</span>(res);</span><br><span class="line">      <span class="variable language_">localStorage</span>.<span class="title function_">setItem</span>(<span class="string">&quot;token&quot;</span>, res.<span class="property">token</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+let Key = &quot;SVCSD&quot;; // 加验私钥，一般藏在环境变量里
+const app = express();
+app.use(express.json()); // 中间件支持json
+app.use(express.urlencoded(&#123; extended: false &#125;));
+app.use(cors()); // 中间件解决跨域
 
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">fetch</span>(<span class="string">&quot;http://localhost:3000/api/list&quot;</span>, &#123;</span><br><span class="line">  <span class="attr">headers</span>: &#123;</span><br><span class="line">    <span class="title class_">Authorization</span>: <span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>(<span class="string">&quot;token&quot;</span>),</span><br><span class="line">    <span class="comment">// &quot;Authorization&quot;: `Bearer $&#123;localStorage.getItem(&quot;token&quot;)&#125;`</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>())</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    cnosole.<span class="title function_">log</span>(res);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+let user = &#123;
+  name: &quot;admin&quot;,
+  password: &quot;123456&quot;,
+  id: 1,
+&#125;;
 
+// 1.登录返回前端token用于授权
+app.post(&quot;/api/login&quot;, (req, res) =&gt; &#123;
+  if (req.body.name == user.name &amp;&amp; req.body.password == user.password) &#123;
+    res.json(&#123;
+      message: &quot;登录成功&quot;,
+      token: jwt.sign(&#123; id: user.id &#125;, Key, &#123; expiresIn: &quot;1h&quot; &#125;), // payload，私钥，token配置对象（如 token 过期时间）
+    &#125;);
+  &#125; else &#123;
+    res.status(403).json(&#123; message: &quot;用户名或密码错误&quot; &#125;);
+  &#125;
+&#125;);
+
+// 2.列表接口，只有授权状态才能访问，不然就会403
+app.post(&quot;/api/list&quot;, (req, res) =&gt; &#123;
+  let token = req.headers.authorization; // 前端 token 存放在请求头的 authorization 里，规范
+  jwt.verify(token, Key, (err, decode) =&gt; &#123;
+    // 使用 jwt 去验证 token 是否正确
+    if (err) &#123;
+      // token 没有权限按规范返回403
+      res.status(403).json(&#123; message: &quot;无权限&quot; &#125;);
+    &#125; else &#123;
+      res.json(&#123;
+        list: [
+          &#123; id: 1, title: &quot;标题1&quot; &#125;,
+          &#123; id: 2, title: &quot;标题2&quot; &#125;,
+        ],
+      &#125;);
+    &#125;
+  &#125;);
+&#125;);
+
+app.listen(3000, () =&gt; &#123;
+  console.log(&quot;server started&quot;);
+&#125;);
+</code></pre>
+<h3 id="前端（fetch）"><a href="#前端（fetch）" class="headerlink" title="前端（fetch）"></a>前端（fetch）</h3><pre><code class="js">btn.onclick = () =&gt; &#123;
+  fetch(&quot;http://localhost:3000/api/login&quot;, &#123;
+    method: &quot;POST&quot;,
+    headers: &#123;
+      &quot;Content-Type&quot;: &quot;application/json&quot;,
+    &#125;,
+    body: JSON.stringify(&#123;
+      name: name.value,
+      password: password.value,
+    &#125;),
+  &#125;)
+    .then((res) =&gt; res.json())
+    .then((res) =&gt; &#123;
+      cnosole.log(res);
+      localStorage.setItem(&quot;token&quot;, res.token);
+    &#125;);
+&#125;;
+</code></pre>
+<pre><code class="js">fetch(&quot;http://localhost:3000/api/list&quot;, &#123;
+  headers: &#123;
+    Authorization: localStorage.getItem(&quot;token&quot;),
+    // &quot;Authorization&quot;: `Bearer $&#123;localStorage.getItem(&quot;token&quot;)&#125;`
+  &#125;,
+&#125;)
+  .then((res) =&gt; res.json())
+  .then((res) =&gt; &#123;
+    cnosole.log(res);
+  &#125;);
+</code></pre>
 <blockquote>
 <p>注意：Bearer 字段不是一定要加的，它是一个规范，只要看见 token 前面加了这个东西，就说明它使用了 OAuth 2.0 规范(jwt 也使用了该规范)。加了后端也需要去处理这个 Bearer</p>
 </blockquote>
@@ -440,21 +514,40 @@ class="article article-type-post"
 <ul>
 <li>创建私钥</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genpkey -algorithm RSA -out private-key.pem -aes256</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
+</code></pre>
 <ul>
 <li>生成 pem 签名文件</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -new -key private-key.pem -out certificate.csr</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
+</code></pre>
 <blockquote>
 <p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
 </blockquote>
 <ul>
 <li>生成数字证书</li>
 </ul>
-<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> https <span class="keyword">from</span> <span class="string">&quot;https&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> fs <span class="keyword">from</span> <span class="string">&quot;node:fs&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//http 端口号 80 https端口号 443</span></span><br><span class="line">https</span><br><span class="line">  .<span class="title function_">createserver</span>(</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">key</span>: fs.<span class="title function_">readFilesync</span>(<span class="string">&quot;private-key.pem&quot;</span>),</span><br><span class="line">      <span class="attr">cert</span>: fs.<span class="title function_">readFilesync</span>(<span class="string">&quot;certificate.pem&quot;</span>),</span><br><span class="line">      <span class="comment">//密码短语</span></span><br><span class="line">      <span class="attr">passphrase</span>: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">      res.<span class="title function_">writeHead</span>(<span class="number">200</span>);</span><br><span class="line">      res.<span class="title function_">end</span>(<span class="string">&quot;success&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  )</span><br><span class="line">  .<span class="title function_">listen</span>(<span class="number">443</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;https server is running at https://localhost:433&quot;</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
+import fs from &quot;node:fs&quot;;
 
+//http 端口号 80 https端口号 443
+https
+  .createserver(
+    &#123;
+      key: fs.readFilesync(&quot;private-key.pem&quot;),
+      cert: fs.readFilesync(&quot;certificate.pem&quot;),
+      //密码短语
+      passphrase: &quot;123456&quot;,
+    &#125;,
+    (req, res) =&gt; &#123;
+      res.writeHead(200);
+      res.end(&quot;success&quot;);
+    &#125;
+  )
+  .listen(443, () =&gt; &#123;
+    console.log(&quot;https server is running at https://localhost:433&quot;);
+  &#125;);
+</code></pre>
 <h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
 
         
@@ -775,17 +868,17 @@ class="article article-type-post"
     <div class="article-entry post-inner-html">
         
         <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+</code></pre>
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+</code></pre>
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
+</code></pre>
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
+</code></pre>
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
         
@@ -876,7 +969,7 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
           </li>
         
       </ul>
