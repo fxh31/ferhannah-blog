@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>浏览器中输入 url 到底发生了什么 | Hexo</title>
+
+    <meta name="description" content="Hexo">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="en" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "浏览器中输入 url 到底发生了什么 | Hexo"  />
+    <meta property="og:description" content= "Hexo" />
+    <meta property="og:url" content="http://example.com/2025/02/27/network/URL/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="John Doe" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Hexo" />
+    <meta name="twitter:title" content="浏览器中输入 url 到底发生了什么 | Hexo"/>
+    <meta name="twitter:description" content="Hexo"/>
+    <script type="application/ld+json">
+        {
+            "description": "Hexo",
+            "author": { "@type": "Person", "name": "John Doe" },
+            "@type": "BlogPosting",
+            "url": "http://example.com/2025/02/27/network/URL/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "http://example.com/images/logo.png"
+            },
+            "name": "John Doe"
+            },
+            "headline": "浏览器中输入 url 到底发生了什么 | Hexo",
+            "datePublished": "2025-02-27T12:20:05.900Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "http://example.com/2025/02/27/network/URL/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/images/logo.png" alt="John Doe">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Hexo</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/">首页</a>
+                
+                <a href="/archives">归档</a>
+                
+                <a href="/tags">标签</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/">首页</a>
+                    
+                    <a href="/archives">归档</a>
+                    
+                    <a href="/tags">标签</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cm7ndvkrc000j3svs9orr6zde" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      浏览器中输入 url 到底发生了什么
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-02-27T12:20:05.900Z" itemprop="datePublished">2025-02-27</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/network/">network</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <p>首先解释 url 是什么。</p>
+<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
+<p>有了域名就可以进行一个 DNS 查询</p>
+<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
+<p>所以用户再输入 url 后，会去查找 dns。</p>
+<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
+<li>首先去浏览器的 dns 缓存 中查找；</li>
+<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
+<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
+<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
+</blockquote>
+</li>
+<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
+</ol>
+<ul>
+<li>首先查找本地 dns 服务器；</li>
+<li>如果没有找到，会向根域名服务器查找（.）；</li>
+<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
+<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
+</ul>
+<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
+<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
+<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
+<ul>
+<li>请求头 Content-Type 设置 application&#x2F;json；</li>
+<li>用户自定义了请求头；</li>
+</ul>
+</blockquote>
+<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
+<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
+<blockquote>
+<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
+</blockquote>
+<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
+<blockquote>
+<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
+</blockquote>
+<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
+<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
+<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
+<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
+</li>
+<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
+<blockquote>
+<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
+</blockquote>
+</li>
+<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
+</li>
+</ul>
+<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
+<p>能够引起回流的操作：</p>
+<ul>
+<li>页面首次渲染</li>
+<li>浏览器窗口大小发生变换</li>
+<li>元素尺寸或位置发生改变</li>
+<li>元素内容发生改变</li>
+<li>元素字体大小变换</li>
+<li>添加或删除可见的 dom 元素</li>
+<li>激活 css 伪类（:hover）</li>
+<li>查询某些属性或调用某些方法<blockquote>
+<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
+<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
+<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
+<p>涉及编译原理一些内容。</p>
+</blockquote>
+<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
+<blockquote>
+<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
+</blockquote>
+<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/2025/02/27/network/WebSocket/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          WebSocket
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/02/27/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">TCP 实现 HTTP 服务</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=浏览器中输入 url 到底发生了什么 - Hexo&url=http%3A%2F%2Fexample.com%2F2025%2F02%2F27%2Fnetwork%2FURL%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=浏览器中输入 url 到底发生了什么 - Hexo&u=http%3A%2F%2Fexample.com%2F2025%2F02%2F27%2Fnetwork%2FURL%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=浏览器中输入 url 到底发生了什么 - Hexo&url=http://example.com/2025/02/27/network/URL/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/27/network/outline/">计算机网络</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/networkState/">前端网络状态</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/XSS/">XSS</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/WebSocket/">WebSocket</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Hexo &copy; 2025<br>
+            Powered By Hexo · Theme By <a href="https://linhong.me/" target="_blank">Aomori</a> · <a href="https://github.com/lh1me/hexo-theme-aomori" target="_blank">Github</a>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

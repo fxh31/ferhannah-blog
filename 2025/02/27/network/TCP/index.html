@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>TCP | Hexo</title>
+
+    <meta name="description" content="Hexo">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="en" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "TCP | Hexo"  />
+    <meta property="og:description" content= "Hexo" />
+    <meta property="og:url" content="http://example.com/2025/02/27/network/TCP/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="John Doe" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Hexo" />
+    <meta name="twitter:title" content="TCP | Hexo"/>
+    <meta name="twitter:description" content="Hexo"/>
+    <script type="application/ld+json">
+        {
+            "description": "Hexo",
+            "author": { "@type": "Person", "name": "John Doe" },
+            "@type": "BlogPosting",
+            "url": "http://example.com/2025/02/27/network/TCP/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "http://example.com/images/logo.png"
+            },
+            "name": "John Doe"
+            },
+            "headline": "TCP | Hexo",
+            "datePublished": "2025-02-27T12:20:05.898Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "http://example.com/2025/02/27/network/TCP/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/images/logo.png" alt="John Doe">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Hexo</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/">首页</a>
+                
+                <a href="/archives">归档</a>
+                
+                <a href="/tags">标签</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/">首页</a>
+                    
+                    <a href="/archives">归档</a>
+                    
+                    <a href="/tags">标签</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cm7ndvkrb000g3svs6fp8cstk" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      TCP
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-02-27T12:20:05.898Z" itemprop="datePublished">2025-02-27</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/categories/network/">network</a>
+            </div>
+            
+
+            
+            <div class="article-tag">
+                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li></ul>
+            </div>
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <p><img src="/./images/tcpip.png" alt="tcp/ip"></p>
+<h2 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h2><ul>
+<li>seq：sequence number，序列号（通过各种算法 isn 随机生成的）；</li>
+<li>ack：acknowledgement number，确认号（ack &#x3D; seq + 1）；</li>
+<li>ACK：acknowledgement，确认序列号有效；</li>
+<li>SYN：synchronous，发起新连接；</li>
+<li>FIN：finish，完成；</li>
+</ul>
+<p>第一次握手：<br>客户端向服务端发起建立新连接（SYN），并且发送序列号（seq）；</p>
+<blockquote>
+<p>序列号用于确保发送消息的顺序不乱。</p>
+</blockquote>
+<p>第二次握手：<br>服务端接收到客户端的序列号（seq），判断该序列号的确认号是否正确（ack），如果正确就标记一个 ACK，然后向客户端发起建立新连接（SYN），并且带上服务端自己的序列号（seq）；</p>
+<p>第三次握手：<br>客户端接收到之后会判断服务端的 seq 是否正确，如果正确的话也会标记一个 ACK</p>
+<blockquote>
+<p>客户端的 seq &#x3D; 第一次握手客户端的 seq + 1<br>ack &#x3D; 服务端 seq + 1</p>
+</blockquote>
+<h3 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h3><p>四次挥手可以由客户端或者服务端发起。此处以客户端主动发起为例子。</p>
+<p>第一次挥手：<br>客户端向服务端发送连接完成状态（FIN），并添加上客户端的 seq；此时客户端从 established 状态变为 fin_wait_1 等待状态；</p>
+<p>第二次挥手：<br>服务端收到客户端的信息后需要去验证 seq，判断 ack 是否正确，如果正确就标记一个 ACK 返回给客户端；<br>此时客户端会进入 fin_wait_2 阶段，在这个阶段内，如果有未完成或未处理的任务，会将所有任务处理完成，处理完之后服务端才会发起第三次挥手，最终来结束状态；</p>
+<p>第三次挥手：<br>服务端发起 FIN + ACK（ack）+ 服务端 seq；<br>此时客户端进入超时等待状态 time_wait。</p>
+<blockquote>
+<p>该状态的存在是为了确保第四次挥手的 ACK 标记不丢失，确保连接能正常断开，保证 TCP 的可靠性。如果 ACK 标记丢失了，服务端会再次发起断开连接请求（FIN），传递 ACK（再执行一次第三次挥手）。</p>
+</blockquote>
+<p>第四次挥手：<br>客户端超时等待完成后回向服务端发起 ACK （ack）+ seq，并彻底关闭连接。</p>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/2025/02/27/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          TCP 实现 HTTP 服务
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/02/27/network/SSE/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">SSE</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=TCP - Hexo&url=http%3A%2F%2Fexample.com%2F2025%2F02%2F27%2Fnetwork%2FTCP%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=TCP - Hexo&u=http%3A%2F%2Fexample.com%2F2025%2F02%2F27%2Fnetwork%2FTCP%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a>
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=TCP - Hexo&url=http://example.com/2025/02/27/network/TCP/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/network/">network</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/2025/02/27/network/outline/">计算机网络</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/networkState/">前端网络状态</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/XSS/">XSS</a>
+          </li>
+        
+          <li>
+            <a href="/2025/02/27/network/WebSocket/">WebSocket</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Hexo &copy; 2025<br>
+            Powered By Hexo · Theme By <a href="https://linhong.me/" target="_blank">Aomori</a> · <a href="https://github.com/lh1me/hexo-theme-aomori" target="_blank">Github</a>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
