@@ -101,8 +101,6 @@
                 
                 <a href="/ferhannah-blog/archives">归档</a>
                 
-                <a href="/ferhannah-blog/tags">标签</a>
-                
             </div>
             <div class="header-menu-social">
                 
@@ -137,8 +135,6 @@
                     
                     <a href="/ferhannah-blog/archives">归档</a>
                     
-                    <a href="/ferhannah-blog/tags">标签</a>
-                    
                 </div>
             </div>
         </div>
@@ -154,7 +150,7 @@
   
     
       <article
-id="post-network/outline"
+id="post-Python/base"
 class="article article-type-post"
 >
 
@@ -165,418 +161,328 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/outline/">计算机网络</a>
+        <a href="/ferhannah-blog/2025/02/27/Python/base/">grammar</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="OSI-七层模型"><a href="#OSI-七层模型" class="headerlink" title="OSI 七层模型"></a>OSI 七层模型</h2><p>该模型为参考模型</p>
-<h2 id="TCP-IP-五（四）层模型"><a href="#TCP-IP-五（四）层模型" class="headerlink" title="TCP&#x2F;IP 五（四）层模型"></a>TCP&#x2F;IP 五（四）层模型</h2><p>该模型为参考模型的实施。</p>
-<h2 id="物理层（比特流）"><a href="#物理层（比特流）" class="headerlink" title="物理层（比特流）"></a>物理层（比特流）</h2><p>直接和物理介质打交道的。物理层的设备有网卡，网线，集线器，中继器，调制解调器。</p>
-<h3 id="物理层的通信（信道）"><a href="#物理层的通信（信道）" class="headerlink" title="物理层的通信（信道）"></a>物理层的通信（信道）</h3><h4 id="有线信道"><a href="#有线信道" class="headerlink" title="有线信道"></a>有线信道</h4><ul>
-<li>明线：明线是指平行架设在电线杆上的架空线路。（已逐渐被电缆所替代）<ul>
-<li>优点：传输损耗低；</li>
-<li>缺点：易受天气和环境的影响，对外界噪声干扰比较敏感；</li>
-</ul>
-</li>
-<li>对称电缆：由多对双绞线组成的线缆。</li>
-<li>同轴电缆：一共有四层，从内到外分别是中心导体、绝缘体、外层导体（带屏蔽）和外皮。同轴电缆能以低损耗的方式传输模拟信号和数字信号，适用于各种应用（如电视广播系统、长途电话传输系统、计算机系统之间短距离跳线以及局域网互联）。</li>
-<li>光纤：光导纤维是由玻璃或塑料制成的纤维，利用光在这些纤维中以全反射原理传输的光传导工具。</li>
-</ul>
-<h4 id="无线信道"><a href="#无线信道" class="headerlink" title="无线信道"></a>无线信道</h4><ul>
-<li>无线电波：以辐射无线电波为传输方式无线信道主要有地波传输，天波传输和视距传输。例如:卫星通讯，电台广播。（常说的 wifi）</li>
-</ul>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p><strong>在物理层根据传输方式的不同（电、光、无线电波等方式），会获取他们对应的传输信号，再将其转化为 010101 的电信号，单位为比特（bit），所以物理层传输的是比特流</strong>。</p>
-<blockquote>
-<p>比如电压根据伏度不同转换 01 数字不同。</p>
+        <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="Walrus-操作符（海象操作符）"><a href="#Walrus-操作符（海象操作符）" class="headerlink" title="Walrus 操作符（海象操作符）"></a>Walrus 操作符（海象操作符）</h3><blockquote>
+<p><code>:=</code></p>
 </blockquote>
-<h2 id="数据链路层（数据帧）"><a href="#数据链路层（数据帧）" class="headerlink" title="数据链路层（数据帧）"></a>数据链路层（数据帧）</h2><blockquote>
-<p>在物理层已经可以拿到 01010 的比特流了，但是不知道给谁发过去，谁来接收，接收后用来干什么，所以数据链路层需要将比特流组装成一个数据帧（主要是使用 MAC 地址来组帧）。</p>
-</blockquote>
-<p>建立逻辑连接、进行硬件地址寻址、差错校验等功能。将比特组合成字节进而组合成帧，用 MAC 地址访问介质。</p>
-<blockquote>
-<p>MAC 地址：每个网卡的唯一标识。windows 寻找物理地址（MAC 地址）：ipconfig&#x2F;all</p>
-</blockquote>
-<p><strong>有了 MAC 地址和数据帧，就可以进行传播。MAC 地址保证了消息的发送者和接收者，并且知道了数据的内容进行分组。数据链路层以广播的方式在局域网内传播，该局域网内所有的计算机都能接收到消息</strong>。</p>
-<blockquote>
-<p>交互方式可以使用交换机等。</p>
-</blockquote>
-<h2 id="网络层（数据包）"><a href="#网络层（数据包）" class="headerlink" title="网络层（数据包）"></a>网络层（数据包）</h2><p>网络层控制数据链路层与传输层之间的信息转发，建立、维持和终止网络的连接。数据链路层的数据在网络层被转换为数据包，然后通过路径选择、分段组合、顺序、进出路由等控制，将信息从一个网络设备传递到另一个网络设备中。<br>它主要做了两件事：</p>
-<ul>
-<li>寻址：对网络层而言使用 IP 地址来唯一标识互联网上的设备，网络层依靠 IP 地址进行相互通信。<blockquote>
-<p>在数据链路层中已经获得了 MAC 地址，但是 Mac 地址众多，查找起来很麻烦。所以会有一个网络地址——IP</p>
-</blockquote>
-</li>
-<li>路由：不同网路之间通信的需要借助的设备。<blockquote>
-<p>在同一个网络中的内部通信并不需要网络层设备，仅仅靠数据链路层就可以完成相互通信，对于不同的网络之间相互通信则必须借助路由器等三层设备。</p>
-</blockquote>
-</li>
-</ul>
-<p>使用互联网的用户在同一个网段中时会产生广播风暴，在该网段中的所有用户都会无差别的进行数据的传播或接收，所以要将用户划分，让他们在不同的网段中，在自己的小网段中进行广播。</p>
-<blockquote>
-<p>互联网就是将无数的子网络构成一个巨大的网络。<em>子网络是网络划分的概念，而子网段是指划分出的具体 IP 地址范围。子网络是在逻辑上划分网络，而子网段是在物理上划分网络。</em></p>
-</blockquote>
-<p>为了能区分不同的网段，在网络层引入了一个网络地址——IP，也称网址。网络地址帮助我们确定计算机所在的子网络，MAC 地址则将数据包送到该子网络中的目标网卡。<br>而这一层有一个规范网络地址的协议，就叫做 IP 协议，遵守这个协议的地址就被称为 IP 地址。</p>
-<blockquote>
-<p>有 IPV4 和 IPV6，IPv4 地址长度为 32 位，通常用点分十进制表示（例如，192.168.1.1）;IPv6 地址长度为 128 位，通常用冒号分隔的十六进制表示（例如，2001:0db8:85a3:0000:0000:8a2e:0370:7334）。</p>
-</blockquote>
-<h2 id="传输层（数据段）"><a href="#传输层（数据段）" class="headerlink" title="传输层（数据段）"></a>传输层（数据段）</h2><p>主要是定义端口号，控流和校验。</p>
-<h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>面向连接，三次握手四次挥手，是可靠的传输协议。但是速度会降低。</p>
-<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>具有较好的实时性，效率高于 TCP，但是是不可靠的。由于其速度快，常用于直播。</p>
-<h2 id="会话层（报文）"><a href="#会话层（报文）" class="headerlink" title="会话层（报文）"></a>会话层（报文）</h2><p>在发送方和接收方之间进行通信时创建、维持、之后终止或断开连接的地方。</p>
-<h2 id="表示层（报文）"><a href="#表示层（报文）" class="headerlink" title="表示层（报文）"></a>表示层（报文）</h2><p>表示层主要做了几件重要的事情：安全，压缩，也是程序在网络中的一个翻译官。</p>
-<ul>
-<li>安全：发送方数据发送之前进行加密，在接受者的表示层进行解密。</li>
-<li>翻译：图片。音频等文件格式进行解码和编码。<blockquote>
-<p>ASCII 图片是人类能读懂的计算机需要转换成计算机能读懂的编码。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="应用层（报文）"><a href="#应用层（报文）" class="headerlink" title="应用层（报文）"></a>应用层（报文）</h2><p>使用最多的一层。例如 ajax 调用接口发送 http 请求，域名系统 DNS，邮件协议 SMTP，webSocket 长连接，SSH 协议等。</p>
-<blockquote>
-<p>报文，比如 f12 的 network 里的数据就叫报文，包括请求头、响应体之内的。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.907Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/networkState"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/networkState/">前端网络状态</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="前端网络状态"><a href="#前端网络状态" class="headerlink" title="前端网络状态"></a>前端网络状态</h1><h2 id="前端判断网络是否离线"><a href="#前端判断网络是否离线" class="headerlink" title="前端判断网络是否离线"></a>前端判断网络是否离线</h2><ul>
-<li>navigator.onLine</li>
-</ul>
-<p>true：在线；false：离线</p>
-<ul>
-<li>在 window 监听 online&#x2F;offine 事件：</li>
-</ul>
-<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
-  console.log(&quot;online&quot;);
-&#125;);
-window.addEventListener(&quot;offline&quot;, function () &#123;
-  console.log(&quot;online&quot;);
-&#125;);
+<p>赋值表达式。在 Python 3.8 中引入的新特性。这个操作符允许你在表达式中进行赋值，而不仅仅是语句中。</p>
+<pre><code class="python">if (t := sum ^ value) in cnt:
+    ans += cnt[t] * key - total[t]
 </code></pre>
-<h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
-<ul>
-<li>downlink：当前网络连接的估计下行速度</li>
-<li>downlinkMax：设备网络连接的最大下行速度</li>
-<li>effectiveType：当前网络连接的估计速度，类型(如 slow-2g、2g、39、4g 等)</li>
-<li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
-<li>saveData：是否处于数据节省模式</li>
-</ul>
+<h3 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h3><p>用于截取子字符串，子列表也可可以，只要<strong>数据类型为 list</strong>。</p>
+<pre><code class="python">test = &#39;hello world
 
-        
-    </div>
-    </div>
+# 截取前 7 个字符：hello w
+substring = test[:7]
+substring = test[0:7]
 
-    <div class="article-badge">
-        
-        
-    </div>
+# 截取第 1 个到第 5 个字符（不包含）：ello
+substring = test[1:5]
 
-</div>
+# 截取后 3 个字符：rld
+substring = test[-3:]
 
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.906Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
+# 从第 1 个到第 6 个字符，步长为3（每隔 2 个取一个）：eo
+substring = test[1:6:3]
+substring = test[::3] # 对整个字符串每隔步长为 3 进行取
+substring = test[::-1] # 反转字符串
 
-</article>
+# 截取到第 1 个空格：hello
+substring = test[:test.find(&#39; &#39;)]
+</code></pre>
+<h3 id="nonlocal"><a href="#nonlocal" class="headerlink" title="nonlocal"></a>nonlocal</h3><p>用于在嵌套函数中声明一个变量不是局部变量。如果不申明的话，就会将同名变量当作嵌套作用域内部自己的局部变量。</p>
+<pre><code class="python">def wrappedFunc() -&gt; None:
+    ans = 0
+    def insideFunc() -&gt; None:
+        nonlocal ans # 声明为非局部变量
+        ans += 1
+</code></pre>
+<h3 id="内置方法"><a href="#内置方法" class="headerlink" title="内置方法"></a>内置方法</h3><h4 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h4><p>用于将一个字符串列表连接成一个单一的字符串。</p>
+<pre><code class="python">separator.join(iterable)
+</code></pre>
+<h4 id="count"><a href="#count" class="headerlink" title="count()"></a>count()</h4><p>获取一个字符串中某个字符的数量。</p>
+<pre><code class="python">print(&#39;1jjjjj0&#39;.count(&#39;j&#39;)) # 5
+</code></pre>
+<h4 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h4><p>原地排序。默认从小到大。</p>
+<pre><code class="python">arr = [1,4,6,2,4,9]
+people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
 
-    
-  
-    
-      <article
-id="post-network/navigator(sendBeacon)"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>前端发送请求的方法有哪些：</p>
-<ul>
-<li>AJAX 的 XMLHttpRequest（axios）</li>
-<li>fetch</li>
-<li>SSE</li>
-<li>Websocket</li>
-<li>jsonp</li>
-<li>image 的 src</li>
-</ul>
-</blockquote>
-<h1 id="navigator-sendBeacon"><a href="#navigator-sendBeacon" class="headerlink" title="navigator.sendBeacon"></a>navigator.sendBeacon</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
-<li>发送心跳检测包。</li>
-<li>做埋点。可以使用 navigator.sendBeacon 在页面关闭或卸载时记录用户的在线时间，pv（page view：页面的浏览量或点击量），uv（unique visitor：独立访客，即访客量），错误日志上报，按钮点击数等。</li>
-<li>发送用户反馈。如用户意见、bug 报告等，以便进行产品的优化和改进，</li>
-</ul>
-<h2 id="对比-AJAX-和-fetch-的优势"><a href="#对比-AJAX-和-fetch-的优势" class="headerlink" title="对比 AJAX 和 fetch 的优势"></a>对比 AJAX 和 fetch 的优势</h2><ul>
-<li>不受页面卸载过程的影响，确保数据可靠发送。</li>
-<li>异步执行，不阻塞页面关闭或跳转。</li>
-<li>能发送跨域请求。<blockquote>
-<p>使用 HTML5 新增的 ping 类型，ping 类型的请求不需要等待服务端的返回，能支持发送跨域请求。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="ping-类型请求"><a href="#ping-类型请求" class="headerlink" title="ping 类型请求"></a>ping 类型请求</h3><p>请求类型 ping 是 HTML5 新增的，并且是 sendBeacon 特有的请求类型，该请求只能携带少量数据，但是他不需要等待服务端响应（因此非常适合做埋点）。</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
-<li>只能发送 post 请求。</li>
-<li>只能传输少量数据（64kb 以内），并且只能传输 ArrayBuffer、ArrayBufferView、Blob、DOMString、FormData 或 URLSerchParams 类型的数据，不能传送 json。</li>
-<li>没有办法去定义请求头（比如携带 token 之类的）。</li>
-<li>如果处理危险的网络环境（比如公共网络），或者开启了广告屏蔽的插件，该请求将失效。</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
-<li>在某个监听函数中，使用 navigator.sendBeacon()来发起请求，第一个参数为 url，第二个参数为要传送的数据。</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>设置 post 请求（由于 sendBeacon 只能发送 post 请求），并返回简单数据。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.905Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/XSS"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/XSS/">XSS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Cross-site scripting。跨站脚本攻击，利于 Web 网络安全的漏洞，注入恶意的 js 脚本进行攻击。一般分为三种：</p>
-<h1 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h1><h2 id="反射型-XSS"><a href="#反射型-XSS" class="headerlink" title="反射型 XSS"></a>反射型 XSS</h2><p>攻击者必须以某种方式诱导用户访问一个精心设计的 URL(恶意链接)，该连接中可能包含一个 script 标签，攻击者通过注入 js 来实施攻击，获取用户数据等。</p>
-<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
-<li>即时性。不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据；</li>
-</ul>
-<h2 id="存储型-XSS"><a href="#存储型-XSS" class="headerlink" title="存储型 XSS"></a>存储型 XSS</h2><p>存储型（HTML 注入型&#x2F;持久型）<strong>最严重的 XSS 攻击</strong>。将 js 脚本直接注入到数据库中，使得需要查看数据的用户都会被遭受攻击。主要发生在社区的评论区，留言板，HTML 电子邮件等，通过写入 script 标签，注入 js 脚本来实施攻击，如果前端和后端都没有进行 js 的过滤，该代码就会被注入进数据库中。</p>
-<h2 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h2><p>主要是利用 JS 和 HTML 的交互性质以及 DOM 对象实现的。客户端的脚本程序可以动态地检查和修改页面内容，而不依赖于服务器端的数据。<br>如果用户在客户端输入的数据包含了恶意的 JavaScript 脚本，而这些脚本没有经过适当的过滤和消毒，就会遭到攻击，如：</p>
-<ul>
-<li>loaction</li>
-<li>innerHTML（可以使用 textContent）</li>
-<li>document.write</li>
-<li>v-html</li>
-<li>eval</li>
-</ul>
-<h1 id="预防-XSS"><a href="#预防-XSS" class="headerlink" title="预防 XSS"></a>预防 XSS</h1><ul>
-<li>输入过滤：在 Web 应用程序中对用户输入的数据进行过滤和校验，确保只接收合法的数据；<blockquote>
-<p>使用 xss 的 npm 包，利用第三方工具来防止 xss 注入。</p>
-</blockquote>
-</li>
-<li>输出转译：在向 Web 页面中输出用户数据时，对其内容进行适当的编码和转义处理；</li>
-<li>设置 CSP（Content Security Policy）：通过设置响应报文头中的 CSP 策略，限制页面中可执行的脚本来源、样式表、图像、字体等，以此减少恶意代码执行的可能性。（前后端都可以设置）<ul>
-<li>前端：meta 标签里设置 http-equiv&#x3D;”Content-Security-Policy”</li>
-<li>后端：设置请求头<blockquote>
-<p>例如机制外部脚本执行，外部资源加载，禁止页面嵌入式 iframe。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="XSS-靶场"><a href="#XSS-靶场" class="headerlink" title="XSS 靶场"></a>XSS 靶场</h1><p>小练习。<a target="_blank" rel="noopener" href="https://xssaq.com/yx/level1.php">https://xssaq.com/yx/level1.php</a></p>
-<h1 id="XSS-漏洞扫描工具"><a href="#XSS-漏洞扫描工具" class="headerlink" title="XSS 漏洞扫描工具"></a>XSS 漏洞扫描工具</h1><ul>
-<li>wvs</li>
-<li>椰树</li>
-<li>safe3</li>
-<li>Xelenium</li>
-<li>w3af – Kali</li>
-<li>vega – Kali</li>
-<li>burp</li>
-<li>Kail 操作系统</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.902Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/WebSocket"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/WebSocket/">WebSocket</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>是一种在单个 TCP 连接上进行全双工通信的网络协议。HTML5 的新特性，实现客户端和服务端相互之间的实时通信。</p>
-<p>相比于 HTTP 协议的请求，使用 WebSocket 可以建立持久的连接，允许服务器主动向客户端推送数据，避免不必要的轮询请求，提高了实时性和效率。</p>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
-<li>实时性要求比较高的应用：比如在线聊天，游戏，数据可视化等。</li>
-<li>需要频繁交换数据的应用：在线编辑器，文档管理器等。</li>
-<li>需要推送服务的应用：比如实时数据监控、通知系统等。</li>
-<li>跨平台应用：比如桌面应用程序、移动应用程序等。</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><blockquote>
-<p>node</p>
-</blockquote>
-<ul>
-<li>安装 ws 和其声明文件。</li>
-<li>新建一个 WebSocket 的服务（ws.Server）。</li>
-<li>监听客户端的连接。</li>
-</ul>
-<p>默认是使用点对点的方式，可以修改为广播的方式，让连接到这个 socket 的客户端都能通过服务端的广播消息，收到对方客户端的消息。（群聊）</p>
-<ul>
-<li>遍历 clients，获取每一个连接上的 client，发送消息。</li>
-</ul>
-<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
-<li>构造一个 WebSocket 的实例，该实例需要传入一个用于建立连接的 url，以 ws 或 wss 开头（不用 http&#x2F;https）。</li>
-<li>在这个实例对象上监听 open()。</li>
-</ul>
-<p>发送消息前后端都使用 send()，接收消息默认监听 message 事件。</p>
-<h2 id="心跳检测"><a href="#心跳检测" class="headerlink" title="心跳检测"></a>心跳检测</h2><p>在实际使用过程中，由干网络波动、弱信号等原因，可能会导 WebSocket 连接断开。为了避免这种请求，可以通过心跳检测机制来检测 WebSocket 连接是否正常，当发现连接断开时尝试重连。</p>
+# 根据第一项从大到小排序后根据第二项从小到大
+people.sort(key = lambda x : (-x[0], x[1])) # [[7, 0], [7, 1], [6, 1], [5, 0], [5, 2], [4, 4]]
+</code></pre>
+<h4 id="split"><a href="#split" class="headerlink" title="split"></a>split</h4><p>拆分字符串。</p>
+<pre><code class="python">text = &quot;hello world&quot;
+words = text.split() # 默认以空格为分隔符 [&#39;hello&#39;, &#39;world&#39;]
+</code></pre>
+<h4 id="items"><a href="#items" class="headerlink" title="items()"></a>items()</h4><p>用于返回字典（dict、Counter）的键值对列表。</p>
 <blockquote>
-<p>心跳自定义的。</p>
+<p>Counter 继承于字典。</p>
 </blockquote>
-<pre><code class="js">const state = &#123;
-  HEART: 1,
-  MESSAGE: 2,
-&#125;;
-// ...
-let heartInreaval = null;
-const heartCheck = () =&gt; &#123;
-  if (socket.readyState === ws.OPEN) &#123;
-    // socket.send(&quot;ping&quot;);
-    socket.send(
-      JSON.stringify(&#123;
-        type: state.HEART,
-        message: &quot;心跳检测&quot;,
-      &#125;)
-    );
-  &#125; else &#123;
-    clearInterval(heartInreaval);
-  &#125;
-&#125;;
-heartInreaval = setInterval(heartCheck, 5000);
+<pre><code class="python">arr = [1,1,1,2,2,3]
+cnt = Counter(arr)
+for c in cnt.items():
+  print(c)
+</code></pre>
+<h3 id="二进制操作"><a href="#二进制操作" class="headerlink" title="二进制操作"></a>二进制操作</h3><h4 id="bit"><a href="#bit" class="headerlink" title="bit()"></a>bit()</h4><p>返回一个数字的二进制。</p>
+<blockquote>
+<p>但是在 python 中该二进制的数字是以 0b 开头，所以需要进行拆分。</p>
+</blockquote>
+<pre><code class="python">bit(3)[2:] # 11
+</code></pre>
+<h4 id="bit-count"><a href="#bit-count" class="headerlink" title="bit_count()"></a>bit_count()</h4><p>返回一个数字的二进制形式的 1 的数量。</p>
+<h2 id="库函数"><a href="#库函数" class="headerlink" title="库函数"></a>库函数</h2><h3 id="Counter"><a href="#Counter" class="headerlink" title="Counter()"></a>Counter()</h3><p>计数器。专门用于计数元素的频率，默认值是一个整形（0），是一个特殊的字典类。</p>
+<blockquote>
+<p>可以实现类似 js map 的数据结构。</p>
+</blockquote>
+<h3 id="defaultdict-list"><a href="#defaultdict-list" class="headerlink" title="defaultdict(list)"></a>defaultdict(list)</h3><p>创建一个字典类，当你访问一个不存在的键时，它会自动返回一个默认值（这个是空列表）。</p>
+<blockquote>
+<p>可以实现类似 js map 的数据结构。</p>
+</blockquote>
+<pre><code class="python">idx = &#123;&#125; # &#123;&#125; 被认为是一个空的字典
+</code></pre>
+<h3 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate()"></a>enumerate()</h3><p>迭代函数。</p>
+<blockquote>
+<p>对于遍历的数组来说，可以遍历获取它的索引和值。第二个参数可以控制遍历的开始的索引值。</p>
+</blockquote>
+<pre><code class="python">for i, h in enumerate(hours, 1):
+  print(i) # 1...
+</code></pre>
+<h3 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate()"></a>accumulate()</h3><p>累加函数。</p>
+<blockquote>
+<p>可遍历累加后的值。</p>
+</blockquote>
+<h3 id="sum"><a href="#sum" class="headerlink" title="sum()"></a>sum()</h3><p>累加函数。</p>
+<blockquote>
+<p>累加遍历的值。</p>
+</blockquote>
+<pre><code class="python">arr = [1, 2, 3, 4, 5]
+total1 = sum(arr)
+total2 = sum(-(-x // 2) for x in arr)
+</code></pre>
+<p>遍历累加符合的值（找到符合的值将其映射为 1）</p>
+<pre><code class="python">max_count = sum(1 for v in cnt.values() if v == max_exec)
+</code></pre>
+<h3 id="max"><a href="#max" class="headerlink" title="max()"></a>max()</h3><p>遍历元素获取最大值。</p>
+<ul>
+<li>获取二维数组中的最大值：</li>
+</ul>
+<pre><code class="python"># intervals = [[1, 8], [2, 3], [3, 4]]
+len = max(max(x) for x in intervals)
+</code></pre>
+<h3 id="list"><a href="#list" class="headerlink" title="list()"></a>list()</h3><p>动态数组类型，它可以存储任何类型的元素，并且支持动态扩展。</p>
+<h3 id="range-start-end-step"><a href="#range-start-end-step" class="headerlink" title="range(start, end, step)"></a>range(start, end, step)</h3><p>创建一个整数序列，从 start 到 end，步长为 step。</p>
+<h3 id="ord"><a href="#ord" class="headerlink" title="ord()"></a>ord()</h3><p>获取一个字符对应的 Unicode 编码。</p>
+<h3 id="all"><a href="#all" class="headerlink" title="all()"></a>all()</h3><p>用于检测一个可迭代对象（如列表、元组、集合等）中的所有元素是否都为 True 或者是否都满足某个条件。</p>
+<pre><code class="python"># all(iterable)
+if all(i &gt; 0 for i in [1, 2, 3]):
+</code></pre>
+<h3 id="zip"><a href="#zip" class="headerlink" title="zip()"></a>zip()</h3><p>将多个可迭代对象（如列表、元组等）中的元素按位置配对，返回一个迭代器。如果可迭代对象的长度不一致，则返回的迭代器长度与<strong>最短</strong>的可迭代对象相同。</p>
+<pre><code class="python"># 将两个列表的元素配对
+list1 = [1, 2, 3]
+list2 = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+zipped = zip(list1, list2)
+
+# 将zip对象转换为列表
+zipped_list = list(zipped)
+print(zipped_list)  # [(1, &#39;a&#39;), (2, &#39;b&#39;), (3, &#39;c&#39;)]
+
+# 直接遍历 zip 对象
+for x, y in zipped:
+  print(x, y)
+
+# 解码 zip （in place）
+a, b = zip(*zipped)
+print(a, b) # (1, 2, 3) (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+print(list(zipped)) # []
+</code></pre>
+<h3 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h3><p>将可迭代对象转换为集合。</p>
+<pre><code class="python">s = set([2, 3, 3]) # &#123;2, 3&#125;
+
+s1 = s - &#123;2&#125; # &#123;3&#125;
+
+print(s) # &#123;2, 3&#125;
+</code></pre>
+<p><strong>注意</strong>：python 可以<strong>使用<code>-&#123;&#125;</code>直接减去</strong> set 中的某个值，并且会<strong>生成一个新的 set</strong>，而不会修改原 set！！！</p>
+<blockquote>
+<p>哇哦！真是方便呢（js 没有，叽叽叽）</p>
+</blockquote>
+<h3 id="permutations"><a href="#permutations" class="headerlink" title="permutations"></a>permutations</h3><p>对迭代器进行排列组合。</p>
+<pre><code class="js">nums = [1, 2, 3]
+for p in permutations(nums):
+  print(p)
+</code></pre>
+<h2 id="heapq"><a href="#heapq" class="headerlink" title="heapq"></a>heapq</h2><p>使用 heapq 库创建一个小根堆，如果想用大根堆可以将里面的数值变为负数然后再处理。</p>
+<h3 id="heapify"><a href="#heapify" class="headerlink" title="heapify"></a>heapify</h3><p>初始化堆。</p>
+<pre><code class="python">heap = [4,5,7,2,3,9]
+heapq.heapify(heap)
+</code></pre>
+<h3 id="heappop"><a href="#heappop" class="headerlink" title="heappop"></a>heappop</h3><p>弹出堆顶。</p>
+<h3 id="heappush"><a href="#heappush" class="headerlink" title="heappush"></a>heappush</h3><p>入堆顶。</p>
+<h3 id="heapreplace"><a href="#heapreplace" class="headerlink" title="heapreplace"></a>heapreplace</h3><p>弹出堆的最小元素，并将给定的新元素插入到堆中。这个操作是一个原子操作，即在单次操作中完成弹出和插入的过程。</p>
+<blockquote>
+<p>新元素也会根据按照堆进行排序。</p>
+</blockquote>
+<h2 id="itertools"><a href="#itertools" class="headerlink" title="itertools"></a>itertools</h2><p>为高效循环创建迭代器的函数。</p>
+<h3 id="chain-from-iterable"><a href="#chain-from-iterable" class="headerlink" title="chain.from_iterable"></a>chain.from_iterable</h3><p>可用于扁平化数组。</p>
+<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>函数定义的语法：</p>
+<p>使用<code>def</code>来定义一个函数。</p>
+<ul>
+<li>self 是类方法中的第一个参数，它代表类的实例本身。具体来说，在类的方法定义中，self 参数是用来访问类的属性和其他方法的。</li>
+</ul>
+<pre><code class="python">class Solution:
+    def backspaceCompare(self, s: str, t: str) -&gt; bool:
+        self.getStr(&#39;ert&#39;)
+    def getStr(self, s: str):
+        print(self)
+</code></pre>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><h3 id=""><a href="#" class="headerlink" title="&#x3D;"></a>&#x3D;</h3><p>python 中的数组其实是一个 list（列表），它是可以直接进行比较的。<code>==</code> 操作符可以用来比较两个列表是否相等，它会逐元素地比较两个列表的内容和顺序是否完全相同。如果两个列表的内容和顺序都相同，则返回 True；否则返回 False。</p>
+<blockquote>
+<p>js 中是不能直接进行数组比较的，数组是引用数据类型，比较的永远是内存地址，永远是 false。</p>
+</blockquote>
+<h2 id="time"><a href="#time" class="headerlink" title="time"></a>time</h2><p>该模块提供了各种与时间相关的函数。</p>
+<blockquote>
+<p>此模块中定义的大多数函数的实现都是调用其所在平台的 C 语言库的同名函数。因为这些函数的语义可能因平台而异，所以使用时最好查阅对应平台的相关文档。</p>
+</blockquote>
+<p>下面是一些术语和惯例的解释.</p>
+<h3 id="time-1"><a href="#time-1" class="headerlink" title="time()"></a>time()</h3><p>返回以浮点数表示的从 epoch 开始的秒数形式的时间。</p>
+<blockquote>
+<p>epoch 是起始的时间点，即 time.gmtime(0) 的返回值。 这在所有平台上都是 1970-01-01, 00:00:00 (UTC)。</p>
+</blockquote>
+<h2 id="匿名函数（lambda）"><a href="#匿名函数（lambda）" class="headerlink" title="匿名函数（lambda）"></a>匿名函数（lambda）</h2><pre><code class="python">lambda arguments: expression
+</code></pre>
+<pre><code class="python"># 定义一个加法的 lambda 函数
+add = lambda x, y: x + y
+print(add(2, 3))  # 输出: 5
+
+points = [(2, 3), (1, 2), (4, 1)]
+# 根据 y 坐标排序
+sorted_points = sorted(points, key=lambda p: p[1])
+print(sorted_points)
+</code></pre>
+<h2 id="bisect"><a href="#bisect" class="headerlink" title="bisect"></a>bisect</h2><p>bisect 是 Python 内置的二分查找模块，用于在已排序的列表中查找元素。</p>
+<h3 id="bisect-left"><a href="#bisect-left" class="headerlink" title="bisect_left"></a>bisect_left</h3><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素左边插入的索引。</p>
+<pre><code class="python">arr = [1, 2, 5, 9, 12]
+print(bisect.bisect_left(arr, 3)) # 2
+print(bisect.bisect_left(arr, 2)) # 1
+</code></pre>
+<blockquote>
+<p>可以相当于找的是<strong>大于等于 target</strong> 的第一个元素的索引值。</p>
+</blockquote>
+<h3 id="bisect-right"><a href="#bisect-right" class="headerlink" title="bisect_right"></a>bisect_right</h3><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素右边插入的索引。</p>
+<pre><code class="python">arr = [1, 2, 5, 9, 12]
+print(bisect.bisect_right(arr, 3)) # 2
+print(bisect.bisect_right(arr, 2)) # 2
+</code></pre>
+<blockquote>
+<p>可以相当于找的是<strong>大于 target</strong> 的第一个元素的索引值。</p>
+</blockquote>
+<h3 id="自定义函数（key）"><a href="#自定义函数（key）" class="headerlink" title="自定义函数（key）"></a>自定义函数（key）</h3><p>使用二分时可以通过自定义目标值（目标值可以是任何类型）和函数来控制二分的结果和方向。</p>
+<pre><code class="python">def check(size: int) -&gt; bool:
+    if size &lt; 11:
+        return True
+    return False
+ans = bisect_left(range(20), True, key = check) # 找到 key=True 的值后往左二分，如果找不到则一直往右二分
+ans2 = bisect_right(range(20), True, key = check) # 找到 key=True 的值后往右二分，如果找不到则一直往左二分
+</code></pre>
+<h2 id="操作符技巧"><a href="#操作符技巧" class="headerlink" title="操作符技巧"></a>操作符技巧</h2><h3 id="-1"><a href="#-1" class="headerlink" title="&#x2F;&#x2F;"></a>&#x2F;&#x2F;</h3><p>做除法，向下取整。</p>
+<pre><code class="python"># 向下取整
+print(5 // 2) # 2
+
+# 向上取整
+print(-(-5 // 2)) # 3
+</code></pre>
+<h2 id="math"><a href="#math" class="headerlink" title="math"></a>math</h2><h3 id="lcm"><a href="#lcm" class="headerlink" title="lcm"></a>lcm</h3><p>找到两个数的最小公倍数。</p>
+<pre><code class="python">num = math.lcm(2, 3) # 6
+</code></pre>
+<h3 id="gcd"><a href="#gcd" class="headerlink" title="gcd"></a>gcd</h3><p>找到两个数的最大公约数。</p>
+<pre><code class="python">num = math.gcd(2, 3) # 1
+</code></pre>
+<h3 id="isqrt"><a href="#isqrt" class="headerlink" title="isqrt"></a>isqrt</h3><p>返回一个整数，它是给定整数的平方根。如果给定整数不是平方数，则返回一个小于给定整数的平方数的整数。</p>
+<pre><code class="python">num = math.isqrt(9) # 3
+num2 = math.isqrt(8) # 2
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        <div class="article-top">
+            <ion-icon name="arrow-up"></ion-icon>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:21:39.043Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Python/operation"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Python/operation/">speration</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
+<li>切片（:）</li>
+<li>list()</li>
+<li>copy()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[:] # 切片
+o2 = list(org) # list()
+o3 = org.copy() # copy()
+</code></pre>
+<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
+<li>copy 模块中的 deepcopy()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+od1 = copy.deepcopy(org)
+</code></pre>
+<h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
+<li>切片（:）</li>
+<li>reversed()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[::-1] # 切片
+o2 = reversed(org) # reversed()
+</code></pre>
+<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
+2) # True
 </code></pre>
 
         
@@ -593,17 +499,13 @@ heartInreaval = setInterval(heartCheck, 5000);
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.901Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-27T15:21:39.047Z" itemprop="datePublished">2025-02-27</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
         </div>
     
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li></ul>
-        </div>
     
     </div>
 </footer>
@@ -614,7 +516,7 @@ heartInreaval = setInterval(heartCheck, 5000);
   
     
       <article
-id="post-network/URL"
+id="post-Python/index"
 class="article article-type-post"
 >
 
@@ -625,465 +527,250 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/URL/">浏览器中输入 url 到底发生了什么</a>
+        <a href="/ferhannah-blog/2025/02/27/Python/index/">tips</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>首先解释 url 是什么。</p>
-<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
-<p>有了域名就可以进行一个 DNS 查询</p>
-<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
-<p>所以用户再输入 url 后，会去查找 dns。</p>
-<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
-<li>首先去浏览器的 dns 缓存 中查找；</li>
-<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
-<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
-<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
+        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
+<li>打完包之后在 dist 目录下执行：</li>
+</ul>
+<pre><code class="shell">python -m http.server
+</code></pre>
+<blockquote>
+<p>注意：也可以在后面添加启动的端口号。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:21:39.045Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Python/class"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Python/class/">collection</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
+<ul>
+<li>append(x)：在右侧添加一个元素。</li>
+<li>appendleft(x)：在左侧添加一个元素。</li>
+<li>pop()：移除并返回一个右侧元素。</li>
+<li>popleft()：移除并返回一个左侧元素。</li>
+<li>extend(iterable)：在右侧添加多个元素。</li>
+<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
+<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
+<li>clear()：清空所有元素。</li>
+</ul>
+<pre><code class="python">queue = deque()
+queue.append(1)
+queue.popleft(2)
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:21:39.044Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/slidedWindow"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.420Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/sort"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：</p>
+<ol>
+<li>找到一个基准值，将数组分成两个部分，左边的都比基准值小，右边的都比基准值大。<blockquote>
+<p>基准值一般选用第一个数，然后与最后一个数开始比较</p>
 </blockquote>
 </li>
-<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
+<li>左右两个部分又可以进行上述过程，直到左右两个部分都只有一个元素。</li>
 </ol>
-<ul>
-<li>首先查找本地 dns 服务器；</li>
-<li>如果没有找到，会向根域名服务器查找（.）；</li>
-<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
-<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
-</ul>
-<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
-<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
-<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
-<ul>
-<li>请求头 Content-Type 设置 application&#x2F;json；</li>
-<li>用户自定义了请求头；</li>
-</ul>
-</blockquote>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
-<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
 <blockquote>
-<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
+<p>可以看出将排序过程采用了分治思想，将问题分解成更小的子问题，然后递归求解，最后合并结果。</p>
 </blockquote>
-<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
-<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
-<blockquote>
-<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
-</blockquote>
-<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
-<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
-<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
-<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
-</li>
-<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
-<blockquote>
-<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
-</blockquote>
-</li>
-<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
-</li>
-</ul>
-<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
-<p>能够引起回流的操作：</p>
-<ul>
-<li>页面首次渲染</li>
-<li>浏览器窗口大小发生变换</li>
-<li>元素尺寸或位置发生改变</li>
-<li>元素内容发生改变</li>
-<li>元素字体大小变换</li>
-<li>添加或删除可见的 dom 元素</li>
-<li>激活 css 伪类（:hover）</li>
-<li>查询某些属性或调用某些方法<blockquote>
-<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
-<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
-<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
-<p>涉及编译原理一些内容。</p>
-</blockquote>
-<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
-<blockquote>
-<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
-</blockquote>
-<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.900Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/TCP实现HTTP服务"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/">TCP 实现 HTTP 服务</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
-<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
-
-const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
-
-const header = [
-  &quot;HTTP/1.1 200 OK&quot;,
-  &quot;Content-Type: text/html&quot;,
-  `Content-Length: $&#123;html.length&#125;`,
-  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
-  `\r\n`,
-  html,
-];
-
-const server = net.createServer((socket) =&gt; &#123;
-  socket.on(&quot;data&quot;, (data) =&gt; &#123;
-    console.log(data.toString());
-    if (/GET/.test(data.toString())) &#123;
-      socket.write(headers.join(&quot;\r\n&quot;));
-      socket.end();
+<pre><code class="js">function quickSort(arr, start = 0, end = arr.length - 1) &#123;
+  if (start &lt; end) &#123;
+    const base = arr[start]; // 基准值
+    let left = start,
+      right = end;
+    while (left &lt; right) &#123;
+      while (left &lt; right &amp;&amp; base &lt;= arr[right]) &#123;
+        right--;
+      &#125;
+      arr[left] = arr[right];
+      while (left &lt; right &amp;&amp; base &gt;= arr[left]) &#123;
+        left++;
+      &#125;
+      arr[right] = arr[left];
     &#125;
-  &#125;);
-&#125;);
-
-// 监听 TCP 服务
-server.listen(8080, () =&gt; &#123;
-  console.log(&quot;server is running&quot;, server.address());
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.899Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/TCP"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/TCP/">TCP</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><img src="/ferhannah-blog/./images/tcpip.png" alt="tcp/ip"></p>
-<h2 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h2><ul>
-<li>seq：sequence number，序列号（通过各种算法 isn 随机生成的）；</li>
-<li>ack：acknowledgement number，确认号（ack &#x3D; seq + 1）；</li>
-<li>ACK：acknowledgement，确认序列号有效；</li>
-<li>SYN：synchronous，发起新连接；</li>
-<li>FIN：finish，完成；</li>
-</ul>
-<p>第一次握手：<br>客户端向服务端发起建立新连接（SYN），并且发送序列号（seq）；</p>
-<blockquote>
-<p>序列号用于确保发送消息的顺序不乱。</p>
-</blockquote>
-<p>第二次握手：<br>服务端接收到客户端的序列号（seq），判断该序列号的确认号是否正确（ack），如果正确就标记一个 ACK，然后向客户端发起建立新连接（SYN），并且带上服务端自己的序列号（seq）；</p>
-<p>第三次握手：<br>客户端接收到之后会判断服务端的 seq 是否正确，如果正确的话也会标记一个 ACK</p>
-<blockquote>
-<p>客户端的 seq &#x3D; 第一次握手客户端的 seq + 1<br>ack &#x3D; 服务端 seq + 1</p>
-</blockquote>
-<h3 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h3><p>四次挥手可以由客户端或者服务端发起。此处以客户端主动发起为例子。</p>
-<p>第一次挥手：<br>客户端向服务端发送连接完成状态（FIN），并添加上客户端的 seq；此时客户端从 established 状态变为 fin_wait_1 等待状态；</p>
-<p>第二次挥手：<br>服务端收到客户端的信息后需要去验证 seq，判断 ack 是否正确，如果正确就标记一个 ACK 返回给客户端；<br>此时客户端会进入 fin_wait_2 阶段，在这个阶段内，如果有未完成或未处理的任务，会将所有任务处理完成，处理完之后服务端才会发起第三次挥手，最终来结束状态；</p>
-<p>第三次挥手：<br>服务端发起 FIN + ACK（ack）+ 服务端 seq；<br>此时客户端进入超时等待状态 time_wait。</p>
-<blockquote>
-<p>该状态的存在是为了确保第四次挥手的 ACK 标记不丢失，确保连接能正常断开，保证 TCP 的可靠性。如果 ACK 标记丢失了，服务端会再次发起断开连接请求（FIN），传递 ACK（再执行一次第三次挥手）。</p>
-</blockquote>
-<p>第四次挥手：<br>客户端超时等待完成后回向服务端发起 ACK （ack）+ seq，并彻底关闭连接。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.898Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/SSE"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/SSE/">SSE</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
-<blockquote>
-<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
-</blockquote>
-<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
-<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
-<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
-<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
-<ul>
-<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
-<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
-</ul>
-</li>
-<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
-<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
-<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
-<li>onerror()：建立连接失败触发的函数；</li>
-<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
-<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.897Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/JWT"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/JWT/">JWT</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>json web token。实现身份验证或授权，也就是鉴权。（常用于用户登录后需要存储用户信息）</p>
-<blockquote>
-<p>有点类似 cookie 和 session。</p>
-</blockquote>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>在服务端生成一个加密的令牌（token），将用户的信息封装到这个令牌中；前端每一次发送请求时去携带这个 token，服务端就可以将这个 token 进行解码，读取用户的信息，这样就达到了一个身份验证和鉴权。</p>
-<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><p>JWT 由 . 分割为三个部分：</p>
-<ul>
-<li>头部（Header）：一般由令牌的类型和使用的签名算法组成（一般不用去管），是一个 json 对象。</li>
-<li>负载（Payload）：包含需要传输的信息（用户身份、权限、令牌发布者等），也是一个 json 对象，使用 Base64 进行编码。</li>
-<li>验证签名（Verify Signature）：通过指定算法对 Header 和 Payload 生成数字签名。</li>
-</ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="后端（express）"><a href="#后端（express）" class="headerlink" title="后端（express）"></a>后端（express）</h3><ul>
-<li>安装所需依赖</li>
-</ul>
-<pre><code class="bash">pnpm i express cors jsonwebtoken
-</code></pre>
-<blockquote>
-<p>cors：用于解决跨域。</p>
-</blockquote>
-<pre><code class="js">import express from &quot;express&quot;;
-import jwt from &quot;jsonwebtoken&quot;;
-import cors from &quot;cors&quot;;
-
-let Key = &quot;SVCSD&quot;; // 加验私钥，一般藏在环境变量里
-const app = express();
-app.use(express.json()); // 中间件支持json
-app.use(express.urlencoded(&#123; extended: false &#125;));
-app.use(cors()); // 中间件解决跨域
-
-let user = &#123;
-  name: &quot;admin&quot;,
-  password: &quot;123456&quot;,
-  id: 1,
-&#125;;
-
-// 1.登录返回前端token用于授权
-app.post(&quot;/api/login&quot;, (req, res) =&gt; &#123;
-  if (req.body.name == user.name &amp;&amp; req.body.password == user.password) &#123;
-    res.json(&#123;
-      message: &quot;登录成功&quot;,
-      token: jwt.sign(&#123; id: user.id &#125;, Key, &#123; expiresIn: &quot;1h&quot; &#125;), // payload，私钥，token配置对象（如 token 过期时间）
-    &#125;);
-  &#125; else &#123;
-    res.status(403).json(&#123; message: &quot;用户名或密码错误&quot; &#125;);
+    arr[left] = base;
+    quickSort(arr, start, left - 1); // 分治
+    quickSort(arr, left + 1, end); // 分治
   &#125;
-&#125;);
-
-// 2.列表接口，只有授权状态才能访问，不然就会403
-app.post(&quot;/api/list&quot;, (req, res) =&gt; &#123;
-  let token = req.headers.authorization; // 前端 token 存放在请求头的 authorization 里，规范
-  jwt.verify(token, Key, (err, decode) =&gt; &#123;
-    // 使用 jwt 去验证 token 是否正确
-    if (err) &#123;
-      // token 没有权限按规范返回403
-      res.status(403).json(&#123; message: &quot;无权限&quot; &#125;);
-    &#125; else &#123;
-      res.json(&#123;
-        list: [
-          &#123; id: 1, title: &quot;标题1&quot; &#125;,
-          &#123; id: 2, title: &quot;标题2&quot; &#125;,
-        ],
-      &#125;);
-    &#125;
-  &#125;);
-&#125;);
-
-app.listen(3000, () =&gt; &#123;
-  console.log(&quot;server started&quot;);
-&#125;);
+&#125;
 </code></pre>
-<h3 id="前端（fetch）"><a href="#前端（fetch）" class="headerlink" title="前端（fetch）"></a>前端（fetch）</h3><pre><code class="js">btn.onclick = () =&gt; &#123;
-  fetch(&quot;http://localhost:3000/api/login&quot;, &#123;
-    method: &quot;POST&quot;,
-    headers: &#123;
-      &quot;Content-Type&quot;: &quot;application/json&quot;,
-    &#125;,
-    body: JSON.stringify(&#123;
-      name: name.value,
-      password: password.value,
-    &#125;),
-  &#125;)
-    .then((res) =&gt; res.json())
-    .then((res) =&gt; &#123;
-      cnosole.log(res);
-      localStorage.setItem(&quot;token&quot;, res.token);
-    &#125;);
-&#125;;
-</code></pre>
-<pre><code class="js">fetch(&quot;http://localhost:3000/api/list&quot;, &#123;
-  headers: &#123;
-    Authorization: localStorage.getItem(&quot;token&quot;),
-    // &quot;Authorization&quot;: `Bearer $&#123;localStorage.getItem(&quot;token&quot;)&#125;`
-  &#125;,
-&#125;)
-  .then((res) =&gt; res.json())
-  .then((res) =&gt; &#123;
-    cnosole.log(res);
-  &#125;);
-</code></pre>
+<p><strong>特性</strong></p>
+<ul>
+<li>不稳定</li>
+<li>原地排序</li>
+<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(logn)</li>
+</ul>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>基本思想：</p>
+<ol>
+<li>分：将组数分成两个子数组，直到不能再分。</li>
+<li>治：将两个子数组合并成一个有序数组。创建一个新数组，再分别为两个子数组设置标志位同向双指针移动比较，将较小的值放入新数组中。</li>
+</ol>
 <blockquote>
-<p>注意：Bearer 字段不是一定要加的，它是一个规范，只要看见 token 前面加了这个东西，就说明它使用了 OAuth 2.0 规范(jwt 也使用了该规范)。加了后端也需要去处理这个 Bearer</p>
+<p>典型分治思想。</p>
 </blockquote>
+<pre><code class="js">function mergeSort(arr) &#123;
+  if (arr.length &lt;= 1) return arr;
+  const mid = arr.length &gt;&gt; 1;
+  const left = arr.slice(0, mid);
+  const right = arr.slice(mid);
+  return merge(mergeSort(left), mergeSort(right));
+&#125;
+
+function merge(left, right) &#123;
+  const result = [];
+  let l = 0,
+    r = 0;
+  while (l &lt; left.length &amp;&amp; r &lt; right.length) &#123;
+    if (left[l] &lt; right[r]) &#123;
+      result.push(left[l++]);
+    &#125; else &#123;
+      result.push(right[r++]);
+    &#125;
+  &#125;
+  result.push(...left.slice(l), ...right.slice(r));
+  return result;
+&#125;
+</code></pre>
+<p><strong>特性</strong></p>
+<ul>
+<li>稳定</li>
+<li>“治”时需要额外的数组空间，并且最终也返回这个数组（非原地排序）</li>
+<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(n)</li>
+</ul>
 
         
     </div>
@@ -1099,17 +786,258 @@ app.listen(3000, () =&gt; &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.890Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-27T15:20:32.420Z" itemprop="datePublished">2025-02-27</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li></ul>
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/monotoneStack"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/monotoneStack/">单调栈</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>已知单调栈使用场景：</p>
+<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
+<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+<ul>
+<li>一般栈中存储的是数组索引下标；</li>
+<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.419Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/math"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/math/">math</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p>用于求两个正整数的<strong>最大公约数</strong>（Greatest Common Divisor，GCD）。</p>
+<p>基本思想：<br>以<strong>除数</strong>和<strong>余数</strong>反复做除法运算，当余数为 0 时，取当前算式除数为最大公约数。</p>
+<p>$$<br>gcd(a, b) &#x3D; gcd(b, a mod b)<br>$$</p>
+<pre><code class="js">// 递归
+function gcd(a, b) &#123;
+  return a % b ? gcd(b, a % b) : b;
+&#125;
+
+// 迭代
+function gcd(a, b) &#123;
+  while (a % b) &#123;
+    [a, b] = [b, a % b];
+  &#125;
+  return b;
+&#125;
+</code></pre>
+<blockquote>
+<p>补充：扩展的欧几里得算法可用于 RSA 加密算法等领域。</p>
+</blockquote>
+<h3 id="最小公倍数（Leatest-Common-Multiple，LCM）"><a href="#最小公倍数（Leatest-Common-Multiple，LCM）" class="headerlink" title="最小公倍数（Leatest Common Multiple，LCM）"></a>最小公倍数（Leatest Common Multiple，LCM）</h3><p>可以用最大公约数求得。</p>
+<p>$$<br>lcm(a, b) &#x3D; \frac{ab}{gcd(a, b)}<br>$$</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.417Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/index/">tips</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><ul>
+<li>快速查找某个区间内相加（减）、相乘（除）、异或等运算结果，有结合律和交换律的一些运算。</li>
+<li>计算子数组的个数一般会用 map 来记录某个值出现的次数。</li>
+</ul>
+<h2 id="两数相加之后判断能否被一个数整除"><a href="#两数相加之后判断能否被一个数整除" class="headerlink" title="两数相加之后判断能否被一个数整除"></a>两数相加之后判断能否被一个数整除</h2><p>相加后判断能否被 24 整除。<br>原理：利用 hash 表记录之前遍历的数的模数，然后对比当前所需要的模数是否在 hash 表中出现过，如果出现过，则说明存在两个数相加后能被 24 整除。</p>
+<pre><code class="js">// 哈希表记录
+const hours = [12, 12, 30, 24, 24];
+const cnt = new Map();
+let ans = 0;
+for (const h of hours) &#123;
+  const cur = (24 - (h % 24)) % 24; // 寻找凑对后能被整除的凑对数的模数
+  if (cnt.has(cur)) &#123;
+    ans += cnt.get(cur);
+  &#125;
+  cnt.set(h % 24, (cnt.get(h % 24) || 0) + 1);
+&#125;
+return ans;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.416Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/link"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/link/">链表</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于链表的结构特殊，没有像数组那样方便的库方法，因此其很多操作都需要用到底层算法解决。（不过也因此可以巩固一下）</p>
+<blockquote>
+<p>例如需要手写排序操作。</p>
+</blockquote>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>根据链表的类型可选择不同的排序算法。</p>
+<h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><p>如果要保持时间复杂度 O(nlogn)，则需要使用分治策略（归并排序），拆分链表。（详细算法实现参照排序一文）</p>
+<blockquote>
+<p>其中 n 是链表长度。</p>
+</blockquote>
+<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>双向链表既可以从前遍历，又可以从后遍历，所以不只可以使用归并排序，还可以使用快速排序。（我猜的，暂未进行实践）</p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p>寻找中间节点：<strong>快慢指针</strong>，找到 mid 后再根据需求是否断链（前指空）。<br>dummy 节点：快速返回新的链表。<br>寻找倒数第 n 个节点：<strong>前后指针</strong>，前指针走 n 步，然后两个指针再一起走。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.416Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
     
     </div>
 </footer>
@@ -1121,7 +1049,7 @@ app.listen(3000, () =&gt; &#123;
 
   
     <nav class="pagination">
-        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
+        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
     </nav>
   
 </div>
@@ -1142,7 +1070,7 @@ app.listen(3000, () =&gt; &#123;
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
     </div>
   </div>
 
@@ -1165,23 +1093,23 @@ app.listen(3000, () =&gt; &#123;
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/network/outline/">计算机网络</a>
+            <a href="/ferhannah-blog/2025/02/27/Python/operation/">speration</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/network/networkState/">前端网络状态</a>
+            <a href="/ferhannah-blog/2025/02/27/Python/index/">tips</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
+            <a href="/ferhannah-blog/2025/02/27/Python/class/">collection</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/network/XSS/">XSS</a>
+            <a href="/ferhannah-blog/2025/02/27/Python/base/">grammar</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/network/WebSocket/">WebSocket</a>
+            <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
           </li>
         
       </ul>
