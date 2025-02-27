@@ -6,49 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     
-    <title>XSS | Fxh&#39;s blog</title>
+    <title>友情链接 | Fxh&#39;s blog</title>
 
     <meta name="description" content="Fxh&#39;s blog">
     <meta name="keywords" content="">
 
     
 
+
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="友情链接"/>
+    <meta property="og:description" content=""/>
     <meta property="og:locale" content="en" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content= "XSS | Fxh&#39;s blog"  />
-    <meta property="og:description" content= "Fxh&#39;s blog" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/02/27/network/XSS/index.html" />
-    <meta property="og:site_name" content="" />
-    <meta property="article:author" content="feng xiaohan" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/friends/index.html" />
+    <meta property="og:site_name" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
-    <meta property="og:description" content="Fxh&#39;s blog" />
-    <meta name="twitter:title" content="XSS | Fxh&#39;s blog"/>
-    <meta name="twitter:description" content="Fxh&#39;s blog"/>
     <script type="application/ld+json">
         {
-            "description": "Fxh&#39;s blog",
-            "author": { "@type": "Person", "name": "feng xiaohan" },
-            "@type": "BlogPosting",
-            "url": "https://fxh31.github.io/ferhannah-blog/2025/02/27/network/XSS/index.html",
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "友情链接",
+            "description": "",
             "publisher": {
-            "@type": "Organization",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+                "@type": "Organization",
+                "name": "feng xiaohan"
             },
-            "name": "feng xiaohan"
-            },
-            "headline": "XSS | Fxh&#39;s blog",
-            "datePublished": "2025-02-27T12:20:05.902Z",
-            "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://fxh31.github.io/ferhannah-blog/2025/02/27/network/XSS/index.html"
-            },
-            "@context": "http://schema.org"
         }
     </script>
-
-
 
 
     
@@ -74,7 +60,7 @@
 
 
     <script>
-        window.isPost = true
+        window.isPost = false
         window.aomori = {
             
             
@@ -105,6 +91,8 @@
                     <a class="header-type-title" id="typed" href="/"></a>
                 
     
+                
+                    <span class="header-type-page-title">| 友情链接</span>
                 
             </div>
         </div>
@@ -164,149 +152,25 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    <div class="post">
-    <article id="post-cm7nj7t0j001nrgvs8wgxh1y0" class="article article-type-post" itemscope
-    itemprop="blogPost">
+                    
 
-    <div class="article-inner">
 
-        
-          
-        
-        
-        
-
-        
-        <header class="article-header">
-            
+<div class="friends">
   
-    <h1 class="article-title" itemprop="name">
-      XSS
-    </h1>
-  
-
-        </header>
-        
-
-        <div class="article-more-info article-more-info-post hairline">
-
-            <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.902Z" itemprop="datePublished">2025-02-27</time>
-</div>
-
-            
-            <div class="article-category">
-                <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-            </div>
-            
-
-            
-            <div class="article-tag">
-                <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li></ul>
-            </div>
-            
-
-            
-
+    <div class="friends-category">
+        <div class="friends-category-title">
+            特别鸣谢
         </div>
-
-        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <p>Cross-site scripting。跨站脚本攻击，利于 Web 网络安全的漏洞，注入恶意的 js 脚本进行攻击。一般分为三种：</p>
-<h1 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h1><h2 id="反射型-XSS"><a href="#反射型-XSS" class="headerlink" title="反射型 XSS"></a>反射型 XSS</h2><p>攻击者必须以某种方式诱导用户访问一个精心设计的 URL(恶意链接)，该连接中可能包含一个 script 标签，攻击者通过注入 js 来实施攻击，获取用户数据等。</p>
-<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
-<li>即时性。不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据；</li>
-</ul>
-<h2 id="存储型-XSS"><a href="#存储型-XSS" class="headerlink" title="存储型 XSS"></a>存储型 XSS</h2><p>存储型（HTML 注入型&#x2F;持久型）<strong>最严重的 XSS 攻击</strong>。将 js 脚本直接注入到数据库中，使得需要查看数据的用户都会被遭受攻击。主要发生在社区的评论区，留言板，HTML 电子邮件等，通过写入 script 标签，注入 js 脚本来实施攻击，如果前端和后端都没有进行 js 的过滤，该代码就会被注入进数据库中。</p>
-<h2 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h2><p>主要是利用 JS 和 HTML 的交互性质以及 DOM 对象实现的。客户端的脚本程序可以动态地检查和修改页面内容，而不依赖于服务器端的数据。<br>如果用户在客户端输入的数据包含了恶意的 JavaScript 脚本，而这些脚本没有经过适当的过滤和消毒，就会遭到攻击，如：</p>
-<ul>
-<li>loaction</li>
-<li>innerHTML（可以使用 textContent）</li>
-<li>document.write</li>
-<li>v-html</li>
-<li>eval</li>
-</ul>
-<h1 id="预防-XSS"><a href="#预防-XSS" class="headerlink" title="预防 XSS"></a>预防 XSS</h1><ul>
-<li>输入过滤：在 Web 应用程序中对用户输入的数据进行过滤和校验，确保只接收合法的数据；<blockquote>
-<p>使用 xss 的 npm 包，利用第三方工具来防止 xss 注入。</p>
-</blockquote>
-</li>
-<li>输出转译：在向 Web 页面中输出用户数据时，对其内容进行适当的编码和转义处理；</li>
-<li>设置 CSP（Content Security Policy）：通过设置响应报文头中的 CSP 策略，限制页面中可执行的脚本来源、样式表、图像、字体等，以此减少恶意代码执行的可能性。（前后端都可以设置）<ul>
-<li>前端：meta 标签里设置 http-equiv&#x3D;”Content-Security-Policy”</li>
-<li>后端：设置请求头<blockquote>
-<p>例如机制外部脚本执行，外部资源加载，禁止页面嵌入式 iframe。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="XSS-靶场"><a href="#XSS-靶场" class="headerlink" title="XSS 靶场"></a>XSS 靶场</h1><p>小练习。<a target="_blank" rel="noopener" href="https://xssaq.com/yx/level1.php">https://xssaq.com/yx/level1.php</a></p>
-<h1 id="XSS-漏洞扫描工具"><a href="#XSS-漏洞扫描工具" class="headerlink" title="XSS 漏洞扫描工具"></a>XSS 漏洞扫描工具</h1><ul>
-<li>wvs</li>
-<li>椰树</li>
-<li>safe3</li>
-<li>Xelenium</li>
-<li>w3af – Kali</li>
-<li>vega – Kali</li>
-<li>burp</li>
-<li>Kail 操作系统</li>
-</ul>
-
+        <div class="friends-category-inner clearfix">
+            
+                <a href="https://github.com/lh1me/hexo-theme-aomori" rel="nofollow" target="_blank"> aomori </a>
+            
         </div>
-
     </div>
 
-    
 
-    
 
     
-
-    
-
-    
-
-    
-<nav class="article-nav">
-  
-    <a href="/ferhannah-blog/2025/02/27/network/navigator(sendBeacon)/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          navigator.sendBeacon
-        
-      </div>
-    </a>
-  
-  
-    <a href="/ferhannah-blog/2025/02/27/network/WebSocket/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">WebSocket</div>
-    </a>
-  
-</nav>
-
-
-    <section class="share">
-        <div class="share-title">分享</div>
-        <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=XSS - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F02%2F27%2Fnetwork%2FXSS%2F">
-            <ion-icon name="logo-twitter"></ion-icon>
-        </a>
-        <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=XSS - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F02%2F27%2Fnetwork%2FXSS%2F">
-            <ion-icon name="logo-facebook"></ion-icon>
-        </a>
-        <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=XSS - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/02/27/network/XSS/&pic=">
-            <div class="n-icon n-icon-weibo"></div>
-        </a> -->
-    </section>
-
-</article>
-
-
-
 
 
 
@@ -321,6 +185,8 @@
 
 
 </div>
+
+
                 </section>
             </section>
 
@@ -332,12 +198,6 @@
 <div class="widget" id="widget">
     
       
-  <div class="widget-wrap">
-    <div class="widget-inner">
-      <div class="toc post-toc-html"></div>
-    </div>
-  </div>
-
     
       
   <div class="widget-wrap widget-cate">

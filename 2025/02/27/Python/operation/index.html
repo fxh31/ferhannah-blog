@@ -115,6 +115,8 @@
                 
                 <a href="/ferhannah-blog/archives">归档</a>
                 
+                <a href="/ferhannah-blog/friends">友链</a>
+                
             </div>
             <div class="header-menu-social">
                 
@@ -149,6 +151,8 @@
                     
                     <a href="/ferhannah-blog/archives">归档</a>
                     
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
                 </div>
             </div>
         </div>
@@ -161,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm7ni9wyz0005gwvs19df8z85" class="article article-type-post" itemscope
+    <article id="post-cm7nj7t05000rrgvs20dqdrsm" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -208,30 +212,20 @@
 <li>list()</li>
 <li>copy()</li>
 </ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">org = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">o1 = org[:] <span class="comment"># 切片</span></span><br><span class="line">o2 = <span class="built_in">list</span>(org) <span class="comment"># list()</span></span><br><span class="line">o3 = org.copy() <span class="comment"># copy()</span></span><br></pre></td></tr></table></figure>
 
-o1 = org[:] # 切片
-o2 = list(org) # list()
-o3 = org.copy() # copy()
-</code></pre>
 <h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
 <li>copy 模块中的 deepcopy()</li>
 </ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-od1 = copy.deepcopy(org)
-</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">od1 = copy.deepcopy(org)</span><br></pre></td></tr></table></figure>
+
 <h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
 <li>切片（:）</li>
 <li>reversed()</li>
 </ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">org = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line"></span><br><span class="line">o1 = org[::-<span class="number">1</span>] <span class="comment"># 切片</span></span><br><span class="line">o2 = <span class="built_in">reversed</span>(org) <span class="comment"># reversed()</span></span><br></pre></td></tr></table></figure>
 
-o1 = org[::-1] # 切片
-o2 = reversed(org) # reversed()
-</code></pre>
-<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
-2) # True
-</code></pre>
+<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="number">5</span> &gt; /</span><br><span class="line"><span class="number">2</span>) <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -252,7 +246,7 @@ o2 = reversed(org) # reversed()
   
   
     <a href="/ferhannah-blog/2025/02/27/Python/index/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-caption">precedente</div>
+      <div class="article-nav-caption">上一篇</div>
       <div class="article-nav-title">tips</div>
     </a>
   
@@ -260,7 +254,7 @@ o2 = reversed(org) # reversed()
 
 
     <section class="share">
-        <div class="share-title">share</div>
+        <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
             href="https://twitter.com/share?text=speration - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F02%2F27%2FPython%2Foperation%2F">
             <ion-icon name="logo-twitter"></ion-icon>
@@ -390,7 +384,6 @@ o2 = reversed(org) # reversed()
     <div class="footer-wrap">
         <div class="footer-inner"> 
             Fxh&#39;s blog &copy; 2025<br>
-            Powered By Hexo · Theme By <a href="https://linhong.me/" target="_blank">Aomori</a> · <a href="https://github.com/lh1me/hexo-theme-aomori" target="_blank">Github</a>
         </div>
     </div>
 

@@ -115,6 +115,8 @@
                 
                 <a href="/ferhannah-blog/archives">归档</a>
                 
+                <a href="/ferhannah-blog/friends">友链</a>
+                
             </div>
             <div class="header-menu-social">
                 
@@ -149,6 +151,8 @@
                     
                     <a href="/ferhannah-blog/archives">归档</a>
                     
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
                 </div>
             </div>
         </div>
@@ -161,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm7ni9wz4000dgwvs5knw8wk1" class="article article-type-post" itemscope
+    <article id="post-cm7nj7szm0006rgvs3de0hjhk" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -208,19 +212,7 @@
 <li>计算子数组的个数一般会用 map 来记录某个值出现的次数。</li>
 </ul>
 <h2 id="两数相加之后判断能否被一个数整除"><a href="#两数相加之后判断能否被一个数整除" class="headerlink" title="两数相加之后判断能否被一个数整除"></a>两数相加之后判断能否被一个数整除</h2><p>相加后判断能否被 24 整除。<br>原理：利用 hash 表记录之前遍历的数的模数，然后对比当前所需要的模数是否在 hash 表中出现过，如果出现过，则说明存在两个数相加后能被 24 整除。</p>
-<pre><code class="js">// 哈希表记录
-const hours = [12, 12, 30, 24, 24];
-const cnt = new Map();
-let ans = 0;
-for (const h of hours) &#123;
-  const cur = (24 - (h % 24)) % 24; // 寻找凑对后能被整除的凑对数的模数
-  if (cnt.has(cur)) &#123;
-    ans += cnt.get(cur);
-  &#125;
-  cnt.set(h % 24, (cnt.get(h % 24) || 0) + 1);
-&#125;
-return ans;
-</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 哈希表记录</span></span><br><span class="line"><span class="keyword">const</span> hours = [<span class="number">12</span>, <span class="number">12</span>, <span class="number">30</span>, <span class="number">24</span>, <span class="number">24</span>];</span><br><span class="line"><span class="keyword">const</span> cnt = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line"><span class="keyword">let</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> h <span class="keyword">of</span> hours) &#123;</span><br><span class="line">  <span class="keyword">const</span> cur = (<span class="number">24</span> - (h % <span class="number">24</span>)) % <span class="number">24</span>; <span class="comment">// 寻找凑对后能被整除的凑对数的模数</span></span><br><span class="line">  <span class="keyword">if</span> (cnt.<span class="title function_">has</span>(cur)) &#123;</span><br><span class="line">    ans += cnt.<span class="title function_">get</span>(cur);</span><br><span class="line">  &#125;</span><br><span class="line">  cnt.<span class="title function_">set</span>(h % <span class="number">24</span>, (cnt.<span class="title function_">get</span>(h % <span class="number">24</span>) || <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> ans;</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -240,7 +232,7 @@ return ans;
 <nav class="article-nav">
   
     <a href="/ferhannah-blog/2025/02/27/Algorithm/math/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">prossimo</div>
+      <div class="article-nav-caption">下一篇</div>
       <div class="article-nav-title">
         
           math
@@ -250,7 +242,7 @@ return ans;
   
   
     <a href="/ferhannah-blog/2025/02/27/Algorithm/link/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-caption">precedente</div>
+      <div class="article-nav-caption">上一篇</div>
       <div class="article-nav-title">链表</div>
     </a>
   
@@ -258,7 +250,7 @@ return ans;
 
 
     <section class="share">
-        <div class="share-title">share</div>
+        <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
             href="https://twitter.com/share?text=tips - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F02%2F27%2FAlgorithm%2Findex%2F">
             <ion-icon name="logo-twitter"></ion-icon>
@@ -388,7 +380,6 @@ return ans;
     <div class="footer-wrap">
         <div class="footer-inner"> 
             Fxh&#39;s blog &copy; 2025<br>
-            Powered By Hexo · Theme By <a href="https://linhong.me/" target="_blank">Aomori</a> · <a href="https://github.com/lh1me/hexo-theme-aomori" target="_blank">Github</a>
         </div>
     </div>
 
