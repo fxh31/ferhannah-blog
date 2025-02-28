@@ -444,7 +444,7 @@ num2 = math.isqrt(8) # 2
   
     
       <article
-id="post-Python/operation"
+id="post-CSS/useful"
 class="article article-type-post"
 >
 
@@ -455,38 +455,35 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Python/operation/">speration</a>
+        <a href="/ferhannah-blog/2025/02/28/CSS/useful/">一些有用的 css 属性</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
-<li>切片（:）</li>
-<li>list()</li>
-<li>copy()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[:] # 切片
-o2 = list(org) # list()
-o3 = org.copy() # copy()
+        <h2 id="columns"><a href="#columns" class="headerlink" title="columns"></a>columns</h2><p>将一个元素拆分成多列，并设置每列的宽度。</p>
+<pre><code class="css">.content &#123;
+  columns: 200px 3; /* 每列的宽度为 200px，共 3 列 */
+  column-gap: 12px;
+&#125;
 </code></pre>
-<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
-<li>copy 模块中的 deepcopy()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-od1 = copy.deepcopy(org)
+<h2 id="break-inside"><a href="#break-inside" class="headerlink" title="break-inside"></a>break-inside</h2><p>在浏览器中，列表项将不会被拆分到不同的列中。每个列表项将作为一个整体出现在同一列中。</p>
+<pre><code class="css">.menu-list &#123;
+  break-inside: avoid;
+&#125;
 </code></pre>
-<h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
-<li>切片（:）</li>
-<li>reversed()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[::-1] # 切片
-o2 = reversed(org) # reversed()
+<h2 id="使用伪元素通过-border-绘制一条直线"><a href="#使用伪元素通过-border-绘制一条直线" class="headerlink" title="使用伪元素通过 border 绘制一条直线"></a>使用伪元素通过 border 绘制一条直线</h2><p>使用伪元素中的 <code>content</code> 在元素前&#x2F;后添加直线时如果手动添加并不能使其自动填满父元素的剩余空间。<br>所以可以使用 border 配合 flex 来实现更好的效果：</p>
+<pre><code class="html">&lt;div class=&quot;title&quot;&gt;首页&lt;/div&gt;
 </code></pre>
-<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
-2) # True
+<pre><code class="css">.title &#123;
+  width: 100%;
+  display: inline-flex; /* 设置该元素为行内flex元素 */
+  padding-left: 4px;
+&#125;
+.title::after &#123;
+  content: &quot;&quot;;
+  flex: 1 1 0%; /* 使用flex填满剩余空间 */
+  border-top: 1px solid #ebebeb; /* 设置border作为分割线 */
+  margin: 16px;
+&#125;
 </code></pre>
 
         
@@ -503,11 +500,11 @@ o2 = reversed(org) # reversed()
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T15:21:39.047Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:31:25.119Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
         </div>
     
     
@@ -520,7 +517,7 @@ o2 = reversed(org) # reversed()
   
     
       <article
-id="post-Python/index"
+id="post-CSS/cssModule"
 class="article article-type-post"
 >
 
@@ -531,79 +528,95 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Python/index/">tips</a>
+        <a href="/ferhannah-blog/2025/02/28/CSS/cssModule/">CSS Modules</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
-<li>打完包之后在 dist 目录下执行：</li>
-</ul>
-<pre><code class="shell">python -m http.server
-</code></pre>
+        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
+<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
 <blockquote>
-<p>注意：也可以在后面添加启动的端口号。</p>
+<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
 </blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:21:39.045Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Python/class"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Python/class/">collection</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
-<ul>
-<li>append(x)：在右侧添加一个元素。</li>
-<li>appendleft(x)：在左侧添加一个元素。</li>
-<li>pop()：移除并返回一个右侧元素。</li>
-<li>popleft()：移除并返回一个左侧元素。</li>
-<li>extend(iterable)：在右侧添加多个元素。</li>
-<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
-<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
-<li>clear()：清空所有元素。</li>
+<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
+<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
+<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
+<li>显示局部作用域：<code>:local(.className)</code></li>
+<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
 </ul>
-<pre><code class="python">queue = deque()
-queue.append(1)
-queue.popleft(2)
+<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
+<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+
+.title &#123;
+  composes: className;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+</code></pre>
+<pre><code class="css">.title &#123;
+  composes: className from &quot;./another.css&quot;;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
+<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
+</code></pre>
+<ul>
+<li>例如在 webpack 中引入 postcss-loader</li>
+</ul>
+<pre><code class="js">var path = require(&quot;path&quot;);
+var webpack = require(&quot;webpack&quot;);
+var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
+var values = require(&quot;postcss-modules-values&quot;);
+
+module.exports = &#123;
+  entry: [&quot;./src/index&quot;],
+  output: &#123;
+    filename: &quot;bundle.js&quot;,
+    path: path.join(__dirname, &quot;public&quot;),
+    publicPath: &quot;/public/&quot;,
+  &#125;,
+  module: &#123;
+    loaders: [
+      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
+      &#123;
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          &quot;style-loader&quot;,
+          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
+        ),
+      &#125;,
+    ],
+  &#125;,
+  postcss: [values],
+  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
+&#125;;
+</code></pre>
+<ul>
+<li>设置变量</li>
+</ul>
+<p>colors.css</p>
+<pre><code class="css">@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+</code></pre>
+<ul>
+<li>引入 css 文件中</li>
+</ul>
+<pre><code class="css">/* import your colors... */
+@value colors: &quot;./colors.css&quot;;
+@value blue, red, green from colors;
+
+.button &#123;
+  color: blue;
+  display: inline-block;
+&#125;
 </code></pre>
 
         
@@ -620,11 +633,11 @@ queue.popleft(2)
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T15:21:39.044Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:31:25.117Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
         </div>
     
     
@@ -637,7 +650,7 @@ queue.popleft(2)
   
     
       <article
-id="post-Algorithm/sort"
+id="post-HTML/innerText和textContent"
 class="article article-type-post"
 >
 
@@ -648,319 +661,517 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
+        <a href="/ferhannah-blog/2025/02/28/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：</p>
-<ol>
-<li>找到一个基准值，将数组分成两个部分，左边的都比基准值小，右边的都比基准值大。<blockquote>
-<p>基准值一般选用第一个数，然后与最后一个数开始比较</p>
+        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
+<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
+<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
+<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
+<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
 </blockquote>
 </li>
-<li>左右两个部分又可以进行上述过程，直到左右两个部分都只有一个元素。</li>
-</ol>
+<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
+</ul>
+<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
+<li>innerHTML 是 Element 对象的属性；</li>
+<li>innerHTML 返回完整的 DOM 元素；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:03.814Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/dataset"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/HTML/dataset/">dataset</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>html 中使用<code>data-</code>来定义自定义属性，这是因为：</p>
+<ul>
+<li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
+<li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
+<li>可以使用 dataset 将所有的自定义属性获取到；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:03.813Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/Node和Element"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
+<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:03.812Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/this"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/this/">js 中 this 指向（绑定）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
 <blockquote>
-<p>可以看出将排序过程采用了分治思想，将问题分解成更小的子问题，然后递归求解，最后合并结果。</p>
+<p>this 指向（绑定）与函数调用的位置有关。</p>
 </blockquote>
-<pre><code class="js">function quickSort(arr, start = 0, end = arr.length - 1) &#123;
-  if (start &lt; end) &#123;
-    const base = arr[start]; // 基准值
-    let left = start,
-      right = end;
-    while (left &lt; right) &#123;
-      while (left &lt; right &amp;&amp; base &lt;= arr[right]) &#123;
-        right--;
-      &#125;
-      arr[left] = arr[right];
-      while (left &lt; right &amp;&amp; base &gt;= arr[left]) &#123;
-        left++;
-      &#125;
-      arr[right] = arr[left];
+<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
+<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
+<ul>
+<li>直接在全局调用 this；</li>
+<li>在全局直接执行函数，函数中直接调用 this；</li>
+</ul>
+<blockquote>
+<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
+</blockquote>
+<blockquote>
+<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
+</blockquote>
+<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
+<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
+<li>直接使用<code>window.x</code>；</li>
+<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
+</ul>
+<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
+<p>匿名函数和具名函数则不受其影响。</p>
+</blockquote>
+</li>
+<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
+</ul>
+<pre><code class="js">const obj = &#123;
+  a: 10,
+  b: function () &#123;
+    console.log(this);
+  &#125;,
+&#125;;
+const copy_obj = obj.b;
+copy_obj(); // undefined / window
+
+obj.b(); // &#123;a: 10, b: ƒ&#125;
+</code></pre>
+<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
+<blockquote>
+<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
+</blockquote>
+<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
+<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
+<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
+<blockquote>
+<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
+</blockquote>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
+<blockquote>
+<p>todo… which parttern</p>
+</blockquote>
+<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
+<ul>
+<li>call()：一个一个传参；</li>
+<li>apply()：传递一个数组；</li>
+<li>bind()：直接返回一个新函数；</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
+<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
+<li>es6 之前的 self 同 this 机制；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.019Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/setTimout"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/setTimout/">setTimeout</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
+<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
+<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
+<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<p>要解决这个问题可以使用：</p>
+<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
+<pre><code class="js">setTimeout(function () &#123;
+  console.log(this);
+  myArray.myMethod();
+&#125;, 1.0 * 1000);
+</code></pre>
+<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
+</code></pre>
+<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
+<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
+<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
+<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
+<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
+</blockquote>
+</li>
+<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
+<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
+<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
+</ul>
+<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.018Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/requestAnimationFrame"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/requestAnimationFrame/">requestAnimationFrame</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
+<ul>
+<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
+<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
+</blockquote>
+</li>
+<li>隐藏的元素不会触发回调。<blockquote>
+<p>保证更少的 CPU、GPU 消耗。</p>
+</blockquote>
+</li>
+<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
+</ul>
+<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
+<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
+<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
+<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
+</ul>
+<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
+<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
+<pre><code class="js">const scrollToTop = () =&gt; &#123;
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  console.log(c);
+  if (c &gt; 0) &#123;
+    window.requestAnimationFrame(scrollToTop); // 平滑回滚
+    window.scrollTo(0, c - c / 8);
+    // window.scrollTo(0, c - c);
+  &#125;
+&#125;;
+</code></pre>
+<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
+  window.requestAnimationFrame(() =&gt; &#123;
+    console.log(&quot;scroll&quot;);
+  &#125;);
+&#125;);
+</code></pre>
+<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
+<blockquote>
+<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
+</blockquote>
+<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
+<pre><code class="js">//需要插入的容器
+const ul = document.getElementById(&quot;container&quot;);
+// 插入十万条数据
+const total = 100000;
+// 一次插入 20 条
+const once = 20;
+//总页数
+const page = total / once;
+//每条记录的索引
+const index = 0;
+//循环加载数据
+function loop(curTotal, curIndex) &#123;
+  if (curTotal &lt;= 0) &#123;
+    return false;
+  &#125;
+  //每页多少条
+  const pageCount = Math.min(curTotal, once);
+  function addData() &#123;
+    for (let i = 0; i &lt; pageCount; i++) &#123;
+      let li = document.createElement(&quot;li&quot;);
+      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
+      ul.appendChild(li);
     &#125;
-    arr[left] = base;
-    quickSort(arr, start, left - 1); // 分治
-    quickSort(arr, left + 1, end); // 分治
+    loop(curTotal - pageCount, curIndex + pageCount);
   &#125;
+  window.requestAnimationFrame(addData);
+  // setTimeout(addData, 0);
 &#125;
+loop(total, index);
 </code></pre>
-<p><strong>特性</strong></p>
+<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
+<blockquote>
+<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
+</blockquote>
+<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.016Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/promise"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/promise/">Promise</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <blockquote>
+<p>注意不是实例上的方法。</p>
+</blockquote>
 <ul>
-<li>不稳定</li>
-<li>原地排序</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(logn)</li>
-</ul>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>基本思想：</p>
-<ol>
-<li>分：将组数分成两个子数组，直到不能再分。</li>
-<li>治：将两个子数组合并成一个有序数组。创建一个新数组，再分别为两个子数组设置标志位同向双指针移动比较，将较小的值放入新数组中。</li>
-</ol>
-<blockquote>
-<p>典型分治思想。</p>
+<li><strong>any()：</strong>传入一个 promise 实例 数组，<strong>返回第一个 fulfiiled promise 的值</strong>，如果都 rejected，则会在 catch 中捕获到 All promises were rejected，并且包含一个 reject 函数传递值得数组。</li>
+<li><strong>all()<strong>：传入一个 promise 实例 数组，</strong>返回一个 fulfiiled promise 的值的数组</strong>，如果有一个 rejected，则会在 catch 中捕获第一个 reject 函数传递值得数组。<blockquote>
+<p>webpack 的动态组件引入是借助的<code>Promise.all()</code>。</p>
 </blockquote>
-<pre><code class="js">function mergeSort(arr) &#123;
-  if (arr.length &lt;= 1) return arr;
-  const mid = arr.length &gt;&gt; 1;
-  const left = arr.slice(0, mid);
-  const right = arr.slice(mid);
-  return merge(mergeSort(left), mergeSort(right));
-&#125;
-
-function merge(left, right) &#123;
-  const result = [];
-  let l = 0,
-    r = 0;
-  while (l &lt; left.length &amp;&amp; r &lt; right.length) &#123;
-    if (left[l] &lt; right[r]) &#123;
-      result.push(left[l++]);
-    &#125; else &#123;
-      result.push(right[r++]);
-    &#125;
-  &#125;
-  result.push(...left.slice(l), ...right.slice(r));
-  return result;
-&#125;
-</code></pre>
-<p><strong>特性</strong></p>
+</li>
+<li><strong>allSettled()<strong>：传入一个 promise 实例 数组，</strong>返回所有 promise 的值的数组，无论是 fulfilled 还是 rejected</strong>。</li>
+<li><strong>race()<strong>：传入一个 promise 实例 数组，</strong>返回第一个被处理的 promise 的值，无论 fulfilled 还是 rejected</strong>。</li>
+</ul>
+<blockquote>
+<p>2024 新特性。</p>
+</blockquote>
 <ul>
-<li>稳定</li>
-<li>“治”时需要额外的数组空间，并且最终也返回这个数组（非原地排序）</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(n)</li>
+<li>withResolvers()：解构 promise，可以让我们在外面使用 resolve、reject 函数。</li>
 </ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.420Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/slidedWindow"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.420Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/monotoneStack"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/monotoneStack/">单调栈</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>已知单调栈使用场景：</p>
-<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
-<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+<pre><code class="js">(&#123; promise, resolve, reject &#125; = Promise.withResolvers());
+</code></pre>
+<blockquote>
+<p>火狐暂不支持。</p>
+</blockquote>
 <ul>
-<li>一般栈中存储的是数组索引下标；</li>
-<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
+<li>try()：可以简化在 promise 中 resolve 一个函数的写法，该函数也需要返回值、抛出异常或者返回一个 promise。</li>
 </ul>
+<pre><code class="js">function test() &#123;
+  return 1;
+&#125; // 可异步
 
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.419Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/math"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/math/">math</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p>用于求两个正整数的<strong>最大公约数</strong>（Greatest Common Divisor，GCD）。</p>
-<p>基本思想：<br>以<strong>除数</strong>和<strong>余数</strong>反复做除法运算，当余数为 0 时，取当前算式除数为最大公约数。</p>
-<p>$$<br>gcd(a, b) &#x3D; gcd(b, a mod b)<br>$$</p>
-<pre><code class="js">// 递归
-function gcd(a, b) &#123;
-  return a % b ? gcd(b, a % b) : b;
-&#125;
-
-// 迭代
-function gcd(a, b) &#123;
-  while (a % b) &#123;
-    [a, b] = [b, a % b];
-  &#125;
-  return b;
-&#125;
-</code></pre>
-<blockquote>
-<p>补充：扩展的欧几里得算法可用于 RSA 加密算法等领域。</p>
-</blockquote>
-<h3 id="最小公倍数（Leatest-Common-Multiple，LCM）"><a href="#最小公倍数（Leatest-Common-Multiple，LCM）" class="headerlink" title="最小公倍数（Leatest Common Multiple，LCM）"></a>最小公倍数（Leatest Common Multiple，LCM）</h3><p>可以用最大公约数求得。</p>
-<p>$$<br>lcm(a, b) &#x3D; \frac{ab}{gcd(a, b)}<br>$$</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.417Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/index"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/index/">tips</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><ul>
-<li>快速查找某个区间内相加（减）、相乘（除）、异或等运算结果，有结合律和交换律的一些运算。</li>
-<li>计算子数组的个数一般会用 map 来记录某个值出现的次数。</li>
-</ul>
-<h2 id="两数相加之后判断能否被一个数整除"><a href="#两数相加之后判断能否被一个数整除" class="headerlink" title="两数相加之后判断能否被一个数整除"></a>两数相加之后判断能否被一个数整除</h2><p>相加后判断能否被 24 整除。<br>原理：利用 hash 表记录之前遍历的数的模数，然后对比当前所需要的模数是否在 hash 表中出现过，如果出现过，则说明存在两个数相加后能被 24 整除。</p>
-<pre><code class="js">// 哈希表记录
-const hours = [12, 12, 30, 24, 24];
-const cnt = new Map();
-let ans = 0;
-for (const h of hours) &#123;
-  const cur = (24 - (h % 24)) % 24; // 寻找凑对后能被整除的凑对数的模数
-  if (cnt.has(cur)) &#123;
-    ans += cnt.get(cur);
-  &#125;
-  cnt.set(h % 24, (cnt.get(h % 24) || 0) + 1);
-&#125;
-return ans;
+Promise.try(test).then((res) =&gt; &#123;
+  console.log(res);
+&#125;);
 </code></pre>
 
         
@@ -977,69 +1188,11 @@ return ans;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.416Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:30:49.015Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/link"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/link/">链表</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>由于链表的结构特殊，没有像数组那样方便的库方法，因此其很多操作都需要用到底层算法解决。（不过也因此可以巩固一下）</p>
-<blockquote>
-<p>例如需要手写排序操作。</p>
-</blockquote>
-<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>根据链表的类型可选择不同的排序算法。</p>
-<h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><p>如果要保持时间复杂度 O(nlogn)，则需要使用分治策略（归并排序），拆分链表。（详细算法实现参照排序一文）</p>
-<blockquote>
-<p>其中 n 是链表长度。</p>
-</blockquote>
-<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>双向链表既可以从前遍历，又可以从后遍历，所以不只可以使用归并排序，还可以使用快速排序。（我猜的，暂未进行实践）</p>
-<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p>寻找中间节点：<strong>快慢指针</strong>，找到 mid 后再根据需求是否断链（前指空）。<br>dummy 节点：快速返回新的链表。<br>寻找倒数第 n 个节点：<strong>前后指针</strong>，前指针走 n 步，然后两个指针再一起走。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.416Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
     
@@ -1053,7 +1206,7 @@ class="article article-type-post"
 
   
     <nav class="pagination">
-        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
+        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/5/">5</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
     </nav>
   
 </div>
@@ -1074,7 +1227,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
     </div>
   </div>
 
@@ -1097,23 +1250,23 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/operation/">speration</a>
+            <a href="/ferhannah-blog/2025/02/28/CSS/useful/">一些有用的 css 属性</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/index/">tips</a>
+            <a href="/ferhannah-blog/2025/02/28/CSS/cssModule/">CSS Modules</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/class/">collection</a>
+            <a href="/ferhannah-blog/2025/02/28/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/base/">grammar</a>
+            <a href="/ferhannah-blog/2025/02/28/HTML/dataset/">dataset</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
+            <a href="/ferhannah-blog/2025/02/28/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
           </li>
         
       </ul>

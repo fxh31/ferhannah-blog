@@ -154,7 +154,7 @@
   
     
       <article
-id="post-Algorithm/binaryTree"
+id="post-HTML/iframe"
 class="article article-type-post"
 >
 
@@ -165,79 +165,133 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/binaryTree/">二叉树</a>
+        <a href="/ferhannah-blog/2025/02/28/HTML/iframe/">iframe</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>根据不同的遍历顺序和对根节点的操作，可以分为<strong>前序遍历、中序遍历、后序遍历</strong>。其根本原理就是递归查询，直到找到叶子节点的子节点（null），然后返回 null。</p>
+        <pre><code class="html">&lt;iframe
+  src=&quot;https://www.example.com&quot;
+  width=&quot;100%&quot;
+  height=&quot;500&quot;
+  frameborder=&quot;0&quot;
+  allowfullscreen
+  sandbox
+&gt;
+  &lt;!-- 当浏览器不支持 iframe 时，显示链接（但一般都支持） --&gt;
+  &lt;p&gt;&lt;a href=&quot;https://www.example.com&quot;&gt;点击打开嵌入页面&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;
+</code></pre>
+<h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><ul>
+<li>allowfullscreen：允许嵌入的网页全屏显示，需要全屏 API 的支持（JS）。</li>
+<li>frameborder：是否绘制边框，0 为不绘制，1 为绘制（默认值）。建议尽量少用这个属性，而是在 CSS 里面设置样式。</li>
+<li>src：嵌入的网页的 URL。</li>
+<li>width：显示区域的宽度。</li>
+<li>height：显示区域的高度。</li>
+<li>importance：浏览器下载嵌入的网页的优先级，可以设置三个值。high 表示高优先级，low 表示低优先级，auto 表示由浏览器自行决定。</li>
+<li>name：内嵌窗口的名称，可以用于<a>、<form>、<base>的 target 属性。</li>
+<li>referrerpolicy：请求嵌入网页时，HTTP 请求的 Referer 字段的设置。参见<a>标签的介绍。</li>
+<li>sandbox：设置嵌入的网页的权限，详见下文。</li>
+</ul>
+<h2 id="sandbox"><a href="#sandbox" class="headerlink" title="sandbox"></a>sandbox</h2><p>为了限制<code>&lt;iframe&gt;</code>的风险，HTML 提供了 <code>sandbox</code> 属性，允许设置嵌入的网页的权限。（提供了一个隔离层-沙箱）</p>
+<p>sandbox 为 bool 时，表示打开所有限制。但其中具体限制也可以逐一打开：</p>
+<ul>
+<li>allow-forms：允许提交表单。</li>
+<li>allow-modals：允许提示框，即允许执行 window.alert()等会产生弹出提示框的 JavaScript 方法。</li>
+<li>allow-popups：允许嵌入的网页使用 window.open()方法弹出窗口。</li>
+<li>allow-popups-to-escape-sandbox：允许弹出窗口不受沙箱的限制。</li>
+<li>allow-orientation-lock：允许嵌入的网页用脚本锁定屏幕的方向，即横屏或竖屏。</li>
+<li>allow-pointer-lock：允许嵌入的网页使用 Pointer Lock API，锁定鼠标的移动。</li>
+<li>allow-presentation：允许嵌入的网页使用 Presentation API。</li>
+<li>allow-same-origin：不打开该项限制，将使得所有加载的网页都视为跨域。</li>
+<li>allow-scripts：允许嵌入的网页运行脚本（但不创建弹出窗口）。</li>
+<li>allow-storage-access-by-user-activation：允许在用户激动的情况下，嵌入的网页通过 Storage Access API 访问父窗口的储存。</li>
+<li>allow-top-navigation：允许嵌入的网页对顶级窗口进行导航。</li>
+<li>allow-top-navigation-by-user-activation：允许嵌入的网页对顶级窗口进行导航，但必须由用户激活。</li>
+<li>allow-downloads-without-user-activation：允许在没有用户激活的情况下，嵌入的网页启动下载。</li>
+</ul>
 <blockquote>
-<p>思考：树节点的遍历有点类似于 js 的捕获冒泡，捕获阶段对应从根节点遍历到叶子节点，冒泡阶段对应从叶子节点处理逻辑回到根节点，这也被称为<strong>递归</strong>。</p>
+<p>注意：不要同时设置 allow-scripts 和 allow-same-origin 属性，这将使得嵌入的网页可以改变或删除 sandbox 属性</p>
 </blockquote>
-<p>相关问题只要掌握好二叉树的遍历顺序，就能解决。</p>
-<h2 id="对二叉树进行操作"><a href="#对二叉树进行操作" class="headerlink" title="对二叉树进行操作"></a>对二叉树进行操作</h2><ol>
-<li>确定遍历方法；</li>
-<li>确定每一层节点的操作是什么；</li>
+<h2 id="loading"><a href="#loading" class="headerlink" title="loading"></a>loading</h2><p><code>&lt;iframe&gt;</code>指定的网页会立即加载，但我们也可以让其滚动进入视口以后再加载以节约带宽，这时就可以使用 loading 属性。</p>
+<p>loading 属性可以触发<code>&lt;iframe&gt;</code>网页的懒加载。该属性可以取以下三个值。</p>
+<ul>
+<li>auto：浏览器的默认行为，与不使用 loading 属性效果相同。</li>
+<li>lazy：<code>&lt;iframe&gt;</code>的懒加载，即将滚动进入视口时开始加载。</li>
+<li>eager：立即加载资源，无论在页面上的位置如何。</li>
+</ul>
+<pre><code class="html">&lt;iframe src=&quot;https://example.com&quot; loading=&quot;lazy&quot;&gt;&lt;/iframe&gt;
+</code></pre>
+<blockquote>
+<p>注意：如果<code>&lt;iframe&gt;</code>是隐藏的，则 loading 属性无效，将会立即加载。<br><code>&lt;iframe&gt;</code>的宽度和高度为 4 像素或更小。<br>样式设为 display: none 或 visibility: hidden。<br>使用定位坐标为负 X 或负 Y，将<code>&lt;iframe&gt;</code>放置在屏幕外。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.014Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/event"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/event/">js 事件</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="事件的冒泡和捕获"><a href="#事件的冒泡和捕获" class="headerlink" title="事件的冒泡和捕获"></a>事件的冒泡和捕获</h2><p>js 事件流大体分为三个阶段，描述了事件在 dom 文档中传播的顺序：</p>
+<ol>
+<li>捕获阶段：事件从文档的根节点开始，向目标元素传播。（由外向内）</li>
+<li>目标阶段：事件到达目标元素。</li>
+<li>冒泡阶段：事件从目标元素向根节点传播。（由内向外）</li>
 </ol>
+<p>当点击一个子元素触发某个事件时，如果其父元素也绑定了相同的事件，那么子元素和父元素都会触发相同的事件函数。如果只想触发子元素，则可以在子元素中使用<code>e.stopPropagation()</code>阻止事件传播（无论是冒泡阶段还是捕获阶段）。</p>
 <blockquote>
-<p>剩下的就交给递归。</p>
+<p>阻止了之后点击子元素时后续元素都不会触发该事件了。</p>
 </blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.415Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/binarySearch"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/binarySearch/">二分搜索</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="二分间值"><a href="#二分间值" class="headerlink" title="二分间值"></a>二分间值</h2><h2 id="最小化最大值"><a href="#最小化最大值" class="headerlink" title="最小化最大值"></a>最小化最大值</h2><p>二分答案求最小。</p>
-<h2 id="最大化最小值"><a href="#最大化最小值" class="headerlink" title="最大化最小值"></a>最大化最小值</h2><p>二分答案求最大。</p>
-<h2 id="第-K-小-大"><a href="#第-K-小-大" class="headerlink" title="第 K 小&#x2F;大"></a>第 K 小&#x2F;大</h2><ul>
-<li>第 k 小等价于：求最小的 x，<strong>满足 &lt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
-<li>第 k 大等价于：求最大的 x，<strong>满足 &gt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
+<p><strong>addEventListener(type, listener, options)<strong>：<br>options: bool，该事件是否在捕获或冒泡阶段执行，</strong>默认不会在捕获阶段执行（false）</strong>；如果设置为 true，会在捕获阶段执行这个事件，这会导致事件再还没到达指定元素时就先被外层设置了为 true 的父元素上的监听器捕获到。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><code>e.stopPropagation()</code>阻止事件传播（既可以阻止捕获阶段又可以阻止冒泡阶段）；</li>
+<li>adddEventListener(type, listener, options)&#96;：中的第三个设置是否在事件捕获阶段执行；</li>
 </ul>
-<p><strong>注意事项：</strong></p>
-<ul>
-<li>数组去重问题：一般不会去重；</li>
-<li>规定 k 从 1 开始，而不是数组下标 0；</li>
+<h2 id="其他事件"><a href="#其他事件" class="headerlink" title="其他事件"></a>其他事件</h2><ul>
+<li>unhandledrejection：当有 Promise 返回 reject 或抛出异常，且该异常没有被 catch 时触发。</li>
+<li>error：抛出异常时触发（img、script、css、and jsonp）。<blockquote>
+<p>但是在 Promise 中抛出异常则不会触发该事件，可能是因为 Promise 中的异常被 catch 了，就不会触发该事件了吧（猜测）。<br>解答：该事件是针对资源加载时的异常（img、script、css、and jsonp）等出错时才会触发。</p>
+</blockquote>
+</li>
 </ul>
 
         
@@ -254,11 +308,11 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.414Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:30:49.013Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
     
@@ -271,7 +325,7 @@ class="article article-type-post"
   
     
       <article
-id="post-Algorithm/binary"
+id="post-JS/es6"
 class="article article-type-post"
 >
 
@@ -282,510 +336,107 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Algorithm/binary/">二进制的一些小技巧</a>
+        <a href="/ferhannah-blog/2025/02/28/JS/es6/">ES6 特性</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
-<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
-<p>汉明距离是使用在数据传输差错控制编码里。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
-<li>用于清除 num 最右边的 1；</li>
-</ul>
-<blockquote>
-<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
-</blockquote>
-<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
-<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
-</ul>
-<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
-<li>用于将 num 的二进制表示向右移动一位；</li>
-</ul>
-<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
-<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
-<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
-<ul>
-<li>用于比较一个二进制数的高位是否为 1。</li>
-</ul>
-<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
+        <h2 id="let-和-const"><a href="#let-和-const" class="headerlink" title="let 和 const"></a>let 和 const</h2><h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><pre><code class="js">const obj = &#123; a: 1, b: 2 &#125;;
+const &#123; a, b &#125; = obj;
+console.log(a, b); // 1, 2
 
-let x = num;
-const ans = [];
-while (x &gt; 0) &#123;
-  ans.push(lowbit(x));
-  x -= lowbit(x);
-&#125;
-
-function lowbit(x) &#123;
-  return x &amp; -x;
-&#125;
+const arr = [1, 2, 3];
+const [x, y, z] = arr;
+console.log(x, y, z); // 1, 2, 3
 </code></pre>
-<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
-<blockquote>
-<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:20:32.413Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/outline"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/outline/">计算机网络</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="OSI-七层模型"><a href="#OSI-七层模型" class="headerlink" title="OSI 七层模型"></a>OSI 七层模型</h2><p>该模型为参考模型</p>
-<h2 id="TCP-IP-五（四）层模型"><a href="#TCP-IP-五（四）层模型" class="headerlink" title="TCP&#x2F;IP 五（四）层模型"></a>TCP&#x2F;IP 五（四）层模型</h2><p>该模型为参考模型的实施。</p>
-<h2 id="物理层（比特流）"><a href="#物理层（比特流）" class="headerlink" title="物理层（比特流）"></a>物理层（比特流）</h2><p>直接和物理介质打交道的。物理层的设备有网卡，网线，集线器，中继器，调制解调器。</p>
-<h3 id="物理层的通信（信道）"><a href="#物理层的通信（信道）" class="headerlink" title="物理层的通信（信道）"></a>物理层的通信（信道）</h3><h4 id="有线信道"><a href="#有线信道" class="headerlink" title="有线信道"></a>有线信道</h4><ul>
-<li>明线：明线是指平行架设在电线杆上的架空线路。（已逐渐被电缆所替代）<ul>
-<li>优点：传输损耗低；</li>
-<li>缺点：易受天气和环境的影响，对外界噪声干扰比较敏感；</li>
-</ul>
-</li>
-<li>对称电缆：由多对双绞线组成的线缆。</li>
-<li>同轴电缆：一共有四层，从内到外分别是中心导体、绝缘体、外层导体（带屏蔽）和外皮。同轴电缆能以低损耗的方式传输模拟信号和数字信号，适用于各种应用（如电视广播系统、长途电话传输系统、计算机系统之间短距离跳线以及局域网互联）。</li>
-<li>光纤：光导纤维是由玻璃或塑料制成的纤维，利用光在这些纤维中以全反射原理传输的光传导工具。</li>
-</ul>
-<h4 id="无线信道"><a href="#无线信道" class="headerlink" title="无线信道"></a>无线信道</h4><ul>
-<li>无线电波：以辐射无线电波为传输方式无线信道主要有地波传输，天波传输和视距传输。例如:卫星通讯，电台广播。（常说的 wifi）</li>
-</ul>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p><strong>在物理层根据传输方式的不同（电、光、无线电波等方式），会获取他们对应的传输信号，再将其转化为 010101 的电信号，单位为比特（bit），所以物理层传输的是比特流</strong>。</p>
-<blockquote>
-<p>比如电压根据伏度不同转换 01 数字不同。</p>
-</blockquote>
-<h2 id="数据链路层（数据帧）"><a href="#数据链路层（数据帧）" class="headerlink" title="数据链路层（数据帧）"></a>数据链路层（数据帧）</h2><blockquote>
-<p>在物理层已经可以拿到 01010 的比特流了，但是不知道给谁发过去，谁来接收，接收后用来干什么，所以数据链路层需要将比特流组装成一个数据帧（主要是使用 MAC 地址来组帧）。</p>
-</blockquote>
-<p>建立逻辑连接、进行硬件地址寻址、差错校验等功能。将比特组合成字节进而组合成帧，用 MAC 地址访问介质。</p>
-<blockquote>
-<p>MAC 地址：每个网卡的唯一标识。windows 寻找物理地址（MAC 地址）：ipconfig&#x2F;all</p>
-</blockquote>
-<p><strong>有了 MAC 地址和数据帧，就可以进行传播。MAC 地址保证了消息的发送者和接收者，并且知道了数据的内容进行分组。数据链路层以广播的方式在局域网内传播，该局域网内所有的计算机都能接收到消息</strong>。</p>
-<blockquote>
-<p>交互方式可以使用交换机等。</p>
-</blockquote>
-<h2 id="网络层（数据包）"><a href="#网络层（数据包）" class="headerlink" title="网络层（数据包）"></a>网络层（数据包）</h2><p>网络层控制数据链路层与传输层之间的信息转发，建立、维持和终止网络的连接。数据链路层的数据在网络层被转换为数据包，然后通过路径选择、分段组合、顺序、进出路由等控制，将信息从一个网络设备传递到另一个网络设备中。<br>它主要做了两件事：</p>
-<ul>
-<li>寻址：对网络层而言使用 IP 地址来唯一标识互联网上的设备，网络层依靠 IP 地址进行相互通信。<blockquote>
-<p>在数据链路层中已经获得了 MAC 地址，但是 Mac 地址众多，查找起来很麻烦。所以会有一个网络地址——IP</p>
-</blockquote>
-</li>
-<li>路由：不同网路之间通信的需要借助的设备。<blockquote>
-<p>在同一个网络中的内部通信并不需要网络层设备，仅仅靠数据链路层就可以完成相互通信，对于不同的网络之间相互通信则必须借助路由器等三层设备。</p>
-</blockquote>
-</li>
-</ul>
-<p>使用互联网的用户在同一个网段中时会产生广播风暴，在该网段中的所有用户都会无差别的进行数据的传播或接收，所以要将用户划分，让他们在不同的网段中，在自己的小网段中进行广播。</p>
-<blockquote>
-<p>互联网就是将无数的子网络构成一个巨大的网络。<em>子网络是网络划分的概念，而子网段是指划分出的具体 IP 地址范围。子网络是在逻辑上划分网络，而子网段是在物理上划分网络。</em></p>
-</blockquote>
-<p>为了能区分不同的网段，在网络层引入了一个网络地址——IP，也称网址。网络地址帮助我们确定计算机所在的子网络，MAC 地址则将数据包送到该子网络中的目标网卡。<br>而这一层有一个规范网络地址的协议，就叫做 IP 协议，遵守这个协议的地址就被称为 IP 地址。</p>
-<blockquote>
-<p>有 IPV4 和 IPV6，IPv4 地址长度为 32 位，通常用点分十进制表示（例如，192.168.1.1）;IPv6 地址长度为 128 位，通常用冒号分隔的十六进制表示（例如，2001:0db8:85a3:0000:0000:8a2e:0370:7334）。</p>
-</blockquote>
-<h2 id="传输层（数据段）"><a href="#传输层（数据段）" class="headerlink" title="传输层（数据段）"></a>传输层（数据段）</h2><p>主要是定义端口号，控流和校验。</p>
-<h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>面向连接，三次握手四次挥手，是可靠的传输协议。但是速度会降低。</p>
-<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>具有较好的实时性，效率高于 TCP，但是是不可靠的。由于其速度快，常用于直播。</p>
-<h2 id="会话层（报文）"><a href="#会话层（报文）" class="headerlink" title="会话层（报文）"></a>会话层（报文）</h2><p>在发送方和接收方之间进行通信时创建、维持、之后终止或断开连接的地方。</p>
-<h2 id="表示层（报文）"><a href="#表示层（报文）" class="headerlink" title="表示层（报文）"></a>表示层（报文）</h2><p>表示层主要做了几件重要的事情：安全，压缩，也是程序在网络中的一个翻译官。</p>
-<ul>
-<li>安全：发送方数据发送之前进行加密，在接受者的表示层进行解密。</li>
-<li>翻译：图片。音频等文件格式进行解码和编码。<blockquote>
-<p>ASCII 图片是人类能读懂的计算机需要转换成计算机能读懂的编码。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="应用层（报文）"><a href="#应用层（报文）" class="headerlink" title="应用层（报文）"></a>应用层（报文）</h2><p>使用最多的一层。例如 ajax 调用接口发送 http 请求，域名系统 DNS，邮件协议 SMTP，webSocket 长连接，SSH 协议等。</p>
-<blockquote>
-<p>报文，比如 f12 的 network 里的数据就叫报文，包括请求头、响应体之内的。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.907Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/networkState"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/networkState/">前端网络状态</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="前端网络状态"><a href="#前端网络状态" class="headerlink" title="前端网络状态"></a>前端网络状态</h1><h2 id="前端判断网络是否离线"><a href="#前端判断网络是否离线" class="headerlink" title="前端判断网络是否离线"></a>前端判断网络是否离线</h2><ul>
-<li>navigator.onLine</li>
-</ul>
-<p>true：在线；false：离线</p>
-<ul>
-<li>在 window 监听 online&#x2F;offine 事件：</li>
-</ul>
-<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
-  console.log(&quot;online&quot;);
-&#125;);
-window.addEventListener(&quot;offline&quot;, function () &#123;
-  console.log(&quot;online&quot;);
-&#125;);
+<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><pre><code class="js">function foo(a, b = 2, c = 3) &#123;&#125;
 </code></pre>
-<h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
-<ul>
-<li>downlink：当前网络连接的估计下行速度</li>
-<li>downlinkMax：设备网络连接的最大下行速度</li>
-<li>effectiveType：当前网络连接的估计速度，类型(如 slow-2g、2g、39、4g 等)</li>
-<li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
-<li>saveData：是否处于数据节省模式</li>
-</ul>
+<h2 id="剩余（rest）参数"><a href="#剩余（rest）参数" class="headerlink" title="剩余（rest）参数"></a>剩余（rest）参数</h2><pre><code class="js">function sum(...nums) &#123;
+  return nums.reduce((a, b) =&gt; a + b);
+&#125;
+sum(1, 2, 3, 4, 5);
+</code></pre>
+<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h2><pre><code class="js">const arr1 = [1, 2, 3];
+const arr2 = [...arr, 4, 5];
 
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.906Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/navigator(sendBeacon)"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>前端发送请求的方法有哪些：</p>
-<ul>
-<li>AJAX 的 XMLHttpRequest（axios）</li>
-<li>fetch</li>
-<li>SSE</li>
-<li>Websocket</li>
-<li>jsonp</li>
-<li>image 的 src</li>
-</ul>
-</blockquote>
-<h1 id="navigator-sendBeacon"><a href="#navigator-sendBeacon" class="headerlink" title="navigator.sendBeacon"></a>navigator.sendBeacon</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
-<li>发送心跳检测包。</li>
-<li>做埋点。可以使用 navigator.sendBeacon 在页面关闭或卸载时记录用户的在线时间，pv（page view：页面的浏览量或点击量），uv（unique visitor：独立访客，即访客量），错误日志上报，按钮点击数等。</li>
-<li>发送用户反馈。如用户意见、bug 报告等，以便进行产品的优化和改进，</li>
-</ul>
-<h2 id="对比-AJAX-和-fetch-的优势"><a href="#对比-AJAX-和-fetch-的优势" class="headerlink" title="对比 AJAX 和 fetch 的优势"></a>对比 AJAX 和 fetch 的优势</h2><ul>
-<li>不受页面卸载过程的影响，确保数据可靠发送。</li>
-<li>异步执行，不阻塞页面关闭或跳转。</li>
-<li>能发送跨域请求。<blockquote>
-<p>使用 HTML5 新增的 ping 类型，ping 类型的请求不需要等待服务端的返回，能支持发送跨域请求。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="ping-类型请求"><a href="#ping-类型请求" class="headerlink" title="ping 类型请求"></a>ping 类型请求</h3><p>请求类型 ping 是 HTML5 新增的，并且是 sendBeacon 特有的请求类型，该请求只能携带少量数据，但是他不需要等待服务端响应（因此非常适合做埋点）。</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
-<li>只能发送 post 请求。</li>
-<li>只能传输少量数据（64kb 以内），并且只能传输 ArrayBuffer、ArrayBufferView、Blob、DOMString、FormData 或 URLSerchParams 类型的数据，不能传送 json。</li>
-<li>没有办法去定义请求头（比如携带 token 之类的）。</li>
-<li>如果处理危险的网络环境（比如公共网络），或者开启了广告屏蔽的插件，该请求将失效。</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
-<li>在某个监听函数中，使用 navigator.sendBeacon()来发起请求，第一个参数为 url，第二个参数为要传送的数据。</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>设置 post 请求（由于 sendBeacon 只能发送 post 请求），并返回简单数据。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.905Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/XSS"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/XSS/">XSS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Cross-site scripting。跨站脚本攻击，利于 Web 网络安全的漏洞，注入恶意的 js 脚本进行攻击。一般分为三种：</p>
-<h1 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h1><h2 id="反射型-XSS"><a href="#反射型-XSS" class="headerlink" title="反射型 XSS"></a>反射型 XSS</h2><p>攻击者必须以某种方式诱导用户访问一个精心设计的 URL(恶意链接)，该连接中可能包含一个 script 标签，攻击者通过注入 js 来实施攻击，获取用户数据等。</p>
-<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
-<li>即时性。不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据；</li>
-</ul>
-<h2 id="存储型-XSS"><a href="#存储型-XSS" class="headerlink" title="存储型 XSS"></a>存储型 XSS</h2><p>存储型（HTML 注入型&#x2F;持久型）<strong>最严重的 XSS 攻击</strong>。将 js 脚本直接注入到数据库中，使得需要查看数据的用户都会被遭受攻击。主要发生在社区的评论区，留言板，HTML 电子邮件等，通过写入 script 标签，注入 js 脚本来实施攻击，如果前端和后端都没有进行 js 的过滤，该代码就会被注入进数据库中。</p>
-<h2 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h2><p>主要是利用 JS 和 HTML 的交互性质以及 DOM 对象实现的。客户端的脚本程序可以动态地检查和修改页面内容，而不依赖于服务器端的数据。<br>如果用户在客户端输入的数据包含了恶意的 JavaScript 脚本，而这些脚本没有经过适当的过滤和消毒，就会遭到攻击，如：</p>
-<ul>
-<li>loaction</li>
-<li>innerHTML（可以使用 textContent）</li>
-<li>document.write</li>
-<li>v-html</li>
-<li>eval</li>
-</ul>
-<h1 id="预防-XSS"><a href="#预防-XSS" class="headerlink" title="预防 XSS"></a>预防 XSS</h1><ul>
-<li>输入过滤：在 Web 应用程序中对用户输入的数据进行过滤和校验，确保只接收合法的数据；<blockquote>
-<p>使用 xss 的 npm 包，利用第三方工具来防止 xss 注入。</p>
-</blockquote>
-</li>
-<li>输出转译：在向 Web 页面中输出用户数据时，对其内容进行适当的编码和转义处理；</li>
-<li>设置 CSP（Content Security Policy）：通过设置响应报文头中的 CSP 策略，限制页面中可执行的脚本来源、样式表、图像、字体等，以此减少恶意代码执行的可能性。（前后端都可以设置）<ul>
-<li>前端：meta 标签里设置 http-equiv&#x3D;”Content-Security-Policy”</li>
-<li>后端：设置请求头<blockquote>
-<p>例如机制外部脚本执行，外部资源加载，禁止页面嵌入式 iframe。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="XSS-靶场"><a href="#XSS-靶场" class="headerlink" title="XSS 靶场"></a>XSS 靶场</h1><p>小练习。<a target="_blank" rel="noopener" href="https://xssaq.com/yx/level1.php">https://xssaq.com/yx/level1.php</a></p>
-<h1 id="XSS-漏洞扫描工具"><a href="#XSS-漏洞扫描工具" class="headerlink" title="XSS 漏洞扫描工具"></a>XSS 漏洞扫描工具</h1><ul>
-<li>wvs</li>
-<li>椰树</li>
-<li>safe3</li>
-<li>Xelenium</li>
-<li>w3af – Kali</li>
-<li>vega – Kali</li>
-<li>burp</li>
-<li>Kail 操作系统</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.902Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/WebSocket"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/WebSocket/">WebSocket</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>是一种在单个 TCP 连接上进行全双工通信的网络协议。HTML5 的新特性，实现客户端和服务端相互之间的实时通信。</p>
-<p>相比于 HTTP 协议的请求，使用 WebSocket 可以建立持久的连接，允许服务器主动向客户端推送数据，避免不必要的轮询请求，提高了实时性和效率。</p>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
-<li>实时性要求比较高的应用：比如在线聊天，游戏，数据可视化等。</li>
-<li>需要频繁交换数据的应用：在线编辑器，文档管理器等。</li>
-<li>需要推送服务的应用：比如实时数据监控、通知系统等。</li>
-<li>跨平台应用：比如桌面应用程序、移动应用程序等。</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><blockquote>
-<p>node</p>
-</blockquote>
-<ul>
-<li>安装 ws 和其声明文件。</li>
-<li>新建一个 WebSocket 的服务（ws.Server）。</li>
-<li>监听客户端的连接。</li>
-</ul>
-<p>默认是使用点对点的方式，可以修改为广播的方式，让连接到这个 socket 的客户端都能通过服务端的广播消息，收到对方客户端的消息。（群聊）</p>
-<ul>
-<li>遍历 clients，获取每一个连接上的 client，发送消息。</li>
-</ul>
-<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
-<li>构造一个 WebSocket 的实例，该实例需要传入一个用于建立连接的 url，以 ws 或 wss 开头（不用 http&#x2F;https）。</li>
-<li>在这个实例对象上监听 open()。</li>
-</ul>
-<p>发送消息前后端都使用 send()，接收消息默认监听 message 事件。</p>
-<h2 id="心跳检测"><a href="#心跳检测" class="headerlink" title="心跳检测"></a>心跳检测</h2><p>在实际使用过程中，由干网络波动、弱信号等原因，可能会导 WebSocket 连接断开。为了避免这种请求，可以通过心跳检测机制来检测 WebSocket 连接是否正常，当发现连接断开时尝试重连。</p>
-<blockquote>
-<p>心跳自定义的。</p>
-</blockquote>
-<pre><code class="js">const state = &#123;
-  HEART: 1,
-  MESSAGE: 2,
+const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; ...obj, c: 3 &#125;;
+</code></pre>
+<h2 id="扩展对象字面量"><a href="#扩展对象字面量" class="headerlink" title="扩展对象字面量"></a>扩展对象字面量</h2><h2 id="对象属性简写"><a href="#对象属性简写" class="headerlink" title="对象属性简写"></a>对象属性简写</h2><pre><code class="js">const name = &quot;zhangsan&quot;;
+const age = 18;
+const preson = &#123; name, age &#125;;
+</code></pre>
+<h2 id="对象方法简写"><a href="#对象方法简写" class="headerlink" title="对象方法简写"></a>对象方法简写</h2><pre><code class="js">const person = &#123;
+  name: &quot;zhangsan&quot;,
+  greet() &#123;
+    console.log(&quot;Hello！&quot;);
+  &#125;,
 &#125;;
-// ...
-let heartInreaval = null;
-const heartCheck = () =&gt; &#123;
-  if (socket.readyState === ws.OPEN) &#123;
-    // socket.send(&quot;ping&quot;);
-    socket.send(
-      JSON.stringify(&#123;
-        type: state.HEART,
-        message: &quot;心跳检测&quot;,
-      &#125;)
-    );
-  &#125; else &#123;
-    clearInterval(heartInreaval);
+</code></pre>
+<h2 id="for…of-循环"><a href="#for…of-循环" class="headerlink" title="for…of 循环"></a>for…of 循环</h2><h2 id="模块化（import-export）"><a href="#模块化（import-export）" class="headerlink" title="模块化（import&#x2F;export）"></a>模块化（import&#x2F;export）</h2><pre><code class="js">// foo.js
+export const foo = () =&gt; &#123;&#125;;
+
+// main.js
+import &#123; foo &#125; from &quot;./foo&quot;;
+</code></pre>
+<h2 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h2><pre><code class="js">// foo.js
+export default () =&gt; &#123;&#125;;
+
+// main.js
+import foo from &quot;./foo&quot;;
+foo();
+</code></pre>
+<h2 id="类（class）"><a href="#类（class）" class="headerlink" title="类（class）"></a>类（class）</h2><pre><code class="js">class Person &#123;
+  constructor(name) &#123;
+    this.name = name;
   &#125;
+  say() &#123;&#125;
+&#125;
+
+class Student extends Person &#123;
+  say() &#123;
+    console.log(`I&#39;m a student, $&#123;this.name&#125;`);
+  &#125;
+&#125;
+const s = new Student(&quot;zhangsan&quot;);
+s.say();
+</code></pre>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><h2 id="生成器和迭代器"><a href="#生成器和迭代器" class="headerlink" title="生成器和迭代器"></a>生成器和迭代器</h2><h2 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h2><h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><pre><code class="js">class MathUtil &#123;
+  static add(a, b) &#123;
+    return a + b;
+  &#125;
+&#125;
+console.log(MathUtil.add(1, 2));
+</code></pre>
+<h2 id="字符串新方法"><a href="#字符串新方法" class="headerlink" title="字符串新方法"></a>字符串新方法</h2><ul>
+<li>startsWith</li>
+<li>endsWith</li>
+<li>includes</li>
+</ul>
+<h2 id="数组新方法"><a href="#数组新方法" class="headerlink" title="数组新方法"></a>数组新方法</h2><ul>
+<li>find</li>
+<li>findIndex</li>
+</ul>
+<h2 id="对象合并"><a href="#对象合并" class="headerlink" title="对象合并"></a>对象合并</h2><pre><code class="js">const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; b: 3, c: 5 &#125;;
+const obj3 = &#123; ...obj1, ...obj2 &#125;;
+</code></pre>
+<h2 id="空值合并运算符"><a href="#空值合并运算符" class="headerlink" title="空值合并运算符"></a>空值合并运算符</h2><pre><code class="js">const foo = null ?? &quot;default&quot;;
+const bar = 0 ?? 42;
+console.log(bar); // 0
+</code></pre>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p>Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。</p>
+<pre><code class="js">const target = &#123;
+  message: &quot;hello world&quot;,
 &#125;;
-heartInreaval = setInterval(heartCheck, 5000);
+const handler = &#123;
+  get: (obj, prop) =&gt; &#123;
+    return prop in obj ? obj[prop] : &quot;not fount prop&quot;;
+  &#125;,
+  set: (obj, prop, value) =&gt; &#123;
+    return value;
+  &#125;,
+&#125;;
+const proxy = new Proxy(target, handler);
 </code></pre>
 
         
@@ -802,17 +453,13 @@ heartInreaval = setInterval(heartCheck, 5000);
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.901Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:30:49.012Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li></ul>
-        </div>
     
     </div>
 </footer>
@@ -823,7 +470,7 @@ heartInreaval = setInterval(heartCheck, 5000);
   
     
       <article
-id="post-network/URL"
+id="post-JS/debounceAndtrottle"
 class="article article-type-post"
 >
 
@@ -834,86 +481,49 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/URL/">浏览器中输入 url 到底发生了什么</a>
+        <a href="/ferhannah-blog/2025/02/28/JS/debounceAndtrottle/">防抖和节流</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>首先解释 url 是什么。</p>
-<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
-<p>有了域名就可以进行一个 DNS 查询</p>
-<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
-<p>所以用户再输入 url 后，会去查找 dns。</p>
-<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
-<li>首先去浏览器的 dns 缓存 中查找；</li>
-<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
-<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
-<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
-</blockquote>
-</li>
-<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
-</ol>
+        <p>防抖（Debounce）和节流（Throttle）是两种常用的优化前端性能的技术，用于控制事件触发频率，避免过多的事件触发导致性能问题。</p>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>事件触发之后等待一定时间再执行，如果这个时间内该事件又被触发了则重新计时。</p>
+<pre><code class="js">function debounce(func, delay) &#123;
+  let timer;
+
+  return function () &#123;
+    clearTimeout(timer);
+    timer = setTimeout(() =&gt; &#123;
+      func.apply(this, arguments);
+    &#125;, delay);
+  &#125;;
+&#125;
+</code></pre>
+<p>适用场景：</p>
 <ul>
-<li>首先查找本地 dns 服务器；</li>
-<li>如果没有找到，会向根域名服务器查找（.）；</li>
-<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
-<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
+<li>输入框搜索建议：用户在输入时，只有在停止输入一段时间后才触发搜索请求。；</li>
+<li>窗口大小调整：窗口大小调整时，只在停止调整一段时间后触发重新计算布局。</li>
 </ul>
-<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
-<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
-<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
+<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>一定时间间隔内，无论事件触发多少次，只会执行一次。事件只会按照一定时间间隔一次一次执行。</p>
+<pre><code class="js">function throttle(func, delay) &#123;
+  let isRun = true;
+  return function () &#123;
+    if (!isRun) return;
+    isRun = false;
+    setTimeout(() =&gt; &#123;
+      func.apply(this, arguments);
+      isRun = true;
+    &#125;, delay);
+  &#125;;
+&#125;
+</code></pre>
+<blockquote>
+<p>setTimeout 不精准，详情见 setTimeout 一章。</p>
+</blockquote>
+<p>适用场景：</p>
 <ul>
-<li>请求头 Content-Type 设置 application&#x2F;json；</li>
-<li>用户自定义了请求头；</li>
+<li>滚动加载：滚动页面时，只在一定时间间隔内加载更多内容，避免频繁加载。</li>
+<li>防止按钮重复点击：按钮点击后在一定时间内禁用，防止用户多次点击。</li>
 </ul>
-</blockquote>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
-<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
-<blockquote>
-<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
-</blockquote>
-<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
-<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
-<blockquote>
-<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
-</blockquote>
-<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
-<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
-<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
-<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
-</li>
-<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
-<blockquote>
-<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
-</blockquote>
-</li>
-<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
-</li>
-</ul>
-<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
-<p>能够引起回流的操作：</p>
-<ul>
-<li>页面首次渲染</li>
-<li>浏览器窗口大小发生变换</li>
-<li>元素尺寸或位置发生改变</li>
-<li>元素内容发生改变</li>
-<li>元素字体大小变换</li>
-<li>添加或删除可见的 dom 元素</li>
-<li>激活 css 伪类（:hover）</li>
-<li>查询某些属性或调用某些方法<blockquote>
-<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
-<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
-<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
-<p>涉及编译原理一些内容。</p>
-</blockquote>
-<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
-<blockquote>
-<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
-</blockquote>
-<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
 
         
     </div>
@@ -929,11 +539,11 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.900Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:30:49.011Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
     
@@ -946,7 +556,7 @@ class="article article-type-post"
   
     
       <article
-id="post-network/TCP实现HTTP服务"
+id="post-JS/copyObject"
 class="article article-type-post"
 >
 
@@ -957,38 +567,190 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/">TCP 实现 HTTP 服务</a>
+        <a href="/ferhannah-blog/2025/02/28/JS/copyObject/">js 拷贝数组（对象）</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
-<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
+        <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
+<li>slice()</li>
+<li>扩展运算符 […]</li>
+</ul>
 
-const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
+        
+    </div>
+    </div>
 
-const header = [
-  &quot;HTTP/1.1 200 OK&quot;,
-  &quot;Content-Type: text/html&quot;,
-  `Content-Length: $&#123;html.length&#125;`,
-  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
-  `\r\n`,
-  html,
-];
+    <div class="article-badge">
+        
+        
+    </div>
 
-const server = net.createServer((socket) =&gt; &#123;
-  socket.on(&quot;data&quot;, (data) =&gt; &#123;
-    console.log(data.toString());
-    if (/GET/.test(data.toString())) &#123;
-      socket.write(headers.join(&quot;\r\n&quot;));
-      socket.end();
-    &#125;
-  &#125;);
-&#125;);
+</div>
 
-// 监听 TCP 服务
-server.listen(8080, () =&gt; &#123;
-  console.log(&quot;server is running&quot;, server.address());
-&#125;);
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.010Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/WebWorker"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/WebWorker/">Web Worker</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>浏览器</strong>为 JS 提供的<strong>多线程技术</strong>，允许在后台运行脚本，避免阻塞主线程（UI 线程），从而提升复杂任务的性能和用户体验。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li><strong>独立线程</strong>：运行在浏览器后台线程，与主线程隔离。两者之间无法直接操作。</li>
+<li><strong>通信</strong>：主线程和独立线程都可通过 <code>postMessage</code> 和 <code>onmessage</code> 与主线程交换数据。<blockquote>
+<p>注意：数据传递时是<strong>被复制</strong>的，而不是共享。</p>
+</blockquote>
+</li>
+<li><strong>兼容性</strong>：现代浏览器普遍支持（IE10+）。</li>
+<li><strong>错误处理</strong>：通过 worker.onerror 捕获 Worker 错误。</li>
+<li><strong>资源释放</strong>：用 worker.terminate() 手动关闭 Worker。</li>
+</ul>
+<h2 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h2><ul>
+<li><strong>不能访问 <code>dom</code> 和 <code>window</code> 对象</strong>。<blockquote>
+<p>Worker 有自己的线程对象 <code>DedicatedWorkerGlobalScope</code>。</p>
+</blockquote>
+</li>
+<li><strong>同源限制</strong>：Worker 脚本需与主线程同源。</li>
+<li><strong>不能使用 <code>alert()</code> 和 <code>confirm()</code> 方法</strong>。<blockquote>
+<p>但是可以使用 AJAX 。</p>
+</blockquote>
+</li>
+<li><strong>无法读取本地文件</strong>：不能直接打开 <code>file://</code> 协议的资源。</li>
+</ul>
+<h2 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h2><p><strong>浏览器环境本身是多线程</strong>的（如网络请求、定时器、渲染引擎等由浏览器管理），当我们创建一个 worker 时，浏览器就会为其分配一个独立的线程与主线程并行执行。该线程由浏览器底层管理，操作系统可能进一步分配 CPU 核心资源。</p>
+<blockquote>
+<p>浏览器的<strong>多线程能力</strong>基于<strong>操作系统</strong>（如 Windows 的线程 API、Linux 的 pthread）或引擎（如 V8 的 Isolate 机制）实现。</p>
+</blockquote>
+<h2 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h2><p>主线程和 Worker 线程各自运行在独立的线程中，二者的代码执行顺序取决于<strong>浏览器的线程调度</strong>，我们无法直接控制。通过 <strong>postMessage</strong> 发送的消息会进入接收线程的消息队列，按<strong>事件循环</strong>机制处理。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><strong>经测试</strong>，Web Worker 自身拥有自己的事件循环，主线程和 Worker 中的通信都是在对应触发 postMessage 才会运行接收的，相当于挂载监听器事件；而且两者的微任务和宏任务都是谁先执行完毕谁输出，但<strong>是主线程的微任务总是先于 worker 中的微任务，主线程中的宏任务和 worker 的微任务、宏任务执行的顺序就要看浏览器调度了</strong>。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><pre><code class="js">cosnt myWorker = new Worker(jsUrl, options);
+</code></pre>
+<ul>
+<li>jsUrl：必须是 js 脚本，并且地址遵守同源策略。</li>
+<li>options：配置对象。可以用于指定 Worker 的名称。</li>
+</ul>
+<h3 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h3><p><code>onmessage</code> 和 <code>postMessage</code>。</p>
+<h3 id="加载脚本"><a href="#加载脚本" class="headerlink" title="加载脚本"></a>加载脚本</h3><p><code>importScripts</code>。可动态加载多个脚本。</p>
+<pre><code class="js">importScripts(&quot;script1.js&quot;, &quot;script2.js&quot;);
+</code></pre>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p><code>onerror</code>。</p>
+<h3 id="关闭-Worker"><a href="#关闭-Worker" class="headerlink" title="关闭 Worker"></a>关闭 Worker</h3><ul>
+<li>主线程关闭：<code>worker.terminate()</code>;</li>
+<li>Worker 内部关闭：<code>self.close()</code>;</li>
+</ul>
+<h2 id="SharedArrayBuffer"><a href="#SharedArrayBuffer" class="headerlink" title="SharedArrayBuffer"></a>SharedArrayBuffer</h2><blockquote>
+<p>Web Worker 在进行消息传递的时候数据会被复制，而不是共享，这对于大数据量或频繁通信的情况来说可能效率不高。</p>
+</blockquote>
+<p>SharedArrayBuffer 是 JavaScript 中的一个对象，用于在<strong>多个线程</strong>（如主线程和 Web Workers）之间<strong>共享同一块内存区域（固定长度的原始二进制数据缓冲区）</strong>。它允许<strong>不同线程直接读写同一块内存</strong>，从而实现高效的数据共享，避免了通过 postMessage 复制数据的性能开销。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>共享内存</li>
+<li>固定长度：创建时需指定缓冲区大小，不可动态调整。</li>
+<li>类型化视图：通过 TypedArray（如 Int32Array）或 DataView 访问和操作内存。</li>
+<li>线程安全依赖：需配合 Atomics 方法实现原子操作，避免竞争条件。</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.007Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Python/operation"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Python/operation/">speration</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
+<li>切片（:）</li>
+<li>list()</li>
+<li>copy()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[:] # 切片
+o2 = list(org) # list()
+o3 = org.copy() # copy()
+</code></pre>
+<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
+<li>copy 模块中的 deepcopy()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+od1 = copy.deepcopy(org)
+</code></pre>
+<h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
+<li>切片（:）</li>
+<li>reversed()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[::-1] # 切片
+o2 = reversed(org) # reversed()
+</code></pre>
+<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
+2) # True
 </code></pre>
 
         
@@ -1005,17 +767,178 @@ server.listen(8080, () =&gt; &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.899Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-27T15:21:39.047Z" itemprop="datePublished">2025-02-27</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
         </div>
     
     
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li></ul>
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Python/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Python/index/">tips</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
+<li>打完包之后在 dist 目录下执行：</li>
+</ul>
+<pre><code class="shell">python -m http.server
+</code></pre>
+<blockquote>
+<p>注意：也可以在后面添加启动的端口号。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:21:39.045Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
         </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Python/class"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Python/class/">collection</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
+<ul>
+<li>append(x)：在右侧添加一个元素。</li>
+<li>appendleft(x)：在左侧添加一个元素。</li>
+<li>pop()：移除并返回一个右侧元素。</li>
+<li>popleft()：移除并返回一个左侧元素。</li>
+<li>extend(iterable)：在右侧添加多个元素。</li>
+<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
+<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
+<li>clear()：清空所有元素。</li>
+</ul>
+<pre><code class="python">queue = deque()
+queue.append(1)
+queue.popleft(2)
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:21:39.044Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/slidedWindow"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/slidedWindow/">滑动窗口</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.420Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
     
     </div>
 </footer>
@@ -1027,7 +950,7 @@ server.listen(8080, () =&gt; &#123;
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="page-number current">2</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="extend next" rel="next" href="/ferhannah-blog/page/3/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="page-number current">2</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="page-number" href="/ferhannah-blog/page/4/">4</a><a class="page-number" href="/ferhannah-blog/page/5/">5</a><a class="extend next" rel="next" href="/ferhannah-blog/page/3/">Next</a>
     </nav>
   
 </div>
@@ -1048,7 +971,7 @@ server.listen(8080, () =&gt; &#123;
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
     </div>
   </div>
 
@@ -1071,23 +994,23 @@ server.listen(8080, () =&gt; &#123;
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/operation/">speration</a>
+            <a href="/ferhannah-blog/2025/02/28/CSS/useful/">一些有用的 css 属性</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/index/">tips</a>
+            <a href="/ferhannah-blog/2025/02/28/CSS/cssModule/">CSS Modules</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/class/">collection</a>
+            <a href="/ferhannah-blog/2025/02/28/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Python/base/">grammar</a>
+            <a href="/ferhannah-blog/2025/02/28/HTML/dataset/">dataset</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/02/27/Algorithm/sort/">排序算法</a>
+            <a href="/ferhannah-blog/2025/02/28/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
           </li>
         
       </ul>
