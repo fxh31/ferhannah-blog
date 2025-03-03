@@ -154,6 +154,152 @@
   
     
       <article
+id="post-Node/Node.js"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Node.js/">Node.js</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><h3 id="什么是-Node-js"><a href="#什么是-Node-js" class="headerlink" title="什么是 Node.js"></a><strong>什么是 Node.js</strong></h3><p>Node.js 是一个基于 Chrome V8 引擎的 <strong>JavaScript 运行环境</strong>，它可以<strong>让 JavaScript 在服务端运行</strong>。</p>
+<blockquote>
+<p>注意：<strong>Node.js</strong>不仅仅可以在服务端运行（这是在 JS 运行时），<strong>也可以在本地脚本或构建工具中使用</strong>。（例如 Vue 等框架实际上运用了 Node.js 构建多功能脚本，因为它可以访问文件系统，进行文件读写操作等）</p>
+</blockquote>
+<ul>
+<li>引擎：将在浏览器或 node 中运行的 JavaScript 代码编译为机器代码；</li>
+</ul>
+<h3 id="Node-与-JS-组成差别"><a href="#Node-与-JS-组成差别" class="headerlink" title="Node 与 JS 组成差别"></a><strong>Node 与 JS 组成差别</strong></h3><table>
+<thead>
+<tr>
+<th align="center">Node.js</th>
+<th align="center">JavaScript</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ECMAScript（语言基础，如：语法、数据类型结构以及一些内置对象）</td>
+<td align="center">ECMAScript（语言基础，如：语法、数据类型结构以及一些内置对象）</td>
+</tr>
+<tr>
+<td align="center">OS（操作系统）</td>
+<td align="center">DOM（一些操作页面元素的方法）</td>
+</tr>
+<tr>
+<td align="center">file（文件系统）</td>
+<td align="center">BOM（一些操作浏览器的方法）</td>
+</tr>
+<tr>
+<td align="center">net（网络系统）</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">database（数据库）</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>JavaScript 本身是只能在浏览器中运行的，但是现在通过 Node.js 我们可以让它在服务器端运行，这样可以让它执行一些在浏览器内因为性能或安全问题导致我们不能或不想执行的任务（如连接数据库和存储数据，用户身份验证，输入验证，业务逻辑）。</p>
+<blockquote>
+<p>因为浏览器端始终是面向用户的，用户可以看到甚至修改浏览器端的信息，所以需要服务端来做这些。</p>
+</blockquote>
+<h3 id="Node-js-在-Web-开发中的作用"><a href="#Node-js-在-Web-开发中的作用" class="headerlink" title="Node.js 在 Web 开发中的作用"></a><strong>Node.js 在 Web 开发中的作用</strong></h3><ul>
+<li>建立一个服务端：监听我们从浏览器端发送的请求；</li>
+<li>运行业务逻辑：处理请求数据、文件，连接并使用数据库等；</li>
+<li>处理响应：返回响应数据（例如 HTML 页面动态内容或数据的 json 文件等）给客户端</li>
+</ul>
+<p><strong>Web 的工作原理</strong>：</p>
+<ul>
+<li><p>用户（浏览器）输入网址；</p>
+<blockquote>
+<p>该网址会进行域名解析并最终找到正确的目标 IP 地址。</p>
+</blockquote>
+</li>
+<li><p>浏览器带着正确的 IP 地址向服务器发送请求；</p>
+</li>
+<li><p>具有该 IP 的服务器端代码开始运行；</p>
+<blockquote>
+<p>此时 Node.js 就开始了工作（当然也可以有其他的语言代替），在这里 node.js 可以进行用户输入验证，连接数据库。</p>
+</blockquote>
+</li>
+<li><p>服务端执行完成后向客户端返回一些响应；</p>
+<blockquote>
+<ul>
+<li>响应可以是一些 HTML 文本或者 HTML 代码，还有可以被客户端处理的一些其他类型的数据，例如 json 或 xml 文件等；</li>
+<li>响应不仅仅有内容，还有请求体和请求头等元信息；</li>
+</ul>
+</blockquote>
+<p>请求和响应传输是通过某种协议（标准化的沟通方式）完成的：</p>
+</li>
+</ul>
+<p><strong>HTTP&#x2F;HTTPS</strong>：</p>
+<p>HTTP：超文本传输协议，定义了请求的格式以及数据如何从浏览器传输到服务器等；</p>
+<p>HTTPS：超文本传输加密协议，传输的数据是经过 SSL 加密的；</p>
+<h2 id="使用-Node"><a href="#使用-Node" class="headerlink" title="使用 Node"></a><strong>使用 Node</strong></h2><h3 id="REPL"><a href="#REPL" class="headerlink" title="REPL"></a><strong>REPL</strong></h3><p>在<strong>控制终端</strong>输入<code>node</code>后进入，在这可以进行 REPL 的操作。</p>
+<p>R：read，读取用户的输入；</p>
+<p>E：eval，评估用户的输入 ；</p>
+<p>P：print，打印输出的结果；</p>
+<p>L：loop，循环返回并等待新一轮的用户输入；</p>
+<pre><code class="bash">ndoe
+&gt; 1 + 1
+4
+</code></pre>
+<blockquote>
+<p>注意：一旦控制终端关闭或者退出 node 我们将不能再进入到刚才的 node 文件空间！</p>
+</blockquote>
+<h3 id="执行-Node-js-代码文件"><a href="#执行-Node-js-代码文件" class="headerlink" title="执行 Node.js 代码文件"></a><strong>执行 Node.js 代码文件</strong></h3><p>将 node 代码写在一个文件中，执行这个文件。</p>
+<pre><code class="js">node app.js
+</code></pre>
+<blockquote>
+<p>通常使用这种模式执行 node 代码。</p>
+</blockquote>
+<h2 id="Node-js-框架"><a href="#Node-js-框架" class="headerlink" title="Node.js 框架"></a>Node.js 框架</h2><ul>
+<li>Express.js：最流行最常用的 Node.js 框架。</li>
+<li>Adonis.js：受 laravel（PHP）启发的框架。</li>
+<li>Koa</li>
+<li>Sails.js</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        <div class="article-top">
+            <ion-icon name="arrow-up"></ion-icon>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.970Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-JS/es6"
 class="article article-type-post"
 >
@@ -593,7 +739,7 @@ num2 = math.isqrt(8) # 2
   
     
       <article
-id="post-buildTools/Vite/ts"
+id="post-Node/身份认证（Authentication）"
 class="article article-type-post"
 >
 
@@ -604,163 +750,1077 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/ts/">vite 中使用 ts</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>vite 中默认支持 ts，不需要额外配置。</p>
-<h2 id="vite-plugin-checker"><a href="#vite-plugin-checker" class="headerlink" title="vite-plugin-checker"></a>vite-plugin-checker</h2><p>它是一个可以在工作线程中运行 TypeScript、 VLS、 vue-tsc、 ESLint 的插件，可以根据配置，阻断编译，在控制台及浏览器展示报错信息。</p>
-<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><ul>
-<li>安装：</li>
+        <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ul>
+<li><p>用户发动登录请求（之前已经注册了用户信息）到服务端，服务端验证用户信息是否有效，数据库中是否存有该用户的信息（此时服务器会为用户创建一个识别用户的 session）。</p>
+<blockquote>
+<p>如果没有 session，即使用户发送的登录信息是有效的，用户下一个请求仍然会被注销登录，因为请求和请求之间是完全独立分开的，所以我们需要一个 session 来连接它们。</p>
+</blockquote>
+</li>
+<li><p>验证成功后服务器会返回一个状态码为 200 的响应，将对应存储的 seesion ID 返回给浏览器并使用 cookie 存储 。</p>
+</li>
+<li><p><strong>cookie 会伴随每个请求发送，服务器可以根据 cookie 中的 session ID 来找到对应的 session 数据</strong>（如是否登录等信息）。</p>
+</li>
 </ul>
-<pre><code class="bash">npm i vite-plugin-checker -D
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.985Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/生命周期(事件循环)"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="Node-js-程序的生命周期"><a href="#Node-js-程序的生命周期" class="headerlink" title="Node.js 程序的生命周期"></a>Node.js 程序的生命周期</h2><p>当我们使用<code>node app.js</code>执行文件时，node.js 会运行整个文件，解析代码，注册变量和函数等，我们会一直处于这个运行文件中，这是因为 node.js 的事件循环。</p>
+<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环处理处理所有的回调</p>
+<p>由 node.js 管理的循环进程。只要其中的工作没有做完，它就会一直运行程序。</p>
+<blockquote>
+<p>这意味着这样注册了事件监听器程序就会一直执行（没有手动强制退出的情况下）。</p>
+<ul>
+<li>告诉 node.js 这里的工作都执行完了，强制退出：</li>
+</ul>
+<pre><code class="js">process.exit();
+</code></pre>
+</blockquote>
+<p>node.js 不止在服务器上使用事件循环，也在其他地方使用，例如数据库。</p>
+<p><strong>原因</strong>：</p>
+<p><strong>node.js 使用事件循环是因为它实际上执行的 JS 是单线程，整个 node 程序使用的是计算机里的一个线程；而如果用 node 创建一个服务器，那它应该能够处理传入的多个数据请求，而不是因为一个请求暂停而导致所有请求等待</strong>。</p>
+<p>当我们执行 node.js 时事件循环就自动开启了，它负责处理事件回调函数。它会优先处理快速完成的回调函数。</p>
+<p>而 fs 模块的功能会被发送到一个工作池中，这个工作池运行在不同的线程中，跟 JS 代码是完全分离的。这个工作池和操作系统密切相关，可以启动多个线程 。我们读取或写入文件就在这个工作池中进行，而当读写或写入（工作）完成后，它会触发事件循环里对应的回调函数进入事件循环的队列。</p>
+<p><img src="D:\typora\notes\photo\singleThread.png" alt="image-20230202102955839"></p>
+<h2 id="事件循环（）"><a href="#事件循环（）" class="headerlink" title="事件循环（）"></a>事件循环（）</h2><p>Node.js 在主线程里维护了一个<strong>事件队列，</strong>当接到请求后，就将该请求作为一个事件放入这个队列中，然后继续接收其他请求。当主线程空闲时(没有请求接入时)，就开始循环事件队列，检查队列中是否有要处理的事件，这时要分两种情况：如果是非 I&#x2F;O 任务，就亲自处理，并通过回调函数返回到上层调用；如果是 I&#x2F;O 任务，就从 **线程池 **中拿出一个线程来处理这个事件，并指定回调函数，然后继续循环队列中的其他事件。</p>
+<p>当线程中的 I&#x2F;O 任务完成以后，就执行指定的回调函数，并把这个完成的事件放到事件队列的尾部，等待事件循环，当主线程再次循环到该事件时，就直接处理并返回给上层调用。 这个过程就叫 **事件循环 **(Event Loop)</p>
+<blockquote>
+<p><strong>Node.js 本身是一个多线程平台，而它对 JavaScript 层面的任务处理是单线程的。</strong></p>
+</blockquote>
+<h2 id="Node-js-事件循环和-JS-事件循环"><a href="#Node-js-事件循环和-JS-事件循环" class="headerlink" title="Node.js 事件循环和 JS 事件循环"></a>Node.js 事件循环和 JS 事件循环</h2><p><img src="D:\typora\notes\photo\enventLoop.png" alt="image-20230202103531435"></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.984Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/核心模块"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p>帮助我们启动服务器或执行发送请求等其他任务。</p>
+<pre><code class="js">const http = require(&quot;http&quot;);
+</code></pre>
+<blockquote>
+<p>导入模块，它会自动在全局模块（这是在 node.js 中自带的模块）中寻找。</p>
+</blockquote>
+<h3 id="createServer"><a href="#createServer" class="headerlink" title="createServer()"></a>createServer()</h3><p><strong>创建服务器并返回 server 对象。接收一个函数作为参数，每当有请求时就会执行这个函数。</strong>函数有两个默认参数——请求的信息，和响应的信息：</p>
+<pre><code class="js">const server = http.createServer((req, res) =&gt; &#123;
+  // req：包含请求的详细信息
+  console.log(req.url); // 发起请求的地址（http://localhost:3000/后的地址）
+  console.log(req.method); // 请求方法（GET/POST等）
+  console.log(req.headers); // 请求头信息
+
+  // res：服务端响应回去的对象
+  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;); // 设置响应头（响应的文本为HTML）
+  // 写入文本信息（此处为HTML）
+  res.write(&quot;&lt;html&gt;&quot;);
+  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
+  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
+  res.write(&quot;&lt;/html&gt;&quot;);
+
+  res.end(); // 结束编写，发送响应给浏览器（此后的写入无效）
+&#125;);
+server.listen(3000);
+</code></pre>
+<blockquote>
+<p>注意：<code>res.write()</code>也可以使用模板字符串直接写入。</p>
+</blockquote>
+<p>我们可以通过这个返回的 server 对象来对 server 进行操作：</p>
+<ul>
+<li><p>**listen()**：确保 node.js 不会立刻退出我们的代码，而是通过<code>listen()</code>保留它的进程。<code>listen()</code>有几个参数：</p>
+<p>第一个参数：需要监听的端口号；</p>
+<blockquote>
+<p>一般在生产环境中不需要填写，默认端口为 80；如果本地开发则可能需要不同的端口。</p>
+</blockquote>
+<pre><code class="js">server.listen(3000);
+</code></pre>
+<blockquote>
+<p>现在启动 node.js 执行文件后，node.js 可以监听到访问本地 3000 地址后的请求，然后执行<code>createServer()</code>的里的函数。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="https"><a href="#https" class="headerlink" title="https"></a>https</h2><p>帮助我们启动一个 SSL 加密的服务器。</p>
+<h2 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h2><p>帮助我们操作文件，对文件进行读写操作。</p>
+<pre><code class="js">const fs = require(&quot;fs&quot;);
+</code></pre>
+<h3 id="writeFile"><a href="#writeFile" class="headerlink" title="writeFile()"></a>writeFile()</h3><p><strong>写入一个文件</strong>，接收三个参数：</p>
+<ul>
+<li>第一个参数：完整文件名</li>
+<li>第二个参数：文件内容</li>
+<li>第三个参数：回调函数，接收一个 error 对象，如果执行出现错误可以在这里得到</li>
+</ul>
+<pre><code class="js">fs.writeFile(&quot;message.txt&quot;, &quot;ds&quot;);
+</code></pre>
+<h3 id="writeFileSync"><a href="#writeFileSync" class="headerlink" title="writeFileSync()"></a>writeFileSync()</h3><p><strong>同步写入文件</strong>，在写入文件完成后才能执行下一步。用法与<code>writeFile()</code>相同。</p>
+<h3 id="readFile"><a href="#readFile" class="headerlink" title="readFile()"></a>readFile()</h3><p><strong>读取指定路径的文件</strong>，接收两个参数：</p>
+<ul>
+<li>第一个参数：文件路径</li>
+<li>第二个参数：回调函数，接收一个读取错误时的对象（error 对象）和文件内容</li>
+</ul>
+<pre><code class="js">fs.readFile(path, (err, fileContent) =&gt; &#123;&#125;);
+</code></pre>
+<h2 id="path"><a href="#path" class="headerlink" title="path"></a>path</h2><p>帮助我们构建文件路径，让文件的路径能够在任何操作系统（Windows&#x2F;Mac&#x2F;Linux）上运行。</p>
+<pre><code class="js">const path = require(&quot;path&quot;);
+</code></pre>
+<h3 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h3><p>使用特定于平台的分隔符作为定界符将所有给定的 <strong><code>path</code> 片段</strong>连接在一起，然后规范化生成的路径。</p>
+<pre><code class="js">path.join(&quot;/foo&quot;, &quot;bar&quot;, &quot;baz/asdf&quot;, &quot;quux&quot;);
+// 返回：\foo\bar\baz\asdf\quux
+
+path.join(__dirname, &quot;..&quot;, &quot;views&quot;, &quot;shop.html&quot;);
+// __dirname: 当前文件夹的父目录
+// &#39;../&#39;: 上级目录
+</code></pre>
+<blockquote>
+<ul>
+<li>返回路径在不同的环境下可能有所不同；</li>
+<li>如果有任何路径片段不是字符串，则抛出 TypeError。</li>
+</ul>
+</blockquote>
+<h3 id="dirname"><a href="#dirname" class="headerlink" title="dirname()"></a>dirname()</h3><p>返回 <code>path</code> 的目录名，类似于 Unix <code>dirname</code> 命令。 尾随的目录分隔符被忽略。</p>
+<pre><code class="js">path.dirname(&quot;/foo/bar/baz/asdf/quux&quot;);
+// 返回: &#39;/foo/bar/baz/asdf&#39;
+</code></pre>
+<blockquote>
+<p>如果有任何路径片段不是字符串，则抛出 TypeError。</p>
+</blockquote>
+<ul>
+<li><p><strong>使用辅助函数来构建路径</strong></p>
+<p>util&#x2F;path.js</p>
+<pre><code class="js">const path = require(&quot;path&quot;);
+
+// process.mainModule(require.main).filename 为我们提供了文件路径，该文件负责我们应用程序的运行，而这个文件名就是通过我们放在dirname里文件路径获取到的
+module.exports = path.dirname(require.main.filename);
+</code></pre>
+<pre><code class="js">const rootDir = require(&quot;../util/path&quot;);
+
+res.sendFile(path.join(rootDir, &quot;views&quot;, &quot;shop.html&quot;));
+</code></pre>
+<blockquote>
+<p>这样我们就不需要编写根目录了。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>帮助我们了解操作系统相关信息。</p>
+<h2 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h2><p>帮助我们将数据进行加密。</p>
+<pre><code class="js">const crypto = require(&quot;crypto&quot;);
+</code></pre>
+<h3 id="randomBytes"><a href="#randomBytes" class="headerlink" title="randomBytes()"></a>randomBytes()</h3><p>生成随机字符，接收两个参数：</p>
+<ul>
+<li>第一个参数：随机字符的数量</li>
+<li>第二个参数：回调函数，内部传递一个出错时的 error 对象和存储字符的 buffer</li>
+</ul>
+<pre><code class="js">crypto.randomBytes(32, (err, buffer) =&gt; &#123;
+  if (err) &#123;
+    console.log(err);
+    return res.redirect(&quot;/reset&quot;);
+  &#125;
+  const token = buffer.toString(&quot;hex&quot;); // 从缓冲区中生成一个token @1
+&#125;);
+</code></pre>
+<blockquote>
+<p>@1：buffer 中存储字符是十六进制，需要通过<code>toString(&#39;hex&#39;)</code>将十六进制的值转化为 ASCII。</p>
+</blockquote>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><ul>
+<li>引入 http 模块，创建一个服务器监听 3000 端口；</li>
+<li>在服务器中判断 3000 端口的路由地址：如果是根路由，则写入一段 HTML 代码（一个表单，里面含有输入框和提交按钮，表单的提交地址为<code>/message</code>，提交方法为<code>POST</code>）后返回响应给浏览器；；</li>
+</ul>
+<pre><code class="js">const http = require(&quot;http&quot;);
+const fs = require(&quot;fs&quot;);
+
+const server = http.createServer((req, res) =&gt; &#123;
+  const url = req.url;
+  if (url === &quot;/&quot;) &#123;
+    // 如果url地址是/
+    res.write(&quot;&lt;html&gt;&quot;);
+    res.write(&quot;&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;/head&gt;&quot;);
+    res.write(
+      &#39;&lt;body&gt;&lt;form action=&quot;/message method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;message&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;&#39;
+    );
+    res.write(&quot;&lt;/html&gt;&quot;);
+    return res.end(); // 返回退出代码，如果没有return则不会执行外层后面的res各个操作，就不能获取下面的Hello,Node.js页面
+  &#125;
+
+  if (url === &quot;/message&quot; &amp;&amp; method === &quot;POST&quot;) &#123;
+    const body = [];
+
+    // 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个参数块
+    req.on(&quot;data&quot;, (chunk) =&gt; &#123;
+      body.push(chunk); // 将块推入到body中
+    &#125;);
+    req.on(&quot;end&quot;, () =&gt; &#123;
+      const parseBody = Buffer.concat(body).toString(); // 创建一个缓冲区连接到body上
+      const message = parseBody.split(&quot;=&quot;)[1];
+      fs.writeFileSync(&quot;message.txt&quot;, message);
+    &#125;);
+
+    res.statusCode = 302;
+    res.setHeader(&quot;Location&quot;, &quot;/&quot;);
+    // res.writeHead(302, &#123;
+    //     &#39;Location&#39;: &#39;/&#39;
+    // &#125;)
+    return res.end();
+  &#125;
+
+  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;);
+  res.write(&quot;&lt;html&gt;&quot;);
+  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
+  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
+  res.write(&quot;&lt;/html&gt;&quot;);
+  res.end();
+&#125;);
+
+server.listen(3000);
+</code></pre>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="res"><a href="#res" class="headerlink" title="res"></a>res</h3><p>响应对象可调用的常用方法：</p>
+<ul>
+<li><p><strong>setHeader</strong>：设置<strong>响应标头</strong>的单个属性，以键值对的方式修改，<strong>可调用多次</strong>；</p>
+<pre><code class="js">res.setHeader(&quot;Location&quot;, &quot;/&quot;); // 设置地址跳转到/
+</code></pre>
+</li>
+<li><p><strong>writeHead</strong>：设置响应头多个属性（包括<strong>状态码、状态信息和响应标头</strong>），<strong>只调用一次，可进行链式调用</strong>；</p>
+<pre><code class="js">res.writeHead(statusCode, [reasonPhrase], [headers]);
+
+res.writeHead(200, &#123;
+  &quot;Content-Type&quot;: &quot;text/plain&quot;,
+  Location: &quot;/&quot;,
+&#125;);
 </code></pre>
 <ul>
-<li>vite config 中配置：</li>
+<li>statusCode：状态码；</li>
 </ul>
-<pre><code class="js">// vite.config.js
-import checker from &quot;vite-plugin-checker&quot;;
-import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  plugins: [
-    checker(&#123;
-      typescript: true,
+<ul>
+<li><p>reasonPhrase（可选）：状态信息；</p>
+</li>
+<li><p>headers：响应标头；</p>
+<blockquote>
+<p>注意：<strong>两个参数的最后一个参数是 headers 响应标头</strong>！三个参数只是方便 reasonPhrase。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>注意：<code>setHeader</code>和<code>writeHead</code>都有的时候，<code>setHeader</code>的内容合会并到<code>writeHead</code>，合并有冲突时以<code>writeHead</code>的内容为准（<code>writeHead</code>优先级高）。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="req"><a href="#req" class="headerlink" title="req"></a>req</h3><p>请求数据的常用方法：</p>
+<ul>
+<li><p><strong>on</strong>：事件监听。接收两个参数，一个是监听的事件，一个是触发的函数：</p>
+<pre><code class="js">// 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个默认参数，块（chunk）
+req.on(&quot;data&quot;, (chunk) =&gt; &#123;&#125;);
+
+// 在完成读取传入的数据或请求后结束监听
+req.on(&quot;end&quot;, () =&gt; &#123;&#125;);
+</code></pre>
+<blockquote>
+<p>当遇到<code>req.on()</code>时，Node.js 会自动在内部添加一个新的事件监听器来管理所有的监听器，相当于一个注册表在注册了这些事件但没有执行它，然后跳过继续执行下一条。（注册未来某个时间运行但不一定现在运行的代码函数）</p>
+</blockquote>
+</li>
+<li></li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.982Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/数据验证（Validate）"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="为什么要验证"><a href="#为什么要验证" class="headerlink" title="为什么要验证"></a>为什么要验证</h2><p>在用户使用表单发送数据到后端、后端将数据写入数据库的过程中，如果用户输入了一些无效的数据，可能会影响整个代码的逻辑。（避免提交数据不合法）</p>
+<h2 id="如何进行验证"><a href="#如何进行验证" class="headerlink" title="如何进行验证"></a>如何进行验证</h2><p>我们可以在不同的地方对数据进行验证：</p>
+<ul>
+<li><p><strong>在客户端进行验证（可选）</strong>：在发送任何请求到服务端之前，通过 JS 监听输入事件，然后在用户进行表单输入时检查，在页面上进行反馈显示。这可以<strong>提高用户的体验</strong>。</p>
+<blockquote>
+<p>在客户端验证是可选的，它并不安全。因为客户端使用的 JS 是在浏览器中运行的，用户可以看到、更改或禁用 JS 代码，不利于保护安全数据发送到服务器。</p>
+</blockquote>
+</li>
+<li><p><strong>在服务端进行验证（必须）</strong>：将任何数据存储在数据库之前进行验证，保证存储数据的正确性。并且有些验证功能需要查询数据库，在服务器端进行验证能做的事要多一些。</p>
+<blockquote>
+<p>用户无法看到、更改或禁用代码，因为这些都发生在服务器上，而不是浏览器中。</p>
+</blockquote>
+</li>
+<li><p><strong>数据库内置验证（可选）</strong>：大多数数据库引擎都有一个内置验证，但是如果在服务端进行了良好的验证，基本上不需要。</p>
+</li>
+</ul>
+<h1 id="在-Node（Express）中进行数据验证"><a href="#在-Node（Express）中进行数据验证" class="headerlink" title="在 Node（Express）中进行数据验证"></a>在 Node（Express）中进行数据验证</h1><h2 id="安装验证器"><a href="#安装验证器" class="headerlink" title="安装验证器"></a>安装验证器</h2><p>在 Node（Express）中，我们可以安装第三方验证器<code>express-validator</code>来辅助我们进行数据的验证：</p>
+<pre><code class="bash">npm install --save express-validator
+</code></pre>
+<h2 id="进行验证"><a href="#进行验证" class="headerlink" title="进行验证"></a>进行验证</h2><p>引入<code>express-validator/check</code>中的<code>check()</code>，<code>check()</code>接收两个参数，第一个参数为作为检查对象的 name；第二个参数是触发校验错误的信息：</p>
+<pre><code class="js">const &#123; check &#125; = require(&#39;express-validator/check&#39;);
+
+const app = express();
+
+app.use(&#39;/signup&#39;, check(&#39;email&#39;).isEmail(), authController.postSignup)&#39;); // 通过isEmail()检查渲染页面中name为email的输入选项是否为有效的Email格式
+</code></pre>
+<h3 id="自定义验证"><a href="#自定义验证" class="headerlink" title="自定义验证"></a>自定义验证</h3><p>除了直接使用已有的内置验证器函数，我们也使用<code>custom()</code>自定义验证器。</p>
+<p><code>custom()</code>接收一个回调函数，其中回调函数中第一个参数为需要验证的值；第二个参数为一个对象，我们可以从中提取一些信息（如请求、位置、路径）：</p>
+<pre><code class="js">app.use(
+  &quot;/signup&quot;,
+  check(&quot;email&quot;)
+    .isEmail()
+    .withMessage(&quot;Please enter a valid email.&quot;)
+    .custom((value, &#123; req &#125;) =&gt; &#123;
+      // 自定义验证逻辑
+      if (value === &quot;test@test.com&quot;) &#123;
+        throw new Error(&quot;This email address if forbidden.&quot;); // 抛出错误异常消息
+      &#125;
+      return true;
+    &#125;),
+  authController.postSignup
+);
+</code></pre>
+<ul>
+<li><p><strong>验证再次确认密码</strong></p>
+<p>我们可以用数组，同时注册验证多字段：</p>
+<pre><code class="js">app.use(
+  &quot;/signup&quot;,
+  [
+    check(&quot;email&quot;)
+      .isEmail()
+      .withMessage(&quot;Please enter a valid email.&quot;)
+      .custom((value, &#123; req &#125;) =&gt; &#123;
+        if (value === &quot;test@test.com&quot;) &#123;
+          throw new Error(&quot;This email address if forbidden.&quot;);
+        &#125;
+        return true;
+      &#125;),
+    body(
+      &quot;password&quot;,
+      &quot;Please enter a password with only numbers and text and at least 5 characters.&quot;
+    )
+      .isLength(&#123; min: 5 &#125;)
+      .isAlphanumeric(),
+    body(&quot;confirmPassword&quot;).custom((value, &#123; req &#125;) =&gt; &#123;
+      if (value !== req.body.password) &#123;
+        // req.body.password获取输入请求的密码
+        throw new Error(&quot;Password have to match!&quot;);
+      &#125;
+      return true;
     &#125;),
   ],
-&#125;);
+  authController.postSignup
+);
 </code></pre>
-<ul>
-<li>生成 tsconfig.json 配置文件：</li>
+</li>
 </ul>
-<pre><code class="bash">npm tsc --init
-</code></pre>
-<ul>
-<li>指定需要进行 ts check 的文件：</li>
-</ul>
-<pre><code class="json">// tsconfig.json
-&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;]
-&#125;
+<h3 id="指定验证"><a href="#指定验证" class="headerlink" title="指定验证"></a>指定验证</h3><p>在引入<code>check()</code>时，我们可以指定引入传入请求时的一些信息（例如 body、param、query、cookie、header 等），用法和<code>check()</code>相同：</p>
+<pre><code class="js">const &#123; check, body &#125; = require(&#39;express-validator/check&#39;)
+...
+app.use(
+  &#39;/signup&#39;,
+  [
+    check(&#39;email&#39;)
+      .isEmail()
+      .withMessage(&#39;Please enter a valid email.&#39;)
+      .custom((value, &#123;req&#125;) =&gt; &#123;
+        if (value === &#39;test@test.com&#39;) &#123;
+          throw new Error(&#39;This email address if forbidden.&#39;)
+        &#125;
+        return true;
+      &#125;),
+    body(
+      &#39;password&#39;,
+      &#39;Please enter a password with only numbers and text and at least 5 characters.&#39;
+      )
+      .isLength(&#123;min: 5&#125;)
+      .isAlphanumeric()
+  ],
+  authController.postSignup
+);
 </code></pre>
 <blockquote>
-<p>注意：以上配置不影响正常打包，只是在运行的时候出报错。</p>
+<p>isLength({min: 5})：最小长度为 5</p>
+<p>isAlphanumeric()：允许数字和普通字符</p>
 </blockquote>
-<h2 id="打包前进行-ts-检查"><a href="#打包前进行-ts-检查" class="headerlink" title="打包前进行 ts 检查"></a>打包前进行 ts 检查</h2><p>vite 本身仅执行 .ts 文件的转译工作，并不执行任何类型检查。所以我们可以借助 ts 本身的类型检查功能，在打包前对代码进行类型检查：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;build&quot;: &quot;tsc --noEmit &amp;&amp; vite build&quot;
-&#125;
-</code></pre>
-<blockquote>
-<p>对于 .vue 文件，可以安装 vue-tsc 然后运行 vue-tsc –noEmit 来对 *.vue 文件做类型检查。</p>
-</blockquote>
-<p><strong>原理：</strong><br><code>tsc</code>是 TypeScript 的编译器，它负责将 TypeScript 代码转换为 JavaScript 代码。<code>tsc</code> 会读取配置文件获取参数值，<code>--noEmit</code> 的作用是只进行检查，不进行编译输出。如果我们的代码无错，会直接退出，执行下一条语句，否则报错。</p>
-<h2 id="ts-智能提示"><a href="#ts-智能提示" class="headerlink" title="ts 智能提示"></a>ts 智能提示</h2><p>默认情况下，vite 在 vite&#x2F;client.d.ts 中为<code>import.meta.env</code>提供了类型定义。但是如果我们设置了一些自定义的环境变量（<code>.env[mode]</code>）是没有提示的，如果也想在<strong>浏览器环境代码</strong>中有智能提示，可以在<code>env.d.ts</code>中定义：</p>
-<pre><code class="ts">/// &lt;reference types=&quot;vite/client&quot; /&gt;
+<h2 id="验证结果"><a href="#验证结果" class="headerlink" title="验证结果"></a>验证结果</h2><p>引入<code>express-validator/check</code>中的<code>validationResult()</code>，<code>validationResult()</code>中包含了所有验证的结果：</p>
+<pre><code class="js">const &#123; validationResult &#125; = require(&quot;express-validator/check&quot;);
 
-interface ImportMetaEnv &#123;
-  readonly VITE_APP_TITLE: string;
-&#125;
-interface ImportMeta &#123;
-  readonly env: ImportMetaEnv;
-&#125;
+exports.postSignup = (req, res, next) =&gt; &#123;
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+  const errors = validationResult(req); // 存储使用验证中间件的请求里的验证结果
+  if (!errors.isEmpty()) &#123;
+    // 检测errors中是否有错误信息
+    console.log(errors.array()); // 打印错误信息数组
+    return res.status(422).render(&quot;auth/signup&quot;, &#123;
+      // 返回422状态码，重新返回注册页面
+      path: &quot;/signup&quot;,
+      pageTitle: &quot;Signup&quot;,
+      errorMessage: errors.array()[0].msg, // 错误信息数组里的每一项的msg为错误信息
+    &#125;);
+  &#125;
+&#125;;
 </code></pre>
-<p><strong>注意：</strong>定义的文件名和文件位置其实不重要，重要的是需要在 tsconfig.json 配置将其文件进行 ts 检查：</p>
+<h2 id="自定义错误信息"><a href="#自定义错误信息" class="headerlink" title="自定义错误信息"></a>自定义错误信息</h2><p>可以在注册中间件函数时添加<code>withMessage()</code>来自定义错误信息：</p>
+<pre><code class="js">app.use(
+  &quot;/signup&quot;,
+  check(&quot;email&quot;).isEmail().withMessage(&quot;Please enter a valid email.&quot;),
+  authController.postSignup
+);
+</code></pre>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="express-validator-内置验证器函数"><a href="#express-validator-内置验证器函数" class="headerlink" title="express-validator 内置验证器函数"></a>express-validator 内置验证器函数</h3><ul>
+<li><p>isEmail()：输入是否为 Email 格式。</p>
+</li>
+<li><p>isURL()：输入是否为一个 url 网址形式。</p>
+</li>
+<li><p>isFloat()：输入保留一位小数。</p>
+</li>
+<li><p>isLength({})：是否限制输入长度。接收一个对象，对象内设置最长或最短字符数量。</p>
+</li>
+<li><p>withMessage()：定义错误信息。</p>
+</li>
+<li><p>custom()：自定义验证函数。</p>
+</li>
+<li><p>isAlphanumeric()：是否数字和普通字符。</p>
+</li>
+<li><p>isString()：是否是字符串形式。</p>
+</li>
+<li><p>normalizeEmail()：规范化 Email 格式。</p>
+</li>
+<li><p>trim()：删除多余空格。</p>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.981Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/other/">other</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/npm/packages和modules"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="modules"><a href="#modules" class="headerlink" title="modules"></a>modules</h2><p>在 node 中模块（modules）采用的是 CommonJS 规范，该规范定义了：</p>
+<ul>
+<li>一个文件就是一个模块；</li>
+<li>每个模块都有单独的作用域；</li>
+<li>通过<code>module.exports</code>导出成员；</li>
+<li>我们可以通过<code>require</code>函数载入任何文件目录下的模块；</li>
+</ul>
+<blockquote>
+<p>注：更多详情见模块化编程一篇。</p>
+</blockquote>
+<p><img src="D:\typora\notes\photo\module-test.png" alt="image-20230828163817383"></p>
+<h2 id="packages"><a href="#packages" class="headerlink" title="packages"></a>packages</h2><p>一个 packages 是一个文件夹，该文件夹的根目录下必须包含一个<code>package.json</code>，有了这个 json 文件就可以将其发送到 npm 上。<strong>packages 一般是由多个模块组成的一个模块包。</strong></p>
+<p>如果需要通过<code>reqire()</code>加载到这个模块，它必须有：</p>
+<ul>
+<li><strong>一个定义模块功能的 js 文件；</strong></li>
+<li><strong><code>package.json</code>里拥有<code>mian</code>字段来指向入口文件</strong>；</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：引用的 packages 应该<strong>在 node_modules 目录底下</strong>，这样才能被 node 识别到！！！</p>
+</blockquote>
+<p><img src="D:\typora\notes\photo\package-test.png" alt="image-20230828173317292"></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.980Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/npm/npm"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>过去常常使用<code>script标签</code>将外部资源库直接放在 HTML 中，这会暴露一个全局变量供我们使用，但是当项目很大的时候，这些变量很难被管理：</p>
+<ul>
+<li>在 HTML 中加载所有的 JS 文件，这会让其变得混乱；</li>
+<li>很多时候我们实际上会在计算机中直接下载一个库文件（例如 JQuery），但是每当新版本出来时，我们不得不手动下载并更新这些文件；</li>
+<li>在 npm 之前没有包含我们所需要的所有包的一个个存储库，这对于我们手动下载库并管理它们增加了很大的困难；</li>
+</ul>
+<h2 id="什么是-npm"><a href="#什么是-npm" class="headerlink" title="什么是 npm"></a>什么是 npm</h2><p>Node Package Manager。它既是我们计算机上的一个软件，也是一个 Node.js 包存储（管理）库，用于 Node 插件的管理（安装、卸载和管理依赖等）。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>npm 会随着 Node.js 安装而安装。</p>
+<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><blockquote>
+<p>本章会持续更新。</p>
+</blockquote>
+<h3 id="检查-npm-版本"><a href="#检查-npm-版本" class="headerlink" title="检查 npm 版本"></a><strong>检查 npm 版本</strong></h3><pre><code class="bash">npm -v
+</code></pre>
+<h3 id="初始化一个包管理文件（package-json）"><a href="#初始化一个包管理文件（package-json）" class="headerlink" title="初始化一个包管理文件（package.json）"></a><strong>初始化一个包管理文件（package.json）</strong></h3><p>这个文件存储了整个项目的配置。</p>
+<pre><code class="bash">npm init
+</code></pre>
+<blockquote>
+<p>它会让你填写一些基本信息。</p>
+</blockquote>
+<h3 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a><strong>安装包</strong></h3><pre><code class="bash">npm install 包名
+npm i 包名
+npm i 包名1 包名2
+npm i 包名@版本号
+</code></pre>
+<blockquote>
+<p>注意：如果不指定版本号，默认下载的是最新的版本。</p>
+</blockquote>
+<p><strong>安装 package.json 中所有的依赖包：</strong></p>
+<pre><code class="bash">npm i
+</code></pre>
+<p><strong>全局安装包：</strong></p>
+<p>这样在计算机上每一个项目都可以使用：</p>
+<pre><code class="bash">npm i 包名 -g
+</code></pre>
+<p>设置安装包的依赖：</p>
+<ul>
+<li><p><strong>生产环境依赖</strong>：</p>
+<p>该选项会将包下载到该项目（地址）下，<strong>这些包是我们项目中所需要的依赖</strong>（比如 UI 组件库，JS 部分工具包，框架等）：</p>
+<pre><code class="bash">npm install 包名 --save
+</code></pre>
+</li>
+<li><p><strong>开发环境依赖</strong>：</p>
+<p>该选项会将包下载到该项目（地址）下，<strong>一般是开发过程中需要借助它完成一些工作，但是项目内容并不需要它</strong>（比如打包工具 webpack 等）：</p>
+<pre><code class="bash">npm install 包名 --save-dev
+</code></pre>
+</li>
+</ul>
+<h3 id="卸载包"><a href="#卸载包" class="headerlink" title="卸载包"></a>卸载包</h3><pre><code class="bash">npm uninstall 包名
+</code></pre>
+<h3 id="查看当前-npm-镜像"><a href="#查看当前-npm-镜像" class="headerlink" title="查看当前 npm 镜像"></a>查看当前 npm 镜像</h3><pre><code class="bash">npm config get registry
+</code></pre>
+<h3 id="切换镜像"><a href="#切换镜像" class="headerlink" title="切换镜像"></a>切换镜像</h3><pre><code class="bash">npm config set registry https://registry.npmjs.org
+</code></pre>
+<blockquote>
+<p>上面是 npm 原镜像，还有：</p>
+<ul>
+<li><p>淘宝镜像：</p>
+<pre><code class="bash">npm config set registry https://registry.npm.taobao.org
+</code></pre>
+<blockquote>
+<p>23.8.21 淘宝镜像修改了：</p>
+<pre><code class="bash">https://registry.npmmirror.com
+</code></pre>
+</blockquote>
+</li>
+<li><p>hh 镜像：</p>
+<pre><code class="bash">npm config set registry http://nexus.lan:8081/repository/npm-public/
+</code></pre>
+</li>
+</ul>
+</blockquote>
+<h3 id="查看代理"><a href="#查看代理" class="headerlink" title="查看代理"></a>查看代理</h3><pre><code class="bash">npm config get proxy
+</code></pre>
+<h3 id="更多权限"><a href="#更多权限" class="headerlink" title="更多权限"></a>更多权限</h3><p>可以在 npm 语句前加上一个 sudo 来获取更高的权限，它会让你输入用户和密码（Linux）：</p>
+<pre><code class="bash">sudo npm i
+</code></pre>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>将开发的代码进行打包，打包后的代码可以发布到 npm 公共仓库里供其他人使用，打包后的文件是以<code>.tgz</code>为后缀。</p>
+<pre><code class="bash">npm pack
+</code></pre>
+<blockquote>
+<p>默认打包后的文件名是以 package.json 里的 name 和 version（版本号）用<code>-</code>拼接而成。</p>
+</blockquote>
+<p><strong>指定打包名称</strong></p>
+<pre><code class="bash">npm pack . --name=mylibname
+</code></pre>
+<h3 id="登录-npm-账号"><a href="#登录-npm-账号" class="headerlink" title="登录 npm 账号"></a>登录 npm 账号</h3><pre><code class="bash">npm login
+</code></pre>
+<h3 id="登出-npm-账号"><a href="#登出-npm-账号" class="headerlink" title="登出 npm 账号"></a>登出 npm 账号</h3><pre><code class="bash">npm logout
+</code></pre>
+<h3 id="发布包到-npm-上"><a href="#发布包到-npm-上" class="headerlink" title="发布包到 npm 上"></a>发布包到 npm 上</h3><blockquote>
+<p>注意：执行该操作必须要先登录 npm 的账号！</p>
+</blockquote>
+<pre><code class="bash">npm publish
+</code></pre>
+<h1 id="package-json-配置信息"><a href="#package-json-配置信息" class="headerlink" title="package.json 配置信息"></a>package.json 配置信息</h1><p>package.json 是 npm 管理包的文件，使用<code>npm init</code>后自动创建的，里面配置了包的所有信息（名字、版本号、依赖项等）。下面是它具体配置信息：</p>
 <pre><code class="json">&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;, &quot;env.d.ts&quot;]
+  &quot;name&quot;: &quot;element-plus&quot;, // 包名。如果要发布这个包，name是必填的，它是发布包的名字；如果不发布就不是必须的 （name）
+  &quot;version&quot;: &quot;1.0.0&quot;, // 版本号。如果要发布这个包，version是必填的（version）
+  &quot;description&quot;: &quot;A Component Library for Vue 3&quot;, // 包的描述（description）
+  &quot;keywords&quot;: [
+    // 包的关键字（keywords）
+    &quot;element-plus&quot;,
+    &quot;element&quot;,
+    &quot;component library&quot;,
+    &quot;ui framework&quot;,
+    &quot;ui&quot;,
+    &quot;vue&quot;
+  ],
+  &quot;homepage&quot;: &quot;https://element-plus.org/&quot;, // 该包项目的首页地址（可以是文档链接地址、项目官网等）
+  &quot;bugs&quot;: &#123;
+    // 项目提交问题地址（bugs）
+    &quot;url&quot;: &quot;https://github.com/element-plus/element-plus/issues&quot;
+  &#125;,
+  &quot;license&quot;: &quot;MIT&quot;, // 表示项目的开源许可证（license）
+  &quot;author&quot;: &quot;Barney Rubble &lt;b@rubble.com&gt; (http://barnyrubble.tumblr.com/)&quot;, // 跟包相关的人的信息 （people fields: author, contributors）
+  &quot;funding&quot;: &#123;
+    // 指定捐赠地址（如果对你有帮助的话可以请我喝咖啡。。）（funding）
+    &quot;type&quot;: &quot;individual&quot;,
+    &quot;url&quot;: &quot;http://example.com/donate&quot;
+  &#125;,
+  &quot;files&quot;: [
+    // 包作为依赖项（dependency）时（就是作为我们所下载的包）所需包含的文件（files）
+    &quot;LICENSE&quot;,
+    &quot;README.md&quot;,
+    &quot;index.js&quot;,
+    &quot;cjs/&quot;,
+    &quot;umd/&quot;,
+    &quot;jsx-runtime.js&quot;,
+    &quot;jsx-dev-runtime.js&quot;,
+    &quot;react.shared-subset.js&quot;
+  ],
+  &quot;main&quot;: &quot;lib/index.js&quot;, // 包的入口文件（main）
+  &quot;browser&quot;: &#123;
+    // 浏览器环境下指定入口文件（默认是在node的环境下）
+    &quot;my-module&quot;: &quot;./src/browser.js&quot;
+  &#125;,
+  &quot;bin&quot;: &quot;./path/to/program&quot;, // （bin）
+  &quot;man&quot;: &quot;./man/doc.1&quot;, // 指定单个文件或文件名数组，以供man查找。
+  &quot;directories&quot;: &#123;
+    // 指定项目的目录结构（可选，默认为CommonJS的结构）
+    &quot;lib&quot;: &quot;src/lib&quot;, // 指定项目的库文件目录
+    &quot;bin&quot;: &quot;src/bin&quot;, // 指定项目的可执行文件目录
+    &quot;man&quot;: &quot;src/man&quot;, // 指定项目的手册文件目录
+    &quot;doc&quot;: &quot;src/doc&quot; // 指定项目的文档文件目录
+  &#125;,
+  &quot;repository&quot;: &#123;
+    // 代码所在的位置，通常在github上
+    &quot;type&quot;: &quot;git&quot;,
+    &quot;url&quot;: &quot;git+https://github.com/element-plus/element-plus.git&quot;
+  &#125;,
+  &quot;scripts&quot;: &#123;
+    // 定义在包不同的生命周期下的脚本命令（scripts）
+    &quot;start&quot;: &quot;node app.js&quot;,
+    &quot;start-server&quot;: &quot;node app.js&quot;
+  &#125;,
+  &quot;config&quot;: &#123;
+    // 用于设置script字段里的脚本运行时的参数（config）
+    &quot;port&quot;: &quot;8080&quot;
+  &#125;,
+  &quot;dependencies&quot;: &#123;
+    // 生产环境依赖包（dependencies）
+    &quot;lodash&quot;: &quot;^4.17.21&quot;
+  &#125;,
+  &quot;devDependencies&quot;: &#123;&#125;, // 开发环境依赖包 （devDependencies）
+  &quot;peerDependencies&quot;: &#123;
+    // 指定包的对等依赖（peerDependencies）
+    &quot;soy-milk&quot;: &quot;1.2&quot;
+  &#125;,
+  &quot;peerDependenciesMeta&quot;: &#123;
+    // 对对等依赖的配置
+    &quot;soy-milk&quot;: &#123;
+      &quot;optional&quot;: true // 对等依赖可选（该项目下没有安装该包不会发出警告）
+    &#125;
+  &#125;,
+  &quot;bundleDependencies&quot;: [
+    // 指定指定哪些依赖项应该被捆绑到包中（bundleDependencies）
+    &quot;renderized&quot;,
+    &quot;super-streams&quot;
+  ],
+  &quot;optionalDependencies&quot;: &#123;
+    // 指定可选依赖项（optionalDependencies）
+    &quot;@element-plus/icons-vue&quot;: &quot;^2.0.6&quot;
+  &#125;,
+  &quot;overrides&quot;: &#123;
+    // 覆盖版本依赖
+    &quot;foo&quot;: &quot;1.0.0&quot;
+  &#125;,
+  &quot;engines&quot;: &#123;
+    // 指定包所依赖的运行时环境或引擎（一般为node和npm）
+    &quot;node&quot;: &quot;&gt;=0.10.3 &lt;15&quot;,
+    &quot;npm&quot;: &quot;&gt;=6.0.0&quot;
+  &#125;,
+  &quot;os&quot;: [&quot;linux&quot;, &quot;!win32&quot;], // 指定包所依赖的操作系统
+  &quot;cpu&quot;: [&quot;!arm&quot;, &quot;x64&quot;], // 指定包所依赖的cpu（可以使用!来表示非）
+  &quot;private&quot;: false, // 设置包的私有性，如果将其设置为true，npm会拒接这个包的publish
+  &quot;publishConfig&quot;: &#123;
+    // 设置包发布的配置属性，只有在进行npm publish时才会生效，不会影响其他npm命令的行为
+    &quot;registry&quot;: &quot;https://registry.npmjs.org/&quot;, // 指定发布到的npm仓库的URL（默认为npm官方仓库）
+    &quot;access&quot;: &quot;public&quot;, // 指定发布的包的访问级别（默认为public，如果设置为&quot;restricted&quot;，则只有特定的用户或团队才能访问该包）
+    &quot;tag&quot;: &quot;latest&quot; // 指定发布的包的标签。可以设置为&quot;latest&quot;（最新版本，默认值）或其他自定义标签
+  &#125;,
+  &quot;workspaces&quot;: [
+    // 定义工作区（workspaces）
+    &quot;./packages/*&quot;
+  ]
 &#125;
 </code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.873Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/static_asset"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/static_asset/">静态资源</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>json 文件、图片、打包后的文件（dist）都是常见的静态资源，静态资源都是一开始就被载入的；而动态资源则通过后续在页面中发起请求后获取的。</p>
-<h2 id="静态资源文件夹"><a href="#静态资源文件夹" class="headerlink" title="静态资源文件夹"></a>静态资源文件夹</h2><p>vite 默认静态资源存放于为位于项目根目录下的 public 文件夹，该目录中的资源在开发时能直接通过 &#x2F; 根路径访问到，并且打包时会被完整复制到目标目录的根目录下。</p>
-<h2 id="静态资源处理"><a href="#静态资源处理" class="headerlink" title="静态资源处理"></a>静态资源处理</h2><h3 id="vite-引入静态资源文件"><a href="#vite-引入静态资源文件" class="headerlink" title="vite 引入静态资源文件"></a>vite 引入静态资源文件</h3><p>vite 针对不同的静态资源，在导入 js 文件中时：</p>
 <ul>
-<li>css 文件：直接引入生效；</li>
-<li>js 文件：引入可输出为内部导出函数；</li>
-<li>图片、媒体和字体文件类型：引入可以默认输出其文件所在的 url 地址；</li>
-<li>json 文件：引入可以默认输出为对象；<blockquote>
-<p>vite 将其预处理为对象的键值对形式。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="将资源引入为-url"><a href="#将资源引入为-url" class="headerlink" title="将资源引入为 url"></a>将资源引入为 url</h3><p>一般来说图片、媒体和字体文件类型的文件会自动引入为 url，而 js 或其他文件则不会（引入为内部导出函数和对象），如果想让它们引入为 url 则可以使用 <code>assetsInclude</code> 选项，来添加内部静态资源路径问题。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  assetsInclude: [&quot;./src/plugin.ts&quot;, &quot;**/*.gltf&quot;],
-&#125;);
-</code></pre>
-<blockquote>
-<p>在 vite 的内建支持的资源类型列表中已经包括了很多引入 url 地址使用的资源文件，所以其目的（<code>assetsInclude</code> ）主要是针对于那些没在里面的文件但是又需要通过 url 引入。（只是在下的猜测）</p>
-</blockquote>
-<p><strong>内建支持的资源类型列：</strong></p>
+<li><p><strong>name</strong>：name 字段遵循以下规则：</p>
 <ul>
-<li>images：’apng’,’bmp’,’png’,’jpe?g’,’jfif’,’pjpeg’,’pjp’,’gif’,’svg’,’ico’,’webp’,’avif’</li>
-<li>media：’mp4’,’webm’,’ogg’,’mp3’,’wav’,’flac’,’aac’,’opus’,’mov’,’m4a’,’vtt’</li>
-<li>fonts：’woff2?’,’eot’,’ttf’,’otf’</li>
-<li>other：’webmanifest’,’pdf’,’txt’</li>
+<li>不多于 214 个字符；</li>
+<li>作用域包的名称可以以点或下划线开头。没有作用域是不允许这样做的；</li>
+<li>不可以使用大写字母，不要使用”js“或”node“来命名；</li>
+<li>不能包含任何非 url 安全的字符，因为该名称最终成为 URL、命令行参数和文件夹名称的一部分；</li>
 </ul>
-<h3 id="强制将资源引入为-url"><a href="#强制将资源引入为-url" class="headerlink" title="强制将资源引入为 url"></a>强制将资源引入为 url</h3><p>未被包含在内部列表或 assetsInclude 中的资源，可以使用 <code>?url</code> 后缀显式导入为一个 URL。</p>
-<pre><code class="js">import testCss from &quot;./assets/test.css?url &quot;;
-console.log(&quot;css-path&quot;, testCss);
+</li>
+<li><p><strong>version</strong>：当包发生变化时（再次发布包时），版本号也要随之发生变化；且它必须遵循<code>node-semver</code>的版本命名规范（<code>x.y.z</code>）。</p>
+<blockquote>
+<p>semver：Semantic Versioning，语义化版本号。</p>
+</blockquote>
+<ul>
+<li><code>X</code> 为主版本号（<code>major</code>）： 通常在涉及重大功能更新，产生了破坏性变更时会更新此版本号；</li>
+<li><code>Y</code> 为次版本号（<code>Minor</code>）：在引入了新功能，但并未产生破坏性变更，依然向下兼容时更新此版本号；</li>
+<li><code>Z</code> 为修订号（<code>Patch</code>）：在修复了一些问题，但未产生破坏性变更时会更新此版本号；</li>
+</ul>
+<blockquote>
+<p>name 和 version 是用于确定一个唯一包的标识。</p>
+</blockquote>
+</li>
+<li><p><strong>description</strong> ：字符串类型，在搜索的时候可以看到该包的描述，并且该描述也可以作为搜索的关键词。</p>
+</li>
+<li><p><strong>keywords</strong>：字符串数组类型，作为搜索该包的关键词。</p>
+</li>
+<li><p><strong>bugs</strong>：可以是一个字符串，也可以是一个对象类型。该地址一般是 github 上的 issues 地址或者邮箱地址。</p>
+<pre><code class="json">&#123;
+  &quot;url&quot;: &quot;https://github.com/owner/project/issues&quot;,
+  &quot;email&quot;: &quot;project@hostname.com&quot;
+&#125;
+</code></pre>
+</li>
+<li><p><strong>license</strong>：开源许可证，让其他开发者知道如何允许使用这个包，以及操纵这个包的具体限制。如果不想开源，可以配置：</p>
+<pre><code class="json">&#123;
+  &quot;license&quot;: &quot;UNLICENSED&quot;,
+  &quot;private&quot;: true
+&#125;
+</code></pre>
+</li>
+<li><p><strong>people fields：</strong>包的作者或贡献者（维护者）的信息，可以是一个字符串，也可以是一个由 people 组成的数组，该数组每项格式可以有以下两种：</p>
+<pre><code class="json">&#123;
+  &quot;name&quot;: &quot;Barney Rubble&quot;,
+  &quot;email&quot;: &quot;b@rubble.com&quot;,
+  &quot;url&quot;: &quot;http://barnyrubble.tumblr.com/&quot;
+&#125;
+</code></pre>
+<pre><code class="json">&#123;
+  &quot;author&quot;: &quot;Barney Rubble &lt;b@rubble.com&gt; (http://barnyrubble.tumblr.com/)&quot;
+&#125;
+</code></pre>
+</li>
+<li><p><strong>funding</strong>：可以是对象，字符串，数组（数组项为对象和字符串都可以）。</p>
+</li>
+<li><p><strong>files</strong>：匹配文件的字符串数组，可以用来指定哪些文件需要发布到 npm 上以此来控制 npm 包的大小，如果指定的是文件夹，则对应文件夹下的所有文件都会被发布。匹配文件的字符串规则和<code>.gitignore</code>是一样的，也可以在项目的根目录下创建一个<code>.npmignore</code>文件，<code>.npmignore</code>的优先级高于<code>.gitignore</code>。</p>
+<blockquote>
+<p>注意：如果不配置该选项，则默认值为<code>[*]</code>，也就是会包含所有的文件。</p>
+</blockquote>
+</li>
+<li><p><strong>main</strong>：其他开发者引用该包是最先进入的文件。它是一个相对于包文件夹根目录的模块，并且一般来说只会存在一个。</p>
+<blockquote>
+<p>注意：如果不配置该选项，则默认为<code>index.js</code>为包的入口根文件。</p>
+</blockquote>
+</li>
+<li><p><strong>bin</strong>：让包可以作为命令行工具使用。上述配置如下：</p>
+<pre><code class="json">&quot;bin&quot;: &#123;
+  &quot;element-plus&quot;: &quot;./path/to/program&quot;
+&#125;
+</code></pre>
+</li>
+<li><p><strong>scripts</strong>：在 package.json 中有很多内置的生命周期事件（key），或者我们自定义的命令，在这些事件下我们可以执行任意脚本。</p>
+<pre><code class="json">&quot;scripts&quot;: &#123;
+  &quot;prestart&quot;: &quot;npm install&quot;, // 在脚本启动前自动执行这个命令 @1
+  &quot;start&quot;: &quot;node app.js&quot;, // 启动脚本时执行
+  &quot;install&quot; : &quot;scripts/install.js&quot;, // 下载时执行
+  &quot;postinstall&quot;: &quot;npm run build&quot;, // 安装依赖项后自动执行
+  &quot;build&quot;: &quot;webpack&quot;,
+  &quot;uninstall&quot; : &quot;scripts/uninstall.js&quot;, // 卸载时执行
+  &quot;start-server&quot;: &quot;node app.js&quot;, // @2
+  &quot;dev&quot;: &quot;nodemon index.js&quot; // @2
+&#125;
+</code></pre>
+<p>@1：使用<code>start</code>脚本名称简化运行命令，让他人也能轻松运行入口代码文件：</p>
+<blockquote>
+<pre><code class="bash">npm start
+</code></pre>
+</blockquote>
+<p>@2：对于自定义的执行命令脚本名称，需要使用<code>run</code>来执行：</p>
+<blockquote>
+<pre><code class="bash">npm run start-server
+npm run dev
+</code></pre>
+</blockquote>
+<blockquote>
+<p>更多生命周期讲解请见官网。</p>
+</blockquote>
+</li>
+<li><p><strong>config</strong>：用于配置<code>scripts</code>字段里脚本运行的参数，例如配置端口号（port）：</p>
+<pre><code class="json">&quot;config&quot;: &#123;
+  &quot;port&quot;: &quot;8080&quot;
+&#125;
+</code></pre>
+<p>执行脚本时，这个参数会变成<code>npm_package_config_port</code>存储到我们的环境变量中，我们可以通过：</p>
+<pre><code class="js">console.log(process.env.npm_package_config_port); // 8080
+</code></pre>
+<p>访问到我们设置的端口号（port）。</p>
+</li>
+<li><p><strong>dependencies</strong>：运行所需要用的依赖，在该目录下的依赖会在生产环境中。一般是使用<code>npm install &lt;packagename&gt;</code>或<code>npm install &lt;packagename&gt; --save</code>下载以来后自动插入里面的依赖，但是也可以手动在其中添加依赖，然后再通过<code>npm install</code>下载这些依赖。其中依赖的版本范围可以是如下几种：</p>
+<ul>
+<li><p><strong>版本字符串</strong></p>
+<p>版本字符串必须遵守 semver。</p>
+<pre><code class="json">&quot;dependencies&quot;: &#123;
+  &quot;lodash&quot;: &quot;^4.17.21&quot;,
+  &quot;@types/lodash&quot;: &quot;^4.14.182&quot;, // @3
+  &quot;elf&quot;: &quot;~1.2.3&quot;,
+  &quot;foo&quot;: &quot;1.0.0 - 2.9999.9999&quot;,
+&#125;,
 </code></pre>
 <blockquote>
-<p>vite 版本 5.3.1：主要是针对 css，可恶 css 的油盐不进，直接引入和放在 assetsInclude 中都不行。</p>
+<p>@3：npm 包都有一个名字，如果该名字被占用了别人就不能使用了，但是如果后续需要提供与该包名有关的包则可以使用<code>@</code>。npm 官方提供了一个作用域的概念，使用<code>@</code>来表示一个作用域，该作用域遵循包名的通常规则（即 <code>url</code> 安全字符），这样就可以在我们自己的作用域中添加包名了。（一般是用来补 ts 声明哈哈）</p>
 </blockquote>
-<h3 id="将资源引入为源文件"><a href="#将资源引入为源文件" class="headerlink" title="将资源引入为源文件"></a>将资源引入为源文件</h3><p>资源可以使用 <code>?raw</code> 后缀声明作为字符串（源文件）引入。</p>
-<pre><code class="js">import testCss from &quot;./assets/test.css?raw &quot;;
-import testPng from &quot;./assets/box.png?raw&quot;;
-import testJson from &quot;./assets/test.json?raw&quot;;
-
-console.log(&quot;json-raw&quot;, testJson);
-console.log(&quot;png-raw&quot;, testPng);
-console.log(&quot;css-raw&quot;, testCss);
+</li>
+<li><p><strong>tarball URLs</strong></p>
+<p>使用 tarball URL 指向的一个压缩文件包地址，tarball URL 的格式通常是一个以<code>.tar.gz</code>或<code>.tar.bz2</code>结尾的链接，指向一个可访问的<code>.tar</code>文件。</p>
+<pre><code class="json">&quot;dependencies&quot;: &#123;
+  &quot;asd&quot;: &quot;http://asdf.com/asdf.tar.gz&quot;,
+&#125;,
 </code></pre>
-<p>css、js、json 都将其内容以文本形式输出。jpg、mp4 文件以流的形式输出。svg 以 html 文本（svg 标签）输出。</p>
+</li>
+<li><p><strong>Git URLs</strong></p>
+<p>使用 git urls 直接从 git 仓库上拉取包。格式如下：</p>
+<pre><code class="bash">&lt;protocol&gt;://[&lt;user&gt;[:&lt;password&gt;]@]&lt;hostname&gt;[:&lt;port&gt;][:][/]&lt;path&gt;[#&lt;commit-ish&gt; | #semver:&lt;semver&gt;]
+</code></pre>
+<p>例如：</p>
+<pre><code class="json">&quot;dependencies&quot;: &#123;
+  &quot;asd1&quot;: &quot;git+ssh://git@github.com:npm/cli.git#v1.0.27&quot;,
+  &quot;asd2&quot;: &quot;git+ssh://git@github.com:npm/cli#semver:^5.0&quot;,
+  &quot;asd3&quot;: &quot;git+https://isaacs@github.com/npm/cli.git&quot;,
+  &quot;asd4&quot;: &quot;git://github.com/npm/cli.git#v1.0.27&quot;,
+&#125;,
+</code></pre>
+</li>
+<li><p><strong>GitHub URLs</strong></p>
+<p>可以直接指向 github 项目目录地址。</p>
+<pre><code class="json">&quot;dependencies&quot;: &#123;
+  &quot;express&quot;: &quot;expressjs/express&quot;,
+&#125;,
+</code></pre>
+</li>
+<li><p><strong>Local Paths</strong></p>
+<p>支持本地依赖地址。（一般用于测试本地依赖，要发布到 npm 上的包不应该使用该方法）</p>
+<pre><code class="json">&quot;dependencies&quot;: &#123;
+  &quot;local-module&quot;: &quot;file:../local-module-plugin/local-module-0.0.0.tgz&quot;
+&#125;,
+</code></pre>
+<blockquote>
+<p>当前根目录的上级目录下的<code>local-module-plugin</code>文件夹下的<code>local-module-0.0.0.tgz</code>包，该包由依赖项目<code>npm pack</code>生成而来。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>devDependencies</strong>：开发阶段时需要的依赖包，例如一些打包工具，类型检查工具等（webpack、eslint），在生产环境不会出现这个依赖包。一般使用<code>npm install &lt;packagename&gt; --save-dev</code>或者<code>npm install &lt;packagename&gt; -D</code>安装。</p>
+</li>
+<li><p><strong>peerDependencies</strong>：确保包与特定版本的对等包兼容，并避免在运行时出现不兼容或错误的情况。</p>
+<p>当当前包依赖于其他包时，通常会在 dependencies 字段中声明这些依赖关系。但是，有时该包可能需要与特定版本的其他包进行交互，而不是简单地依赖于它们。这时，可以使用 peerDependencies 字段来指定这些对等依赖。</p>
+<pre><code class="json">&quot;peerDependencies&quot;: &#123;
+  &quot;package-name&quot;: &quot;version-range&quot;
+&#125;
+</code></pre>
+<blockquote>
+<p><code>package-name</code>是该包所依赖的对等包的名称，<code>version-range</code>是对等包的版本范围。</p>
+<p>包被安装时，npm 会检查对等依赖关系，并确保对等包的正确版本已经安装。如果对等包的版本不符合要求，npm 会发出警告提示。</p>
+<p><strong>注意</strong>：peerDependencies 字段只是声明对等依赖关系，并不会自动安装对等软件包。用户在使用这个包时，需要手动安装对等包。因此，在文档或说明中明确指出对等依赖关系，并提供安装指南是很重要的。</p>
+</blockquote>
+</li>
+<li><p><strong>bundleDependencies</strong>：发布一个软件包时，通常会将其上传到包管理器（npm）供其他人使用。默认情况下，npm 会自动下载和安装软件包的所有依赖项（package.json）。然而，有时我们项将某些依赖项捆绑到包中，以便用户在安装您的软件包时不需要下载这些依赖项。</p>
+<blockquote>
+<p><strong>注意</strong>：这会增加包的大小。</p>
+</blockquote>
+</li>
+<li><p><strong>optionalDependencies</strong>：提供更大的灵活性和兼容性，允许包在某些依赖项无法满足或无法安装的情况下仍然正常运行。这对于与其他包进行集成或依赖于特定平台功能的软件包特别有用。</p>
+<blockquote>
+<p><strong>注意</strong>：optionalDependencies 字段只是声明可选依赖关系，并不会自动安装对等软件包。用户在使用这个包时，需要手动安装对等包。因此，在文档或说明中明确指出可选依赖关系，并提供安装指南是很重要的。</p>
+</blockquote>
+</li>
+<li><p><strong>workspaces</strong>：允许我们在一个 package.json 中的工作区中管理多个相关的子包。它是一个文件匹配字符串的数组。例如：在<code>./packages</code>文件夹下的所有文件都将视作和当前 package.json 在一个工作空间下。</p>
+<pre><code class="json">&quot;workspaces&quot;: [
+    &quot;./packages/*&quot;
+]
+</code></pre>
+<blockquote>
+<p>工作区功能可以帮助简化多包项目的管理和开发过程，提高效率。它适用于需要同时管理多个相关包的项目，例如 monorepo 或微服务架构。</p>
+</blockquote>
+</li>
+</ul>
 
         
     </div>
@@ -776,11 +1836,11 @@ console.log(&quot;css-raw&quot;, testCss);
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.872Z" itemprop="datePublished">2025-03-01</time>
+  <time datetime="2025-03-03T14:19:31.978Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
         </div>
     
     
@@ -793,7 +1853,7 @@ console.log(&quot;css-raw&quot;, testCss);
   
     
       <article
-id="post-buildTools/Vite/index"
+id="post-Node/connect-flash"
 class="article article-type-post"
 >
 
@@ -804,137 +1864,51 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/index/">vite</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="vite-加载文件原理"><a href="#vite-加载文件原理" class="headerlink" title="vite 加载文件原理"></a>vite 加载文件原理</h2><ul>
-<li><p>vite 在启动时会以 ESModule 模块化规范来加载文件，所以会先<strong>将所有文件转换为 ES Module 的 js 文件</strong>，再执行。</p>
-<blockquote>
-<p>包括但不限于<code>.css</code>、<code>.vue</code>等。</p>
-</blockquote>
-</li>
-<li><p>对所有打包资源文件进行依赖预构建，将其统放在<code>node_modules/.vite</code>下，这样方便浏览器引用资源路径。</p>
-</li>
-<li><p>浏览器请求资源文件时，对返回的文件内容中的资源请求路径继续拦截预处理，将请求路径统一替换为<code>node_modules/.vite</code>下的路径。</p>
-</li>
-<li><p>资源能正确访问。</p>
-</li>
-</ul>
-<h2 id="vue-文件处理"><a href="#vue-文件处理" class="headerlink" title=".vue 文件处理"></a>.vue 文件处理</h2><p>对于<code>.vue</code>的文件会先用对应的编译工具将其转换为 esm 模块，，然后以 js（application&#x2F;javascript）的形式返回给浏览器，这样浏览器就能正确识别到了。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.870Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/env_config_integration"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/connect-flash/">connect-flash</a>
     </header>
     <div class="article-entry post-inner-html">
         
         <blockquote>
-<p>vite 是运行在 node 环境中的，但是 vite.config.js 却支持 esm 形式的代码，这是因为 vite 在读取 vite.config.js 时，会率先通过 node 解析文件语法， 在加载文件之前进行预处理（如果发现你是 esmodule 规范会直接将你的 esmodule 规范进行替换变成 commonjs 规范）。</p>
+<p>跨请求存储数据，需要一个 session。但如果不想将错误信息永久存储在 session 中，而是想在错误信息中添加一些别的信息，将其快速发送到 session 中。一旦我们使用了这个在 session 中的错误信息，这个错误信息将会从 session 中删除，这样对于后面的请求，session 中将不会存在这个错误信息。</p>
 </blockquote>
-<h2 id="指定配置文件"><a href="#指定配置文件" class="headerlink" title="指定配置文件"></a>指定配置文件</h2><p>可以通过<code>--config</code>在 vite 运行的时候指定配置文件入口：</p>
-<pre><code class="bash">vite --config vite.config.js
+<p>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空。我们将消息入到 flash 中，跳转目标页中显示该消息。它常和<code>redirect</code>一起使用，用于一次性消息提示。</p>
+<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><pre><code class="bash">npm install --save connect-flash
 </code></pre>
-<h2 id="配置文件语法提示"><a href="#配置文件语法提示" class="headerlink" title="配置文件语法提示"></a>配置文件语法提示</h2><ul>
-<li><p>defineConfig 工具函数<br>适用于 vscode。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;&#125;);
+<h2 id="引入注册"><a href="#引入注册" class="headerlink" title="引入注册"></a>引入注册</h2><p>app.js</p>
+<pre><code class="js">const flash = require(&#39;connect-flash&#39;);
+
+const app = express();
+app.use(flash());
+...
 </code></pre>
-</li>
-<li><p>jsdoc 注释</p>
-<blockquote>
-<p>Vite 本身附带 TypeScript 类型，所以你可以通过 IDE 和 jsdoc 的配合来实现智能提示</p>
-</blockquote>
-<pre><code class="js">/** @type &#123;import(&#39;vite&#39;).UserConfig&#125; */
-export default &#123;
-  // ...
+<h2 id="将信息存入-flash-中"><a href="#将信息存入-flash-中" class="headerlink" title="将信息存入 flash 中"></a>将信息存入 flash 中</h2><p>通过<code>req.flash(&#39;name&#39;, &#39;value&#39;)</code>来向 falsh 中存入一条信息：</p>
+<pre><code class="js">exports.postLogin = (req, res, next) =&gt; &#123;
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne(&#123; email: email &#125;)
+    .then((user) =&gt; &#123;
+      if (!user) &#123;
+        req.flash(&quot;error&quot;, &quot;Invalid email or password&quot;);
+        return res.redirect(&quot;/login&quot;);
+      &#125;
+    &#125;)
+    .catch((err) =&gt; console.log(err));
 &#125;;
 </code></pre>
-<blockquote>
-<p>好像不起作用？</p>
-</blockquote>
-</li>
-<li><p>TS 配置文件</p>
-<pre><code class="ts">import type &#123; UserConfig &#125; from &quot;vite&quot;;
-export default &#123;
-  // ...
-&#125; satisfies UserConfig;
-</code></pre>
-</li>
-</ul>
-<h2 id="多环境配置文件集成"><a href="#多环境配置文件集成" class="headerlink" title="多环境配置文件集成"></a>多环境配置文件集成</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-
-import viteBaseConfig from &quot;./vite.base.config&quot;;
-import viteDevConfig from &quot;./vite.dev.config&quot;;
-import viteProdConfig from &quot;./vite.prod.config&quot;;
-
-export default defineConfig((&#123; command, mode, isSsrBuild &#125;) =&gt; &#123;
-  if (command === &quot;serve&quot;) &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteDevConfig,
-    &#125;;
+<h2 id="获取-falsh-中的信息"><a href="#获取-falsh-中的信息" class="headerlink" title="获取 falsh 中的信息"></a>获取 falsh 中的信息</h2><p>通过<code>req.flash(&#39;name&#39;)</code>来获取设置的信息，并将它发送到页面：</p>
+<pre><code class="js">exports.getLogin = (req, res, next) =&gt; &#123;
+  let message = req.flash(&quot;error&quot;); // 获取flash中存入的信息
+  if (message.length &gt; 0) &#123;
+    message = message[0];
   &#125; else &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteProdConfig,
-    &#125;;
+    message = null;
   &#125;
-&#125;);
-</code></pre>
-<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><pre><code class="js">const envResolver = &#123;
-  serve: () =&gt; &#123;
-    console.log(&quot;开发环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteDevConfig);
-  &#125;,
-  build: () =&gt; &#123;
-    console.log(&quot;生产环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteProdConfig);
-  &#125;,
+  res.render(&quot;auth/login&quot;, &#123;
+    path: &quot;/login&quot;,
+    pageTitle: &quot;Login&quot;,
+    errorMessage: message, // 发送到页面中
+  &#125;);
 &#125;;
-export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
-  return envResolver[command]();
-&#125;);
 </code></pre>
 
         
@@ -951,401 +1925,11 @@ export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.869Z" itemprop="datePublished">2025-03-01</time>
+  <time datetime="2025-03-03T14:19:31.977Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/env_variables"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>根据当前的代码环境变化的变量就叫做环境变量。</strong>我们可以设置生产环境和开发环境的 base_url，来请求不同环境的接口。</p>
-<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h3 id="node-js-——-process-env"><a href="#node-js-——-process-env" class="headerlink" title="node.js —— process.env"></a>node.js —— process.env</h3><blockquote>
-<p><code>process.env</code>是 Nodejs 提供的 API，其返回一个对象，包含了当前 Shell 的所有环境变量。</p>
-</blockquote>
-<p>vite.config.js 运行在 node 环境中，所以可以识别<code>process.env</code>变量，而<code>process.env.NODE_ENV</code>就是当前 Node 运行环境变量。</p>
-<h3 id="浏览器环境-——-import-meta-env"><a href="#浏览器环境-——-import-meta-env" class="headerlink" title="浏览器环境 —— import.meta.env"></a>浏览器环境 —— import.meta.env</h3><p>在浏览器环境中，Vite 在一个特殊的<code>import.meta.env</code> 对象上暴露环境变量。</p>
-<blockquote>
-<p>这些变量在 vite.config.js 中无法访问到的。</p>
-</blockquote>
-<h2 id="自定义环境变量"><a href="#自定义环境变量" class="headerlink" title="自定义环境变量"></a>自定义环境变量</h2><h3 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h3><p>vite 中内置了 dotenv，dotenv 会从环境目录下自动读取.env 文件：</p>
-<blockquote>
-<p>.env：默认所有环境都会加载<br>.env.[mode]：只在指定模式下加载</p>
-</blockquote>
-<p>加载的环境变量也会通过 <code>import.meta.env</code> 以<strong>字符串形式</strong>暴露给客户端源码。为了防止意外地将一些环境变量泄漏到客户端，只有<strong>以 VITE_ 为前缀的变量</strong>才会暴露给经过 vite 处理的代码。</p>
-<blockquote>
-<p>注：所以在其中不用写<code>&quot;&quot;</code>也行。</p>
-</blockquote>
-<p>在指定模式下运行时，.env 在 .env.[mode] 中的同名变量会被 .env.[mode] 覆盖，而其他变量则会被进行合并。</p>
-<h3 id="指定运行模式（运行加载的自定义环境变量文件）"><a href="#指定运行模式（运行加载的自定义环境变量文件）" class="headerlink" title="指定运行模式（运行加载的自定义环境变量文件）"></a>指定运行模式（运行加载的自定义环境变量文件）</h3><p>运行命令时以 –mode 参数指定运行模式，如：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;dev&quot;: &quot;vite&quot;, // 默认开发模式 development
-  &quot;build&quot;: &quot;vite build&quot;, // build 默认为生产模式
-  &quot;test&quot;: &quot;vite --mode test&quot;
-&#125;,
-</code></pre>
-<p>指定的<code>--mode xxx</code>会去寻找对应的.env.xxx 文件，并在浏览器中将<code>import.meta.env</code>设置为 xxx 模式。如果没有找到这个文件，则只加载<code>.env</code>中的环境变量。</p>
-<blockquote>
-<p>注意：自定义模式（test）和设置的.env.xxx（.env.test）只在 vite 经过处理的浏览器端生效，Nodejs 是不会承认它的，也就是说只能在使用<code>import.meta.env</code>时才能读取到自定义环境变量，而 process.env.NODE_ENV 中没有，并且通过<code>loadEnv()</code>方法也只能获取到开发环境和生产环境。（测试了一下即使在浏览器中 MOED&#x3D;test，但是<code>process.env.NODE_ENV</code>还是 development）</p>
-</blockquote>
-<h3 id="更改-env-文件的默认入口地址"><a href="#更改-env-文件的默认入口地址" class="headerlink" title="更改.env 文件的默认入口地址"></a>更改.env 文件的默认入口地址</h3><p>一般来说 .env 文件都是建立在根目录下的，但如果环境文件太多，都散落在根目录下会让目录变得混乱。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envDir: &quot;env&quot;,
-&#125;);
-</code></pre>
-<blockquote>
-<p>这样所有的文件都可以放在根目录下的 env 文件夹下。</p>
-</blockquote>
-<h3 id="更改环境变量的-VITE-前缀"><a href="#更改环境变量的-VITE-前缀" class="headerlink" title="更改环境变量的 VITE_前缀"></a>更改环境变量的 VITE_前缀</h3><p>以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envPrefix: &quot;FER&quot;,
-&#125;);
-</code></pre>
-<h3 id="获取所有的环境变量"><a href="#获取所有的环境变量" class="headerlink" title="获取所有的环境变量"></a>获取所有的环境变量</h3><p>vite.config.js 中的环境变量获取默认以设置的 envPrefix 为开头，可以使用 Vite 内置的 API 方法<code>loadEnv()</code>获取所有的环境变量：</p>
-<pre><code class="js">const env1 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;&quot;); // 将所有的配置文件放在 env 文件夹下，这样能获取到 node 环境中(env)的所有变量
-const env2 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;); // 默认获取到以 VITE\_ 开头的环境变量
-const env3 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;FER_&quot;); // 获取到以 FER\_ 开头的环境变量
-</code></pre>
-<ul>
-<li><code>&quot;&quot;</code>：表示需要获取的环境变量的前缀，默认为 <code>VITE_</code>开头。</li>
-<li>对于不同的 NODE_ENV，只会获取对应模式（只有 production 和 development）的环境变量。</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.869Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/dependency_pre_bundling"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/dependency_pre_bundling/">Vite 的依赖预构建</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="快速识别引入第三方包"><a href="#快速识别引入第三方包" class="headerlink" title="快速识别引入第三方包"></a>快速识别引入第三方包</h2><p>浏览器原生识别相对路径或者绝对路径，类似<code>import _ from &quot;lodash&quot;</code>的方式浏览器是无法识别的。</p>
-<blockquote>
-<p>如果浏览器帮我们识别引入，会导致浏览器需要加载非常巨大的依赖文件，会让其速度非常慢！</p>
-</blockquote>
-<p>vite 的功能就是识别第三方包，只需要使用 vite 启动即可（默认去找根目录下的 index.html）。</p>
-<h2 id="依赖预加载"><a href="#依赖预加载" class="headerlink" title="依赖预加载"></a>依赖预加载</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>vite 能够识别非绝对路径或者相对路径的引用，是因为它进行了<strong>路径补全</strong>。</p>
-<p>vite 会对 lodash 进行预处理，并把它放在了 node_modules&#x2F;.vite&#x2F;deps 目录下。</p>
-<blockquote>
-<p>是 vite 在考虑另外一个问题（模块规范兼容性问题）的时候顺便把这个问题解决了！</p>
-</blockquote>
-<h3 id="依赖预构建"><a href="#依赖预构建" class="headerlink" title="依赖预构建"></a>依赖预构建</h3><p>浏览器只认识 esmodule 的包，但是在早期的很多包是以 commonjs 规范导出的，所以需要工具来处理这些包。</p>
-<p>vite 处理这些包步骤：</p>
-<ol>
-<li>找到项目中的依赖包，比如 lodash；</li>
-<li>利用 esbuild（对 js 语法进行处理的一个库）将其他规范的代码转换成 esmodule 规范的代码，将其放在 node_modules&#x2F;.vite&#x2F;deps 目录下；</li>
-<li>将将 esmodule 规范的各个模块进行统一集成导出。</li>
-</ol>
-<p><strong>解决问题</strong>：</p>
-<ul>
-<li>统一包为 esmodule 规范，浏览器可以识别。</li>
-<li>对路径的处理上可以直接使用 <strong>.vite&#x2F;deps</strong>，方便路径重写。</li>
-<li>优化了网络多包传输的性能问题。</li>
-</ul>
-<h4 id="关闭依赖预构建"><a href="#关闭依赖预构建" class="headerlink" title="关闭依赖预构建"></a>关闭依赖预构建</h4><p>在 vite.config.js 中添加如下配置：</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-
-export default defineConfig(&#123;
-  optimizeDeps: &#123;
-    exclude: [&quot;lodash-es&quot;],
-  &#125;,
-&#125;);
-</code></pre>
-<p>关闭依赖依赖预构建后，访问地址直接在 node_modules 中，浏览器会请求很多依赖文件，这也是原生 esmodule 规范不敢支持直接加载 node_modules 的原因之一。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.868Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/css_pre_processor"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css_pre_processor/">vite 的 css 预处理</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>css 的预处理器主要是用于配置 css 的预处理语言的语法，比如 less，sass，stylus 等。</p>
-<h2 id="preprocessorOptions"><a href="#preprocessorOptions" class="headerlink" title="preprocessorOptions"></a>preprocessorOptions</h2><p>通过该项来配置预处理器，该项其实会调用预处理语言（less，sass 等）的内置编译器（lessc、sassc 等）。</p>
-<p><strong>补充：</strong><br>当没有使用任何构建工具的时候如何将预处理语言文件转换为 css 文件？（以 less 为例子）</p>
-<ol>
-<li>安装 less</li>
-</ol>
-<pre><code class="bash">npm install less -g
-</code></pre>
-<blockquote>
-<p>注意：全局安装 less 就可以获得 lessc 编译工具，可直接通过 lessc 命令来编译 less 文件。如果本地安装则可以通过<code>npx lessc</code>来编译。</p>
-</blockquote>
-<ol start="2">
-<li>编译 less 文件</li>
-</ol>
-<pre><code class="bash">lessc src/index.less src/index.css
-</code></pre>
-<p>指定参数：</p>
-<pre><code class="bash">lessc src/index.less src/index.css -m=always
-</code></pre>
-<p>这样就会在指定位置生成一个编译后的 css 文件。</p>
-<h3 id="vite-中配置预处理器"><a href="#vite-中配置预处理器" class="headerlink" title="vite 中配置预处理器"></a>vite 中配置预处理器</h3><ul>
-<li><strong>安装好对应的预处理语言依赖后</strong>，在 vite 中配置：</li>
-</ul>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    preprocessorOptions: &#123;
-      less: &#123;
-        math: &quot;always&quot;,
-      &#125;,
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-<ul>
-<li>在<code>.vue</code>文件中直接使用 less：</li>
-</ul>
-<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
-.test &#123;
-  height: 10 * 2vh;
-  width: 1920 / 108vh;
-  border: 1px solid rgb(77, 73, 73);
-  color: yellowgreen;
-&#125;
-&lt;/style&gt;
-</code></pre>
-<h3 id="设置全局变量"><a href="#设置全局变量" class="headerlink" title="设置全局变量"></a>设置全局变量</h3><p>在 less 中定义了某个全局变量后，可以直接在想使用的地方引入这个文件然后使用：</p>
-<pre><code class="less">// global.less
-@textColor: rgb(43, 153, 226);
-</code></pre>
-<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
-@import &quot;./assets/global.less&quot;; // 注意要加上 ;
-
-.test &#123;
-  height: 10 * 2vh;
-  width: 1920 / 108vh;
-  border: 1px solid rgb(77, 73, 73);
-  color: @textColor;
-&#125;
-&lt;/style&gt;
-</code></pre>
-<p>如果不想直接引入这个文件，可以在 vite.config.js 的 preprocessOptions 定义全局变量：</p>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    preprocessorOptions: &#123;
-      less: &#123;
-        math: &quot;always&quot;,
-        globalVars: &#123;
-          textColor: &quot;rgb(43, 153, 226)&quot;,
-        &#125;,
-      &#125;,
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
-.test &#123;
-  height: 10 * 2vh;
-  width: 1920 / 108vh;
-  border: 1px solid rgb(77, 73, 73);
-  color: @textColor;
-&#125;
-&lt;/style&gt;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.861Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/css_postcss"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css_postcss/">css 浏览器兼容</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>css 在不同的浏览器兼容性是不同的，有些特殊的样式在不同的浏览器前需要加上特殊性的前缀，比如：</p>
-<pre><code class="css">// 只有chrome和safari支持，且需要添加webkit前缀
--webkit-margin-before
--webkit-margin-after
-</code></pre>
-<h1 id="postcss"><a href="#postcss" class="headerlink" title="postcss"></a>postcss</h1><p>postcss 是一个用 JavaScript 工具和插件转换 CSS 代码的工具，postcss 自身没有什么功能，只是一个平台，可以下载各种插件，从而实现一些功能！</p>
-<ul>
-<li>Autoprefixer：自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮你自动为 CSS 规则添加前缀。</li>
-<li>PostCSS Preset Env：将最新的 CSS 语法转换成大多数浏览器都能兼容的语法。</li>
-<li>CSS module：解决 css 命名冲突。</li>
-</ul>
-<h2 id="vite-中配置-postcss"><a href="#vite-中配置-postcss" class="headerlink" title="vite 中配置 postcss"></a>vite 中配置 postcss</h2><p>在 vite 中配置主要使用<code>postcss-preset-env</code>插件，它支持 css 变量和一些未来 css 语法以及自动补全(autoprefixer)。</p>
-<ul>
-<li><p>安装插件：</p>
-<pre><code class="bash">npm i postcss-preset-env -D
-</code></pre>
-</li>
-<li><p>在 vite.config.js 中配置：</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-const postcssPresetEnv = require(&quot;postcss-preset-env&quot;);
-export default defineConfig(&#123;
-  css: &#123;
-    // modules
-    // devSourcemap
-    // ...
-    postcss: &#123;
-      plugins: [postcssPresetEnv()],
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.860Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
         </div>
     
     
@@ -1359,7 +1943,7 @@ export default defineConfig(&#123;
 
   
     <nav class="pagination">
-        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/6/">6</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
+        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
     </nav>
   
 </div>
@@ -1380,7 +1964,7 @@ export default defineConfig(&#123;
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
     </div>
   </div>
 
@@ -1403,23 +1987,23 @@ export default defineConfig(&#123;
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/ts/">vite 中使用 ts</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/static_asset/">静态资源</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/index/">vite</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
       </ul>

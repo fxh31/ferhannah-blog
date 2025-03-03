@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content=""/>
+    <meta property="og:description" content=""/>
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/page/7/index.html" />
+    <meta property="og:site_name" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "",
+            "description": "",
+            "publisher": {
+                "@type": "Organization",
+                "name": "feng xiaohan"
+            },
+        }
+    </script>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = false
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="index">
+  
+    
+      <article
+id="post-Algorithm/math"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/math/">math</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p>用于求两个正整数的<strong>最大公约数</strong>（Greatest Common Divisor，GCD）。</p>
+<p>基本思想：<br>以<strong>除数</strong>和<strong>余数</strong>反复做除法运算，当余数为 0 时，取当前算式除数为最大公约数。</p>
+<p>$$<br>gcd(a, b) &#x3D; gcd(b, a mod b)<br>$$</p>
+<pre><code class="js">// 递归
+function gcd(a, b) &#123;
+  return a % b ? gcd(b, a % b) : b;
+&#125;
+
+// 迭代
+function gcd(a, b) &#123;
+  while (a % b) &#123;
+    [a, b] = [b, a % b];
+  &#125;
+  return b;
+&#125;
+</code></pre>
+<blockquote>
+<p>补充：扩展的欧几里得算法可用于 RSA 加密算法等领域。</p>
+</blockquote>
+<h3 id="最小公倍数（Leatest-Common-Multiple，LCM）"><a href="#最小公倍数（Leatest-Common-Multiple，LCM）" class="headerlink" title="最小公倍数（Leatest Common Multiple，LCM）"></a>最小公倍数（Leatest Common Multiple，LCM）</h3><p>可以用最大公约数求得。</p>
+<p>$$<br>lcm(a, b) &#x3D; \frac{ab}{gcd(a, b)}<br>$$</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.417Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/link"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/link/">链表</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于链表的结构特殊，没有像数组那样方便的库方法，因此其很多操作都需要用到底层算法解决。（不过也因此可以巩固一下）</p>
+<blockquote>
+<p>例如需要手写排序操作。</p>
+</blockquote>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>根据链表的类型可选择不同的排序算法。</p>
+<h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><p>如果要保持时间复杂度 O(nlogn)，则需要使用分治策略（归并排序），拆分链表。（详细算法实现参照排序一文）</p>
+<blockquote>
+<p>其中 n 是链表长度。</p>
+</blockquote>
+<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>双向链表既可以从前遍历，又可以从后遍历，所以不只可以使用归并排序，还可以使用快速排序。（我猜的，暂未进行实践）</p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p>寻找中间节点：<strong>快慢指针</strong>，找到 mid 后再根据需求是否断链（前指空）。<br>dummy 节点：快速返回新的链表。<br>寻找倒数第 n 个节点：<strong>前后指针</strong>，前指针走 n 步，然后两个指针再一起走。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.416Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/index/">tips</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><ul>
+<li>快速查找某个区间内相加（减）、相乘（除）、异或等运算结果，有结合律和交换律的一些运算。</li>
+<li>计算子数组的个数一般会用 map 来记录某个值出现的次数。</li>
+</ul>
+<h2 id="两数相加之后判断能否被一个数整除"><a href="#两数相加之后判断能否被一个数整除" class="headerlink" title="两数相加之后判断能否被一个数整除"></a>两数相加之后判断能否被一个数整除</h2><p>相加后判断能否被 24 整除。<br>原理：利用 hash 表记录之前遍历的数的模数，然后对比当前所需要的模数是否在 hash 表中出现过，如果出现过，则说明存在两个数相加后能被 24 整除。</p>
+<pre><code class="js">// 哈希表记录
+const hours = [12, 12, 30, 24, 24];
+const cnt = new Map();
+let ans = 0;
+for (const h of hours) &#123;
+  const cur = (24 - (h % 24)) % 24; // 寻找凑对后能被整除的凑对数的模数
+  if (cnt.has(cur)) &#123;
+    ans += cnt.get(cur);
+  &#125;
+  cnt.set(h % 24, (cnt.get(h % 24) || 0) + 1);
+&#125;
+return ans;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.416Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/binaryTree"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/binaryTree/">二叉树</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>根据不同的遍历顺序和对根节点的操作，可以分为<strong>前序遍历、中序遍历、后序遍历</strong>。其根本原理就是递归查询，直到找到叶子节点的子节点（null），然后返回 null。</p>
+<blockquote>
+<p>思考：树节点的遍历有点类似于 js 的捕获冒泡，捕获阶段对应从根节点遍历到叶子节点，冒泡阶段对应从叶子节点处理逻辑回到根节点，这也被称为<strong>递归</strong>。</p>
+</blockquote>
+<p>相关问题只要掌握好二叉树的遍历顺序，就能解决。</p>
+<h2 id="对二叉树进行操作"><a href="#对二叉树进行操作" class="headerlink" title="对二叉树进行操作"></a>对二叉树进行操作</h2><ol>
+<li>确定遍历方法；</li>
+<li>确定每一层节点的操作是什么；</li>
+</ol>
+<blockquote>
+<p>剩下的就交给递归。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.415Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/binarySearch"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/binarySearch/">二分搜索</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="二分间值"><a href="#二分间值" class="headerlink" title="二分间值"></a>二分间值</h2><h2 id="最小化最大值"><a href="#最小化最大值" class="headerlink" title="最小化最大值"></a>最小化最大值</h2><p>二分答案求最小。</p>
+<h2 id="最大化最小值"><a href="#最大化最小值" class="headerlink" title="最大化最小值"></a>最大化最小值</h2><p>二分答案求最大。</p>
+<h2 id="第-K-小-大"><a href="#第-K-小-大" class="headerlink" title="第 K 小&#x2F;大"></a>第 K 小&#x2F;大</h2><ul>
+<li>第 k 小等价于：求最小的 x，<strong>满足 &lt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
+<li>第 k 大等价于：求最大的 x，<strong>满足 &gt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
+</ul>
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>数组去重问题：一般不会去重；</li>
+<li>规定 k 从 1 开始，而不是数组下标 0；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.414Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/binary"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/Algorithm/binary/">二进制的一些小技巧</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
+<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
+<p>汉明距离是使用在数据传输差错控制编码里。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
+<li>用于清除 num 最右边的 1；</li>
+</ul>
+<blockquote>
+<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
+</blockquote>
+<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
+<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
+</ul>
+<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
+<li>用于将 num 的二进制表示向右移动一位；</li>
+</ul>
+<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
+<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
+<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
+<ul>
+<li>用于比较一个二进制数的高位是否为 1。</li>
+</ul>
+<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
+
+let x = num;
+const ans = [];
+while (x &gt; 0) &#123;
+  ans.push(lowbit(x));
+  x -= lowbit(x);
+&#125;
+
+function lowbit(x) &#123;
+  return x &amp; -x;
+&#125;
+</code></pre>
+<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
+<blockquote>
+<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T15:20:32.413Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/outline"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/network/outline/">计算机网络</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="OSI-七层模型"><a href="#OSI-七层模型" class="headerlink" title="OSI 七层模型"></a>OSI 七层模型</h2><p>该模型为参考模型</p>
+<h2 id="TCP-IP-五（四）层模型"><a href="#TCP-IP-五（四）层模型" class="headerlink" title="TCP&#x2F;IP 五（四）层模型"></a>TCP&#x2F;IP 五（四）层模型</h2><p>该模型为参考模型的实施。</p>
+<h2 id="物理层（比特流）"><a href="#物理层（比特流）" class="headerlink" title="物理层（比特流）"></a>物理层（比特流）</h2><p>直接和物理介质打交道的。物理层的设备有网卡，网线，集线器，中继器，调制解调器。</p>
+<h3 id="物理层的通信（信道）"><a href="#物理层的通信（信道）" class="headerlink" title="物理层的通信（信道）"></a>物理层的通信（信道）</h3><h4 id="有线信道"><a href="#有线信道" class="headerlink" title="有线信道"></a>有线信道</h4><ul>
+<li>明线：明线是指平行架设在电线杆上的架空线路。（已逐渐被电缆所替代）<ul>
+<li>优点：传输损耗低；</li>
+<li>缺点：易受天气和环境的影响，对外界噪声干扰比较敏感；</li>
+</ul>
+</li>
+<li>对称电缆：由多对双绞线组成的线缆。</li>
+<li>同轴电缆：一共有四层，从内到外分别是中心导体、绝缘体、外层导体（带屏蔽）和外皮。同轴电缆能以低损耗的方式传输模拟信号和数字信号，适用于各种应用（如电视广播系统、长途电话传输系统、计算机系统之间短距离跳线以及局域网互联）。</li>
+<li>光纤：光导纤维是由玻璃或塑料制成的纤维，利用光在这些纤维中以全反射原理传输的光传导工具。</li>
+</ul>
+<h4 id="无线信道"><a href="#无线信道" class="headerlink" title="无线信道"></a>无线信道</h4><ul>
+<li>无线电波：以辐射无线电波为传输方式无线信道主要有地波传输，天波传输和视距传输。例如:卫星通讯，电台广播。（常说的 wifi）</li>
+</ul>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p><strong>在物理层根据传输方式的不同（电、光、无线电波等方式），会获取他们对应的传输信号，再将其转化为 010101 的电信号，单位为比特（bit），所以物理层传输的是比特流</strong>。</p>
+<blockquote>
+<p>比如电压根据伏度不同转换 01 数字不同。</p>
+</blockquote>
+<h2 id="数据链路层（数据帧）"><a href="#数据链路层（数据帧）" class="headerlink" title="数据链路层（数据帧）"></a>数据链路层（数据帧）</h2><blockquote>
+<p>在物理层已经可以拿到 01010 的比特流了，但是不知道给谁发过去，谁来接收，接收后用来干什么，所以数据链路层需要将比特流组装成一个数据帧（主要是使用 MAC 地址来组帧）。</p>
+</blockquote>
+<p>建立逻辑连接、进行硬件地址寻址、差错校验等功能。将比特组合成字节进而组合成帧，用 MAC 地址访问介质。</p>
+<blockquote>
+<p>MAC 地址：每个网卡的唯一标识。windows 寻找物理地址（MAC 地址）：ipconfig&#x2F;all</p>
+</blockquote>
+<p><strong>有了 MAC 地址和数据帧，就可以进行传播。MAC 地址保证了消息的发送者和接收者，并且知道了数据的内容进行分组。数据链路层以广播的方式在局域网内传播，该局域网内所有的计算机都能接收到消息</strong>。</p>
+<blockquote>
+<p>交互方式可以使用交换机等。</p>
+</blockquote>
+<h2 id="网络层（数据包）"><a href="#网络层（数据包）" class="headerlink" title="网络层（数据包）"></a>网络层（数据包）</h2><p>网络层控制数据链路层与传输层之间的信息转发，建立、维持和终止网络的连接。数据链路层的数据在网络层被转换为数据包，然后通过路径选择、分段组合、顺序、进出路由等控制，将信息从一个网络设备传递到另一个网络设备中。<br>它主要做了两件事：</p>
+<ul>
+<li>寻址：对网络层而言使用 IP 地址来唯一标识互联网上的设备，网络层依靠 IP 地址进行相互通信。<blockquote>
+<p>在数据链路层中已经获得了 MAC 地址，但是 Mac 地址众多，查找起来很麻烦。所以会有一个网络地址——IP</p>
+</blockquote>
+</li>
+<li>路由：不同网路之间通信的需要借助的设备。<blockquote>
+<p>在同一个网络中的内部通信并不需要网络层设备，仅仅靠数据链路层就可以完成相互通信，对于不同的网络之间相互通信则必须借助路由器等三层设备。</p>
+</blockquote>
+</li>
+</ul>
+<p>使用互联网的用户在同一个网段中时会产生广播风暴，在该网段中的所有用户都会无差别的进行数据的传播或接收，所以要将用户划分，让他们在不同的网段中，在自己的小网段中进行广播。</p>
+<blockquote>
+<p>互联网就是将无数的子网络构成一个巨大的网络。<em>子网络是网络划分的概念，而子网段是指划分出的具体 IP 地址范围。子网络是在逻辑上划分网络，而子网段是在物理上划分网络。</em></p>
+</blockquote>
+<p>为了能区分不同的网段，在网络层引入了一个网络地址——IP，也称网址。网络地址帮助我们确定计算机所在的子网络，MAC 地址则将数据包送到该子网络中的目标网卡。<br>而这一层有一个规范网络地址的协议，就叫做 IP 协议，遵守这个协议的地址就被称为 IP 地址。</p>
+<blockquote>
+<p>有 IPV4 和 IPV6，IPv4 地址长度为 32 位，通常用点分十进制表示（例如，192.168.1.1）;IPv6 地址长度为 128 位，通常用冒号分隔的十六进制表示（例如，2001:0db8:85a3:0000:0000:8a2e:0370:7334）。</p>
+</blockquote>
+<h2 id="传输层（数据段）"><a href="#传输层（数据段）" class="headerlink" title="传输层（数据段）"></a>传输层（数据段）</h2><p>主要是定义端口号，控流和校验。</p>
+<h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>面向连接，三次握手四次挥手，是可靠的传输协议。但是速度会降低。</p>
+<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>具有较好的实时性，效率高于 TCP，但是是不可靠的。由于其速度快，常用于直播。</p>
+<h2 id="会话层（报文）"><a href="#会话层（报文）" class="headerlink" title="会话层（报文）"></a>会话层（报文）</h2><p>在发送方和接收方之间进行通信时创建、维持、之后终止或断开连接的地方。</p>
+<h2 id="表示层（报文）"><a href="#表示层（报文）" class="headerlink" title="表示层（报文）"></a>表示层（报文）</h2><p>表示层主要做了几件重要的事情：安全，压缩，也是程序在网络中的一个翻译官。</p>
+<ul>
+<li>安全：发送方数据发送之前进行加密，在接受者的表示层进行解密。</li>
+<li>翻译：图片。音频等文件格式进行解码和编码。<blockquote>
+<p>ASCII 图片是人类能读懂的计算机需要转换成计算机能读懂的编码。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="应用层（报文）"><a href="#应用层（报文）" class="headerlink" title="应用层（报文）"></a>应用层（报文）</h2><p>使用最多的一层。例如 ajax 调用接口发送 http 请求，域名系统 DNS，邮件协议 SMTP，webSocket 长连接，SSH 协议等。</p>
+<blockquote>
+<p>报文，比如 f12 的 network 里的数据就叫报文，包括请求头、响应体之内的。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:20:05.907Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/networkState"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/network/networkState/">前端网络状态</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="前端网络状态"><a href="#前端网络状态" class="headerlink" title="前端网络状态"></a>前端网络状态</h1><h2 id="前端判断网络是否离线"><a href="#前端判断网络是否离线" class="headerlink" title="前端判断网络是否离线"></a>前端判断网络是否离线</h2><ul>
+<li>navigator.onLine</li>
+</ul>
+<p>true：在线；false：离线</p>
+<ul>
+<li>在 window 监听 online&#x2F;offine 事件：</li>
+</ul>
+<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+window.addEventListener(&quot;offline&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+</code></pre>
+<h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
+<ul>
+<li>downlink：当前网络连接的估计下行速度</li>
+<li>downlinkMax：设备网络连接的最大下行速度</li>
+<li>effectiveType：当前网络连接的估计速度，类型(如 slow-2g、2g、39、4g 等)</li>
+<li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
+<li>saveData：是否处于数据节省模式</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:20:05.906Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/navigator(sendBeacon)"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <blockquote>
+<p>前端发送请求的方法有哪些：</p>
+<ul>
+<li>AJAX 的 XMLHttpRequest（axios）</li>
+<li>fetch</li>
+<li>SSE</li>
+<li>Websocket</li>
+<li>jsonp</li>
+<li>image 的 src</li>
+</ul>
+</blockquote>
+<h1 id="navigator-sendBeacon"><a href="#navigator-sendBeacon" class="headerlink" title="navigator.sendBeacon"></a>navigator.sendBeacon</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>发送心跳检测包。</li>
+<li>做埋点。可以使用 navigator.sendBeacon 在页面关闭或卸载时记录用户的在线时间，pv（page view：页面的浏览量或点击量），uv（unique visitor：独立访客，即访客量），错误日志上报，按钮点击数等。</li>
+<li>发送用户反馈。如用户意见、bug 报告等，以便进行产品的优化和改进，</li>
+</ul>
+<h2 id="对比-AJAX-和-fetch-的优势"><a href="#对比-AJAX-和-fetch-的优势" class="headerlink" title="对比 AJAX 和 fetch 的优势"></a>对比 AJAX 和 fetch 的优势</h2><ul>
+<li>不受页面卸载过程的影响，确保数据可靠发送。</li>
+<li>异步执行，不阻塞页面关闭或跳转。</li>
+<li>能发送跨域请求。<blockquote>
+<p>使用 HTML5 新增的 ping 类型，ping 类型的请求不需要等待服务端的返回，能支持发送跨域请求。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="ping-类型请求"><a href="#ping-类型请求" class="headerlink" title="ping 类型请求"></a>ping 类型请求</h3><p>请求类型 ping 是 HTML5 新增的，并且是 sendBeacon 特有的请求类型，该请求只能携带少量数据，但是他不需要等待服务端响应（因此非常适合做埋点）。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>只能发送 post 请求。</li>
+<li>只能传输少量数据（64kb 以内），并且只能传输 ArrayBuffer、ArrayBufferView、Blob、DOMString、FormData 或 URLSerchParams 类型的数据，不能传送 json。</li>
+<li>没有办法去定义请求头（比如携带 token 之类的）。</li>
+<li>如果处理危险的网络环境（比如公共网络），或者开启了广告屏蔽的插件，该请求将失效。</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
+<li>在某个监听函数中，使用 navigator.sendBeacon()来发起请求，第一个参数为 url，第二个参数为要传送的数据。</li>
+</ul>
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>设置 post 请求（由于 sendBeacon 只能发送 post 请求），并返回简单数据。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:20:05.905Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/XSS"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/network/XSS/">XSS</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Cross-site scripting。跨站脚本攻击，利于 Web 网络安全的漏洞，注入恶意的 js 脚本进行攻击。一般分为三种：</p>
+<h1 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h1><h2 id="反射型-XSS"><a href="#反射型-XSS" class="headerlink" title="反射型 XSS"></a>反射型 XSS</h2><p>攻击者必须以某种方式诱导用户访问一个精心设计的 URL(恶意链接)，该连接中可能包含一个 script 标签，攻击者通过注入 js 来实施攻击，获取用户数据等。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>即时性。不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据；</li>
+</ul>
+<h2 id="存储型-XSS"><a href="#存储型-XSS" class="headerlink" title="存储型 XSS"></a>存储型 XSS</h2><p>存储型（HTML 注入型&#x2F;持久型）<strong>最严重的 XSS 攻击</strong>。将 js 脚本直接注入到数据库中，使得需要查看数据的用户都会被遭受攻击。主要发生在社区的评论区，留言板，HTML 电子邮件等，通过写入 script 标签，注入 js 脚本来实施攻击，如果前端和后端都没有进行 js 的过滤，该代码就会被注入进数据库中。</p>
+<h2 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h2><p>主要是利用 JS 和 HTML 的交互性质以及 DOM 对象实现的。客户端的脚本程序可以动态地检查和修改页面内容，而不依赖于服务器端的数据。<br>如果用户在客户端输入的数据包含了恶意的 JavaScript 脚本，而这些脚本没有经过适当的过滤和消毒，就会遭到攻击，如：</p>
+<ul>
+<li>loaction</li>
+<li>innerHTML（可以使用 textContent）</li>
+<li>document.write</li>
+<li>v-html</li>
+<li>eval</li>
+</ul>
+<h1 id="预防-XSS"><a href="#预防-XSS" class="headerlink" title="预防 XSS"></a>预防 XSS</h1><ul>
+<li>输入过滤：在 Web 应用程序中对用户输入的数据进行过滤和校验，确保只接收合法的数据；<blockquote>
+<p>使用 xss 的 npm 包，利用第三方工具来防止 xss 注入。</p>
+</blockquote>
+</li>
+<li>输出转译：在向 Web 页面中输出用户数据时，对其内容进行适当的编码和转义处理；</li>
+<li>设置 CSP（Content Security Policy）：通过设置响应报文头中的 CSP 策略，限制页面中可执行的脚本来源、样式表、图像、字体等，以此减少恶意代码执行的可能性。（前后端都可以设置）<ul>
+<li>前端：meta 标签里设置 http-equiv&#x3D;”Content-Security-Policy”</li>
+<li>后端：设置请求头<blockquote>
+<p>例如机制外部脚本执行，外部资源加载，禁止页面嵌入式 iframe。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="XSS-靶场"><a href="#XSS-靶场" class="headerlink" title="XSS 靶场"></a>XSS 靶场</h1><p>小练习。<a target="_blank" rel="noopener" href="https://xssaq.com/yx/level1.php">https://xssaq.com/yx/level1.php</a></p>
+<h1 id="XSS-漏洞扫描工具"><a href="#XSS-漏洞扫描工具" class="headerlink" title="XSS 漏洞扫描工具"></a>XSS 漏洞扫描工具</h1><ul>
+<li>wvs</li>
+<li>椰树</li>
+<li>safe3</li>
+<li>Xelenium</li>
+<li>w3af – Kali</li>
+<li>vega – Kali</li>
+<li>burp</li>
+<li>Kail 操作系统</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:20:05.902Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+
+  
+    <nav class="pagination">
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/6/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/5/">5</a><a class="page-number" href="/ferhannah-blog/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/ferhannah-blog/page/8/">8</a><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/8/">Next</a>
+    </nav>
+  
+</div>
+
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -154,7 +154,7 @@
   
     
       <article
-id="post-buildTools/Vite/css"
+id="post-Node/Streams&amp;Buffers"
 class="article article-type-post"
 >
 
@@ -165,810 +165,367 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css/">vite 中使用 css</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/Streams&Buffers/">treams&amp;BuffersS</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>vite 直接就支持 css 文件，不需要别的操作。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当 vite 在读取到 main.js 中引用的 index.css 时：</p>
-<ol>
-<li><p>首先使用 node 的 fs 模块获取 css 文件的内容。<br><strong>浏览器行为：</strong><br>在浏览器获取 css 文件时，vite 会将其原本的 css 内容替换为 js 脚本，并让浏览器以执行 js 文件的形式来执行 css 后缀的文件。该脚本的内容执行内容如下：</p>
+        <h2 id="Streams（数据流）"><a href="#Streams（数据流）" class="headerlink" title="Streams（数据流）"></a>Streams（数据流）</h2><p>从浏览器发送的数据是作为数据流（stream）传递的。</p>
 <blockquote>
-<p>细节：获取到内容后，会见文件在本地的绝对路径作为 id 和内容一起传给 vite 处理 css 的函数 ——— updateStyle(id, content)，该函数会创建一个 <code>style</code> 标签，并将 type 设置为 ‘text&#x2F;css’，将其插入到 <code>head</code> 中（后面的内容）。</p>
+<p>数据流是 JS 中一种特殊的概念，JavaScript 自身不具备直接操作二进制文件的能力，所以实质上 Buffer 在 nodejs 底层上还有一个 C++模块。这是因为 IO 操作是非常消耗性能的，所以 nodejs 在 Buffer 模块构建设计上，将性能部分用 C++实现，将非性能部分用 JavaScript 实现。</p>
 </blockquote>
-</li>
-<li><p>创建一个 <code>style</code> 标签，将 css 文件中的内容直接复制到里面。</p>
-</li>
-<li><p>将 <code>style</code> 标签插入到 <code>head</code> 中。</p>
-</li>
-</ol>
-<h2 id="CSS-Module"><a href="#CSS-Module" class="headerlink" title="CSS Module"></a>CSS Module</h2><p>问题：如果两个 css 文件定义了同一个类名，样式会被覆盖。<br>解决：使用 CSS Module（postcss），将每一个 class 名变为独一无二的，不会与其他选择器重名。</p>
-<p>将 css 文件的后缀改为 <code>.module.css</code> 即可。vite 会利用 postcss 自动将后缀名为 <code>.module.css</code> 的文件转换为 CSS Module，在类名前添加上独一无二的 hash 值。</p>
-<p>使用：</p>
-<pre><code class="js">import index from &#39;./css/test2.module.css&#39;
-...
-div.className = index.test
-</code></pre>
+<p>例如：接收浏览器请求</p>
+<p><strong>数据流（stream）是一个持续的过程。</strong>浏览器请求被 Node.js 分为多个块（chunks）的形式读取，最后在某个事件完成整个请求的读取；而单个块并不需要等到完整请求被读取后执行，这就需要缓冲区（buffers）来实现：</p>
+<h2 id="Buffers（缓冲区）"><a href="#Buffers（缓冲区）" class="headerlink" title="Buffers（缓冲区）"></a>Buffers（缓冲区）</h2><p>通常，数据的移动是为了处理或者读取它，并根据它进行决策。伴随着时间的推移，每一个过程都会有一个最小或最大数据量。如果数据到达的速度比进程消耗的速度快，那么少数早到达的数据会处于等待区（缓冲区）等候被处理。</p>
 <blockquote>
-<p>引入的值可以是认为原始 css 类名 和修改后独一无二的 css 类名 的映射表。</p>
+<p>缓冲区就像一个公共汽车站，公共汽车（数据流）总是在行驶，需要乘坐或离开这个汽车的人（请求块）需要在公共汽车站（缓冲区）等待公共汽车。</p>
 </blockquote>
-<h2 id="配置-CSS-Module"><a href="#配置-CSS-Module" class="headerlink" title="配置 CSS Module"></a>配置 CSS Module</h2><p>可以通过 vite.config.js 配置 CSS Module，其实也是将参数传递给 postcss。</p>
-<pre><code class="ts">export default defineConfig(&#123;
-  // css module
-  css: &#123;
-    // （postcss）
-    modules: &#123;
-      scopeBehaviour: &quot;local&quot;, // 是否开启模块化 local(*) | global
-      localsConvention: &quot;camelCaseOnly&quot;, // 返回键值对格式 camelCaseOnly(*) | camelCase | dashes | dashesOnly | null
-      // 修改生成的 hash 名称
-      // generateScopedName: &#39;[name]-[local]-[hash:base64:5]&#39;, // string
 
-      // hashPrefix: &#39;prefix-&#39;, // 生成的 hash 名前缀 ？
-      globalModulePaths: [&quot;src/module/cssNoUseModule/*.*.css&quot;], // 不想使用css module的路径 RegExp[]
-    &#125;,
-  &#125;,
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.976Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Sequelize"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Sequelize/">Sequelize</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Sequelize 是一个<strong>基于promise</strong>的 <em>Node.js</em> <strong>ORM（对象关系映射库—Object-Relational Mapping Library）</strong>。它具有强大的事务支持，关联关系，预读和延迟加载，读取复制等功能。</p>
+<blockquote>
+<p>它将所有的SQL语句代码映射到Javascript对象中（封装），然后导出变成我们可调用的方法，这样我们就<strong>不用自己编写SQL语句代码</strong>。</p>
+<p>例如：</p>
+<pre><code class="sql">INSERT INTO users VALUE (&#39;Jon&#39;, 28, &#39;HJDFKLS&#39;)
+</code></pre>
+<p>——&gt;</p>
+<pre><code class="js">const user = User.create(&#123; name: &#39;Jon&#39;, age: 28, password: &#39;HJDFKLS&#39;&#125;)
+</code></pre>
+</blockquote>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
+<p>注意：sequelize需要安装数据库的驱动程序，我使用的数据库是MySQL，所以需要安装<strong>mysql2</strong>包！</p>
+</blockquote>
+<pre><code class="bash">npm install --save sequelize
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>database.js</p>
+<pre><code class="js">const Sequelize = require(&#39;sequelize&#39;); // 引入sequelize
+
+const sequelize = new Sequelize(&#39;node-complete&#39;, &#39;root&#39;, &#39;rootpassword&#39;, &#123; // 数据库的库名，用户名，密码以及其他配置
+  dialect: &#39;mysql&#39;, // 数据库语言
+  host: &#39;localhost&#39;, // 连接服务器
 &#125;);
+
+module.exports = sequelize; // @1
 </code></pre>
-<h2 id="CSS-sourcemap"><a href="#CSS-sourcemap" class="headerlink" title="CSS sourcemap"></a>CSS sourcemap</h2><p>默认情况下，我们在开发环境调试定位元素时，指向的是 <code>head</code> 里的 <code>style</code> 标签。在<strong>开发环境下</strong>，vite 可以配置 css 的 sourcemap 属性<code>devSourcemap</code>，可以让我们找到处理后 css 类所对应的源文件。</p>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    // modules: &#123;
-    //   // ...
-    // &#125;,
-    // preprocessorOptions: &#123;
-    //   // ...
-    // &#125;
-    devSourcemap: true,
+<blockquote>
+<p>@1：导出的sequelize对象<strong>本质上也是数据库连接池</strong>（同mysql2连接），只不过通过sequelize管理后我们能使用其他的一些功能。</p>
+</blockquote>
+<h3 id="定义新模型"><a href="#定义新模型" class="headerlink" title="定义新模型"></a>定义新模型</h3><p>使用<code>define()</code>来定义一个新的模型（数据表），它的第一个参数为模型名称（表名），第二个参数为模型的各个参数（表中字段）：</p>
+<p>models&#x2F;product.js</p>
+<pre><code class="js">const Sequelize = require(&#39;sequelize&#39;);
+
+const sequelize = require(&#39;../util/database&#39;);
+
+const Product = sequelize.define(&#39;product&#39;, &#123;
+  id: &#123;
+    type: Sequelize.INTEGER, // 类型
+    autoIncrement: true, // 是否自增
+    allowNull: false, // 是否为Null
+    primaryKey: true // 主键
   &#125;,
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.859Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/chunk_strategy"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/chunk_strategy/">分包策略-性能优化</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>由于浏览器的缓存策略，在请求静态资源时只要静态资源的名称不变就不会重新请求。所以使用 vite 打包后的文件带有哈希值，只要有一点代码的变动文件的哈希值就会变换，以此来保证每次请求获取的都是最新代码。</p>
-<p>但是有很多包是不需要经常更新的（第三方资源包，例如 lodash 等），每次重新请求对浏览器来说就是浪费资源，我们可以将这部分的包单独进行打包处理。</p>
-<h2 id="output-manualChunks"><a href="#output-manualChunks" class="headerlink" title="output.manualChunks"></a>output.manualChunks</h2><p>利用 rollup 本身的配置来实现。当该选项值为函数形式时，每个被解析的模块都会经过该函数处理。如果函数返回字符串，那么该模块及其所有依赖将被添加到以返回字符串命名的自定义 chunk 中。</p>
-<pre><code class="js">export default defineConfig(&#123;
-  // ...
-  build: &#123;
-    rollupOptions: &#123;
-      output: &#123;
-        manualChunks: (id) =&gt; &#123;
-          console.log(&quot;id----&quot;, id); // id 对象所有需要打包的文件路径
-          // 路径包含 node_modules 的包，一般为第三方包，不会变动的
-          if (id.includes(&quot;node_modules&quot;)) &#123;
-            return &quot;vendor&quot;; // 会分出一个前缀为 vender的包
-          &#125;
-        &#125;,
-      &#125;,
-    &#125;,
+  title: Sequelize.STRING,
+  price: &#123;
+    type: Sequelize.DOUBLE,
+    allowNull: false
   &#125;,
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.858Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-CSS/useful"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/CSS/useful/">一些有用的 css 属性</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="columns"><a href="#columns" class="headerlink" title="columns"></a>columns</h2><p>将一个元素拆分成多列，并设置每列的宽度。</p>
-<pre><code class="css">.content &#123;
-  columns: 200px 3; /* 每列的宽度为 200px，共 3 列 */
-  column-gap: 12px;
-&#125;
-</code></pre>
-<h2 id="break-inside"><a href="#break-inside" class="headerlink" title="break-inside"></a>break-inside</h2><p>在浏览器中，列表项将不会被拆分到不同的列中。每个列表项将作为一个整体出现在同一列中。</p>
-<pre><code class="css">.menu-list &#123;
-  break-inside: avoid;
-&#125;
-</code></pre>
-<h2 id="使用伪元素通过-border-绘制一条直线"><a href="#使用伪元素通过-border-绘制一条直线" class="headerlink" title="使用伪元素通过 border 绘制一条直线"></a>使用伪元素通过 border 绘制一条直线</h2><p>使用伪元素中的 <code>content</code> 在元素前&#x2F;后添加直线时如果手动添加并不能使其自动填满父元素的剩余空间。<br>所以可以使用 border 配合 flex 来实现更好的效果：</p>
-<pre><code class="html">&lt;div class=&quot;title&quot;&gt;首页&lt;/div&gt;
-</code></pre>
-<pre><code class="css">.title &#123;
-  width: 100%;
-  display: inline-flex; /* 设置该元素为行内flex元素 */
-  padding-left: 4px;
-&#125;
-.title::after &#123;
-  content: &quot;&quot;;
-  flex: 1 1 0%; /* 使用flex填满剩余空间 */
-  border-top: 1px solid #ebebeb; /* 设置border作为分割线 */
-  margin: 16px;
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:31:25.119Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-CSS/cssModule"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/CSS/cssModule/">CSS Modules</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
-<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
-<blockquote>
-<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
-</blockquote>
-<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
-<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
-<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
-<li>显示局部作用域：<code>:local(.className)</code></li>
-<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
-</ul>
-<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
-<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-
-.title &#123;
-  composes: className;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-</code></pre>
-<pre><code class="css">.title &#123;
-  composes: className from &quot;./another.css&quot;;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
-<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
-</code></pre>
-<ul>
-<li>例如在 webpack 中引入 postcss-loader</li>
-</ul>
-<pre><code class="js">var path = require(&quot;path&quot;);
-var webpack = require(&quot;webpack&quot;);
-var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
-var values = require(&quot;postcss-modules-values&quot;);
-
-module.exports = &#123;
-  entry: [&quot;./src/index&quot;],
-  output: &#123;
-    filename: &quot;bundle.js&quot;,
-    path: path.join(__dirname, &quot;public&quot;),
-    publicPath: &quot;/public/&quot;,
+  imageUrl: &#123;
+    type: Sequelize.STRING,
+    allowNull: false
   &#125;,
-  module: &#123;
-    loaders: [
-      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
-      &#123;
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          &quot;style-loader&quot;,
-          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
-        ),
-      &#125;,
-    ],
-  &#125;,
-  postcss: [values],
-  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
-&#125;;
-</code></pre>
-<ul>
-<li>设置变量</li>
-</ul>
-<p>colors.css</p>
-<pre><code class="css">@value blue: #0c77f8;
-@value red: #ff0000;
-@value green: #aaf200;
-</code></pre>
-<ul>
-<li>引入 css 文件中</li>
-</ul>
-<pre><code class="css">/* import your colors... */
-@value colors: &quot;./colors.css&quot;;
-@value blue, red, green from colors;
-
-.button &#123;
-  color: blue;
-  display: inline-block;
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:31:25.117Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-HTML/innerText和textContent"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
-<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
-<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
-<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
-<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
-</blockquote>
-</li>
-<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
-</ul>
-<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
-<li>innerHTML 是 Element 对象的属性；</li>
-<li>innerHTML 返回完整的 DOM 元素；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:31:03.814Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-HTML/dataset"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/HTML/dataset/">dataset</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>html 中使用<code>data-</code>来定义自定义属性，这是因为：</p>
-<ul>
-<li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
-<li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
-<li>可以使用 dataset 将所有的自定义属性获取到；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:31:03.813Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-HTML/Node和Element"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
-<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:31:03.812Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/this"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/this/">js 中 this 指向（绑定）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
-<blockquote>
-<p>this 指向（绑定）与函数调用的位置有关。</p>
-</blockquote>
-<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
-<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
-<ul>
-<li>直接在全局调用 this；</li>
-<li>在全局直接执行函数，函数中直接调用 this；</li>
-</ul>
-<blockquote>
-<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
-</blockquote>
-<blockquote>
-<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
-</blockquote>
-<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
-<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
-<li>直接使用<code>window.x</code>；</li>
-<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
-</ul>
-<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
-<p>匿名函数和具名函数则不受其影响。</p>
-</blockquote>
-</li>
-<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
-</ul>
-<pre><code class="js">const obj = &#123;
-  a: 10,
-  b: function () &#123;
-    console.log(this);
-  &#125;,
-&#125;;
-const copy_obj = obj.b;
-copy_obj(); // undefined / window
-
-obj.b(); // &#123;a: 10, b: ƒ&#125;
-</code></pre>
-<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
-<blockquote>
-<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
-</blockquote>
-<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
-<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
-<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
-<blockquote>
-<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
-</blockquote>
-<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
-<blockquote>
-<p>todo… which parttern</p>
-</blockquote>
-<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
-<ul>
-<li>call()：一个一个传参；</li>
-<li>apply()：传递一个数组；</li>
-<li>bind()：直接返回一个新函数；</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
-<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
-<li>es6 之前的 self 同 this 机制；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.019Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/setTimout"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/setTimout/">setTimeout</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
-<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
-<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
-<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
-</code></pre>
-</blockquote>
-</li>
-</ul>
-<p>要解决这个问题可以使用：</p>
-<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
-<pre><code class="js">setTimeout(function () &#123;
-  console.log(this);
-  myArray.myMethod();
-&#125;, 1.0 * 1000);
-</code></pre>
-<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
-</code></pre>
-<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
-<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
-<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
-<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
-<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
-</blockquote>
-</li>
-<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
-<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
-<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
-</ul>
-<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.018Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/requestAnimationFrame"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/requestAnimationFrame/">requestAnimationFrame</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
-<ul>
-<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
-<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
-</blockquote>
-</li>
-<li>隐藏的元素不会触发回调。<blockquote>
-<p>保证更少的 CPU、GPU 消耗。</p>
-</blockquote>
-</li>
-<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
-</ul>
-<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
-<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
-<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
-<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
-</ul>
-<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
-<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
-<pre><code class="js">const scrollToTop = () =&gt; &#123;
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-  console.log(c);
-  if (c &gt; 0) &#123;
-    window.requestAnimationFrame(scrollToTop); // 平滑回滚
-    window.scrollTo(0, c - c / 8);
-    // window.scrollTo(0, c - c);
+  description: &#123;
+    type: Sequelize.STRING,
+    allowNull: false
   &#125;
-&#125;;
+&#125;);
+
+module.exports = Product;
 </code></pre>
-<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
-  window.requestAnimationFrame(() =&gt; &#123;
-    console.log(&quot;scroll&quot;);
+<h3 id="创建新的表"><a href="#创建新的表" class="headerlink" title="创建新的表"></a>创建新的表</h3><p><strong>将创建的模型转为数据库中的表</strong>：</p>
+<p>app.js</p>
+<pre><code class="js">...
+const sequelize = require(&#39;./util/database&#39;);
+
+sequelize
+  .sync() // @2
+  .then(result =&gt; &#123;
+    app.listen(3000);
+  &#125;)
+  .catch(err =&gt; &#123;
+    console.log(err);
   &#125;);
+...
+</code></pre>
+<blockquote>
+<p>注：如果数据库中没有这个表，则创建；如果已经存在这个表<strong>则不会覆盖原先的表</strong>。</p>
+<p>@2：如果已经创建了表，想要新建一个覆盖原来的表，可以设置<code>force</code>：</p>
+<pre><code class="js">.sync( &#123; force: true &#125;)
+</code></pre>
+<p>表创建完需删除<code>force</code>，避免每次更新项目都重新创建新表。</p>
+</blockquote>
+<p>之后数据库会自动创建一个与模型字段及信息对应的表。</p>
+<h3 id="向表中新增一条数据"><a href="#向表中新增一条数据" class="headerlink" title="向表中新增一条数据"></a>向表中新增一条数据</h3><p>通过<code>create()</code>向表中新增一条数据：</p>
+<pre><code class="js">...
+const Product = require(&#39;../models/product&#39;);
+
+router.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
+    const title = req.body.title;
+    const imageUrl = req.body.imageUrl;
+    const price = req.body.price;
+    const description = req.body.description;
+
+    Product.create(&#123;
+      title: title,
+      price: price,
+      imageUrl: imageUrl,
+      description: description
+    &#125;)
+    .then(result =&gt; &#123;
+      console.log(&#39;Created Product&#39;);
+      res.redirect(&#39;/admin/products&#39;);
+    &#125;)
+    .catch(err =&gt; &#123;
+      console.log(err);
+    &#125;)
 &#125;);
 </code></pre>
-<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
-<blockquote>
-<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
-</blockquote>
-<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
-<pre><code class="js">//需要插入的容器
-const ul = document.getElementById(&quot;container&quot;);
-// 插入十万条数据
-const total = 100000;
-// 一次插入 20 条
-const once = 20;
-//总页数
-const page = total / once;
-//每条记录的索引
-const index = 0;
-//循环加载数据
-function loop(curTotal, curIndex) &#123;
-  if (curTotal &lt;= 0) &#123;
-    return false;
-  &#125;
-  //每页多少条
-  const pageCount = Math.min(curTotal, once);
-  function addData() &#123;
-    for (let i = 0; i &lt; pageCount; i++) &#123;
-      let li = document.createElement(&quot;li&quot;);
-      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
-      ul.appendChild(li);
-    &#125;
-    loop(curTotal - pageCount, curIndex + pageCount);
-  &#125;
-  window.requestAnimationFrame(addData);
-  // setTimeout(addData, 0);
-&#125;
-loop(total, index);
+<h3 id="查询表中数据"><a href="#查询表中数据" class="headerlink" title="查询表中数据"></a>查询表中数据</h3><h4 id="findAll"><a href="#findAll" class="headerlink" title="findAll()"></a><strong>findAll()</strong></h4><p>通过<code>findAll()</code>来查询表中所有数据：</p>
+<ul>
+<li><p>查询表中所有数据：</p>
+<pre><code class="js">router.get(&#39;/products&#39;, (req, res, next) =&gt; &#123;
+  Product.findAll()
+    .then(products =&gt; &#123;
+      res.render(&#39;shop/index&#39;, &#123;
+        prods: products, 
+        pageTitle: &#39;Shop&#39;,
+        path : &quot;/&quot;,
+      &#125;);
+    &#125;)
+    .catch(err =&gt; console.log(err));
+&#125;);
 </code></pre>
-<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
+</li>
+<li><p>查询id为prodId的数据：</p>
+<pre><code class="js">router.get(&#39;/products/:productId&#39;, (req, res, next) =&gt; &#123;
+  const prodId = req.params.productId;
+  Product.findAll(&#123; where: &#123; id: prodId&#125; &#125;)
+    .then(products =&gt; &#123;
+      res.render(&#39;shop/index&#39;, &#123;
+        prods: products[0], 
+        pageTitle: products[0].title,
+        path : &quot;/products&quot;,
+      &#125;);
+    &#125;)
+    .catch(err =&gt; console.log(err));
+&#125;);
+</code></pre>
 <blockquote>
-<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
+<p>注意：通过<code>where</code>子句返回的then的参数是一个<strong>数组</strong>。</p>
 </blockquote>
-<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
+</li>
+</ul>
+<h4 id="findByPk"><a href="#findByPk" class="headerlink" title="findByPk()"></a><strong>findByPk()</strong></h4><p>使用提供的<strong>主键</strong>从表中仅获得一条数据：</p>
+<pre><code class="js">const Product = require(&#39;../models/product&#39;);
+// 此处主键在数据库中为id
+router.get(&#39;/products/:productId&#39;, (req, res, next) =&gt; &#123;
+  const prodId = req.params.productId;
+  Product.findByPk(prodId)
+    .then((product) =&gt; &#123;
+      res.render(&#39;shop/product-detail&#39;, &#123; 
+        product: product,
+        pageTitle: product.title,
+        path: &#39;/products&#39;
+      &#125;)
+    &#125;)
+    .catch(err =&gt; console.log(err));
+&#125;);
+</code></pre>
+<h3 id="修改表中数据"><a href="#修改表中数据" class="headerlink" title="修改表中数据"></a>修改表中数据</h3><p>通过主键（id）找到对应数据后，在本地修改数据，修改完后通过<code>save()</code>方法将修改完的数据发送给数据库，如果数据库中存在修改的数据就覆盖它，如果不存在就新建它：</p>
+<pre><code class="js">...
+router.post(&#39;/edit-product&#39;, (req, res, next) =&gt; &#123;
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDesc = req.body.description;
+  Product.findByPk(prodId)
+    .then(product =&gt; &#123;
+      product.title = updatedTitle; // 在本地修改数据
+      product.price = updatedPrice; // 在本地修改数据
+      product.description = updatedDesc; // 在本地修改数据
+      product.imageUrl = updatedImageUrl; // 在本地修改数据
+      return product.save(); // 将修改好的数据发给数据库，返回一个Promise
+    &#125;)
+    .then(result =&gt; &#123;
+      console.log(&#39;UPDATED PRODUCT!&#39;);
+      res.redirect(&#39;/admin/products&#39;);
+    &#125;)
+    .catch(err =&gt; console.log(err));
+&#125;);
+...
+</code></pre>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><p>通过<code>destroy()</code>来删除数据：</p>
+<ul>
+<li><p>删除指定ID数据：</p>
+<pre><code class="js">...
+router.post(&#39;/delete-product&#39;, (req, res, next) =&gt; &#123;
+  const prodId = req.body.productId;
+  Product.findByPk(prodId)
+    .then(product =&gt; &#123;
+      return product.destroy();
+    &#125;)
+    .then(result =&gt; &#123;
+      console.log(&#39;DESTROYED PRODUCT&#39;);
+      res.redirect(&#39;/admin/products&#39;);
+    &#125;)
+    .catch(err =&gt; console.log(err));
+&#125;);
+</code></pre>
+<blockquote>
+<p>也可以通过<code>destroy()</code>的where语句来进行指定删除。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h3><p>Sequelize 支持标准关联关系：一对一、一对多和多对多。</p>
+<p>为此,Sequelize 提供了<strong>四种</strong>关联类型,并将它们组合起来以创建关联：</p>
+<ul>
+<li><code>HasOne</code> 关联类型</li>
+<li><code>BelongsTo</code> 关联类型</li>
+<li><code>HasMany</code> 关联类型</li>
+<li><code>BelongsToMany</code> 关联类型</li>
+</ul>
+<h4 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a><strong>一对一</strong></h4><p>每个User只有一个Cart，Cart属于User：</p>
+<pre><code class="js">...
+User.hasOne(Cart);
+Cart.belongsTo(User);
+...
+</code></pre>
+<h4 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a><strong>一对多</strong></h4><p>Product属于User，每个User可以有多个Product：</p>
+<pre><code class="js">...
+Product.belongsTo(User, &#123;
+  constraints: true, // 开启定义关系约束
+  onDelete: &#39;CASCADE&#39; // 级联删除
+&#125;);
+User.hasMany(Product);
+...
+</code></pre>
+<h4 id="多对多"><a href="#多对多" class="headerlink" title="多对多"></a><strong>多对多</strong></h4><p>一个Cart里可以有多个Product，每个Product可以在不同的Cart中：</p>
+<pre><code class="js">...
+Cart.belongsToMany(Product, &#123;
+  through: CartItem // 这些连接存储的位置
+&#125;);
+Product.belongsToMany(Cart, &#123; through: CartItem &#125;);
+...
+</code></pre>
+<h4 id="添加到实例的特殊方法"><a href="#添加到实例的特殊方法" class="headerlink" title="添加到实例的特殊方法"></a><strong>添加到实例的特殊方法</strong></h4><p>当两个模型之间定义了关联时，这些模型的实例将获得特殊的方法来与其关联的另一方进行交互。</p>
+<pre><code class="js">// 定义Product和User的关系
+Product.belongsTo(User, &#123;
+  constraints: true, // 开启定义关系约束
+  onDelete: &#39;CASCADE&#39; // 级联删除
+&#125;);
+User.hasMany(Product);
+</code></pre>
+<h5 id="createXXX"><a href="#createXXX" class="headerlink" title="createXXX()"></a><strong>createXXX()</strong></h5><p>使用<code>instance.createProduct()</code>来创建Product将会自动生成关联User的id：</p>
+<pre><code class="js">const Product = require(&#39;../models/product&#39;);
+
+router.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
+    const title = req.body.title;
+    const imageUrl = req.body.imageUrl;
+    const price = req.body.price;
+    const description = req.body.description;
+
+    // 创建Product模型，并自动添加userId（关联主键）
+    req.user.createProduct(&#123; // req.user是sequelize保存在数据库中的数据（一个辅助方法）
+      title: title,
+      price: price,
+      imageUrl: imageUrl,
+      description: description,
+    &#125;)
+    .then(result =&gt; &#123;
+      console.log(&#39;Created Product&#39;);
+      res.redirect(&#39;/admin/products&#39;);
+    &#125;)
+    .catch(err =&gt; &#123;
+      console.log(err);
+    &#125;)
+&#125;);
+</code></pre>
+<h5 id="getXXX"><a href="#getXXX" class="headerlink" title="getXXX()"></a><strong>getXXX()</strong></h5><p>使用<code>instance.getProducts()</code>来获取Product：</p>
+<pre><code class="js">router.get(&#39;/edit-product/:productId&#39;,(req, res, next) =&gt; &#123;
+  const editMode = req.query.edit;
+  if (!editMode) &#123;
+    return res.redirect(&#39;/&#39;)
+  &#125;
+  const prodId = req.params.productId;
+  req.user
+    .getProducts(&#123; where: &#123; id: prodId &#125; &#125;) // 获取对应id的Product
+  // Product.findByPk(prodId) // 也可以使用findByPk()来寻找
+    .then(products =&gt; &#123;
+      const product = products[0];
+      if (!product) &#123;
+        return res.redirect(&#39;/&#39;);
+      &#125;
+      res.render(&#39;admin/edit-product&#39;,&#123;
+        pageTitle: &#39;Edit Product&#39;,
+        path: &#39;/admin/edit-product&#39;,
+        editing: editMode,
+        product: product
+      &#125;);
+    &#125;)
+    .catch(err =&gt; console.log(err));
+&#125;);
+</code></pre>
+<h5 id="addXXX"><a href="#addXXX" class="headerlink" title="addXXX()"></a><strong>addXXX()</strong></h5><p>使用<code>instance.addProducts()</code>来添加Product：</p>
+<pre><code class="js">...
+addProduct(product, &#123;
+    through: &#123; quantity: newQuantity &#125;
+  &#125;);
+&#125;)
+...
+</code></pre>
 
         
     </div>
@@ -984,11 +541,976 @@ loop(total, index);
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.016Z" itemprop="datePublished">2025-02-28</time>
+  <time datetime="2025-03-03T14:19:31.974Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Node模块（module）的导出导入"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Node%E6%A8%A1%E5%9D%97%EF%BC%88module%EF%BC%89%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5/">Node模块（module）的导出导入</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <pre><code class="js">const requestHandler = () =&gt; &#123;&#125;;
+</code></pre>
+<h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><ul>
+<li><p>整体模块导出</p>
+<pre><code class="js">module.exports = requestHandler;
+</code></pre>
+<blockquote>
+<p>该导出方式的导出函数会作为整个文件的导出结果，不支持重命名。</p>
+</blockquote>
+</li>
+<li><p>对象表示导出</p>
+<pre><code class="js">module.exports = &#123;
+  handler: requestHandler,
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一次性导出多个变量，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>简写默认导出</p>
+<pre><code class="js">exports = &#123;
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：<strong>默认导出的内容不会出现在全局对象<code>exports</code>上</strong>，只有命名导出的内容才会出现。</p>
+</blockquote>
+<h3 id="命名导出"><a href="#命名导出" class="headerlink" title="命名导出"></a>命名导出</h3><ul>
+<li><p>属性表示导出</p>
+<pre><code class="js">module.exports.handler = requestHandler;
+module.exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一条一条导出，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>属性表示导出（快捷方式）</p>
+<pre><code class="js">exports.handler = requestHandler;
+exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：命名导出（<code>exports.xxx</code>）和默认导出（<code>exports</code>）不可以同时使用。<strong>如果一个模块中同时使用了命名导出和默认导出，则命名导出将被忽略，只有默认导出的内容会被导出。</strong></p>
+</blockquote>
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>使用<code>require</code>导入我们导出函数或属性的文件：</p>
+<pre><code class="js">const routes = require(&quot;./routes&quot;);
+</code></pre>
+<ul>
+<li><p>对于整体模块导出的导入</p>
+<pre><code class="js">// routes就是requestHandler
+console.log(routes);
+</code></pre>
+</li>
+<li><p>对于其他导出的导入</p>
+<pre><code class="js">// 需要用.来对应
+console.log(routes.handler);
+console.log(routes.someText);
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.973Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Node中使用ES Modules规范"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Node%E4%B8%AD%E4%BD%BF%E7%94%A8ES%20Modules%E8%A7%84%E8%8C%83/">Node中使用ES Modules规范</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>在 Node.js 中一般是使用的 Common.js 规范，但是从<code>Node.js 8.5</code>版本之后，Node.js 就已经开始去支持 ES Modules 了（实验性），从<code>Node.js 13.2.0</code>版本开始，<strong>Node.js 完全支持 ES Modules（ESM）</strong>，所以我们可以直接在 Node.js 中使用 ES Modules。</p>
+<h2 id="开启使用"><a href="#开启使用" class="headerlink" title="开启使用"></a>开启使用</h2><h3 id="更改文件后缀名使用"><a href="#更改文件后缀名使用" class="headerlink" title="更改文件后缀名使用"></a>更改文件后缀名使用</h3><p>将<code>js</code>文件的后缀改为<code>.mjs</code>即可在里面使用 ES Modules 规范。</p>
+<blockquote>
+<p>注：如果是实验特性，在执行 node 文件时则需要添加<code>--experimental-modules</code>。</p>
+</blockquote>
+<h3 id="开启-type-’module’使用"><a href="#开启-type-’module’使用" class="headerlink" title="开启 type&#x3D;’module’使用"></a>开启 type&#x3D;’module’使用</h3><blockquote>
+<p>该方法需要的版本为 Node 12+。</p>
+</blockquote>
+<p>在<code>package.json</code>里添加<code>&quot;type&quot;: &quot;module&quot;</code>来表明该项目使用的是 ES Modules 的语法，这时就不需要将扩展名改为<code>.mjs</code>了。</p>
+<pre><code class="json">&#123;
+  &quot;type&quot;: &quot;module&quot;
+&#125;
+</code></pre>
+<blockquote>
+<p>注意：如果在开启之后还想使用 CommonJS 模块的规范，需要<strong>将文件的后缀名改为<code>.cjs</code>。</strong></p>
+</blockquote>
+<h3 id="使用-Babel-兼容早期的-Node"><a href="#使用-Babel-兼容早期的-Node" class="headerlink" title="使用 Babel 兼容早期的 Node"></a>使用 Babel 兼容早期的 Node</h3><p>对于早期的 Node.js 版本，可以使用 Babel 来实现对 ES Modules 的兼容。</p>
+<blockquote>
+<p><strong>Babel</strong>：目前最主流的一款 JS 的编译器，它可以将当前一些使用了<strong>新特性的代码编译成当前环境支持的代码。</strong></p>
+</blockquote>
+<ul>
+<li><p><strong>添加 babel 所依赖的一些包：</strong></p>
+<pre><code class="bash">yarn add @babel/node @babel/core @babel/preset-env --dev
+</code></pre>
+</li>
+<li><p><strong>启动模块：</strong></p>
+<pre><code class="bash">yarn babel-node index.js --presets=@babel/preset-env
+</code></pre>
+<blockquote>
+<p>preset-env：其实就<strong>是插件的集合</strong>，在这个集合里包含了最新的 JS 标准中所有的新特性。</p>
+</blockquote>
+<p>如果觉得每次手动配置这个参数很麻烦，可以在配置文件<code>.babelrc</code>（JSON 格式文件）添加<code>presets</code>配置：</p>
+<pre><code class="json">&#123;
+  &quot;presets&quot;: [&quot;@babel/preset-env&quot;]
+&#125;
+</code></pre>
+<p>启动：</p>
+<pre><code class="bash">yarn babel-node index.js
+</code></pre>
+<p>由于 <strong>babel 是基于插件机制去实现的</strong>，核心模块并不会去转换我们的代码，<strong>具体转换每个代码的新特新是通过插件来实现的，一个插件来转换一个代码的特性。</strong></p>
+<p>但是，如果项目中只使用了某些特性，而其他不支持的特性没有使用，也可也<strong>单独下载转换特性的插件来提高</strong>效率：</p>
+<p>移除插件集合：</p>
+<pre><code class="bash">yarn remove @babel/preset-env
+</code></pre>
+<p>添加转换的插件：</p>
+<pre><code class="bash">yarn add @babel/plugin-transform-modules-commonjs --dev
+</code></pre>
+<blockquote>
+<p>还有别的一些转换特性的插件，例如：</p>
+<ul>
+<li>arrow-functions：用于转换 JS 的箭头函数；</li>
+<li>classes：用于转换 JS 的类；</li>
+<li>destructuring：用于转换解构；</li>
+<li>module-commonjs：用于转换 ES Module；</li>
+<li>…</li>
+</ul>
+</blockquote>
+<p>然后配置<code>.babelrc</code>里的 plugins：</p>
+<pre><code class="json">&#123;
+  &quot;plugins&quot;: [&quot;@babel/plugin-transform-modules-commonjs&quot;]
+&#125;
+</code></pre>
+<p>启动：</p>
+<pre><code class="bash">yarn babel-node index.js
+</code></pre>
+</li>
+</ul>
+<h2 id="载入模块"><a href="#载入模块" class="headerlink" title="载入模块"></a>载入模块</h2><p>可以通过 ES Modules 的方式载入模块。</p>
+<ul>
+<li><p><strong>载入原生模块</strong></p>
+<pre><code class="js">import fs from &quot;fs&quot;;
+fs.writeFileSync(&quot;./foo.txt&quot;, &quot;es module working&quot;);
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：系统内置模块的成员可以被<code>&#123;&#125;</code>提取出来，因为系统内置的模块官方都做了兼容，它会对系统内置的每一个模块的成员单独导出一次，然后再把他们作为一个对象整体做一个模块导出。</p>
+<pre><code class="js">import &#123; writeFileSync &#125; from &quot;fs&quot;;
+writeFileSync(&quot;./bar.txt&quot;, &quot;es module working&quot;);
+</code></pre>
+</blockquote>
+</li>
+<li><p><strong>载入第三方模块</strong></p>
+<blockquote>
+<p>前提是已经安装。</p>
+</blockquote>
+<pre><code class="js">import _ from &quot;lodash&quot;;
+console.log(_.camelCase(&quot;ES Module&quot;));
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：对于第三方模块，它们导出的是一个作为默认成员的对象，所以必须使用默认导入的方式去导入成员，不能使用单个命名导入。</p>
+<pre><code class="js">// import &#123; camelCase &#125; from &#39;lodash&#39; // 不可以使用，其本身语法也和对象解构无关
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<h2 id="与使用-CommonJS-规范的对比"><a href="#与使用-CommonJS-规范的对比" class="headerlink" title="与使用 CommonJS 规范的对比"></a>与使用 CommonJS 规范的对比</h2><p>ES Modules 里不再提供以下全局成员变量（CommonJS 里会提供）。</p>
+<pre><code class="js">// commonjs.js
+// CommonJS 模块内的全局成员（Node环境下）
+
+console.log(require); // 加载模块函数
+console.log(module); // 模块对象
+console.log(exports); // 导出对象别名
+console.log(__filename); // 当前文件的绝对路径
+console.log(__dirname); // 当前文件所在目录
+</code></pre>
+<p>对于<code>require</code>、<code>module</code>和<code>exports</code>可以通过 ES Modules 中的<code>import</code>（<code>import()</code>）和<code>export</code>来代替它们导入模块，而对于<code>__filename</code>和<code>__dirname</code>可以通过<code>import.meta.url</code>和<code>dirname</code>方法代替：</p>
+<pre><code class="js">import &#123; fileURLToPath &#125; from &quot;url&quot;;
+import &#123; dirname &#125; from &quot;path&quot;;
+
+const __filename = fileURLToPath(import.meta.url); // 将拿到的文件url转换成路径
+console.log(__filename);
+const __dirname = dirname(__filename); // 完整的文件路径提取出来
+console.log(__dirname);
+</code></pre>
+<blockquote>
+<ul>
+<li><code>__filename</code>：表示当前模块文件的绝对路径，包括文件名。</li>
+<li><code>__dirname</code>：表示当前模块文件所在的目录的绝对路径，不包括文件名。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>注：在 Node.js 中加载 CommonJS 模块里的原代码，这几个成员其实也是把当前这几个的模块包装成函数或者是形参，它实际上也是伪全局对象。（在外侧包裹一个函数，从而实现私有模块作用域）</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.972Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Node.js常用包"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/">Node.js常用包</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="开发环境包"><a href="#开发环境包" class="headerlink" title="开发环境包"></a>开发环境包</h2><ul>
+<li><p><strong>nodemon</strong>：当我们修改项目文件时，自动重启 node 执行该文件；</p>
+<blockquote>
+<p>没有它我们每次修改文件之后都要重新执行<code>node app.js</code>。</p>
+</blockquote>
+<p>使用：在 package.json 中的运行项目命令中添加<code>nodemon app.js</code>，然后执行<code>npm start</code>（或其他启动运行项目的命令）。</p>
+<pre><code class="json">&#123;
+    ...
+    &quot;scripts&quot;: &#123;
+        &quot;start&quot;: &quot;nodemon app.js&quot;
+    &#125;
+    ...
+&#125;
+</code></pre>
+<blockquote>
+<p>注意：nodemon 如果不是在全局安装的就不能直接在命令行输入<code>nodemon app.js</code>，而是写入 start 中，用 npm（已全局安装）来启动。</p>
+</blockquote>
+</li>
+<li><p><strong>serve</strong> ：在本地启动 serve 运行文件；（一般针对 HTML）</p>
+<pre><code class="bash">npm i -g serve
+</code></pre>
+<ul>
+<li><p>启动当前文件：</p>
+<pre><code class="bash">server .
+</code></pre>
+</li>
+<li><p>配置 package.json 后启动打包后的文件（dist）：</p>
+<pre><code class="json">&quot;serve&quot;: &quot;serve ./dist&quot;
+</code></pre>
+<pre><code class="bash">npm run serve
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><strong>browser-sync</strong>：浏览器自动同步文件工具；</p>
+<pre><code class="bash">npm install -g browser-sync
+</code></pre>
+<blockquote>
+<p>完全可以使用插件 Live server 达到相同的效果。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="生产环境包"><a href="#生产环境包" class="headerlink" title="生产环境包"></a>生产环境包</h2><ul>
+<li><p><strong>express</strong>：Node.js 框架；</p>
+</li>
+<li><p><strong>mysql2</strong>：连接数据库的工具包；</p>
+</li>
+<li><p><strong>ejs</strong>：EJS 模板引擎；</p>
+</li>
+<li><p><strong>pug</strong>：Pug 模板引擎；</p>
+</li>
+<li><p><strong>express-handlebars</strong>：Handlebars 模板引擎；</p>
+</li>
+<li><p><strong>sequelize</strong>：对象关系映射库，简化操作 SQL 数据库；</p>
+</li>
+<li><p><strong>mongoose</strong>：对象文档映射库，简化操作 MongoDB 数据库；</p>
+</li>
+<li><p><strong>express-session</strong>：Express 使用 session 的包；</p>
+</li>
+<li><p><strong>bcryptjs</strong>：加密数据的包（加密密码，不能直接从数据库中查看到密码）；</p>
+</li>
+<li><p><strong>connect-flash：</strong>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空（联合 redirect 一起使用，确保消息只在目标页面可用）；</p>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.971Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Node-process"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Node-process/">Node-process</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="env"><a href="#env" class="headerlink" title="env"></a>env</h2><p>获取当前代码所有的环境变量。</p>
+<h2 id="cwd"><a href="#cwd" class="headerlink" title="cwd()"></a>cwd()</h2><p>返回当前 node 进程的工作目录。也就是运行项目时敲命令的那个目录。</p>
+<blockquote>
+<p>npm run dev 命令在那个目录下执行的。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.969Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Mongoose"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Mongoose/">Mongoose</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Mongoose 是一个<strong>ODM（对象文档映射库—Object-Document Mapping Library）</strong>。</p>
+<blockquote>
+<p>Mongoose 为模型提供了一种直接的，基于 scheme 结构去定义你的数据模型，然后通过实例化模型来生成一条数据文档；而在数据模型上可以使用各种内置的方法。</p>
+<p>例如：</p>
+<pre><code class="js">db.collection(&quot;users&quot;).insertOne(&#123;
+  name: &quot;Jon&quot;,
+  age: 28,
+  password: &quot;hsdjkffds&quot;,
+&#125;);
+</code></pre>
+<p>——&gt;</p>
+<pre><code class="js">const user = User.create(&#123; name: &quot;Jon&quot;, age: 28, password: &quot;hsdjkffds&quot; &#125;);
+</code></pre>
+</blockquote>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">npm install --save mongoose
+</code></pre>
+<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>app.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
+...
+mongoose
+  .connect(
+    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
+  ) // 连接MongoDB数据库
+  .then(result =&gt; &#123;
+    app.listen(3000);
+  &#125;)
+  .catch(err =&gt; &#123;
+    console.log(err);
+  &#125;);
+</code></pre>
+<h3 id="创建和定义模型的-Schema"><a href="#创建和定义模型的-Schema" class="headerlink" title="创建和定义模型的 Schema"></a>创建和定义模型的 Schema</h3><p>以键值对的方式来定义模型：</p>
+<p>models&#x2F;product.js</p>
+<pre><code class="js">const mongoose = require(&quot;mongoose&quot;);
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema(&#123;
+  // @1
+  title: &#123;
+    type: String, // 类型
+    required: true, // 是否必须
+  &#125;,
+  price: &#123;
+    type: Number,
+    required: true,
+  &#125;,
+  description: &#123;
+    type: String,
+    required: true,
+  &#125;,
+  imageUrl: &#123;
+    type: String,
+    required: true,
+  &#125;,
+&#125;);
+
+module.exports = mongoose.model(&quot;Product&quot;, productSchema); // 将导出的模块作为mongoose的model，方便日后连接 @2
+</code></pre>
+<blockquote>
+<p>@1：虽然 MongoDB 是没有特定的 schema 限制的，但通常我们在使用时知道某种数据存在某种结构（比如知道 name 数据用 String 类型）；因此 mongoose 需要我们提供这样的结构，让我们只关注于数据本身，即使这样做会放弃一些数据的灵活性。</p>
+<p>@2：第一个参数为自定义的集合名字（<strong>Mongoose 会将这个名字的开头转为小写，并在后面加上 s 作为集合的名字</strong>），第二个参数为需要导出的模块。</p>
+</blockquote>
+<h3 id="自定义-Schema-的方法"><a href="#自定义-Schema-的方法" class="headerlink" title="自定义 Schema 的方法"></a>自定义 Schema 的方法</h3><p>我们可以向定义的 Schema 中添加方法，让每个通过这个 Schema 模型创建出来的实例（数据&#x2F;文档）都可以使用。</p>
+<pre><code class="js">const productSchema = new Schema(&#123;
+  ...
+&#125;);
+productSchema.methods.addToCart = function(product) &#123;
+  ...
+&#125; // 向productSchema中添加addToCart方法
+</code></pre>
+<h3 id="向集合中新增一条数据（文档）"><a href="#向集合中新增一条数据（文档）" class="headerlink" title="向集合中新增一条数据（文档）"></a>向集合中新增一条数据（文档）</h3><p>集合名字在导出时通过<code>mongoose.model</code>已经定义好了，当我们通过创建模型的实例时会添加到对应的集合中，然后通过<code>save()</code>来保存一条数据：</p>
+<p>controllers&#x2F;admin.js</p>
+<pre><code class="js">const Product = require(&quot;../models/product&quot;);
+
+exports.postAddProduct = (req, res, next) =&gt; &#123;
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const price = req.body.price;
+  const description = req.body.description;
+  const product = new Product(&#123;
+    // 创建模型实例并写入数据
+    title: title,
+    price: price,
+    description: description,
+    imageUrl: imageUrl,
+  &#125;);
+  product
+    .save() // 保存一条数据
+    .then((result) =&gt; &#123;
+      console.log(&quot;Created Product&quot;);
+      res.redirect(&quot;/admin/products&quot;);
+    &#125;)
+    .catch((err) =&gt; &#123;
+      console.log(err);
+    &#125;);
+&#125;;
+</code></pre>
+<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><h4 id="查询所有数据"><a href="#查询所有数据" class="headerlink" title="查询所有数据"></a>查询所有数据</h4><p>使用<code>find()</code>查询所有的数据：</p>
+<pre><code class="js">const Product = require(&quot;../models/product&quot;);
+
+exports.getProducts = (req, res, next) =&gt; &#123;
+  Product.find() // 查询所有数据
+    .then((products) =&gt; &#123;
+      res.render(&quot;shop/product-list&quot;, &#123;
+        prods: products,
+        pageTitle: &quot;All Products&quot;,
+        path: &quot;/products&quot;,
+      &#125;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+<h4 id="查询条件数据"><a href="#查询条件数据" class="headerlink" title="查询条件数据"></a>查询条件数据</h4><ul>
+<li><p>**findById()**——根据 id 查询数据</p>
+<pre><code class="js">exports.getProduct = (req, res, next) =&gt; &#123;
+  const prodId = req.params.productId;
+  Product.findById(prodId) // 根据id（_id）查询数据
+    .then((product) =&gt; &#123;
+      res.render(&quot;shop/product-detail&quot;, &#123;
+        product: product,
+        pageTitle: product.title,
+        path: &quot;/products&quot;,
+      &#125;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+</li>
+</ul>
+<h3 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h3><p>更新数据只需要找到对应数据修改后，再使用<code>save()</code>。</p>
+<pre><code class="js">exports.postEditProduct = (req, res, next) =&gt; &#123;
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDesc = req.body.description;
+
+  Product.findById(prodId) // 根据id找到对应数据
+    .then((product) =&gt; &#123;
+      // 对数据进行修改
+      product.title = updatedTitle;
+      product.price = updatedPrice;
+      product.description = updatedDesc;
+      product.imageUrl = updatedImageUrl;
+      return product.save(); // 保存新修改的数据
+    &#125;)
+    .then((result) =&gt; &#123;
+      console.log(&quot;UPDATED PRODUCT!&quot;);
+      res.redirect(&quot;/admin/products&quot;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><h4 id="根据-id-删除数据"><a href="#根据-id-删除数据" class="headerlink" title="根据 id 删除数据"></a>根据 id 删除数据</h4><p>可以使用 Mongoose 内置的<code>findByIdAndRemove</code>来删除对应数据。</p>
+<pre><code class="js">exports.postDeleteProduct = (req, res, next) =&gt; &#123;
+  const prodId = req.body.productId;
+  Product.findByIdAndRemove(prodId) // 删除数据
+    .then(() =&gt; &#123;
+      console.log(&quot;DESTROYED PRODUCT&quot;);
+      res.redirect(&quot;/admin/products&quot;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+<h2 id="嵌入式文档"><a href="#嵌入式文档" class="headerlink" title="嵌入式文档"></a>嵌入式文档</h2><p>在 MongoDB 中，集合和集合之间一般是没有关联的，但可以使用嵌入式文档，将复制的关联 id 产生联系。</p>
+<h3 id="创建关系"><a href="#创建关系" class="headerlink" title="创建关系"></a>创建关系</h3><p>如果想让一个集合和另一个集合有关系，可以使用<code>ref</code>来嵌入关系。</p>
+<p>models&#x2F;product.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;);
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema(&#123;
+  ...
+  userId: &#123;
+    type: Schema.Types.ObjectId,
+    ref: &#39;User&#39;, // 设置关联
+    required: true
+  &#125;
+&#125;);
+
+module.exports = mongoose.model(&#39;Product&#39;, productSchema);
+</code></pre>
+<p>models&#x2F;admin.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;);
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema(&#123;
+  ...
+  cart: &#123;
+    items: [
+      &#123;
+        productId: &#123; type: Schema.Types.ObjectId, ref: &#39;Product&#39;, required: true &#125;, // 设置关联
+        quantity: &#123; type: Number, required: true &#125;
+      &#125;
+    ]
+  &#125;
+&#125;);
+
+module.exports = mongoose.model(&#39;User&#39;, userSchema);
+</code></pre>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><pre><code class="js">const Product = require(&#39;..&#39;);
+const product = new Product(&#123;...&#125;);
+</code></pre>
+<h3 id="save"><a href="#save" class="headerlink" title="save()"></a>save()</h3><p>向集合中保存&#x2F;新增一条数据。</p>
+<pre><code class="js">product.save();
+</code></pre>
+<h3 id="find"><a href="#find" class="headerlink" title="find()"></a>find()</h3><p>查询所有数据。返回一个 Promise。</p>
+<pre><code class="js">Product.find();
+</code></pre>
+<h3 id="findOne"><a href="#findOne" class="headerlink" title="findOne()"></a>findOne()</h3><p>查询所有数据但只返回一条数据（文档）。返回一个 Promise。</p>
+<pre><code class="js">Product.findOne();
+</code></pre>
+<h3 id="findById"><a href="#findById" class="headerlink" title="findById()"></a>findById()</h3><p>根据 id（_id）查询数据。返回一个 Promise。</p>
+<pre><code class="js">Product.findById(prodId);
+</code></pre>
+<h3 id="findByIdAndRemove"><a href="#findByIdAndRemove" class="headerlink" title="findByIdAndRemove()"></a>findByIdAndRemove()</h3><p>根据 id（_id）删除数据。</p>
+<pre><code class="js">Product.findByIdAndRemove(prodId);
+</code></pre>
+<h3 id="deleteOne"><a href="#deleteOne" class="headerlink" title="deleteOne()"></a>deleteOne()</h3><p>根据指定信息删除一条数据。</p>
+<pre><code class="js">Product.deleteOne(&#123; _id: prodId, userId: req.user._id &#125;);
+</code></pre>
+<h3 id="populate"><a href="#populate" class="headerlink" title="populate()"></a>populate()</h3><p>填充字段，将文档中的指定路径自动替换为来自其他集合的文档的过程。返回一个 Promise。</p>
+<pre><code class="js">Product.find().populate();
+</code></pre>
+<h3 id="select"><a href="#select" class="headerlink" title="select()"></a>select()</h3><p>筛选字段，将数据中与之匹配的筛选出来。</p>
+<pre><code class="js">Product.find().select();
+</code></pre>
+<blockquote>
+<p>以字符串空格的方式筛选不同字段：</p>
+<pre><code class="js">Product.find().select(&quot;title price _id&quot;);
+</code></pre>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.968Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/MVC"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/MVC/">MVC</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>MVC 是模型（Model）、视图（View）、控制器（Controller）的简写，是一种架构模式，它将业务逻辑、数据和显示（M 和 V）的代码分离，从而使同一个程序可以使用不同的表现形式。</p>
+<h2 id="M（Model）"><a href="#M（Model）" class="headerlink" title="M（Model）"></a>M（Model）</h2><p>模型，针对应用程序<strong>数据</strong>，包含<strong>业务逻辑</strong>和<strong>状态</strong>，也包含一些<strong>HTTP 库</strong>，对数据进行操作（如保存，获取数据）。</p>
+<h2 id="V（View）"><a href="#V（View）" class="headerlink" title="V（View）"></a>V（View）</h2><p>视图，针对<strong>表示逻辑层</strong>，用户能看到的部分。</p>
+<h2 id="C（Controller）"><a href="#C（Controller）" class="headerlink" title="C（Controller）"></a>C（Controller）</h2><p>控制器，包含<strong>应用（程序）逻辑</strong>的内容。位于 Model 和 View 之间，为两者创建桥梁（如 Routes）。它规定了使用哪个模型渲染哪个视图。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.967Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Express/在Node（Express）中上传或下载文件"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>在前端页面上传文件表单时，设置一个文件上传器（将输入文本类型设置为<code>file</code>）：</p>
+<pre><code class="html">&lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
+</code></pre>
+<h2 id="Multer"><a href="#Multer" class="headerlink" title="Multer"></a>Multer</h2><blockquote>
+<p>纯文本可以使用<code>body-parser</code>：</p>
+<pre><code class="js">const bodyParser = require(&quot;body-parser&quot;);
+app.use(bodyParser.urlencoded(&#123; extended: false &#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
+</code></pre>
+</blockquote>
+<p>由于文件不是纯文本，而是二进制数据，我们需要下载一个文件请求解析中间件——<code>multer</code>来识别上传的文件：</p>
+<pre><code class="bash">npm install --save multer
+</code></pre>
+<p><strong><code>multer</code>能解析文件请求数据，能够处理文件请求或文本和文件混合的请求数据。</strong></p>
+<h3 id="发送文件数据"><a href="#发送文件数据" class="headerlink" title="发送文件数据"></a><strong>发送文件数据</strong></h3><ul>
+<li><p><strong>需要在客户端发送表单数据的时候添加<code>enctype</code>来选择发送解析的数据类型</strong>：</p>
+<pre><code class="html">&lt;form action=&quot;/profile&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+  &lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<blockquote>
+<p>multipart&#x2F;form-data：请求不包含纯文本，而是包含文本和二进制的混合数据。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="获取发送的文件数据"><a href="#获取发送的文件数据" class="headerlink" title="获取发送的文件数据"></a><strong>获取发送的文件数据</strong></h3><ul>
+<li><p><strong>引入<code>multer</code>，将其注册为中间件</strong>：</p>
+<pre><code class="js">const express = require(&quot;express&quot;);
+const multer = require(&quot;multer&quot;);
+
+const app = express();
+
+app.use(multer().single(&quot;image&quot;)); // 获取一个文件，文件名为name中的名字 @1
+</code></pre>
+<blockquote>
+<p>@1：multer 必须作为一个执行函数注册，它可以调用其他的方法来设置获取文件的形式（如单个文件或多个文件）。</p>
+</blockquote>
+</li>
+<li><p><strong>获取上传的文件数据</strong>：</p>
+<pre><code class="js">app.post(&quot;/add-product&quot;, postAddProduct);
+</code></pre>
+<pre><code class="js">exports.postAddProduct = (req, res, next) =&gt; &#123;
+  const imageUrl = req.file; // req.file中获取文件数据信息 @2
+&#125;;
+</code></pre>
+<blockquote>
+<p>@2：它会返回一个 buffer 的混合数据流，我们可以设置它为一个图片结构（图片名为没有文件扩展名的随机的哈希名称，添加扩展名可以恢复图片）：</p>
+<pre><code class="js">app.use(multer(&#123; dest: &quot;images&quot; &#125;).single(&quot;image&quot;));
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<h3 id="存储文件数据"><a href="#存储文件数据" class="headerlink" title="存储文件数据"></a>存储文件数据</h3><ul>
+<li><p><strong>设置存储引擎：</strong></p>
+<p><code>diskStorage()</code>是 multer 的存储引擎，它可以通过传递一个 JS 对象来配置，他需要两个 key：</p>
+<ul>
+<li>destination：存储位置（存储文件路径）；</li>
+<li>filename：存储名字</li>
+</ul>
+<pre><code class="js">const fileStorage = multer.diskStorage(&#123;
+  destination: (req, file, cb) =&gt; &#123;
+    cb(null, &quot;images&quot;);
+  &#125;,
+  filename: (req, file, cb) =&gt; &#123;
+    cb(null, file.filename + &quot;-&quot; + file.originalname);
+  &#125;,
+&#125;);
+
+app.use(multer(&#123; storage: fileStorage &#125;).single(&quot;image&quot;));
+</code></pre>
+<p>这样文件就会以指定的名字存储到指定的路径文件中。</p>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.966Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Express/使用Node（Express）发送邮件"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Node（Express）能创建一个服务端（器），但是创建一个邮件服务器是很困难的，处理邮件与处理传入的请求和响应完全不同。我们基本上没有办法创建自己的邮件服务器，所以一般使用<strong>第三方的邮件服务器</strong>。</p>
+<p><strong>第三方邮件服务器</strong>：MailChimp、SendGrid 等</p>
+<h2 id="下载-Nodemailer"><a href="#下载-Nodemailer" class="headerlink" title="下载 Nodemailer"></a>下载 Nodemailer</h2><p>需要利用 nodemailer 发送邮件：</p>
+<pre><code class="bash">npm install --save nodemailer
+</code></pre>
+<h2 id="使用-SendGrid-作为第三方邮件服务器"><a href="#使用-SendGrid-作为第三方邮件服务器" class="headerlink" title="使用 SendGrid 作为第三方邮件服务器"></a>使用 SendGrid 作为第三方邮件服务器</h2><p>使用 SendGrid 作为第三方邮件服务器<strong>还</strong>需要安装<code>nodemailer-sendgrid-transport</code>来与之交互：</p>
+<pre><code class="bash">npm install --save nodemailer-sendgrid-transport
+</code></pre>
+<blockquote>
+<p>注意：注册 SendGrid 账号和开启后续服务均需要挂 VPN，连接外网。</p>
+</blockquote>
+<h3 id="初始化传输器"><a href="#初始化传输器" class="headerlink" title="初始化传输器"></a>初始化传输器</h3><p>app.js</p>
+<pre><code class="js">const nodemailer = require(&quot;nodemailer&quot;); // 引入nodemailer
+const sendgridTransport = require(&quot;nodemailer-sendgrid-transport&quot;); // 引入nodemailer-sendgrid-transport
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport(&#123;
+    auth: &#123;
+      api_user: &quot;fxh&quot;, // SendGrid用户名
+      api_key: &quot;dsafdsfdsf&quot;, // SendGrid获取的密钥
+    &#125;,
+  &#125;)
+); // 设置node传输邮件的方式，并通过sendgridTransport执行（这样可以用nodemailer配置SendGrid）
+</code></pre>
+<h3 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h3><p>通过<code>sendMail()</code>发送邮件，它返回一个 Promise：</p>
+<pre><code class="js">transporter.sendMail(&#123;
+  to: userEmail, // 邮件发送的地址（用户的邮件地址）
+  from: &quot;shop@node-cm.com&quot;, // 发出邮件的地址
+  subject: &quot;Signup succeeded&quot;, // 邮件主题
+  html: &quot;&lt;h1&gt;You successfully signed up!&lt;/h1&gt;&quot;, // 邮件内容
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.965Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
         </div>
     
     
@@ -1002,7 +1524,7 @@ loop(total, index);
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="page-number current">2</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="page-number" href="/ferhannah-blog/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/6/">6</a><a class="extend next" rel="next" href="/ferhannah-blog/page/3/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="page-number current">2</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="page-number" href="/ferhannah-blog/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/3/">Next</a>
     </nav>
   
 </div>
@@ -1023,7 +1545,7 @@ loop(total, index);
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
     </div>
   </div>
 
@@ -1046,23 +1568,23 @@ loop(total, index);
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/ts/">vite 中使用 ts</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/static_asset/">静态资源</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/index/">vite</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
       </ul>

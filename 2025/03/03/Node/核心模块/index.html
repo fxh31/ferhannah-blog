@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>核心模块 | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "核心模块 | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="核心模块 | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "核心模块 | Fxh&#39;s blog",
+            "datePublished": "2025-03-03T14:19:31.982Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cm7t6lfbq002cccvs1ensc4f9" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      核心模块
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.982Z" itemprop="datePublished">2025-03-03</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p>帮助我们启动服务器或执行发送请求等其他任务。</p>
+<pre><code class="js">const http = require(&quot;http&quot;);
+</code></pre>
+<blockquote>
+<p>导入模块，它会自动在全局模块（这是在 node.js 中自带的模块）中寻找。</p>
+</blockquote>
+<h3 id="createServer"><a href="#createServer" class="headerlink" title="createServer()"></a>createServer()</h3><p><strong>创建服务器并返回 server 对象。接收一个函数作为参数，每当有请求时就会执行这个函数。</strong>函数有两个默认参数——请求的信息，和响应的信息：</p>
+<pre><code class="js">const server = http.createServer((req, res) =&gt; &#123;
+  // req：包含请求的详细信息
+  console.log(req.url); // 发起请求的地址（http://localhost:3000/后的地址）
+  console.log(req.method); // 请求方法（GET/POST等）
+  console.log(req.headers); // 请求头信息
+
+  // res：服务端响应回去的对象
+  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;); // 设置响应头（响应的文本为HTML）
+  // 写入文本信息（此处为HTML）
+  res.write(&quot;&lt;html&gt;&quot;);
+  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
+  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
+  res.write(&quot;&lt;/html&gt;&quot;);
+
+  res.end(); // 结束编写，发送响应给浏览器（此后的写入无效）
+&#125;);
+server.listen(3000);
+</code></pre>
+<blockquote>
+<p>注意：<code>res.write()</code>也可以使用模板字符串直接写入。</p>
+</blockquote>
+<p>我们可以通过这个返回的 server 对象来对 server 进行操作：</p>
+<ul>
+<li><p>**listen()**：确保 node.js 不会立刻退出我们的代码，而是通过<code>listen()</code>保留它的进程。<code>listen()</code>有几个参数：</p>
+<p>第一个参数：需要监听的端口号；</p>
+<blockquote>
+<p>一般在生产环境中不需要填写，默认端口为 80；如果本地开发则可能需要不同的端口。</p>
+</blockquote>
+<pre><code class="js">server.listen(3000);
+</code></pre>
+<blockquote>
+<p>现在启动 node.js 执行文件后，node.js 可以监听到访问本地 3000 地址后的请求，然后执行<code>createServer()</code>的里的函数。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="https"><a href="#https" class="headerlink" title="https"></a>https</h2><p>帮助我们启动一个 SSL 加密的服务器。</p>
+<h2 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h2><p>帮助我们操作文件，对文件进行读写操作。</p>
+<pre><code class="js">const fs = require(&quot;fs&quot;);
+</code></pre>
+<h3 id="writeFile"><a href="#writeFile" class="headerlink" title="writeFile()"></a>writeFile()</h3><p><strong>写入一个文件</strong>，接收三个参数：</p>
+<ul>
+<li>第一个参数：完整文件名</li>
+<li>第二个参数：文件内容</li>
+<li>第三个参数：回调函数，接收一个 error 对象，如果执行出现错误可以在这里得到</li>
+</ul>
+<pre><code class="js">fs.writeFile(&quot;message.txt&quot;, &quot;ds&quot;);
+</code></pre>
+<h3 id="writeFileSync"><a href="#writeFileSync" class="headerlink" title="writeFileSync()"></a>writeFileSync()</h3><p><strong>同步写入文件</strong>，在写入文件完成后才能执行下一步。用法与<code>writeFile()</code>相同。</p>
+<h3 id="readFile"><a href="#readFile" class="headerlink" title="readFile()"></a>readFile()</h3><p><strong>读取指定路径的文件</strong>，接收两个参数：</p>
+<ul>
+<li>第一个参数：文件路径</li>
+<li>第二个参数：回调函数，接收一个读取错误时的对象（error 对象）和文件内容</li>
+</ul>
+<pre><code class="js">fs.readFile(path, (err, fileContent) =&gt; &#123;&#125;);
+</code></pre>
+<h2 id="path"><a href="#path" class="headerlink" title="path"></a>path</h2><p>帮助我们构建文件路径，让文件的路径能够在任何操作系统（Windows&#x2F;Mac&#x2F;Linux）上运行。</p>
+<pre><code class="js">const path = require(&quot;path&quot;);
+</code></pre>
+<h3 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h3><p>使用特定于平台的分隔符作为定界符将所有给定的 <strong><code>path</code> 片段</strong>连接在一起，然后规范化生成的路径。</p>
+<pre><code class="js">path.join(&quot;/foo&quot;, &quot;bar&quot;, &quot;baz/asdf&quot;, &quot;quux&quot;);
+// 返回：\foo\bar\baz\asdf\quux
+
+path.join(__dirname, &quot;..&quot;, &quot;views&quot;, &quot;shop.html&quot;);
+// __dirname: 当前文件夹的父目录
+// &#39;../&#39;: 上级目录
+</code></pre>
+<blockquote>
+<ul>
+<li>返回路径在不同的环境下可能有所不同；</li>
+<li>如果有任何路径片段不是字符串，则抛出 TypeError。</li>
+</ul>
+</blockquote>
+<h3 id="dirname"><a href="#dirname" class="headerlink" title="dirname()"></a>dirname()</h3><p>返回 <code>path</code> 的目录名，类似于 Unix <code>dirname</code> 命令。 尾随的目录分隔符被忽略。</p>
+<pre><code class="js">path.dirname(&quot;/foo/bar/baz/asdf/quux&quot;);
+// 返回: &#39;/foo/bar/baz/asdf&#39;
+</code></pre>
+<blockquote>
+<p>如果有任何路径片段不是字符串，则抛出 TypeError。</p>
+</blockquote>
+<ul>
+<li><p><strong>使用辅助函数来构建路径</strong></p>
+<p>util&#x2F;path.js</p>
+<pre><code class="js">const path = require(&quot;path&quot;);
+
+// process.mainModule(require.main).filename 为我们提供了文件路径，该文件负责我们应用程序的运行，而这个文件名就是通过我们放在dirname里文件路径获取到的
+module.exports = path.dirname(require.main.filename);
+</code></pre>
+<pre><code class="js">const rootDir = require(&quot;../util/path&quot;);
+
+res.sendFile(path.join(rootDir, &quot;views&quot;, &quot;shop.html&quot;));
+</code></pre>
+<blockquote>
+<p>这样我们就不需要编写根目录了。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>帮助我们了解操作系统相关信息。</p>
+<h2 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h2><p>帮助我们将数据进行加密。</p>
+<pre><code class="js">const crypto = require(&quot;crypto&quot;);
+</code></pre>
+<h3 id="randomBytes"><a href="#randomBytes" class="headerlink" title="randomBytes()"></a>randomBytes()</h3><p>生成随机字符，接收两个参数：</p>
+<ul>
+<li>第一个参数：随机字符的数量</li>
+<li>第二个参数：回调函数，内部传递一个出错时的 error 对象和存储字符的 buffer</li>
+</ul>
+<pre><code class="js">crypto.randomBytes(32, (err, buffer) =&gt; &#123;
+  if (err) &#123;
+    console.log(err);
+    return res.redirect(&quot;/reset&quot;);
+  &#125;
+  const token = buffer.toString(&quot;hex&quot;); // 从缓冲区中生成一个token @1
+&#125;);
+</code></pre>
+<blockquote>
+<p>@1：buffer 中存储字符是十六进制，需要通过<code>toString(&#39;hex&#39;)</code>将十六进制的值转化为 ASCII。</p>
+</blockquote>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><ul>
+<li>引入 http 模块，创建一个服务器监听 3000 端口；</li>
+<li>在服务器中判断 3000 端口的路由地址：如果是根路由，则写入一段 HTML 代码（一个表单，里面含有输入框和提交按钮，表单的提交地址为<code>/message</code>，提交方法为<code>POST</code>）后返回响应给浏览器；；</li>
+</ul>
+<pre><code class="js">const http = require(&quot;http&quot;);
+const fs = require(&quot;fs&quot;);
+
+const server = http.createServer((req, res) =&gt; &#123;
+  const url = req.url;
+  if (url === &quot;/&quot;) &#123;
+    // 如果url地址是/
+    res.write(&quot;&lt;html&gt;&quot;);
+    res.write(&quot;&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;/head&gt;&quot;);
+    res.write(
+      &#39;&lt;body&gt;&lt;form action=&quot;/message method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;message&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;&#39;
+    );
+    res.write(&quot;&lt;/html&gt;&quot;);
+    return res.end(); // 返回退出代码，如果没有return则不会执行外层后面的res各个操作，就不能获取下面的Hello,Node.js页面
+  &#125;
+
+  if (url === &quot;/message&quot; &amp;&amp; method === &quot;POST&quot;) &#123;
+    const body = [];
+
+    // 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个参数块
+    req.on(&quot;data&quot;, (chunk) =&gt; &#123;
+      body.push(chunk); // 将块推入到body中
+    &#125;);
+    req.on(&quot;end&quot;, () =&gt; &#123;
+      const parseBody = Buffer.concat(body).toString(); // 创建一个缓冲区连接到body上
+      const message = parseBody.split(&quot;=&quot;)[1];
+      fs.writeFileSync(&quot;message.txt&quot;, message);
+    &#125;);
+
+    res.statusCode = 302;
+    res.setHeader(&quot;Location&quot;, &quot;/&quot;);
+    // res.writeHead(302, &#123;
+    //     &#39;Location&#39;: &#39;/&#39;
+    // &#125;)
+    return res.end();
+  &#125;
+
+  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;);
+  res.write(&quot;&lt;html&gt;&quot;);
+  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
+  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
+  res.write(&quot;&lt;/html&gt;&quot;);
+  res.end();
+&#125;);
+
+server.listen(3000);
+</code></pre>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="res"><a href="#res" class="headerlink" title="res"></a>res</h3><p>响应对象可调用的常用方法：</p>
+<ul>
+<li><p><strong>setHeader</strong>：设置<strong>响应标头</strong>的单个属性，以键值对的方式修改，<strong>可调用多次</strong>；</p>
+<pre><code class="js">res.setHeader(&quot;Location&quot;, &quot;/&quot;); // 设置地址跳转到/
+</code></pre>
+</li>
+<li><p><strong>writeHead</strong>：设置响应头多个属性（包括<strong>状态码、状态信息和响应标头</strong>），<strong>只调用一次，可进行链式调用</strong>；</p>
+<pre><code class="js">res.writeHead(statusCode, [reasonPhrase], [headers]);
+
+res.writeHead(200, &#123;
+  &quot;Content-Type&quot;: &quot;text/plain&quot;,
+  Location: &quot;/&quot;,
+&#125;);
+</code></pre>
+<ul>
+<li>statusCode：状态码；</li>
+</ul>
+<ul>
+<li><p>reasonPhrase（可选）：状态信息；</p>
+</li>
+<li><p>headers：响应标头；</p>
+<blockquote>
+<p>注意：<strong>两个参数的最后一个参数是 headers 响应标头</strong>！三个参数只是方便 reasonPhrase。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>注意：<code>setHeader</code>和<code>writeHead</code>都有的时候，<code>setHeader</code>的内容合会并到<code>writeHead</code>，合并有冲突时以<code>writeHead</code>的内容为准（<code>writeHead</code>优先级高）。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="req"><a href="#req" class="headerlink" title="req"></a>req</h3><p>请求数据的常用方法：</p>
+<ul>
+<li><p><strong>on</strong>：事件监听。接收两个参数，一个是监听的事件，一个是触发的函数：</p>
+<pre><code class="js">// 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个默认参数，块（chunk）
+req.on(&quot;data&quot;, (chunk) =&gt; &#123;&#125;);
+
+// 在完成读取传入的数据或请求后结束监听
+req.on(&quot;end&quot;, () =&gt; &#123;&#125;);
+</code></pre>
+<blockquote>
+<p>当遇到<code>req.on()</code>时，Node.js 会自动在内部添加一个新的事件监听器来管理所有的监听器，相当于一个注册表在注册了这些事件但没有执行它，然后跳过继续执行下一条。（注册未来某个时间运行但不一定现在运行的代码函数）</p>
+</blockquote>
+</li>
+<li></li>
+</ul>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          Node.js程序的生命周期以及事件循环
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">数据验证（Validate）</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=核心模块 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F03%2FNode%2F%25E6%25A0%25B8%25E5%25BF%2583%25E6%25A8%25A1%25E5%259D%2597%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=核心模块 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F03%2FNode%2F%25E6%25A0%25B8%25E5%25BF%2583%25E6%25A8%25A1%25E5%259D%2597%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=核心模块 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

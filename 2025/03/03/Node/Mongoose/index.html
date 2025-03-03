@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>Mongoose | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "Mongoose | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/Mongoose/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="Mongoose | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/Mongoose/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "Mongoose | Fxh&#39;s blog",
+            "datePublished": "2025-03-03T14:19:31.968Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/Mongoose/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cm7t6lfbn001rccvs1om08bti" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      Mongoose
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.968Z" itemprop="datePublished">2025-03-03</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Mongoose 是一个<strong>ODM（对象文档映射库—Object-Document Mapping Library）</strong>。</p>
+<blockquote>
+<p>Mongoose 为模型提供了一种直接的，基于 scheme 结构去定义你的数据模型，然后通过实例化模型来生成一条数据文档；而在数据模型上可以使用各种内置的方法。</p>
+<p>例如：</p>
+<pre><code class="js">db.collection(&quot;users&quot;).insertOne(&#123;
+  name: &quot;Jon&quot;,
+  age: 28,
+  password: &quot;hsdjkffds&quot;,
+&#125;);
+</code></pre>
+<p>——&gt;</p>
+<pre><code class="js">const user = User.create(&#123; name: &quot;Jon&quot;, age: 28, password: &quot;hsdjkffds&quot; &#125;);
+</code></pre>
+</blockquote>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">npm install --save mongoose
+</code></pre>
+<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>app.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
+...
+mongoose
+  .connect(
+    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
+  ) // 连接MongoDB数据库
+  .then(result =&gt; &#123;
+    app.listen(3000);
+  &#125;)
+  .catch(err =&gt; &#123;
+    console.log(err);
+  &#125;);
+</code></pre>
+<h3 id="创建和定义模型的-Schema"><a href="#创建和定义模型的-Schema" class="headerlink" title="创建和定义模型的 Schema"></a>创建和定义模型的 Schema</h3><p>以键值对的方式来定义模型：</p>
+<p>models&#x2F;product.js</p>
+<pre><code class="js">const mongoose = require(&quot;mongoose&quot;);
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema(&#123;
+  // @1
+  title: &#123;
+    type: String, // 类型
+    required: true, // 是否必须
+  &#125;,
+  price: &#123;
+    type: Number,
+    required: true,
+  &#125;,
+  description: &#123;
+    type: String,
+    required: true,
+  &#125;,
+  imageUrl: &#123;
+    type: String,
+    required: true,
+  &#125;,
+&#125;);
+
+module.exports = mongoose.model(&quot;Product&quot;, productSchema); // 将导出的模块作为mongoose的model，方便日后连接 @2
+</code></pre>
+<blockquote>
+<p>@1：虽然 MongoDB 是没有特定的 schema 限制的，但通常我们在使用时知道某种数据存在某种结构（比如知道 name 数据用 String 类型）；因此 mongoose 需要我们提供这样的结构，让我们只关注于数据本身，即使这样做会放弃一些数据的灵活性。</p>
+<p>@2：第一个参数为自定义的集合名字（<strong>Mongoose 会将这个名字的开头转为小写，并在后面加上 s 作为集合的名字</strong>），第二个参数为需要导出的模块。</p>
+</blockquote>
+<h3 id="自定义-Schema-的方法"><a href="#自定义-Schema-的方法" class="headerlink" title="自定义 Schema 的方法"></a>自定义 Schema 的方法</h3><p>我们可以向定义的 Schema 中添加方法，让每个通过这个 Schema 模型创建出来的实例（数据&#x2F;文档）都可以使用。</p>
+<pre><code class="js">const productSchema = new Schema(&#123;
+  ...
+&#125;);
+productSchema.methods.addToCart = function(product) &#123;
+  ...
+&#125; // 向productSchema中添加addToCart方法
+</code></pre>
+<h3 id="向集合中新增一条数据（文档）"><a href="#向集合中新增一条数据（文档）" class="headerlink" title="向集合中新增一条数据（文档）"></a>向集合中新增一条数据（文档）</h3><p>集合名字在导出时通过<code>mongoose.model</code>已经定义好了，当我们通过创建模型的实例时会添加到对应的集合中，然后通过<code>save()</code>来保存一条数据：</p>
+<p>controllers&#x2F;admin.js</p>
+<pre><code class="js">const Product = require(&quot;../models/product&quot;);
+
+exports.postAddProduct = (req, res, next) =&gt; &#123;
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const price = req.body.price;
+  const description = req.body.description;
+  const product = new Product(&#123;
+    // 创建模型实例并写入数据
+    title: title,
+    price: price,
+    description: description,
+    imageUrl: imageUrl,
+  &#125;);
+  product
+    .save() // 保存一条数据
+    .then((result) =&gt; &#123;
+      console.log(&quot;Created Product&quot;);
+      res.redirect(&quot;/admin/products&quot;);
+    &#125;)
+    .catch((err) =&gt; &#123;
+      console.log(err);
+    &#125;);
+&#125;;
+</code></pre>
+<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><h4 id="查询所有数据"><a href="#查询所有数据" class="headerlink" title="查询所有数据"></a>查询所有数据</h4><p>使用<code>find()</code>查询所有的数据：</p>
+<pre><code class="js">const Product = require(&quot;../models/product&quot;);
+
+exports.getProducts = (req, res, next) =&gt; &#123;
+  Product.find() // 查询所有数据
+    .then((products) =&gt; &#123;
+      res.render(&quot;shop/product-list&quot;, &#123;
+        prods: products,
+        pageTitle: &quot;All Products&quot;,
+        path: &quot;/products&quot;,
+      &#125;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+<h4 id="查询条件数据"><a href="#查询条件数据" class="headerlink" title="查询条件数据"></a>查询条件数据</h4><ul>
+<li><p>**findById()**——根据 id 查询数据</p>
+<pre><code class="js">exports.getProduct = (req, res, next) =&gt; &#123;
+  const prodId = req.params.productId;
+  Product.findById(prodId) // 根据id（_id）查询数据
+    .then((product) =&gt; &#123;
+      res.render(&quot;shop/product-detail&quot;, &#123;
+        product: product,
+        pageTitle: product.title,
+        path: &quot;/products&quot;,
+      &#125;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+</li>
+</ul>
+<h3 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h3><p>更新数据只需要找到对应数据修改后，再使用<code>save()</code>。</p>
+<pre><code class="js">exports.postEditProduct = (req, res, next) =&gt; &#123;
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDesc = req.body.description;
+
+  Product.findById(prodId) // 根据id找到对应数据
+    .then((product) =&gt; &#123;
+      // 对数据进行修改
+      product.title = updatedTitle;
+      product.price = updatedPrice;
+      product.description = updatedDesc;
+      product.imageUrl = updatedImageUrl;
+      return product.save(); // 保存新修改的数据
+    &#125;)
+    .then((result) =&gt; &#123;
+      console.log(&quot;UPDATED PRODUCT!&quot;);
+      res.redirect(&quot;/admin/products&quot;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><h4 id="根据-id-删除数据"><a href="#根据-id-删除数据" class="headerlink" title="根据 id 删除数据"></a>根据 id 删除数据</h4><p>可以使用 Mongoose 内置的<code>findByIdAndRemove</code>来删除对应数据。</p>
+<pre><code class="js">exports.postDeleteProduct = (req, res, next) =&gt; &#123;
+  const prodId = req.body.productId;
+  Product.findByIdAndRemove(prodId) // 删除数据
+    .then(() =&gt; &#123;
+      console.log(&quot;DESTROYED PRODUCT&quot;);
+      res.redirect(&quot;/admin/products&quot;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+<h2 id="嵌入式文档"><a href="#嵌入式文档" class="headerlink" title="嵌入式文档"></a>嵌入式文档</h2><p>在 MongoDB 中，集合和集合之间一般是没有关联的，但可以使用嵌入式文档，将复制的关联 id 产生联系。</p>
+<h3 id="创建关系"><a href="#创建关系" class="headerlink" title="创建关系"></a>创建关系</h3><p>如果想让一个集合和另一个集合有关系，可以使用<code>ref</code>来嵌入关系。</p>
+<p>models&#x2F;product.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;);
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema(&#123;
+  ...
+  userId: &#123;
+    type: Schema.Types.ObjectId,
+    ref: &#39;User&#39;, // 设置关联
+    required: true
+  &#125;
+&#125;);
+
+module.exports = mongoose.model(&#39;Product&#39;, productSchema);
+</code></pre>
+<p>models&#x2F;admin.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;);
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema(&#123;
+  ...
+  cart: &#123;
+    items: [
+      &#123;
+        productId: &#123; type: Schema.Types.ObjectId, ref: &#39;Product&#39;, required: true &#125;, // 设置关联
+        quantity: &#123; type: Number, required: true &#125;
+      &#125;
+    ]
+  &#125;
+&#125;);
+
+module.exports = mongoose.model(&#39;User&#39;, userSchema);
+</code></pre>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><pre><code class="js">const Product = require(&#39;..&#39;);
+const product = new Product(&#123;...&#125;);
+</code></pre>
+<h3 id="save"><a href="#save" class="headerlink" title="save()"></a>save()</h3><p>向集合中保存&#x2F;新增一条数据。</p>
+<pre><code class="js">product.save();
+</code></pre>
+<h3 id="find"><a href="#find" class="headerlink" title="find()"></a>find()</h3><p>查询所有数据。返回一个 Promise。</p>
+<pre><code class="js">Product.find();
+</code></pre>
+<h3 id="findOne"><a href="#findOne" class="headerlink" title="findOne()"></a>findOne()</h3><p>查询所有数据但只返回一条数据（文档）。返回一个 Promise。</p>
+<pre><code class="js">Product.findOne();
+</code></pre>
+<h3 id="findById"><a href="#findById" class="headerlink" title="findById()"></a>findById()</h3><p>根据 id（_id）查询数据。返回一个 Promise。</p>
+<pre><code class="js">Product.findById(prodId);
+</code></pre>
+<h3 id="findByIdAndRemove"><a href="#findByIdAndRemove" class="headerlink" title="findByIdAndRemove()"></a>findByIdAndRemove()</h3><p>根据 id（_id）删除数据。</p>
+<pre><code class="js">Product.findByIdAndRemove(prodId);
+</code></pre>
+<h3 id="deleteOne"><a href="#deleteOne" class="headerlink" title="deleteOne()"></a>deleteOne()</h3><p>根据指定信息删除一条数据。</p>
+<pre><code class="js">Product.deleteOne(&#123; _id: prodId, userId: req.user._id &#125;);
+</code></pre>
+<h3 id="populate"><a href="#populate" class="headerlink" title="populate()"></a>populate()</h3><p>填充字段，将文档中的指定路径自动替换为来自其他集合的文档的过程。返回一个 Promise。</p>
+<pre><code class="js">Product.find().populate();
+</code></pre>
+<h3 id="select"><a href="#select" class="headerlink" title="select()"></a>select()</h3><p>筛选字段，将数据中与之匹配的筛选出来。</p>
+<pre><code class="js">Product.find().select();
+</code></pre>
+<blockquote>
+<p>以字符串空格的方式筛选不同字段：</p>
+<pre><code class="js">Product.find().select(&quot;title price _id&quot;);
+</code></pre>
+</blockquote>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/ferhannah-blog/2025/03/03/Node/Node-process/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          Node-process
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ferhannah-blog/2025/03/03/Node/MVC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">MVC</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=Mongoose - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F03%2FNode%2FMongoose%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=Mongoose - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F03%2FNode%2FMongoose%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=Mongoose - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/03/03/Node/Mongoose/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -154,7 +154,7 @@
   
     
       <article
-id="post-network/navigator(sendBeacon)"
+id="post-CSS/useful"
 class="article article-type-post"
 >
 
@@ -165,438 +165,722 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
+        <a href="/ferhannah-blog/2025/02/28/CSS/useful/">一些有用的 css 属性</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="columns"><a href="#columns" class="headerlink" title="columns"></a>columns</h2><p>将一个元素拆分成多列，并设置每列的宽度。</p>
+<pre><code class="css">.content &#123;
+  columns: 200px 3; /* 每列的宽度为 200px，共 3 列 */
+  column-gap: 12px;
+&#125;
+</code></pre>
+<h2 id="break-inside"><a href="#break-inside" class="headerlink" title="break-inside"></a>break-inside</h2><p>在浏览器中，列表项将不会被拆分到不同的列中。每个列表项将作为一个整体出现在同一列中。</p>
+<pre><code class="css">.menu-list &#123;
+  break-inside: avoid;
+&#125;
+</code></pre>
+<h2 id="使用伪元素通过-border-绘制一条直线"><a href="#使用伪元素通过-border-绘制一条直线" class="headerlink" title="使用伪元素通过 border 绘制一条直线"></a>使用伪元素通过 border 绘制一条直线</h2><p>使用伪元素中的 <code>content</code> 在元素前&#x2F;后添加直线时如果手动添加并不能使其自动填满父元素的剩余空间。<br>所以可以使用 border 配合 flex 来实现更好的效果：</p>
+<pre><code class="html">&lt;div class=&quot;title&quot;&gt;首页&lt;/div&gt;
+</code></pre>
+<pre><code class="css">.title &#123;
+  width: 100%;
+  display: inline-flex; /* 设置该元素为行内flex元素 */
+  padding-left: 4px;
+&#125;
+.title::after &#123;
+  content: &quot;&quot;;
+  flex: 1 1 0%; /* 使用flex填满剩余空间 */
+  border-top: 1px solid #ebebeb; /* 设置border作为分割线 */
+  margin: 16px;
+&#125;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:25.119Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-CSS/cssModule"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/CSS/cssModule/">CSS Modules</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
+<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
+<blockquote>
+<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
+</blockquote>
+<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
+<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
+<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
+<li>显示局部作用域：<code>:local(.className)</code></li>
+<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
+</ul>
+<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
+<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+
+.title &#123;
+  composes: className;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+</code></pre>
+<pre><code class="css">.title &#123;
+  composes: className from &quot;./another.css&quot;;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
+<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
+</code></pre>
+<ul>
+<li>例如在 webpack 中引入 postcss-loader</li>
+</ul>
+<pre><code class="js">var path = require(&quot;path&quot;);
+var webpack = require(&quot;webpack&quot;);
+var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
+var values = require(&quot;postcss-modules-values&quot;);
+
+module.exports = &#123;
+  entry: [&quot;./src/index&quot;],
+  output: &#123;
+    filename: &quot;bundle.js&quot;,
+    path: path.join(__dirname, &quot;public&quot;),
+    publicPath: &quot;/public/&quot;,
+  &#125;,
+  module: &#123;
+    loaders: [
+      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
+      &#123;
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          &quot;style-loader&quot;,
+          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
+        ),
+      &#125;,
+    ],
+  &#125;,
+  postcss: [values],
+  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
+&#125;;
+</code></pre>
+<ul>
+<li>设置变量</li>
+</ul>
+<p>colors.css</p>
+<pre><code class="css">@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+</code></pre>
+<ul>
+<li>引入 css 文件中</li>
+</ul>
+<pre><code class="css">/* import your colors... */
+@value colors: &quot;./colors.css&quot;;
+@value blue, red, green from colors;
+
+.button &#123;
+  color: blue;
+  display: inline-block;
+&#125;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:25.117Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/innerText和textContent"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
+<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
+<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
+<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
+<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
+</blockquote>
+</li>
+<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
+</ul>
+<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
+<li>innerHTML 是 Element 对象的属性；</li>
+<li>innerHTML 返回完整的 DOM 元素；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:03.814Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/dataset"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/HTML/dataset/">dataset</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>html 中使用<code>data-</code>来定义自定义属性，这是因为：</p>
+<ul>
+<li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
+<li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
+<li>可以使用 dataset 将所有的自定义属性获取到；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:03.813Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/Node和Element"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
+<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:31:03.812Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/this"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/this/">js 中 this 指向（绑定）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
+<blockquote>
+<p>this 指向（绑定）与函数调用的位置有关。</p>
+</blockquote>
+<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
+<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
+<ul>
+<li>直接在全局调用 this；</li>
+<li>在全局直接执行函数，函数中直接调用 this；</li>
+</ul>
+<blockquote>
+<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
+</blockquote>
+<blockquote>
+<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
+</blockquote>
+<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
+<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
+<li>直接使用<code>window.x</code>；</li>
+<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
+</ul>
+<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
+<p>匿名函数和具名函数则不受其影响。</p>
+</blockquote>
+</li>
+<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
+</ul>
+<pre><code class="js">const obj = &#123;
+  a: 10,
+  b: function () &#123;
+    console.log(this);
+  &#125;,
+&#125;;
+const copy_obj = obj.b;
+copy_obj(); // undefined / window
+
+obj.b(); // &#123;a: 10, b: ƒ&#125;
+</code></pre>
+<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
+<blockquote>
+<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
+</blockquote>
+<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
+<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
+<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
+<blockquote>
+<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
+</blockquote>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
+<blockquote>
+<p>todo… which parttern</p>
+</blockquote>
+<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
+<ul>
+<li>call()：一个一个传参；</li>
+<li>apply()：传递一个数组；</li>
+<li>bind()：直接返回一个新函数；</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
+<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
+<li>es6 之前的 self 同 this 机制；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.019Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/setTimout"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/setTimout/">setTimeout</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
+<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
+<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
+<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<p>要解决这个问题可以使用：</p>
+<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
+<pre><code class="js">setTimeout(function () &#123;
+  console.log(this);
+  myArray.myMethod();
+&#125;, 1.0 * 1000);
+</code></pre>
+<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
+</code></pre>
+<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
+<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
+<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
+<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
+<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
+</blockquote>
+</li>
+<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
+<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
+<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
+</ul>
+<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.018Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/requestAnimationFrame"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/requestAnimationFrame/">requestAnimationFrame</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
+<ul>
+<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
+<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
+</blockquote>
+</li>
+<li>隐藏的元素不会触发回调。<blockquote>
+<p>保证更少的 CPU、GPU 消耗。</p>
+</blockquote>
+</li>
+<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
+</ul>
+<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
+<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
+<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
+<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
+</ul>
+<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
+<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
+<pre><code class="js">const scrollToTop = () =&gt; &#123;
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  console.log(c);
+  if (c &gt; 0) &#123;
+    window.requestAnimationFrame(scrollToTop); // 平滑回滚
+    window.scrollTo(0, c - c / 8);
+    // window.scrollTo(0, c - c);
+  &#125;
+&#125;;
+</code></pre>
+<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
+  window.requestAnimationFrame(() =&gt; &#123;
+    console.log(&quot;scroll&quot;);
+  &#125;);
+&#125;);
+</code></pre>
+<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
+<blockquote>
+<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
+</blockquote>
+<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
+<pre><code class="js">//需要插入的容器
+const ul = document.getElementById(&quot;container&quot;);
+// 插入十万条数据
+const total = 100000;
+// 一次插入 20 条
+const once = 20;
+//总页数
+const page = total / once;
+//每条记录的索引
+const index = 0;
+//循环加载数据
+function loop(curTotal, curIndex) &#123;
+  if (curTotal &lt;= 0) &#123;
+    return false;
+  &#125;
+  //每页多少条
+  const pageCount = Math.min(curTotal, once);
+  function addData() &#123;
+    for (let i = 0; i &lt; pageCount; i++) &#123;
+      let li = document.createElement(&quot;li&quot;);
+      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
+      ul.appendChild(li);
+    &#125;
+    loop(curTotal - pageCount, curIndex + pageCount);
+  &#125;
+  window.requestAnimationFrame(addData);
+  // setTimeout(addData, 0);
+&#125;
+loop(total, index);
+</code></pre>
+<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
+<blockquote>
+<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
+</blockquote>
+<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.016Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/promise"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/promise/">Promise</a>
     </header>
     <div class="article-entry post-inner-html">
         
         <blockquote>
-<p>前端发送请求的方法有哪些：</p>
-<ul>
-<li>AJAX 的 XMLHttpRequest（axios）</li>
-<li>fetch</li>
-<li>SSE</li>
-<li>Websocket</li>
-<li>jsonp</li>
-<li>image 的 src</li>
-</ul>
-</blockquote>
-<h1 id="navigator-sendBeacon"><a href="#navigator-sendBeacon" class="headerlink" title="navigator.sendBeacon"></a>navigator.sendBeacon</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
-<li>发送心跳检测包。</li>
-<li>做埋点。可以使用 navigator.sendBeacon 在页面关闭或卸载时记录用户的在线时间，pv（page view：页面的浏览量或点击量），uv（unique visitor：独立访客，即访客量），错误日志上报，按钮点击数等。</li>
-<li>发送用户反馈。如用户意见、bug 报告等，以便进行产品的优化和改进，</li>
-</ul>
-<h2 id="对比-AJAX-和-fetch-的优势"><a href="#对比-AJAX-和-fetch-的优势" class="headerlink" title="对比 AJAX 和 fetch 的优势"></a>对比 AJAX 和 fetch 的优势</h2><ul>
-<li>不受页面卸载过程的影响，确保数据可靠发送。</li>
-<li>异步执行，不阻塞页面关闭或跳转。</li>
-<li>能发送跨域请求。<blockquote>
-<p>使用 HTML5 新增的 ping 类型，ping 类型的请求不需要等待服务端的返回，能支持发送跨域请求。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="ping-类型请求"><a href="#ping-类型请求" class="headerlink" title="ping 类型请求"></a>ping 类型请求</h3><p>请求类型 ping 是 HTML5 新增的，并且是 sendBeacon 特有的请求类型，该请求只能携带少量数据，但是他不需要等待服务端响应（因此非常适合做埋点）。</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
-<li>只能发送 post 请求。</li>
-<li>只能传输少量数据（64kb 以内），并且只能传输 ArrayBuffer、ArrayBufferView、Blob、DOMString、FormData 或 URLSerchParams 类型的数据，不能传送 json。</li>
-<li>没有办法去定义请求头（比如携带 token 之类的）。</li>
-<li>如果处理危险的网络环境（比如公共网络），或者开启了广告屏蔽的插件，该请求将失效。</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
-<li>在某个监听函数中，使用 navigator.sendBeacon()来发起请求，第一个参数为 url，第二个参数为要传送的数据。</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>设置 post 请求（由于 sendBeacon 只能发送 post 请求），并返回简单数据。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.905Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/XSS"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/XSS/">XSS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Cross-site scripting。跨站脚本攻击，利于 Web 网络安全的漏洞，注入恶意的 js 脚本进行攻击。一般分为三种：</p>
-<h1 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h1><h2 id="反射型-XSS"><a href="#反射型-XSS" class="headerlink" title="反射型 XSS"></a>反射型 XSS</h2><p>攻击者必须以某种方式诱导用户访问一个精心设计的 URL(恶意链接)，该连接中可能包含一个 script 标签，攻击者通过注入 js 来实施攻击，获取用户数据等。</p>
-<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
-<li>即时性。不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据；</li>
-</ul>
-<h2 id="存储型-XSS"><a href="#存储型-XSS" class="headerlink" title="存储型 XSS"></a>存储型 XSS</h2><p>存储型（HTML 注入型&#x2F;持久型）<strong>最严重的 XSS 攻击</strong>。将 js 脚本直接注入到数据库中，使得需要查看数据的用户都会被遭受攻击。主要发生在社区的评论区，留言板，HTML 电子邮件等，通过写入 script 标签，注入 js 脚本来实施攻击，如果前端和后端都没有进行 js 的过滤，该代码就会被注入进数据库中。</p>
-<h2 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h2><p>主要是利用 JS 和 HTML 的交互性质以及 DOM 对象实现的。客户端的脚本程序可以动态地检查和修改页面内容，而不依赖于服务器端的数据。<br>如果用户在客户端输入的数据包含了恶意的 JavaScript 脚本，而这些脚本没有经过适当的过滤和消毒，就会遭到攻击，如：</p>
-<ul>
-<li>loaction</li>
-<li>innerHTML（可以使用 textContent）</li>
-<li>document.write</li>
-<li>v-html</li>
-<li>eval</li>
-</ul>
-<h1 id="预防-XSS"><a href="#预防-XSS" class="headerlink" title="预防 XSS"></a>预防 XSS</h1><ul>
-<li>输入过滤：在 Web 应用程序中对用户输入的数据进行过滤和校验，确保只接收合法的数据；<blockquote>
-<p>使用 xss 的 npm 包，利用第三方工具来防止 xss 注入。</p>
-</blockquote>
-</li>
-<li>输出转译：在向 Web 页面中输出用户数据时，对其内容进行适当的编码和转义处理；</li>
-<li>设置 CSP（Content Security Policy）：通过设置响应报文头中的 CSP 策略，限制页面中可执行的脚本来源、样式表、图像、字体等，以此减少恶意代码执行的可能性。（前后端都可以设置）<ul>
-<li>前端：meta 标签里设置 http-equiv&#x3D;”Content-Security-Policy”</li>
-<li>后端：设置请求头<blockquote>
-<p>例如机制外部脚本执行，外部资源加载，禁止页面嵌入式 iframe。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="XSS-靶场"><a href="#XSS-靶场" class="headerlink" title="XSS 靶场"></a>XSS 靶场</h1><p>小练习。<a target="_blank" rel="noopener" href="https://xssaq.com/yx/level1.php">https://xssaq.com/yx/level1.php</a></p>
-<h1 id="XSS-漏洞扫描工具"><a href="#XSS-漏洞扫描工具" class="headerlink" title="XSS 漏洞扫描工具"></a>XSS 漏洞扫描工具</h1><ul>
-<li>wvs</li>
-<li>椰树</li>
-<li>safe3</li>
-<li>Xelenium</li>
-<li>w3af – Kali</li>
-<li>vega – Kali</li>
-<li>burp</li>
-<li>Kail 操作系统</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.902Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/WebSocket"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/WebSocket/">WebSocket</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>是一种在单个 TCP 连接上进行全双工通信的网络协议。HTML5 的新特性，实现客户端和服务端相互之间的实时通信。</p>
-<p>相比于 HTTP 协议的请求，使用 WebSocket 可以建立持久的连接，允许服务器主动向客户端推送数据，避免不必要的轮询请求，提高了实时性和效率。</p>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
-<li>实时性要求比较高的应用：比如在线聊天，游戏，数据可视化等。</li>
-<li>需要频繁交换数据的应用：在线编辑器，文档管理器等。</li>
-<li>需要推送服务的应用：比如实时数据监控、通知系统等。</li>
-<li>跨平台应用：比如桌面应用程序、移动应用程序等。</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><blockquote>
-<p>node</p>
+<p>注意不是实例上的方法。</p>
 </blockquote>
 <ul>
-<li>安装 ws 和其声明文件。</li>
-<li>新建一个 WebSocket 的服务（ws.Server）。</li>
-<li>监听客户端的连接。</li>
+<li><strong>any()：</strong>传入一个 promise 实例 数组，<strong>返回第一个 fulfiiled promise 的值</strong>，如果都 rejected，则会在 catch 中捕获到 All promises were rejected，并且包含一个 reject 函数传递值得数组。</li>
+<li><strong>all()<strong>：传入一个 promise 实例 数组，</strong>返回一个 fulfiiled promise 的值的数组</strong>，如果有一个 rejected，则会在 catch 中捕获第一个 reject 函数传递值得数组。<blockquote>
+<p>webpack 的动态组件引入是借助的<code>Promise.all()</code>。</p>
+</blockquote>
+</li>
+<li><strong>allSettled()<strong>：传入一个 promise 实例 数组，</strong>返回所有 promise 的值的数组，无论是 fulfilled 还是 rejected</strong>。</li>
+<li><strong>race()<strong>：传入一个 promise 实例 数组，</strong>返回第一个被处理的 promise 的值，无论 fulfilled 还是 rejected</strong>。</li>
 </ul>
-<p>默认是使用点对点的方式，可以修改为广播的方式，让连接到这个 socket 的客户端都能通过服务端的广播消息，收到对方客户端的消息。（群聊）</p>
-<ul>
-<li>遍历 clients，获取每一个连接上的 client，发送消息。</li>
-</ul>
-<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
-<li>构造一个 WebSocket 的实例，该实例需要传入一个用于建立连接的 url，以 ws 或 wss 开头（不用 http&#x2F;https）。</li>
-<li>在这个实例对象上监听 open()。</li>
-</ul>
-<p>发送消息前后端都使用 send()，接收消息默认监听 message 事件。</p>
-<h2 id="心跳检测"><a href="#心跳检测" class="headerlink" title="心跳检测"></a>心跳检测</h2><p>在实际使用过程中，由干网络波动、弱信号等原因，可能会导 WebSocket 连接断开。为了避免这种请求，可以通过心跳检测机制来检测 WebSocket 连接是否正常，当发现连接断开时尝试重连。</p>
 <blockquote>
-<p>心跳自定义的。</p>
+<p>2024 新特性。</p>
 </blockquote>
-<pre><code class="js">const state = &#123;
-  HEART: 1,
-  MESSAGE: 2,
-&#125;;
-// ...
-let heartInreaval = null;
-const heartCheck = () =&gt; &#123;
-  if (socket.readyState === ws.OPEN) &#123;
-    // socket.send(&quot;ping&quot;);
-    socket.send(
-      JSON.stringify(&#123;
-        type: state.HEART,
-        message: &quot;心跳检测&quot;,
-      &#125;)
-    );
-  &#125; else &#123;
-    clearInterval(heartInreaval);
-  &#125;
-&#125;;
-heartInreaval = setInterval(heartCheck, 5000);
+<ul>
+<li>withResolvers()：解构 promise，可以让我们在外面使用 resolve、reject 函数。</li>
+</ul>
+<pre><code class="js">(&#123; promise, resolve, reject &#125; = Promise.withResolvers());
 </code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.901Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/URL"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/URL/">浏览器中输入 url 到底发生了什么</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>首先解释 url 是什么。</p>
-<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
-<p>有了域名就可以进行一个 DNS 查询</p>
-<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
-<p>所以用户再输入 url 后，会去查找 dns。</p>
-<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
-<li>首先去浏览器的 dns 缓存 中查找；</li>
-<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
-<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
-<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
+<blockquote>
+<p>火狐暂不支持。</p>
 </blockquote>
-</li>
-<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
-</ol>
 <ul>
-<li>首先查找本地 dns 服务器；</li>
-<li>如果没有找到，会向根域名服务器查找（.）；</li>
-<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
-<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
+<li>try()：可以简化在 promise 中 resolve 一个函数的写法，该函数也需要返回值、抛出异常或者返回一个 promise。</li>
 </ul>
-<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
-<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
-<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
-<ul>
-<li>请求头 Content-Type 设置 application&#x2F;json；</li>
-<li>用户自定义了请求头；</li>
-</ul>
-</blockquote>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
-<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
-<blockquote>
-<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
-</blockquote>
-<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
-<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
-<blockquote>
-<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
-</blockquote>
-<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
-<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
-<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
-<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
-</li>
-<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
-<blockquote>
-<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
-</blockquote>
-</li>
-<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
-</li>
-</ul>
-<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
-<p>能够引起回流的操作：</p>
-<ul>
-<li>页面首次渲染</li>
-<li>浏览器窗口大小发生变换</li>
-<li>元素尺寸或位置发生改变</li>
-<li>元素内容发生改变</li>
-<li>元素字体大小变换</li>
-<li>添加或删除可见的 dom 元素</li>
-<li>激活 css 伪类（:hover）</li>
-<li>查询某些属性或调用某些方法<blockquote>
-<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
-<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
-<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
-<p>涉及编译原理一些内容。</p>
-</blockquote>
-<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
-<blockquote>
-<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
-</blockquote>
-<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
+<pre><code class="js">function test() &#123;
+  return 1;
+&#125; // 可异步
 
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.900Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/TCP实现HTTP服务"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/">TCP 实现 HTTP 服务</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
-<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
-
-const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
-
-const header = [
-  &quot;HTTP/1.1 200 OK&quot;,
-  &quot;Content-Type: text/html&quot;,
-  `Content-Length: $&#123;html.length&#125;`,
-  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
-  `\r\n`,
-  html,
-];
-
-const server = net.createServer((socket) =&gt; &#123;
-  socket.on(&quot;data&quot;, (data) =&gt; &#123;
-    console.log(data.toString());
-    if (/GET/.test(data.toString())) &#123;
-      socket.write(headers.join(&quot;\r\n&quot;));
-      socket.end();
-    &#125;
-  &#125;);
-&#125;);
-
-// 监听 TCP 服务
-server.listen(8080, () =&gt; &#123;
-  console.log(&quot;server is running&quot;, server.address());
+Promise.try(test).then((res) =&gt; &#123;
+  console.log(res);
 &#125;);
 </code></pre>
 
@@ -614,17 +898,13 @@ server.listen(8080, () =&gt; &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.899Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:30:49.015Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li></ul>
-        </div>
     
     </div>
 </footer>
@@ -635,7 +915,7 @@ server.listen(8080, () =&gt; &#123;
   
     
       <article
-id="post-network/TCP"
+id="post-HTML/iframe"
 class="article article-type-post"
 >
 
@@ -646,261 +926,64 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/TCP/">TCP</a>
+        <a href="/ferhannah-blog/2025/02/28/HTML/iframe/">iframe</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p><img src="/ferhannah-blog/./images/tcpip.png" alt="tcp/ip"></p>
-<h2 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h2><ul>
-<li>seq：sequence number，序列号（通过各种算法 isn 随机生成的）；</li>
-<li>ack：acknowledgement number，确认号（ack &#x3D; seq + 1）；</li>
-<li>ACK：acknowledgement，确认序列号有效；</li>
-<li>SYN：synchronous，发起新连接；</li>
-<li>FIN：finish，完成；</li>
+        <pre><code class="html">&lt;iframe
+  src=&quot;https://www.example.com&quot;
+  width=&quot;100%&quot;
+  height=&quot;500&quot;
+  frameborder=&quot;0&quot;
+  allowfullscreen
+  sandbox
+&gt;
+  &lt;!-- 当浏览器不支持 iframe 时，显示链接（但一般都支持） --&gt;
+  &lt;p&gt;&lt;a href=&quot;https://www.example.com&quot;&gt;点击打开嵌入页面&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;
+</code></pre>
+<h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><ul>
+<li>allowfullscreen：允许嵌入的网页全屏显示，需要全屏 API 的支持（JS）。</li>
+<li>frameborder：是否绘制边框，0 为不绘制，1 为绘制（默认值）。建议尽量少用这个属性，而是在 CSS 里面设置样式。</li>
+<li>src：嵌入的网页的 URL。</li>
+<li>width：显示区域的宽度。</li>
+<li>height：显示区域的高度。</li>
+<li>importance：浏览器下载嵌入的网页的优先级，可以设置三个值。high 表示高优先级，low 表示低优先级，auto 表示由浏览器自行决定。</li>
+<li>name：内嵌窗口的名称，可以用于<a>、<form>、<base>的 target 属性。</li>
+<li>referrerpolicy：请求嵌入网页时，HTTP 请求的 Referer 字段的设置。参见<a>标签的介绍。</li>
+<li>sandbox：设置嵌入的网页的权限，详见下文。</li>
 </ul>
-<p>第一次握手：<br>客户端向服务端发起建立新连接（SYN），并且发送序列号（seq）；</p>
-<blockquote>
-<p>序列号用于确保发送消息的顺序不乱。</p>
-</blockquote>
-<p>第二次握手：<br>服务端接收到客户端的序列号（seq），判断该序列号的确认号是否正确（ack），如果正确就标记一个 ACK，然后向客户端发起建立新连接（SYN），并且带上服务端自己的序列号（seq）；</p>
-<p>第三次握手：<br>客户端接收到之后会判断服务端的 seq 是否正确，如果正确的话也会标记一个 ACK</p>
-<blockquote>
-<p>客户端的 seq &#x3D; 第一次握手客户端的 seq + 1<br>ack &#x3D; 服务端 seq + 1</p>
-</blockquote>
-<h3 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h3><p>四次挥手可以由客户端或者服务端发起。此处以客户端主动发起为例子。</p>
-<p>第一次挥手：<br>客户端向服务端发送连接完成状态（FIN），并添加上客户端的 seq；此时客户端从 established 状态变为 fin_wait_1 等待状态；</p>
-<p>第二次挥手：<br>服务端收到客户端的信息后需要去验证 seq，判断 ack 是否正确，如果正确就标记一个 ACK 返回给客户端；<br>此时客户端会进入 fin_wait_2 阶段，在这个阶段内，如果有未完成或未处理的任务，会将所有任务处理完成，处理完之后服务端才会发起第三次挥手，最终来结束状态；</p>
-<p>第三次挥手：<br>服务端发起 FIN + ACK（ack）+ 服务端 seq；<br>此时客户端进入超时等待状态 time_wait。</p>
-<blockquote>
-<p>该状态的存在是为了确保第四次挥手的 ACK 标记不丢失，确保连接能正常断开，保证 TCP 的可靠性。如果 ACK 标记丢失了，服务端会再次发起断开连接请求（FIN），传递 ACK（再执行一次第三次挥手）。</p>
-</blockquote>
-<p>第四次挥手：<br>客户端超时等待完成后回向服务端发起 ACK （ack）+ seq，并彻底关闭连接。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.898Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/SSE"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/SSE/">SSE</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
-<blockquote>
-<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
-</blockquote>
-<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
-<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
-<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
-<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
+<h2 id="sandbox"><a href="#sandbox" class="headerlink" title="sandbox"></a>sandbox</h2><p>为了限制<code>&lt;iframe&gt;</code>的风险，HTML 提供了 <code>sandbox</code> 属性，允许设置嵌入的网页的权限。（提供了一个隔离层-沙箱）</p>
+<p>sandbox 为 bool 时，表示打开所有限制。但其中具体限制也可以逐一打开：</p>
 <ul>
-<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
-<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
+<li>allow-forms：允许提交表单。</li>
+<li>allow-modals：允许提示框，即允许执行 window.alert()等会产生弹出提示框的 JavaScript 方法。</li>
+<li>allow-popups：允许嵌入的网页使用 window.open()方法弹出窗口。</li>
+<li>allow-popups-to-escape-sandbox：允许弹出窗口不受沙箱的限制。</li>
+<li>allow-orientation-lock：允许嵌入的网页用脚本锁定屏幕的方向，即横屏或竖屏。</li>
+<li>allow-pointer-lock：允许嵌入的网页使用 Pointer Lock API，锁定鼠标的移动。</li>
+<li>allow-presentation：允许嵌入的网页使用 Presentation API。</li>
+<li>allow-same-origin：不打开该项限制，将使得所有加载的网页都视为跨域。</li>
+<li>allow-scripts：允许嵌入的网页运行脚本（但不创建弹出窗口）。</li>
+<li>allow-storage-access-by-user-activation：允许在用户激动的情况下，嵌入的网页通过 Storage Access API 访问父窗口的储存。</li>
+<li>allow-top-navigation：允许嵌入的网页对顶级窗口进行导航。</li>
+<li>allow-top-navigation-by-user-activation：允许嵌入的网页对顶级窗口进行导航，但必须由用户激活。</li>
+<li>allow-downloads-without-user-activation：允许在没有用户激活的情况下，嵌入的网页启动下载。</li>
 </ul>
-</li>
-<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
-<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
-<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
-<li>onerror()：建立连接失败触发的函数；</li>
-<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
-<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.897Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/JWT"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/JWT/">JWT</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>json web token。实现身份验证或授权，也就是鉴权。（常用于用户登录后需要存储用户信息）</p>
 <blockquote>
-<p>有点类似 cookie 和 session。</p>
+<p>注意：不要同时设置 allow-scripts 和 allow-same-origin 属性，这将使得嵌入的网页可以改变或删除 sandbox 属性</p>
 </blockquote>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>在服务端生成一个加密的令牌（token），将用户的信息封装到这个令牌中；前端每一次发送请求时去携带这个 token，服务端就可以将这个 token 进行解码，读取用户的信息，这样就达到了一个身份验证和鉴权。</p>
-<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><p>JWT 由 . 分割为三个部分：</p>
+<h2 id="loading"><a href="#loading" class="headerlink" title="loading"></a>loading</h2><p><code>&lt;iframe&gt;</code>指定的网页会立即加载，但我们也可以让其滚动进入视口以后再加载以节约带宽，这时就可以使用 loading 属性。</p>
+<p>loading 属性可以触发<code>&lt;iframe&gt;</code>网页的懒加载。该属性可以取以下三个值。</p>
 <ul>
-<li>头部（Header）：一般由令牌的类型和使用的签名算法组成（一般不用去管），是一个 json 对象。</li>
-<li>负载（Payload）：包含需要传输的信息（用户身份、权限、令牌发布者等），也是一个 json 对象，使用 Base64 进行编码。</li>
-<li>验证签名（Verify Signature）：通过指定算法对 Header 和 Payload 生成数字签名。</li>
+<li>auto：浏览器的默认行为，与不使用 loading 属性效果相同。</li>
+<li>lazy：<code>&lt;iframe&gt;</code>的懒加载，即将滚动进入视口时开始加载。</li>
+<li>eager：立即加载资源，无论在页面上的位置如何。</li>
 </ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="后端（express）"><a href="#后端（express）" class="headerlink" title="后端（express）"></a>后端（express）</h3><ul>
-<li>安装所需依赖</li>
-</ul>
-<pre><code class="bash">pnpm i express cors jsonwebtoken
+<pre><code class="html">&lt;iframe src=&quot;https://example.com&quot; loading=&quot;lazy&quot;&gt;&lt;/iframe&gt;
 </code></pre>
 <blockquote>
-<p>cors：用于解决跨域。</p>
-</blockquote>
-<pre><code class="js">import express from &quot;express&quot;;
-import jwt from &quot;jsonwebtoken&quot;;
-import cors from &quot;cors&quot;;
-
-let Key = &quot;SVCSD&quot;; // 加验私钥，一般藏在环境变量里
-const app = express();
-app.use(express.json()); // 中间件支持json
-app.use(express.urlencoded(&#123; extended: false &#125;));
-app.use(cors()); // 中间件解决跨域
-
-let user = &#123;
-  name: &quot;admin&quot;,
-  password: &quot;123456&quot;,
-  id: 1,
-&#125;;
-
-// 1.登录返回前端token用于授权
-app.post(&quot;/api/login&quot;, (req, res) =&gt; &#123;
-  if (req.body.name == user.name &amp;&amp; req.body.password == user.password) &#123;
-    res.json(&#123;
-      message: &quot;登录成功&quot;,
-      token: jwt.sign(&#123; id: user.id &#125;, Key, &#123; expiresIn: &quot;1h&quot; &#125;), // payload，私钥，token配置对象（如 token 过期时间）
-    &#125;);
-  &#125; else &#123;
-    res.status(403).json(&#123; message: &quot;用户名或密码错误&quot; &#125;);
-  &#125;
-&#125;);
-
-// 2.列表接口，只有授权状态才能访问，不然就会403
-app.post(&quot;/api/list&quot;, (req, res) =&gt; &#123;
-  let token = req.headers.authorization; // 前端 token 存放在请求头的 authorization 里，规范
-  jwt.verify(token, Key, (err, decode) =&gt; &#123;
-    // 使用 jwt 去验证 token 是否正确
-    if (err) &#123;
-      // token 没有权限按规范返回403
-      res.status(403).json(&#123; message: &quot;无权限&quot; &#125;);
-    &#125; else &#123;
-      res.json(&#123;
-        list: [
-          &#123; id: 1, title: &quot;标题1&quot; &#125;,
-          &#123; id: 2, title: &quot;标题2&quot; &#125;,
-        ],
-      &#125;);
-    &#125;
-  &#125;);
-&#125;);
-
-app.listen(3000, () =&gt; &#123;
-  console.log(&quot;server started&quot;);
-&#125;);
-</code></pre>
-<h3 id="前端（fetch）"><a href="#前端（fetch）" class="headerlink" title="前端（fetch）"></a>前端（fetch）</h3><pre><code class="js">btn.onclick = () =&gt; &#123;
-  fetch(&quot;http://localhost:3000/api/login&quot;, &#123;
-    method: &quot;POST&quot;,
-    headers: &#123;
-      &quot;Content-Type&quot;: &quot;application/json&quot;,
-    &#125;,
-    body: JSON.stringify(&#123;
-      name: name.value,
-      password: password.value,
-    &#125;),
-  &#125;)
-    .then((res) =&gt; res.json())
-    .then((res) =&gt; &#123;
-      cnosole.log(res);
-      localStorage.setItem(&quot;token&quot;, res.token);
-    &#125;);
-&#125;;
-</code></pre>
-<pre><code class="js">fetch(&quot;http://localhost:3000/api/list&quot;, &#123;
-  headers: &#123;
-    Authorization: localStorage.getItem(&quot;token&quot;),
-    // &quot;Authorization&quot;: `Bearer $&#123;localStorage.getItem(&quot;token&quot;)&#125;`
-  &#125;,
-&#125;)
-  .then((res) =&gt; res.json())
-  .then((res) =&gt; &#123;
-    cnosole.log(res);
-  &#125;);
-</code></pre>
-<blockquote>
-<p>注意：Bearer 字段不是一定要加的，它是一个规范，只要看见 token 前面加了这个东西，就说明它使用了 OAuth 2.0 规范(jwt 也使用了该规范)。加了后端也需要去处理这个 Bearer</p>
+<p>注意：如果<code>&lt;iframe&gt;</code>是隐藏的，则 loading 属性无效，将会立即加载。<br><code>&lt;iframe&gt;</code>的宽度和高度为 4 像素或更小。<br>样式设为 display: none 或 visibility: hidden。<br>使用定位坐标为负 X 或负 Y，将<code>&lt;iframe&gt;</code>放置在屏幕外。</p>
 </blockquote>
 
         
@@ -917,208 +1000,13 @@ app.listen(3000, () =&gt; &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.890Z" itemprop="datePublished">2025-02-27</time>
+  <time datetime="2025-02-28T14:30:49.014Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
         </div>
     
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/HTTPS"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/HTTPS/">HTTP 和 HTTPS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
-<li>使用明文传输（不加密），内容可能会被盗用；</li>
-<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
-<li>无法验证报文的完整性，报文可能会被篡改；</li>
-</ul>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
-<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
-<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
-<blockquote>
-<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
-</blockquote>
-<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
-<blockquote>
-<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
-</blockquote>
-<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
-<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
-<blockquote>
-<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
-<blockquote>
-<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
-<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
-</blockquote>
-<ul>
-<li>安装 openSSL 生成私钥；<blockquote>
-<p>Mac 自带，Windows 需要去官网下载。</p>
-</blockquote>
-</li>
-</ul>
-<p>需要用到以下文件来完成证书相关操作：</p>
-<ol>
-<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
-<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
-<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
-</ol>
-<ul>
-<li>创建私钥</li>
-</ul>
-<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
-</code></pre>
-<ul>
-<li>生成 pem 签名文件</li>
-</ul>
-<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
-</code></pre>
-<blockquote>
-<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
-</blockquote>
-<ul>
-<li>生成数字证书</li>
-</ul>
-<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
-import fs from &quot;node:fs&quot;;
-
-//http 端口号 80 https端口号 443
-https
-  .createserver(
-    &#123;
-      key: fs.readFilesync(&quot;private-key.pem&quot;),
-      cert: fs.readFilesync(&quot;certificate.pem&quot;),
-      //密码短语
-      passphrase: &quot;123456&quot;,
-    &#125;,
-    (req, res) =&gt; &#123;
-      res.writeHead(200);
-      res.end(&quot;success&quot;);
-    &#125;
-  )
-  .listen(443, () =&gt; &#123;
-    console.log(&quot;https server is running at https://localhost:433&quot;);
-  &#125;);
-</code></pre>
-<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.889Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/Fetch"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/network/Fetch/">Fetch</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>也是用于客户端和服务端数据交互的技术。相对于 xhr，它的更加简洁、易于使用。并且基于 Promise，可以使用链式调用。<br>但是它不支持超时控制（如果需要则要手动设置 setTimeout），终止请求很麻烦（需要基于一个构造函数 AbortController 完成）</p>
-<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><h2 id="Fetch-使用"><a href="#Fetch-使用" class="headerlink" title="Fetch 使用"></a>Fetch 使用</h2><p>fetch 可以设置两个参数，第一个参数是必填的，也就是访问的 url 地址；第二个参数是一个对象，可以配置一些请求的信息，比如请求方法、请求头、请求体等。</p>
-<p>设置好之后 fetch 其实返回的是一个 Promise，在.then()中接收的默认参数其实是一个 response 对象，并不是一个拿到值的结果。</p>
-<p>在这个 response 对象中有各种响应的信息，并且在它的原型对象上有一些响应体解析方法，我们需要根据后端返回的格式来调用不同的响应体解析方法来拿到这个结果：</p>
-<ul>
-<li>text()：将响应体解析为纯文本字符串返回；</li>
-<li>json()：将响应体解析为 JSON 格式并返回一个 JS 对象；</li>
-<li>blob()：将响应体解析为二进制数据并返回一个 Blob 对象；</li>
-<li>arrayBuffer()：将响应体解析为二进制数据并返回一个 ArrayBuffer 对象；</li>
-<li>formData()：将响应体解析为 FormData 对象；</li>
-</ul>
-<p>然后在第二个.then()中拿到最终的结果。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:20:05.888Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li></ul>
-        </div>
     
     </div>
 </footer>
@@ -1130,7 +1018,7 @@ class="article article-type-post"
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/4/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="page-number" href="/ferhannah-blog/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/ferhannah-blog/page/6/">6</a><a class="extend next" rel="next" href="/ferhannah-blog/page/6/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/4/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="page-number" href="/ferhannah-blog/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/ferhannah-blog/page/6/">6</a><a class="page-number" href="/ferhannah-blog/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/6/">Next</a>
     </nav>
   
 </div>
@@ -1151,7 +1039,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
     </div>
   </div>
 
@@ -1174,23 +1062,23 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/ts/">vite 中使用 ts</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/static_asset/">静态资源</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/index/">vite</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
       </ul>
