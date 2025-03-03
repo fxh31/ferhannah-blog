@@ -154,6 +154,106 @@
   
     
       <article
+id="post-buildTools/Vite/css"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css/">vite 中使用 css</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>vite 直接就支持 css 文件，不需要别的操作。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当 vite 在读取到 main.js 中引用的 index.css 时：</p>
+<ol>
+<li><p>首先使用 node 的 fs 模块获取 css 文件的内容。<br><strong>浏览器行为：</strong><br>在浏览器获取 css 文件时，vite 会将其原本的 css 内容替换为 js 脚本，并让浏览器以执行 js 文件的形式来执行 css 后缀的文件。该脚本的内容执行内容如下：</p>
+<blockquote>
+<p>细节：获取到内容后，会见文件在本地的绝对路径作为 id 和内容一起传给 vite 处理 css 的函数 ——— updateStyle(id, content)，该函数会创建一个 <code>style</code> 标签，并将 type 设置为 ‘text&#x2F;css’，将其插入到 <code>head</code> 中（后面的内容）。</p>
+</blockquote>
+</li>
+<li><p>创建一个 <code>style</code> 标签，将 css 文件中的内容直接复制到里面。</p>
+</li>
+<li><p>将 <code>style</code> 标签插入到 <code>head</code> 中。</p>
+</li>
+</ol>
+<h2 id="CSS-Module"><a href="#CSS-Module" class="headerlink" title="CSS Module"></a>CSS Module</h2><p>问题：如果两个 css 文件定义了同一个类名，样式会被覆盖。<br>解决：使用 CSS Module（postcss），将每一个 class 名变为独一无二的，不会与其他选择器重名。</p>
+<p>将 css 文件的后缀改为 <code>.module.css</code> 即可。vite 会利用 postcss 自动将后缀名为 <code>.module.css</code> 的文件转换为 CSS Module，在类名前添加上独一无二的 hash 值。</p>
+<p>使用：</p>
+<pre><code class="js">import index from &#39;./css/test2.module.css&#39;
+...
+div.className = index.test
+</code></pre>
+<blockquote>
+<p>引入的值可以是认为原始 css 类名 和修改后独一无二的 css 类名 的映射表。</p>
+</blockquote>
+<h2 id="配置-CSS-Module"><a href="#配置-CSS-Module" class="headerlink" title="配置 CSS Module"></a>配置 CSS Module</h2><p>可以通过 vite.config.js 配置 CSS Module，其实也是将参数传递给 postcss。</p>
+<pre><code class="ts">export default defineConfig(&#123;
+  // css module
+  css: &#123;
+    // （postcss）
+    modules: &#123;
+      scopeBehaviour: &quot;local&quot;, // 是否开启模块化 local(*) | global
+      localsConvention: &quot;camelCaseOnly&quot;, // 返回键值对格式 camelCaseOnly(*) | camelCase | dashes | dashesOnly | null
+      // 修改生成的 hash 名称
+      // generateScopedName: &#39;[name]-[local]-[hash:base64:5]&#39;, // string
+
+      // hashPrefix: &#39;prefix-&#39;, // 生成的 hash 名前缀 ？
+      globalModulePaths: [&quot;src/module/cssNoUseModule/*.*.css&quot;], // 不想使用css module的路径 RegExp[]
+    &#125;,
+  &#125;,
+&#125;);
+</code></pre>
+<h2 id="CSS-sourcemap"><a href="#CSS-sourcemap" class="headerlink" title="CSS sourcemap"></a>CSS sourcemap</h2><p>默认情况下，我们在开发环境调试定位元素时，指向的是 <code>head</code> 里的 <code>style</code> 标签。在<strong>开发环境下</strong>，vite 可以配置 css 的 sourcemap 属性<code>devSourcemap</code>，可以让我们找到处理后 css 类所对应的源文件。</p>
+<pre><code class="js">export default defineConfig(&#123;
+  css: &#123;
+    // modules: &#123;
+    //   // ...
+    // &#125;,
+    // preprocessorOptions: &#123;
+    //   // ...
+    // &#125;
+    devSourcemap: true,
+  &#125;,
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-01T10:15:52.859Z" itemprop="datePublished">2025-03-01</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-buildTools/Vite/chunk_strategy"
 class="article article-type-post"
 >
@@ -899,87 +999,6 @@ loop(total, index);
 
     
   
-    
-      <article
-id="post-JS/promise"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/promise/">Promise</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>注意不是实例上的方法。</p>
-</blockquote>
-<ul>
-<li><strong>any()：</strong>传入一个 promise 实例 数组，<strong>返回第一个 fulfiiled promise 的值</strong>，如果都 rejected，则会在 catch 中捕获到 All promises were rejected，并且包含一个 reject 函数传递值得数组。</li>
-<li><strong>all()<strong>：传入一个 promise 实例 数组，</strong>返回一个 fulfiiled promise 的值的数组</strong>，如果有一个 rejected，则会在 catch 中捕获第一个 reject 函数传递值得数组。<blockquote>
-<p>webpack 的动态组件引入是借助的<code>Promise.all()</code>。</p>
-</blockquote>
-</li>
-<li><strong>allSettled()<strong>：传入一个 promise 实例 数组，</strong>返回所有 promise 的值的数组，无论是 fulfilled 还是 rejected</strong>。</li>
-<li><strong>race()<strong>：传入一个 promise 实例 数组，</strong>返回第一个被处理的 promise 的值，无论 fulfilled 还是 rejected</strong>。</li>
-</ul>
-<blockquote>
-<p>2024 新特性。</p>
-</blockquote>
-<ul>
-<li>withResolvers()：解构 promise，可以让我们在外面使用 resolve、reject 函数。</li>
-</ul>
-<pre><code class="js">(&#123; promise, resolve, reject &#125; = Promise.withResolvers());
-</code></pre>
-<blockquote>
-<p>火狐暂不支持。</p>
-</blockquote>
-<ul>
-<li>try()：可以简化在 promise 中 resolve 一个函数的写法，该函数也需要返回值、抛出异常或者返回一个 promise。</li>
-</ul>
-<pre><code class="js">function test() &#123;
-  return 1;
-&#125; // 可异步
-
-Promise.try(test).then((res) =&gt; &#123;
-  console.log(res);
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.015Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1039,11 +1058,11 @@ Promise.try(test).then((res) =&gt; &#123;
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
+            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
           </li>
         
       </ul>

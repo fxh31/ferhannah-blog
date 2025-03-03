@@ -154,6 +154,87 @@
   
     
       <article
+id="post-JS/promise"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/promise/">Promise</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <blockquote>
+<p>注意不是实例上的方法。</p>
+</blockquote>
+<ul>
+<li><strong>any()：</strong>传入一个 promise 实例 数组，<strong>返回第一个 fulfiiled promise 的值</strong>，如果都 rejected，则会在 catch 中捕获到 All promises were rejected，并且包含一个 reject 函数传递值得数组。</li>
+<li><strong>all()<strong>：传入一个 promise 实例 数组，</strong>返回一个 fulfiiled promise 的值的数组</strong>，如果有一个 rejected，则会在 catch 中捕获第一个 reject 函数传递值得数组。<blockquote>
+<p>webpack 的动态组件引入是借助的<code>Promise.all()</code>。</p>
+</blockquote>
+</li>
+<li><strong>allSettled()<strong>：传入一个 promise 实例 数组，</strong>返回所有 promise 的值的数组，无论是 fulfilled 还是 rejected</strong>。</li>
+<li><strong>race()<strong>：传入一个 promise 实例 数组，</strong>返回第一个被处理的 promise 的值，无论 fulfilled 还是 rejected</strong>。</li>
+</ul>
+<blockquote>
+<p>2024 新特性。</p>
+</blockquote>
+<ul>
+<li>withResolvers()：解构 promise，可以让我们在外面使用 resolve、reject 函数。</li>
+</ul>
+<pre><code class="js">(&#123; promise, resolve, reject &#125; = Promise.withResolvers());
+</code></pre>
+<blockquote>
+<p>火狐暂不支持。</p>
+</blockquote>
+<ul>
+<li>try()：可以简化在 promise 中 resolve 一个函数的写法，该函数也需要返回值、抛出异常或者返回一个 promise。</li>
+</ul>
+<pre><code class="js">function test() &#123;
+  return 1;
+&#125; // 可异步
+
+Promise.try(test).then((res) =&gt; &#123;
+  console.log(res);
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.015Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-HTML/iframe"
 class="article article-type-post"
 >
@@ -309,151 +390,6 @@ class="article article-type-post"
     <div class="article-more-info">
     <div class="article-date">
   <time datetime="2025-02-28T14:30:49.013Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/es6"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/es6/">ES6 特性</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="let-和-const"><a href="#let-和-const" class="headerlink" title="let 和 const"></a>let 和 const</h2><h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><pre><code class="js">const obj = &#123; a: 1, b: 2 &#125;;
-const &#123; a, b &#125; = obj;
-console.log(a, b); // 1, 2
-
-const arr = [1, 2, 3];
-const [x, y, z] = arr;
-console.log(x, y, z); // 1, 2, 3
-</code></pre>
-<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><pre><code class="js">function foo(a, b = 2, c = 3) &#123;&#125;
-</code></pre>
-<h2 id="剩余（rest）参数"><a href="#剩余（rest）参数" class="headerlink" title="剩余（rest）参数"></a>剩余（rest）参数</h2><pre><code class="js">function sum(...nums) &#123;
-  return nums.reduce((a, b) =&gt; a + b);
-&#125;
-sum(1, 2, 3, 4, 5);
-</code></pre>
-<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h2><pre><code class="js">const arr1 = [1, 2, 3];
-const arr2 = [...arr, 4, 5];
-
-const obj1 = &#123; a: 1, b: 2 &#125;;
-const obj2 = &#123; ...obj, c: 3 &#125;;
-</code></pre>
-<h2 id="扩展对象字面量"><a href="#扩展对象字面量" class="headerlink" title="扩展对象字面量"></a>扩展对象字面量</h2><h2 id="对象属性简写"><a href="#对象属性简写" class="headerlink" title="对象属性简写"></a>对象属性简写</h2><pre><code class="js">const name = &quot;zhangsan&quot;;
-const age = 18;
-const preson = &#123; name, age &#125;;
-</code></pre>
-<h2 id="对象方法简写"><a href="#对象方法简写" class="headerlink" title="对象方法简写"></a>对象方法简写</h2><pre><code class="js">const person = &#123;
-  name: &quot;zhangsan&quot;,
-  greet() &#123;
-    console.log(&quot;Hello！&quot;);
-  &#125;,
-&#125;;
-</code></pre>
-<h2 id="for…of-循环"><a href="#for…of-循环" class="headerlink" title="for…of 循环"></a>for…of 循环</h2><h2 id="模块化（import-export）"><a href="#模块化（import-export）" class="headerlink" title="模块化（import&#x2F;export）"></a>模块化（import&#x2F;export）</h2><pre><code class="js">// foo.js
-export const foo = () =&gt; &#123;&#125;;
-
-// main.js
-import &#123; foo &#125; from &quot;./foo&quot;;
-</code></pre>
-<h2 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h2><pre><code class="js">// foo.js
-export default () =&gt; &#123;&#125;;
-
-// main.js
-import foo from &quot;./foo&quot;;
-foo();
-</code></pre>
-<h2 id="类（class）"><a href="#类（class）" class="headerlink" title="类（class）"></a>类（class）</h2><pre><code class="js">class Person &#123;
-  constructor(name) &#123;
-    this.name = name;
-  &#125;
-  say() &#123;&#125;
-&#125;
-
-class Student extends Person &#123;
-  say() &#123;
-    console.log(`I&#39;m a student, $&#123;this.name&#125;`);
-  &#125;
-&#125;
-const s = new Student(&quot;zhangsan&quot;);
-s.say();
-</code></pre>
-<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><h2 id="生成器和迭代器"><a href="#生成器和迭代器" class="headerlink" title="生成器和迭代器"></a>生成器和迭代器</h2><h2 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h2><h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><pre><code class="js">class MathUtil &#123;
-  static add(a, b) &#123;
-    return a + b;
-  &#125;
-&#125;
-console.log(MathUtil.add(1, 2));
-</code></pre>
-<h2 id="字符串新方法"><a href="#字符串新方法" class="headerlink" title="字符串新方法"></a>字符串新方法</h2><ul>
-<li>startsWith</li>
-<li>endsWith</li>
-<li>includes</li>
-</ul>
-<h2 id="数组新方法"><a href="#数组新方法" class="headerlink" title="数组新方法"></a>数组新方法</h2><ul>
-<li>find</li>
-<li>findIndex</li>
-</ul>
-<h2 id="对象合并"><a href="#对象合并" class="headerlink" title="对象合并"></a>对象合并</h2><pre><code class="js">const obj1 = &#123; a: 1, b: 2 &#125;;
-const obj2 = &#123; b: 3, c: 5 &#125;;
-const obj3 = &#123; ...obj1, ...obj2 &#125;;
-</code></pre>
-<h2 id="空值合并运算符"><a href="#空值合并运算符" class="headerlink" title="空值合并运算符"></a>空值合并运算符</h2><pre><code class="js">const foo = null ?? &quot;default&quot;;
-const bar = 0 ?? 42;
-console.log(bar); // 0
-</code></pre>
-<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p>Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。</p>
-<pre><code class="js">const target = &#123;
-  message: &quot;hello world&quot;,
-&#125;;
-const handler = &#123;
-  get: (obj, prop) =&gt; &#123;
-    return prop in obj ? obj[prop] : &quot;not fount prop&quot;;
-  &#125;,
-  set: (obj, prop, value) =&gt; &#123;
-    return value;
-  &#125;,
-&#125;;
-const proxy = new Proxy(target, handler);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.012Z" itemprop="datePublished">2025-02-28</time>
 </div>
     
         <div class="article-category">
@@ -1006,11 +942,11 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
+            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
           </li>
         
       </ul>

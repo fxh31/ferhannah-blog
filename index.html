@@ -154,6 +154,155 @@
   
     
       <article
+id="post-JS/es6"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/28/JS/es6/">ES6 特性</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="let-和-const"><a href="#let-和-const" class="headerlink" title="let 和 const"></a>let 和 const</h2><h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><pre><code class="js">const obj = &#123; a: 1, b: 2 &#125;;
+const &#123; a, b &#125; = obj;
+console.log(a, b); // 1, 2
+
+const arr = [1, 2, 3];
+const [x, y, z] = arr;
+console.log(x, y, z); // 1, 2, 3
+</code></pre>
+<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><pre><code class="js">function foo(a, b = 2, c = 3) &#123;&#125;
+</code></pre>
+<h2 id="剩余（rest）参数"><a href="#剩余（rest）参数" class="headerlink" title="剩余（rest）参数"></a>剩余（rest）参数</h2><pre><code class="js">function sum(...nums) &#123;
+  return nums.reduce((a, b) =&gt; a + b);
+&#125;
+sum(1, 2, 3, 4, 5);
+</code></pre>
+<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h2><pre><code class="js">const arr1 = [1, 2, 3];
+const arr2 = [...arr, 4, 5];
+
+const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; ...obj, c: 3 &#125;;
+</code></pre>
+<h2 id="扩展对象字面量"><a href="#扩展对象字面量" class="headerlink" title="扩展对象字面量"></a>扩展对象字面量</h2><h2 id="对象属性简写"><a href="#对象属性简写" class="headerlink" title="对象属性简写"></a>对象属性简写</h2><pre><code class="js">const name = &quot;zhangsan&quot;;
+const age = 18;
+const preson = &#123; name, age &#125;;
+</code></pre>
+<h2 id="对象方法简写"><a href="#对象方法简写" class="headerlink" title="对象方法简写"></a>对象方法简写</h2><pre><code class="js">const person = &#123;
+  name: &quot;zhangsan&quot;,
+  greet() &#123;
+    console.log(&quot;Hello！&quot;);
+  &#125;,
+&#125;;
+</code></pre>
+<h2 id="for…of-循环"><a href="#for…of-循环" class="headerlink" title="for…of 循环"></a>for…of 循环</h2><h2 id="模块化（import-export）"><a href="#模块化（import-export）" class="headerlink" title="模块化（import&#x2F;export）"></a>模块化（import&#x2F;export）</h2><pre><code class="js">// foo.js
+export const foo = () =&gt; &#123;&#125;;
+
+// main.js
+import &#123; foo &#125; from &quot;./foo&quot;;
+</code></pre>
+<h2 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h2><pre><code class="js">// foo.js
+export default () =&gt; &#123;&#125;;
+
+// main.js
+import foo from &quot;./foo&quot;;
+foo();
+</code></pre>
+<h2 id="类（class）"><a href="#类（class）" class="headerlink" title="类（class）"></a>类（class）</h2><pre><code class="js">class Person &#123;
+  constructor(name) &#123;
+    this.name = name;
+  &#125;
+  say() &#123;&#125;
+&#125;
+
+class Student extends Person &#123;
+  say() &#123;
+    console.log(`I&#39;m a student, $&#123;this.name&#125;`);
+  &#125;
+&#125;
+const s = new Student(&quot;zhangsan&quot;);
+s.say();
+</code></pre>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><h2 id="生成器和迭代器"><a href="#生成器和迭代器" class="headerlink" title="生成器和迭代器"></a>生成器和迭代器</h2><h2 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h2><h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><pre><code class="js">class MathUtil &#123;
+  static add(a, b) &#123;
+    return a + b;
+  &#125;
+&#125;
+console.log(MathUtil.add(1, 2));
+</code></pre>
+<h2 id="字符串新方法"><a href="#字符串新方法" class="headerlink" title="字符串新方法"></a>字符串新方法</h2><ul>
+<li>startsWith</li>
+<li>endsWith</li>
+<li>includes</li>
+</ul>
+<h2 id="数组新方法"><a href="#数组新方法" class="headerlink" title="数组新方法"></a>数组新方法</h2><ul>
+<li>find</li>
+<li>findIndex</li>
+</ul>
+<h2 id="对象合并"><a href="#对象合并" class="headerlink" title="对象合并"></a>对象合并</h2><pre><code class="js">const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; b: 3, c: 5 &#125;;
+const obj3 = &#123; ...obj1, ...obj2 &#125;;
+</code></pre>
+<h2 id="空值合并运算符"><a href="#空值合并运算符" class="headerlink" title="空值合并运算符"></a>空值合并运算符</h2><pre><code class="js">const foo = null ?? &quot;default&quot;;
+const bar = 0 ?? 42;
+console.log(bar); // 0
+</code></pre>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p>Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。</p>
+<pre><code class="js">const target = &#123;
+  message: &quot;hello world&quot;,
+&#125;;
+const handler = &#123;
+  get: (obj, prop) =&gt; &#123;
+    return prop in obj ? obj[prop] : &quot;not fount prop&quot;;
+  &#125;,
+  set: (obj, prop, value) =&gt; &#123;
+    return value;
+  &#125;,
+&#125;;
+const proxy = new Proxy(target, handler);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        <div class="article-top">
+            <ion-icon name="arrow-up"></ion-icon>
+        </div>
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-28T14:30:49.012Z" itemprop="datePublished">2025-02-28</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Python/base"
 class="article article-type-post"
 >
@@ -705,106 +854,6 @@ class="article article-type-post"
   
     
       <article
-id="post-buildTools/Vite/env_variables"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>根据当前的代码环境变化的变量就叫做环境变量。</strong>我们可以设置生产环境和开发环境的 base_url，来请求不同环境的接口。</p>
-<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h3 id="node-js-——-process-env"><a href="#node-js-——-process-env" class="headerlink" title="node.js —— process.env"></a>node.js —— process.env</h3><blockquote>
-<p><code>process.env</code>是 Nodejs 提供的 API，其返回一个对象，包含了当前 Shell 的所有环境变量。</p>
-</blockquote>
-<p>vite.config.js 运行在 node 环境中，所以可以识别<code>process.env</code>变量，而<code>process.env.NODE_ENV</code>就是当前 Node 运行环境变量。</p>
-<h3 id="浏览器环境-——-import-meta-env"><a href="#浏览器环境-——-import-meta-env" class="headerlink" title="浏览器环境 —— import.meta.env"></a>浏览器环境 —— import.meta.env</h3><p>在浏览器环境中，Vite 在一个特殊的<code>import.meta.env</code> 对象上暴露环境变量。</p>
-<blockquote>
-<p>这些变量在 vite.config.js 中无法访问到的。</p>
-</blockquote>
-<h2 id="自定义环境变量"><a href="#自定义环境变量" class="headerlink" title="自定义环境变量"></a>自定义环境变量</h2><h3 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h3><p>vite 中内置了 dotenv，dotenv 会从环境目录下自动读取.env 文件：</p>
-<blockquote>
-<p>.env：默认所有环境都会加载<br>.env.[mode]：只在指定模式下加载</p>
-</blockquote>
-<p>加载的环境变量也会通过 <code>import.meta.env</code> 以<strong>字符串形式</strong>暴露给客户端源码。为了防止意外地将一些环境变量泄漏到客户端，只有<strong>以 VITE_ 为前缀的变量</strong>才会暴露给经过 vite 处理的代码。</p>
-<blockquote>
-<p>注：所以在其中不用写<code>&quot;&quot;</code>也行。</p>
-</blockquote>
-<p>在指定模式下运行时，.env 在 .env.[mode] 中的同名变量会被 .env.[mode] 覆盖，而其他变量则会被进行合并。</p>
-<h3 id="指定运行模式（运行加载的自定义环境变量文件）"><a href="#指定运行模式（运行加载的自定义环境变量文件）" class="headerlink" title="指定运行模式（运行加载的自定义环境变量文件）"></a>指定运行模式（运行加载的自定义环境变量文件）</h3><p>运行命令时以 –mode 参数指定运行模式，如：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;dev&quot;: &quot;vite&quot;, // 默认开发模式 development
-  &quot;build&quot;: &quot;vite build&quot;, // build 默认为生产模式
-  &quot;test&quot;: &quot;vite --mode test&quot;
-&#125;,
-</code></pre>
-<p>指定的<code>--mode xxx</code>会去寻找对应的.env.xxx 文件，并在浏览器中将<code>import.meta.env</code>设置为 xxx 模式。如果没有找到这个文件，则只加载<code>.env</code>中的环境变量。</p>
-<blockquote>
-<p>注意：自定义模式（test）和设置的.env.xxx（.env.test）只在 vite 经过处理的浏览器端生效，Nodejs 是不会承认它的，也就是说只能在使用<code>import.meta.env</code>时才能读取到自定义环境变量，而 process.env.NODE_ENV 中没有，并且通过<code>loadEnv()</code>方法也只能获取到开发环境和生产环境。（测试了一下即使在浏览器中 MOED&#x3D;test，但是<code>process.env.NODE_ENV</code>还是 development）</p>
-</blockquote>
-<h3 id="更改-env-文件的默认入口地址"><a href="#更改-env-文件的默认入口地址" class="headerlink" title="更改.env 文件的默认入口地址"></a>更改.env 文件的默认入口地址</h3><p>一般来说 .env 文件都是建立在根目录下的，但如果环境文件太多，都散落在根目录下会让目录变得混乱。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envDir: &quot;env&quot;,
-&#125;);
-</code></pre>
-<blockquote>
-<p>这样所有的文件都可以放在根目录下的 env 文件夹下。</p>
-</blockquote>
-<h3 id="更改环境变量的-VITE-前缀"><a href="#更改环境变量的-VITE-前缀" class="headerlink" title="更改环境变量的 VITE_前缀"></a>更改环境变量的 VITE_前缀</h3><p>以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envPrefix: &quot;FER&quot;,
-&#125;);
-</code></pre>
-<h3 id="获取所有的环境变量"><a href="#获取所有的环境变量" class="headerlink" title="获取所有的环境变量"></a>获取所有的环境变量</h3><p>vite.config.js 中的环境变量获取默认以设置的 envPrefix 为开头，可以使用 Vite 内置的 API 方法<code>loadEnv()</code>获取所有的环境变量：</p>
-<pre><code class="js">const env1 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;&quot;); // 将所有的配置文件放在 env 文件夹下，这样能获取到 node 环境中(env)的所有变量
-const env2 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;); // 默认获取到以 VITE\_ 开头的环境变量
-const env3 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;FER_&quot;); // 获取到以 FER\_ 开头的环境变量
-</code></pre>
-<ul>
-<li><code>&quot;&quot;</code>：表示需要获取的环境变量的前缀，默认为 <code>VITE_</code>开头。</li>
-<li>对于不同的 NODE_ENV，只会获取对应模式（只有 production 和 development）的环境变量。</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.869Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-buildTools/Vite/env_config_integration"
 class="article article-type-post"
 >
@@ -887,6 +936,106 @@ export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
   return envResolver[command]();
 &#125;);
 </code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-01T10:15:52.869Z" itemprop="datePublished">2025-03-01</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/env_variables"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>根据当前的代码环境变化的变量就叫做环境变量。</strong>我们可以设置生产环境和开发环境的 base_url，来请求不同环境的接口。</p>
+<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h3 id="node-js-——-process-env"><a href="#node-js-——-process-env" class="headerlink" title="node.js —— process.env"></a>node.js —— process.env</h3><blockquote>
+<p><code>process.env</code>是 Nodejs 提供的 API，其返回一个对象，包含了当前 Shell 的所有环境变量。</p>
+</blockquote>
+<p>vite.config.js 运行在 node 环境中，所以可以识别<code>process.env</code>变量，而<code>process.env.NODE_ENV</code>就是当前 Node 运行环境变量。</p>
+<h3 id="浏览器环境-——-import-meta-env"><a href="#浏览器环境-——-import-meta-env" class="headerlink" title="浏览器环境 —— import.meta.env"></a>浏览器环境 —— import.meta.env</h3><p>在浏览器环境中，Vite 在一个特殊的<code>import.meta.env</code> 对象上暴露环境变量。</p>
+<blockquote>
+<p>这些变量在 vite.config.js 中无法访问到的。</p>
+</blockquote>
+<h2 id="自定义环境变量"><a href="#自定义环境变量" class="headerlink" title="自定义环境变量"></a>自定义环境变量</h2><h3 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h3><p>vite 中内置了 dotenv，dotenv 会从环境目录下自动读取.env 文件：</p>
+<blockquote>
+<p>.env：默认所有环境都会加载<br>.env.[mode]：只在指定模式下加载</p>
+</blockquote>
+<p>加载的环境变量也会通过 <code>import.meta.env</code> 以<strong>字符串形式</strong>暴露给客户端源码。为了防止意外地将一些环境变量泄漏到客户端，只有<strong>以 VITE_ 为前缀的变量</strong>才会暴露给经过 vite 处理的代码。</p>
+<blockquote>
+<p>注：所以在其中不用写<code>&quot;&quot;</code>也行。</p>
+</blockquote>
+<p>在指定模式下运行时，.env 在 .env.[mode] 中的同名变量会被 .env.[mode] 覆盖，而其他变量则会被进行合并。</p>
+<h3 id="指定运行模式（运行加载的自定义环境变量文件）"><a href="#指定运行模式（运行加载的自定义环境变量文件）" class="headerlink" title="指定运行模式（运行加载的自定义环境变量文件）"></a>指定运行模式（运行加载的自定义环境变量文件）</h3><p>运行命令时以 –mode 参数指定运行模式，如：</p>
+<pre><code class="json">&quot;scripts&quot;: &#123;
+  &quot;dev&quot;: &quot;vite&quot;, // 默认开发模式 development
+  &quot;build&quot;: &quot;vite build&quot;, // build 默认为生产模式
+  &quot;test&quot;: &quot;vite --mode test&quot;
+&#125;,
+</code></pre>
+<p>指定的<code>--mode xxx</code>会去寻找对应的.env.xxx 文件，并在浏览器中将<code>import.meta.env</code>设置为 xxx 模式。如果没有找到这个文件，则只加载<code>.env</code>中的环境变量。</p>
+<blockquote>
+<p>注意：自定义模式（test）和设置的.env.xxx（.env.test）只在 vite 经过处理的浏览器端生效，Nodejs 是不会承认它的，也就是说只能在使用<code>import.meta.env</code>时才能读取到自定义环境变量，而 process.env.NODE_ENV 中没有，并且通过<code>loadEnv()</code>方法也只能获取到开发环境和生产环境。（测试了一下即使在浏览器中 MOED&#x3D;test，但是<code>process.env.NODE_ENV</code>还是 development）</p>
+</blockquote>
+<h3 id="更改-env-文件的默认入口地址"><a href="#更改-env-文件的默认入口地址" class="headerlink" title="更改.env 文件的默认入口地址"></a>更改.env 文件的默认入口地址</h3><p>一般来说 .env 文件都是建立在根目录下的，但如果环境文件太多，都散落在根目录下会让目录变得混乱。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  envDir: &quot;env&quot;,
+&#125;);
+</code></pre>
+<blockquote>
+<p>这样所有的文件都可以放在根目录下的 env 文件夹下。</p>
+</blockquote>
+<h3 id="更改环境变量的-VITE-前缀"><a href="#更改环境变量的-VITE-前缀" class="headerlink" title="更改环境变量的 VITE_前缀"></a>更改环境变量的 VITE_前缀</h3><p>以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  envPrefix: &quot;FER&quot;,
+&#125;);
+</code></pre>
+<h3 id="获取所有的环境变量"><a href="#获取所有的环境变量" class="headerlink" title="获取所有的环境变量"></a>获取所有的环境变量</h3><p>vite.config.js 中的环境变量获取默认以设置的 envPrefix 为开头，可以使用 Vite 内置的 API 方法<code>loadEnv()</code>获取所有的环境变量：</p>
+<pre><code class="js">const env1 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;&quot;); // 将所有的配置文件放在 env 文件夹下，这样能获取到 node 环境中(env)的所有变量
+const env2 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;); // 默认获取到以 VITE\_ 开头的环境变量
+const env3 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;FER_&quot;); // 获取到以 FER\_ 开头的环境变量
+</code></pre>
+<ul>
+<li><code>&quot;&quot;</code>：表示需要获取的环境变量的前缀，默认为 <code>VITE_</code>开头。</li>
+<li>对于不同的 NODE_ENV，只会获取对应模式（只有 production 和 development）的环境变量。</li>
+</ul>
 
         
     </div>
@@ -1207,106 +1356,6 @@ export default defineConfig(&#123;
 
     
   
-    
-      <article
-id="post-buildTools/Vite/css"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css/">vite 中使用 css</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>vite 直接就支持 css 文件，不需要别的操作。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当 vite 在读取到 main.js 中引用的 index.css 时：</p>
-<ol>
-<li><p>首先使用 node 的 fs 模块获取 css 文件的内容。<br><strong>浏览器行为：</strong><br>在浏览器获取 css 文件时，vite 会将其原本的 css 内容替换为 js 脚本，并让浏览器以执行 js 文件的形式来执行 css 后缀的文件。该脚本的内容执行内容如下：</p>
-<blockquote>
-<p>细节：获取到内容后，会见文件在本地的绝对路径作为 id 和内容一起传给 vite 处理 css 的函数 ——— updateStyle(id, content)，该函数会创建一个 <code>style</code> 标签，并将 type 设置为 ‘text&#x2F;css’，将其插入到 <code>head</code> 中（后面的内容）。</p>
-</blockquote>
-</li>
-<li><p>创建一个 <code>style</code> 标签，将 css 文件中的内容直接复制到里面。</p>
-</li>
-<li><p>将 <code>style</code> 标签插入到 <code>head</code> 中。</p>
-</li>
-</ol>
-<h2 id="CSS-Module"><a href="#CSS-Module" class="headerlink" title="CSS Module"></a>CSS Module</h2><p>问题：如果两个 css 文件定义了同一个类名，样式会被覆盖。<br>解决：使用 CSS Module（postcss），将每一个 class 名变为独一无二的，不会与其他选择器重名。</p>
-<p>将 css 文件的后缀改为 <code>.module.css</code> 即可。vite 会利用 postcss 自动将后缀名为 <code>.module.css</code> 的文件转换为 CSS Module，在类名前添加上独一无二的 hash 值。</p>
-<p>使用：</p>
-<pre><code class="js">import index from &#39;./css/test2.module.css&#39;
-...
-div.className = index.test
-</code></pre>
-<blockquote>
-<p>引入的值可以是认为原始 css 类名 和修改后独一无二的 css 类名 的映射表。</p>
-</blockquote>
-<h2 id="配置-CSS-Module"><a href="#配置-CSS-Module" class="headerlink" title="配置 CSS Module"></a>配置 CSS Module</h2><p>可以通过 vite.config.js 配置 CSS Module，其实也是将参数传递给 postcss。</p>
-<pre><code class="ts">export default defineConfig(&#123;
-  // css module
-  css: &#123;
-    // （postcss）
-    modules: &#123;
-      scopeBehaviour: &quot;local&quot;, // 是否开启模块化 local(*) | global
-      localsConvention: &quot;camelCaseOnly&quot;, // 返回键值对格式 camelCaseOnly(*) | camelCase | dashes | dashesOnly | null
-      // 修改生成的 hash 名称
-      // generateScopedName: &#39;[name]-[local]-[hash:base64:5]&#39;, // string
-
-      // hashPrefix: &#39;prefix-&#39;, // 生成的 hash 名前缀 ？
-      globalModulePaths: [&quot;src/module/cssNoUseModule/*.*.css&quot;], // 不想使用css module的路径 RegExp[]
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-<h2 id="CSS-sourcemap"><a href="#CSS-sourcemap" class="headerlink" title="CSS sourcemap"></a>CSS sourcemap</h2><p>默认情况下，我们在开发环境调试定位元素时，指向的是 <code>head</code> 里的 <code>style</code> 标签。在<strong>开发环境下</strong>，vite 可以配置 css 的 sourcemap 属性<code>devSourcemap</code>，可以让我们找到处理后 css 类所对应的源文件。</p>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    // modules: &#123;
-    //   // ...
-    // &#125;,
-    // preprocessorOptions: &#123;
-    //   // ...
-    // &#125;
-    devSourcemap: true,
-  &#125;,
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.859Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1366,11 +1415,11 @@ div.className = index.test
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
+            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+            <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
           </li>
         
       </ul>
