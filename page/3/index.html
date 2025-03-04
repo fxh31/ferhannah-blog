@@ -154,7 +154,7 @@
   
     
       <article
-id="post-Node/Express/Node（Express）与数据库"
+id="post-Algorithm/binaryTree"
 class="article article-type-post"
 >
 
@@ -165,362 +165,21 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
+        <a href="/ferhannah-blog/2025/01/05/Algorithm/binaryTree/">二叉树</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="Node（Express）连接数据库"><a href="#Node（Express）连接数据库" class="headerlink" title="Node（Express）连接数据库"></a>Node（Express）连接数据库</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p><strong>关系型数据库</strong>。</p>
-<h3 id="使用-mysql-的-connection-连接数据库"><a href="#使用-mysql-的-connection-连接数据库" class="headerlink" title="使用 mysql 的 connection 连接数据库"></a><strong>使用 mysql 的 connection 连接数据库</strong></h3><blockquote>
-<p>准备工作跟下一章节相同。</p>
-</blockquote>
-<p>我们可以使用它来进行查询，查询完成之后会关闭连接。</p>
+        <p>根据不同的遍历顺序和对根节点的操作，可以分为<strong>前序遍历、中序遍历、后序遍历</strong>。其根本原理就是递归查询，直到找到叶子节点的子节点（null），然后返回 null。</p>
 <blockquote>
-<p>这种方法较为底层，且<strong>每次操作数据库都需要新建数据库连接</strong>，若数据库操作需求多，对服务器消耗较大，因此，可以使用第二种连接方式。</p>
+<p>思考：树节点的遍历有点类似于 js 的捕获冒泡，捕获阶段对应从根节点遍历到叶子节点，冒泡阶段对应从叶子节点处理逻辑回到根节点，这也被称为<strong>递归</strong>。</p>
 </blockquote>
-<pre><code class="js">const mysql = require(&quot;mysql&quot;);
-const connection = mysql.createConnection(&#123;
-  host: &quot;localhost&quot;,
-  user: &quot;me&quot;,
-  password: &quot;secret&quot;,
-  database: &quot;my_db&quot;,
-&#125;);
-
-connection.connect();
-
-connection.query(&quot;SELECT 1 + 1 AS solution&quot;, function (err, rows, fields) &#123;
-  if (err) throw err;
-
-  console.log(&quot;The solution is: &quot;, rows[0].solution);
-&#125;);
-
-connection.end();
-</code></pre>
-<h3 id="使用-mysql-建立数据库连接池连接数据库"><a href="#使用-mysql-建立数据库连接池连接数据库" class="headerlink" title="使用 mysql 建立数据库连接池连接数据库"></a><strong>使用 mysql 建立数据库连接池连接数据库</strong></h3><h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><ul>
-<li><p>需要下载 MySQL 数据库在电脑上；</p>
-</li>
-<li><p>项目中下载 mysql2 来辅助连接 MySQL 数据库：</p>
-<pre><code class="bash">npm install --save mysql2
-</code></pre>
+<p>相关问题只要掌握好二叉树的遍历顺序，就能解决。</p>
+<h2 id="对二叉树进行操作"><a href="#对二叉树进行操作" class="headerlink" title="对二叉树进行操作"></a>对二叉树进行操作</h2><ol>
+<li>确定遍历方法；</li>
+<li>确定每一层节点的操作是什么；</li>
+</ol>
 <blockquote>
-<p>mysql2 就是 mysql 的升级版。</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>以连接池的方式连接数据库：</p>
-<p>database.js</p>
-<pre><code class="js">const mysql = require(&quot;mysql2&quot;); // 导入mysql2模块
-
-// 创建一个连接池 @1
-const pool = mysql.createPool(&#123;
-  host: &quot;localhost&quot;, // 连接的服务器的IP地址
-  user: &quot;root&quot;, // 数据库用户
-  database: &quot;node-complete&quot;, // 连接的具体数据库
-  password: &quot;159638&quot;, // 安装时填写的密码
-&#125;);
-
-// 导出连接池
-module.exports = pool.promise(); // @2
-</code></pre>
-<blockquote>
-<p>@1：连接池方式——每当我们运行一个查询语句时能随时访问它，然后从管理的多个连接池中获取一个新连接，这样就可以同时运行多个查询，因为每个查询都需要自己的连接，并且一次查询完成后连接会交还到连接池中用于新的查询，最后在应用程序关闭时完成连接池。</p>
-<p>@2：以 Promise 的方式导出，我们在其他地方使用的时候可以处理异步任务。</p>
-</blockquote>
-<h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a><strong>获取数据</strong></h4><p>我们要获取数据库表中的数据，需要<strong>使用<code>execute()</code>结合一条数据库语句</strong>来实现对数据库中表的操作：</p>
-<p>app.js</p>
-<pre><code class="js">const db = require(&#39;./util/database&#39;);
-...
-// 查询数据库中的products表
-db.execute(&#39;SELECT * FROM products&#39;)
-    .then(([rows, fieldData]) =&gt; &#123;
-        console.log(rows); // 存储了数据库表中的数据
-        console.log(fieldData); // 存储数据库表的一些元字段
-    &#125;)
-    .catch(err =&gt; console.log(err));
-
-// 增加一条数据
-db.execute(
-    &#39;INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)&#39;,
-    [this.title, this.price, this.imageUrl, this.description] // 增加数据字段（与库中的表相对应）
-).then(() =&gt; &#123;&#125;).catch(err =&gt; console.log(err));
-</code></pre>
-<h3 id="使用-sequelize-连接数据库"><a href="#使用-sequelize-连接数据库" class="headerlink" title="使用 sequelize 连接数据库"></a><strong>使用 sequelize 连接数据库</strong></h3><p>详情见 sequelize 一章。</p>
-<h2 id="MongDB"><a href="#MongDB" class="headerlink" title="MongDB"></a>MongDB</h2><p><strong>非关系型数据库。</strong>MongoDB 是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似<em>json</em>的 bson<em>格式</em>，因此可以存储比较复杂的数据类型。</p>
-<p><strong>特点：</strong></p>
-<ul>
-<li>能存储大量的数据；</li>
-<li>支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，查询速度块；</li>
-<li>而且还支持对数据建立索引；</li>
-</ul>
-<h3 id="使用-mongodb-连接数据库"><a href="#使用-mongodb-连接数据库" class="headerlink" title="使用 mongodb 连接数据库"></a><strong>使用 mongodb 连接数据库</strong></h3><h4 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><p>下载 mongodb：</p>
-<pre><code class="bash">npm instal --save mongodb
-</code></pre>
-<blockquote>
-<p>准备一个 MongoDB 数据库连接地址，我使用的是云数据库 MongoDB Atlas。</p>
-</blockquote>
-<h4 id="连接数据库-1"><a href="#连接数据库-1" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>database.js</p>
-<pre><code class="js">const mongodb = require(&quot;mongodb&quot;); // 引入mongodb
-const MongoClient = mongodb.MongoClient; // 新建一个MongoClient用于连接数据库
-
-const mongoConnect = (callback) =&gt; &#123;
-  MongoClient.connect(
-    // 连接数据库地址
-    &quot;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/?retryWrites=true&amp;w=majority&quot;
-  ) // @1
-    .then((client) =&gt; &#123;
-      console.log(&quot;Connected!&quot;);
-      callback(client);
-    &#125;)
-    .catch((err) =&gt; &#123;
-      console.log(err);
-    &#125;);
-&#125;;
-
-module.exports = mongoConnect;
-</code></pre>
-<blockquote>
-<p>@1：该 url 是云数据库的地址，其中包含了云数据库存储的用户名和密码。</p>
-</blockquote>
-<p>app.js</p>
-<pre><code class="js">const mongoConnect = require(&#39;./util/database&#39;);
-const app = express();
-...
-mongoConnect(client =&gt; &#123;
-  console.log(client);
-  app.listen(3000);
-&#125;);
-</code></pre>
-<blockquote>
-<p>更多详细信息见 MongoDB 一章。</p>
-</blockquote>
-<h3 id="使用-mongoose-连接数据库"><a href="#使用-mongoose-连接数据库" class="headerlink" title="使用 mongoose 连接数据库"></a>使用 mongoose 连接数据库</h3><h4 id="准备工作-2"><a href="#准备工作-2" class="headerlink" title="准备工作"></a>准备工作</h4><p>下载 mongoose：</p>
-<pre><code class="bash">npm install --save mongoose
-</code></pre>
-<h4 id="连接数据库-2"><a href="#连接数据库-2" class="headerlink" title="连接数据库"></a>连接数据库</h4><p>app.js</p>
-<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
-...
-mongoose
-  .connect(
-    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
-  ) // 连接MongoDB数据库
-  .then(result =&gt; &#123;
-    app.listen(3000);
-  &#125;)
-  .catch(err =&gt; &#123;
-    console.log(err);
-  &#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.963Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Express/Express"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express/">Express.js模块化路由（Router）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">npm install --save express
-</code></pre>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Express.js所有都是关于中间件的。中间件意味着传入的请求会通过一堆由Express.js汇集（封装）的函数。（实际上挂载并拥有多个请求处理程序，而不是一个请求处理程序。请求将一步一步通过这个功能，直到我们发出响应）</p>
-<p><img src="D:\typora\notes\photo\middleware.png" alt="image-20230206142003029"></p>
-<p>中间件允许我们将代码拆分为多个块或片段，而不是一个包含许多功能的巨大函数。这就是Express.js的<strong>可插拔性</strong>(<strong>pluggable</strong>)，我们可以在其中轻松添加其他第三方包（添加中间件）</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>下载完后引入Express.js的模块，并创建一个由Express.js管理的对象：</p>
-<pre><code class="js">const express =  require(&#39;express&#39;);
-
-const app = express();
-</code></pre>
-<p>在我们把它传递给创建的服务器之前，我们可以通过Express.js使用app并调用定义的方法——<code>use</code>：</p>
-<h3 id="添加中间件"><a href="#添加中间件" class="headerlink" title="添加中间件"></a>添加中间件</h3><p><code>use()</code>允许我们添加一个新的中间件，它接收一个必填的函数，<strong>所有传入的请求都会执行它</strong>；这个函数接收三个参数：</p>
-<ul>
-<li><p><strong>request</strong>：请求对象</p>
-</li>
-<li><p><strong>response</strong>：响应对象</p>
-</li>
-<li><p><strong>next</strong>：Express.js提供的内部函数，<strong>前往下一个中间件</strong></p>
-<blockquote>
-<p>如果不调用<code>next</code>，就不会前往下一个中间件。</p>
-</blockquote>
-</li>
-</ul>
-<pre><code class="js">app.use((req, res, next) =&gt; &#123;
-    console.log(&#39;我是中间件&#39;);
-    next(); // 前往下一个中间件
-&#125;);
-</code></pre>
-<blockquote>
-<p>注意：中间件是根据代码的先后顺序，从上到下执行的。</p>
-</blockquote>
-<h3 id="不同路由"><a href="#不同路由" class="headerlink" title="不同路由"></a>不同路由</h3><p><code>use()</code>的第一个参数是可选的<strong>路径字符串</strong>，通过它来区分不同的路由：</p>
-<pre><code class="js">app.use(&#39;/add-product&#39;, (req, res, next) =&gt; &#123;
-    console.log(&#39;我是中间件&#39;);
-    res.send(&#39;&lt;h1&gt;The &quot;Add Product&quot; Page&lt;/h1&gt;&#39;);
-&#125;);
-
-app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
-    console.log(&#39;我是另一个中间件&#39;);
-    res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
-&#125;);
-</code></pre>
-<p>可以通过调整中间件的位置，控制路由先后或是否执行：</p>
-<pre><code class="js">app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
-    console.log(&#39;总是要通过我才能进入下一个&#39;);
-    next();
-&#125;)
-...
-</code></pre>
-<h3 id="设置响应标头"><a href="#设置响应标头" class="headerlink" title="设置响应标头"></a>设置响应标头</h3><p>默认响应标头是<code>text/html</code></p>
-<h3 id="发送响应"><a href="#发送响应" class="headerlink" title="发送响应"></a>发送响应</h3><p>使用<code>res.send()</code>发送响应：</p>
-<pre><code class="js">app.use((req, res, next) =&gt; &#123;
-    res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
-&#125;);
-</code></pre>
-<p>使用<code>res.sendFile()</code>发送响应HTML文件（路径需<code>path</code>模块）：</p>
-<pre><code class="js">app.use((req, res, next) =&gt; &#123;
-    res.sendFile(path.join(&#39;../&#39;, &#39;views&#39;, &#39;shop.html&#39;));
-&#125;);
-</code></pre>
-<h3 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h3><pre><code class="js">app.listen(3000);
-</code></pre>
-<blockquote>
-<p>Express.js会帮我们完成（背后原理）：</p>
-<pre><code class="js">const http = require(&#39;http&#39;);
-const server = http.createServer(app);
-server.listen(3000);
-</code></pre>
-</blockquote>
-<h3 id="解析请求体"><a href="#解析请求体" class="headerlink" title="解析请求体"></a>解析请求体</h3><p>通过第三方包中间件（body-parser）来解析，比使用Node.js本身的Buffer的存储机制来解析要简单得多：</p>
-<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
-...
-app.use(bodyParser.urlencoded(&#123;extended: false&#125;));
-</code></pre>
-<h3 id="启动静态文件（CSS-JS-…）"><a href="#启动静态文件（CSS-JS-…）" class="headerlink" title="启动静态文件（CSS&#x2F;JS&#x2F;…）"></a>启动静态文件（CSS&#x2F;JS&#x2F;…）</h3><p>静态文件的启动需要借助<code>express.static()</code>来访问，例如静态文件存存储在根目录下<code>public/css/main.css</code>中：</p>
-<pre><code class="js">app.use(express.static(path.join(__dirname, &#39;public&#39;)));
-</code></pre>
-<blockquote>
-<p>express.static会寻找在<code>...（根目录）/public</code>下的所有地址文件。</p>
-</blockquote>
-<p>在需要使用的HTML中：</p>
-<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/main.css&quot;&gt;
-</code></pre>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><pre><code class="js">const express =  require(&#39;express&#39;);
-const bodyParser = require(&#39;body-parser&#39;);
-
-const app = express();
-
-app.use(bodyParser.urlencoded(&#123;extended: false&#125;));
-
-// app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
-//     console.log(&#39;总是要通过我&#39;);
-//     next();
-// &#125;)
-
-app.use(&#39;/add-product&#39;, (req, res, next) =&gt; &#123;
-    res.send(&#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;);
-&#125;);
-
-app.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
-    console.log(req.body);
-    res.redirect(&#39;/&#39;);
-&#125;);
-
-app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
-    res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
-&#125;);
-
-
-app.listen(3000);
-</code></pre>
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a><strong>附录</strong></h2><h3 id="app"><a href="#app" class="headerlink" title="app"></a><strong>app</strong></h3><h4 id="use"><a href="#use" class="headerlink" title="use()"></a>use()</h4><p>注册一个中间件。总是会按顺序执行的中间件，<strong>所有传入的请求都会执行它</strong>（无论请求是GET还是POST）。</p>
-<p><strong>用途：</strong></p>
-<ul>
-<li><p>添加中间件</p>
-</li>
-<li><p>不同路由</p>
-</li>
-<li><p>添加多个回调函数（中间件）</p>
-<p>在注册中间件时可以添加多个回调函数，不同回调函数之间用逗号隔开：</p>
-<pre><code class="js">app.use(&#39;/add-product&#39;, callback1 , callback2);
-</code></pre>
-</li>
-</ul>
-<h4 id="get-post-…"><a href="#get-post-…" class="headerlink" title="get()&#x2F;post()…"></a>get()&#x2F;post()…</h4><p><strong>只会在传入GET&#x2F;POST&#x2F;…请求（request）时触发</strong>。</p>
-<h4 id="listen"><a href="#listen" class="headerlink" title="listen()"></a>listen()</h4><p>监听端口。</p>
-<h4 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h4><p>允许我们设置任何全局变量的值。</p>
-<pre><code class="js">const app = express();
-
-app.set(&#39;view engine&#39;, &#39;pug&#39;); // 设置模板引擎
-</code></pre>
-<blockquote>
-<p>注意：因为Pug下载后是内置的，所以可以使用set直接引用。</p>
-</blockquote>
-<h4 id="engine"><a href="#engine" class="headerlink" title="engine()"></a>engine()</h4><p>注册一个非内置的模板引擎。</p>
-<pre><code class="js">app.engine(&#39;handlebars&#39;,expressHba());
-</code></pre>
-<h3 id="res"><a href="#res" class="headerlink" title="res"></a><strong>res</strong></h3><p>响应相关信息。</p>
-<h4 id="send"><a href="#send" class="headerlink" title="send()"></a>send()</h4><p>发送响应。默认响应标头是<code>text/html</code>。</p>
-<pre><code class="js">res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
-</code></pre>
-<h4 id="sendFile"><a href="#sendFile" class="headerlink" title="sendFile()"></a>sendFile()</h4><p>传入一个需响应的文件地址，发送响应文件。需借助path（Node.js）模块。</p>
-<pre><code class="js"> res.sendFile(path.join(&#39;../&#39;, &#39;views&#39;, &#39;shop.html&#39;));
-</code></pre>
-<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect()"></a>redirect()</h4><p>路由重定向。</p>
-<pre><code class="js">res.redirect(&#39;/&#39;);
-</code></pre>
-<h4 id="render"><a href="#render" class="headerlink" title="render()"></a>render()</h4><p>发送默认模板引擎渲染的文件。</p>
-<pre><code class="js">res.render(&#39;shop&#39;); // 发送渲染shop.pug文件
-</code></pre>
-<p>它可以使用第二个参数，向模板文件中传递参数：</p>
-<pre><code class="js">const products = &#39;apple&#39;;
-res.render(&#39;shop&#39;, &#123; prods: products, docTitle: &#39;Shop&#39;&#125;); // 发送到shop.pug的参数
-</code></pre>
-<h4 id="locals"><a href="#locals" class="headerlink" title="locals"></a>locals</h4><p>设置局部变量传递给视图。</p>
-<pre><code class="js">res.locals.xxx = 
-</code></pre>
-<blockquote>
-<p>例子：</p>
-<pre><code class="js">app.use((res, req, next) =&gt; &#123;
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
-  next();
-&#125;);
-</code></pre>
+<p>剩下的就交给递归。</p>
 </blockquote>
 
         
@@ -537,11 +196,11 @@ res.render(&#39;shop&#39;, &#123; prods: products, docTitle: &#39;Shop&#39;&#125
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.962Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2025-01-04T16:00:00.000Z" itemprop="datePublished">2025-01-05</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
@@ -554,7 +213,7 @@ res.render(&#39;shop&#39;, &#123; prods: products, docTitle: &#39;Shop&#39;&#125
   
     
       <article
-id="post-Node/Express/Express.js模块化路由（Router）"
+id="post-Algorithm/link"
 class="article article-type-post"
 >
 
@@ -565,56 +224,21 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%B7%AF%E7%94%B1%EF%BC%88Router%EF%BC%89/">Express.js模块化路由（Router）</a>
+        <a href="/ferhannah-blog/2025/01/04/Algorithm/link/">链表</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>使用 <code>express.Router</code> 类来创建可安装的模块化路由处理程序。<code>Router</code> <strong>实例是完整的中间件和路由系统</strong>；因此，常常将其称为“<strong>微型应用程序</strong>”（像是在服务器内部嵌套一个小型的服务器）。</p>
+        <p>由于链表的结构特殊，没有像数组那样方便的库方法，因此其很多操作都需要用到底层算法解决。（不过也因此可以巩固一下）</p>
 <blockquote>
-<p>router 的用法和<code>const app = express()</code>创建的 app 是一样的。</p>
+<p>例如需要手写排序操作。</p>
 </blockquote>
-<p>routes&#x2F;oneRoute.js：</p>
-<pre><code class="js">const express = require(&quot;express&quot;);
-
-const router = express.Router(); // 创建Router实例
-
-router.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
-  res.send(
-    &#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
-  );
-&#125;);
-
-router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
-  console.log(req.body);
-  res.redirect(&quot;/&quot;);
-&#125;);
-
-module.exports = router; // 导出router
-</code></pre>
-<p>在某个文件中导入：</p>
-<pre><code class="js">const oneRoute = require(&quot;./routes/oneRoute&quot;);
-
-app.use(oneRoute);
-</code></pre>
-<h2 id="添加公共路径路由（过滤路径）"><a href="#添加公共路径路由（过滤路径）" class="headerlink" title="添加公共路径路由（过滤路径）"></a>添加公共路径路由（过滤路径）</h2><p>有时候我们的模块化路由里中间件的路由地址有一段是相同，可以在注册这个路由模块时通过<code>use</code>来定义：</p>
-<pre><code class="js">...
-app.use(&#39;/admin&#39;, adminRoutes); // 公共路径
-...
-</code></pre>
-<p>routes&#x2F;oneRoute.js：</p>
-<pre><code class="js">// /admin/add-product =&gt; GET
-router.get(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
-  res.send(
-    &#39;&lt;form action=&quot;/admin/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
-  );
-&#125;);
-
-// /admin/product =&gt; POST
-router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
-  console.log(req.body);
-  res.redirect(&quot;/&quot;);
-&#125;);
-</code></pre>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>根据链表的类型可选择不同的排序算法。</p>
+<h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><p>如果要保持时间复杂度 O(nlogn)，则需要使用分治策略（归并排序），拆分链表。（详细算法实现参照排序一文）</p>
+<blockquote>
+<p>其中 n 是链表长度。</p>
+</blockquote>
+<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>双向链表既可以从前遍历，又可以从后遍历，所以不只可以使用归并排序，还可以使用快速排序。（我猜的，暂未进行实践）</p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p>寻找中间节点：<strong>快慢指针</strong>，找到 mid 后再根据需求是否断链（前指空）。<br>dummy 节点：快速返回新的链表。<br>寻找倒数第 n 个节点：<strong>前后指针</strong>，前指针走 n 步，然后两个指针再一起走。</p>
 
         
     </div>
@@ -630,11 +254,11 @@ router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.961Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2025-01-03T16:00:00.000Z" itemprop="datePublished">2025-01-04</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
@@ -647,7 +271,7 @@ router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
   
     
       <article
-id="post-Node/Express/Express.js中间件的包"
+id="post-Algorithm/monotoneStack"
 class="article article-type-post"
 >
 
@@ -658,33 +282,16 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
+        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <ul>
-<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
-<pre><code class="bash">npm install --save body-parser
-</code></pre>
-<blockquote>
-<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
-</blockquote>
-<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
-...
-app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
-</code></pre>
-</li>
-<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
-<blockquote>
-<p>此包依赖 express 和 express-session。</p>
-</blockquote>
-<pre><code class="bash">npm install --save csurf
-</code></pre>
-</li>
-<li><p>express-validator：Express 验证器</p>
-<pre><code class="bash">npm install --save express-validator
-</code></pre>
-</li>
+        <p>已知单调栈使用场景：</p>
+<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
+<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+<ul>
+<li>一般栈中存储的是数组索引下标；</li>
+<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
 </ul>
 
         
@@ -701,11 +308,11 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
@@ -718,7 +325,7 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
   
     
       <article
-id="post-Node/ES Module和CommonJS同时使用"
+id="post-JS/requestAnimationFrame"
 class="article article-type-post"
 >
 
@@ -729,654 +336,86 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/ES%20Module%E5%92%8CCommonJS%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8/">ES Module和CommonJS同时使用</a>
+        <a href="/ferhannah-blog/2024/12/24/JS/requestAnimationFrame/">requestAnimationFrame</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="ES-Modules-中使用-Common-js-规范文件"><a href="#ES-Modules-中使用-Common-js-规范文件" class="headerlink" title="ES Modules 中使用 Common.js 规范文件"></a>ES Modules 中使用 Common.js 规范文件</h2><p>在 ES Module 中可以载入 Common.js 标准的模块。</p>
-<pre><code class="js">// Common.js
-module.exports = &#123;
-  foo: &quot;commonjs exports value&quot;,
-&#125;;
-
-// exports.foo = &#39;commonjs exports value&#39;; // 别名使用
-</code></pre>
-<pre><code class="js">// es-module.mjs
-import mod from &quot;./commonjs.js&quot;;
-console.log(mod); // &#123; foo: &#39;commonjs exports value&#39; &#125;
-
-// import &#123; foo &#125; from &#39;./commonjs.js&#39;
-// console.log(foo); // commonjs exports value
-</code></pre>
-<h2 id="在-Common-js-规范文件中使用-ES-Modules"><a href="#在-Common-js-规范文件中使用-ES-Modules" class="headerlink" title="在 Common.js 规范文件中使用 ES Modules"></a>在 Common.js 规范文件中使用 ES Modules</h2><p>在 <strong>Node.js 的原生环境中是&#x3D;&#x3D;不允许&#x3D;&#x3D;通过 CommonJS 模块来载入 ES Modules 的</strong>。</p>
-<pre><code class="js">// Common.js
-export const foo = &quot;es module export value&quot;;
-</code></pre>
-<pre><code class="js">// es-module.mjs
-const mod = require(&quot;./es-module.mjs&quot;);
-console.log(mod); // error
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.958Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Cookie和Session"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Cookie%E5%92%8CSession/">Cookie 和 Session</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a><strong>Cookie</strong></h2><p>Cookie 是一段不超过 4KB 的小型文本数据，由一个名称（Name）、一个值（Value）和其它几个用于控制 Cookie 有效期、安全性、使用范围的可选属性组成。它通常是网站<strong>为了辨别用户身份</strong>，<strong>储存在客户端</strong>（用户本地）上的数据（通常经过加密），是由用户客户端计算机暂时或永久保存的信息。</p>
-<blockquote>
-<p>问题：express 所有的 render（redirect 等）都会发送一个新的请求，在执行 render 的中间件之前存储数据，可以让整个 render 的中间件里访问到这个数据。但是如果在 render 的中间件里写入数据，则每次执行该数据都会被刷新，无法存储。</p>
+        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
 <ul>
-<li>可以将数据存储为全局变量。但因为该变量在所有请求之间共享，所以也会在用户之间共享（不安全）；</li>
-<li>使用 cookie。cookie 可以帮助我们将数据存储在单个用户的浏览器中，不会影响其他用户。</li>
+<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
+<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
+</blockquote>
+</li>
+<li>隐藏的元素不会触发回调。<blockquote>
+<p>保证更少的 CPU、GPU 消耗。</p>
+</blockquote>
+</li>
+<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
 </ul>
-</blockquote>
-<h3 id="设置-Cookie"><a href="#设置-Cookie" class="headerlink" title="设置 Cookie"></a><strong>设置 Cookie</strong></h3><p>通过<code>setHeader()</code>的<code>Set-Cookie</code>关键字来设置一个 cookie，以<code>=</code>分隔来设置 cookie 的 name 和 value：</p>
-<pre><code class="js">res.setHeader(&quot;Set-Cookie&quot;, &quot;name=value&quot;);
-</code></pre>
-<blockquote>
-<p>cookie 设置完以后，默认情况下浏览器会将<strong>它发送到服务器的每个请求</strong>。</p>
-</blockquote>
-<ul>
-<li><p><strong>设置多个 cookie</strong></p>
-<p>我们可以同时设置多个 cookie 值：</p>
-<pre><code class="js">res.setHeader(&quot;Set-Cookie&quot;, &quot;name=value; name2=666 &quot;);
-</code></pre>
-</li>
-<li><p><strong>设置 cookie 失效时长</strong></p>
-<p><strong>默认情况下的 cookie 在关闭浏览器后就会失效</strong>，我们可以 cookie 设置某个过期时间：</p>
-<pre><code class="js">res.setHeader(
-  &quot;Set-Cookie&quot;,
-  &quot;name=value; expires=&quot; +
-    new Date(new Date().getTime() + 86409000).toUTCString()
-);
-</code></pre>
-</li>
-<li><p><strong>设置 cookie 的 Secure</strong></p>
-<p>设置 Secure 意味着<strong>cookie 只有在页面通过 HTTPS 请求时才会被设置</strong>，<strong>保护 cookie 在浏览器和 Web 服务器间的传输过程中不被窃取和篡改。</strong>：</p>
-<pre><code class="JS">res.setHeader(&#39;Set-Cookie&#39;, &#39;name=value; Secure&#39;);
-</code></pre>
-</li>
-<li><p><strong>设置 cookie 的 HttpOnly</strong></p>
-<p>设置 HttpOnly 意味着<strong>我们无法通过客户端的 JS 访问和修改 cookie 的值</strong>（前端也可以使用 <code>document.cookie</code> 去获取和修改 <code>cookie</code> ），<strong>它保护 cookie 不被跨站脚本攻击窃取或篡改</strong>：</p>
-<pre><code class="js">res.setHeader(&quot;Set-Cookie&quot;, &quot;name=value; HttpOnly&quot;);
-</code></pre>
-<blockquote>
-<p>跨域脚本攻击：客户端 JS 中可能被注入了恶意代码，如果没有限制客户端 JS 访问 cookie，可能会存在身份泄露等问题。</p>
-</blockquote>
-</li>
+<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
+<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
+<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
+<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
 </ul>
-<h3 id="获取-Cookie"><a href="#获取-Cookie" class="headerlink" title="获取 Cookie"></a><strong>获取 Cookie</strong></h3><p>通过请求的<code>get(&#39;Cookie&#39;)</code>方法来获取一个 cookie：</p>
-<pre><code class="js">req.get(&quot;Cookie&quot;); // 获取的cookie为name=value形式，需要可以自己进行拆分
-</code></pre>
-<blockquote>
-<p>拆分 cookie：</p>
-<pre><code class="js">req.get(&quot;Cookie&quot;).trim().split(&quot;=&quot;)[0]; // 获取cookie的name
-req.get(&quot;Cookie&quot;).trim().split(&quot;=&quot;)[1]; // 获取cookie的value
-</code></pre>
-</blockquote>
-<p>我们可以从浏览器端修改 cookie 的值，所以 cookie 通常用<strong>于跨域请求存储数据</strong>（cookie 是存储在本地浏览器上，所以它可以发送到我们每个发起请求的页面，所以它可以从一个页面发送到另一个页面，即使这两个页面存在于不同的服务器上），但是一些敏感的数据不能让用户修改，这时候就可以使用 session：</p>
-<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a><strong>Session</strong></h2><p>session 是当我们访问服务某个网页的时候，在<strong>服务器端的内存</strong>开辟一块内存。它存储在服务器的内存中，session 只有对应的浏览器才能访问。</p>
-<blockquote>
-<p>客户端需要告诉服务器它对应的 session，因为 session 也是存储在内存或数据库中的一条条数据。</p>
-</blockquote>
-<p><strong>使用（实现）原理：</strong></p>
-<ul>
-<li><p>我们使用<strong>cookie 来存储 session 的 ID</strong>，但实际上存储的值并不是 ID，而是<strong>经过哈希处理只有服务器可以识别的、以加密方式存储的 ID</strong>，这样在 cookie 中就存储了一个我们无法浏览器内部改变、较为安全的值；</p>
-</li>
-<li><p>当用户保持当前浏览器的情况下再去访问服务器时，会把 session 的 ID 传给服务器，<strong>服务器根据 session 的 ID</strong>来为用户提供相应的服务。</p>
-</li>
-</ul>
-<h2 id="在-Node（Express）中使用-Session"><a href="#在-Node（Express）中使用-Session" class="headerlink" title="在 Node（Express）中使用 Session"></a><strong>在 Node（Express）中使用 Session</strong></h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a><strong>安装</strong></h3><p>使用时需下载<code>express-session</code>这个包：</p>
-<pre><code class="bash">npm install --save express-session
-</code></pre>
-<blockquote>
-<p>它是 Express 官方拓展包，但并不包含在 Express 里。</p>
-</blockquote>
-<h3 id="初始化-session-中间件"><a href="#初始化-session-中间件" class="headerlink" title="初始化 session 中间件"></a><strong>初始化 session 中间件</strong></h3><p>app.js</p>
-<pre><code class="js">const express = require(&quot;express&quot;);
-const session = require(&quot;express-session&quot;); // 引入express-session
-
-const app = express();
-
-app.use(
-  session(&#123;
-    // 初始化设置session
-    secret: &quot;my secret&quot;, // 用于标记存储在cookie中的ID的hash
-    resave: false, // session不会再每完成一个请求就保存 @1
-    saveUninitialized: false, // 确保不为不需要保存的请求保存session
-    // cookie: &#123;&#125; // 设置cookie相关配置
-  &#125;)
-);
-</code></pre>
-<blockquote>
-<p>@1：设置<code>resave: false</code>意味着当 session 发生变化时才会保存，有利于提高性能；</p>
-</blockquote>
-<h3 id="设置-session-的值"><a href="#设置-session-的值" class="headerlink" title="设置 session 的值"></a><strong>设置 session 的值</strong></h3><p>使用<code>req.session.xxx = value;</code>来定义存储一个 sessionID 的 cookie，cookie 的 value 为 session 加密的 ID：</p>
-<pre><code class="js">exports.postLogin = (req, res, next) =&gt; &#123;
-  // res.setHeader(&#39;Set-Cookie&#39;, &#39;loggedIn=true; Secure&#39;);
-  req.session.isLoggedIn = true; // 设置一个session
-  res.redirect(&quot;/&quot;);
-&#125;;
-</code></pre>
-<blockquote>
-<p>设置的 session 的名字是为了方便我们获取，其在 cookie 中存储的名字统称为<code>connect.sid</code>。</p>
-</blockquote>
-<h3 id="获取-session-的值"><a href="#获取-session-的值" class="headerlink" title="获取 session 的值"></a>获取 session 的值</h3><p>使用<code>req.session.xxx</code>来获取一个 session 的值：</p>
-<pre><code class="js">exports.getLogin = (req, res, next) =&gt; &#123;
-  console.log(req.session.isLoggedIn); // 获取session的值
-&#125;;
-</code></pre>
-<h3 id="存储-session-的值"><a href="#存储-session-的值" class="headerlink" title="存储 session 的值"></a><strong>存储 session 的值</strong></h3><p>通过<code>req.session.xxx = value;</code>设置的 session 是<strong>存储在内存中</strong>的，但内存是有限的，所以我们需要根据不同情况采用不同的存储方式。</p>
-<blockquote>
-<p>对于开发者来说需要存储的用户的 session 较少，内存够用；但生产服务器可能会存储上千万的用户，每个用户都有自己的 session，这很快就会造成内存溢出。</p>
-</blockquote>
-<ul>
-<li><p><strong>使用 MongoDB 数据库存储</strong></p>
-<p>对于 express-session，需要下载<code>connect-mongodb-session</code>这个包：</p>
-<pre><code class="bash">npm install --save connect-mongodb-session
-</code></pre>
-<p>引入 connect-mongodb-session：</p>
-<p>app.js</p>
-<pre><code class="js">const session = require(&quot;express-session&quot;);
-const MongoDBStore = require(&quot;connect-mongodb-session&quot;)(session); // 实际上提供了一个需要传递session执行函数
-// ...
-const app = express();
-const store = new MongoDBStore(&#123;
-  // 创建数据库存储
-  uri: &quot;mongodb+srv://&lt;name&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop&quot;, // 数据库连接地址
-  collection: &quot;sessions&quot;, // 集合名称（如果不存在就创建）
-&#125;);
-
-app.use(
-  session(&#123;
-    secret: &quot;my secret&quot;,
-    resave: false,
-    saveUninitialized: false,
-    store: store, // 设置初始化存储
-  &#125;)
-);
-</code></pre>
-</li>
-</ul>
-<h3 id="删除-session-的值"><a href="#删除-session-的值" class="headerlink" title="删除 session 的值"></a><strong>删除 session 的值</strong></h3><p>通过<code>req.session.destroy()</code>来删除一个 session，它内部包含一个错误信息的回调函数：</p>
-<pre><code class="js">exports.postLogout = (req, res, next) =&gt; &#123;
-  req.session.destroy((err) =&gt; &#123;
-    console.log(err);
-  &#125;);
-&#125;;
-</code></pre>
-<blockquote>
-<p>注意：该删除会将数据库中的 session 删除，浏览器里的 cookie 不会删除，但是其中 cookie 存储的 session 的 ID 在删除后会在数据库中找不到匹配。</p>
-</blockquote>
-<h3 id="确保-session-保存-更新后处理逻辑"><a href="#确保-session-保存-更新后处理逻辑" class="headerlink" title="确保 session 保存&#x2F;更新后处理逻辑"></a>确保 session 保存&#x2F;更新后处理逻辑</h3><p>有时候我们执行代码还没有等到 session 保存&#x2F;更新好之后就已经执行完了，如果想等 session 完全保存好之后再进行执行，可以使用<code>req.session.save()</code>：</p>
-<pre><code class="js">req.session.save((err) =&gt; &#123;
-  console.log(err);
-  res.redirect(&quot;/&quot;);
-&#125;);
-</code></pre>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>Cookie：</strong></p>
-<ul>
-<li><p><strong>存储在浏览器</strong>上（客户端）；</p>
-</li>
-<li><p><strong>可以被用户看到和操纵</strong>，不应该用来存储一些敏感的信息；</p>
-</li>
-<li><p>通常不会直接设置 cookie 的值，而是通过类似 session 的包使用 cookie；</p>
-</li>
-<li><p>可以配置各种各样的 cookie，如什么时候失效（expire）；</p>
-<blockquote>
-<p>默认情况下在浏览器关闭时过期，而这类 cookie 被称为<code>session cookie</code>！</p>
-<ul>
-<li><strong><code>session cookie</code>不一定用来识别 session</strong>，之所以被称为<code>session cookie</code>是因为它们只在使用当前浏览器页面时存在；</li>
-</ul>
-</blockquote>
-</li>
-<li><p>设置 cookie 的失效时间到具体某个日期、年龄，这相当于某种意义上的<strong>永久 cookie</strong>（它不会在关闭浏览器时就消失）；</p>
-</li>
-<li><p>cookie 能和 session 一起使用，但<strong>它并不仅限于和 session 一起使用</strong>；</p>
-</li>
-</ul>
-<p><strong>Session：</strong></p>
-<ul>
-<li><strong>存储在服务器</strong>上（服务端）；</li>
-<li><strong>用户无法查看或操纵</strong>，适合存储跨域请求保留的敏感数据；</li>
-<li>可以在 session<strong>存储任何形式的数据</strong>，通常用来存储用户数据或身份验证状态信息；</li>
-<li>seesion 需要一个 cookie 来识别（这个 cookie 不是<code>session cookie</code>，而是永久 cookie），一个 cookie 识别一个 session；</li>
-<li>可以选择不同的方式存储 session 数据，如：数据库存储、文件存储等；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.957Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/CSRF"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/CSRF/">CSRF</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>CSRF（Cross-Site Request Forgery）：跨域请求伪造。</strong></p>
-<h2 id="CSRF-Attacks"><a href="#CSRF-Attacks" class="headerlink" title="CSRF Attacks"></a>CSRF Attacks</h2><p>一种特殊的攻击方式，通过伪造一个网站，来欺骗用户发送敏感信息，然后根据收集的敏感信息伪装用户向真正的网站发送一些不利请求信息。</p>
-<h2 id="防止-CSRF-Attacks"><a href="#防止-CSRF-Attacks" class="headerlink" title="防止 CSRF Attacks"></a>防止 CSRF Attacks</h2><blockquote>
-<p>确保人们只能在你的视图界面使用你的 session（使用你的应用程序呈现的视图），这样在任何虚假伪造的页面上都不能使用你的 session（即使它看上去很像你的页面）。为了达到这一点，我们可以使用 CSRF Token。</p>
-</blockquote>
-<h3 id="使用-CSRF-Token"><a href="#使用-CSRF-Token" class="headerlink" title="使用 CSRF Token"></a>使用 CSRF Token</h3><h4 id="安装和引入"><a href="#安装和引入" class="headerlink" title="安装和引入"></a><strong>安装和引入</strong></h4><p>安装 csurf 包，它允许我们生成<code>CSRF Token</code>嵌入到表单中。在视图和服务器上都包含这个 token，每当我们发起请求时，这个包将检查传入的请求是否具有有效的 token。</p>
-<blockquote>
-<p>此包依赖 express 和 express-session。</p>
-</blockquote>
-<pre><code class="bash">npm install --save csurf
-</code></pre>
-<blockquote>
-<p>场景：虚假网站使用用户的 session 模拟用户向真正的后端发送请求，但是<code>CSRF Token</code>是随机的 hash 值，它只有一个值有效，而且只有在服务器上运行的包（csurf）才知道这个 token 值是否有效。所以虚拟网站发送请求会丢失 token。</p>
-</blockquote>
-<p>app.js</p>
-<pre><code class="js">const app = express();
-const csrf = require(&quot;csurf&quot;); // 引入csurf包
-
-const csrfProtection = csrf(); // 定义csrf的执行函数
-
-app.use(csrfProtection); // 注册中间件
-</code></pre>
-<p>对于任何非 GET 的请求，csurf 包会在视图（request body）中寻找一个<code>CSRF Token</code>，所以我们需要先生成它：</p>
-<h4 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a><strong>生成 token</strong></h4><pre><code class="js">exports.getIndex = (req, res, next) =&gt; &#123;
-  Product.find()
-    .then((products) =&gt; &#123;
-      res.render(&quot;shop/index&quot;, &#123;
-        prods: products,
-        pageTitle: &quot;Shop&quot;,
-        path: &quot;/&quot;,
-        isAuthenticated: req.session.isLoggedIn,
-        csrfToken: req.csrfToken(), // 创建一个token并存储到csrfToken
-      &#125;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-<blockquote>
-<p>也可以将生成 token 注册成一个中间件，让<strong>每个页面的非 GET 请求都能执行</strong>：</p>
-<p>app.js</p>
-<pre><code class="js">...
-app.use((req, res, next) =&gt; &#123;
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
-  next();
-&#125;);
-</code></pre>
-<p>这样需要在每个发送非 GET 请求的表单上加上：</p>
-<pre><code class="ejs">&lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;&lt;%= csrfToken %&gt;&quot;&gt;
-</code></pre>
-</blockquote>
-<h4 id="页面通过请求发送-token-并隐藏-token"><a href="#页面通过请求发送-token-并隐藏-token" class="headerlink" title="页面通过请求发送 token 并隐藏 token"></a><strong>页面通过请求发送 token 并隐藏 token</strong></h4><p>我使用 ejs 在页面用户进行操作时发送请求，在请求中携带 token，通过<code>type=&quot;hidden&quot;</code>来隐藏 token：</p>
-<pre><code class="ejs">&lt;form action=&quot;/logout&quot; method=&quot;post&quot;&gt;
-    &lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;&lt;%= csrfToken %&gt;&quot;&gt;
-    &lt;button type=&quot;submit&quot;&gt;Logout&lt;/button&gt;
-&lt;/form&gt;
-</code></pre>
-<blockquote>
-<p>将 input 的 name 设置为<code>_csrf</code>，csurf 包会自动寻找这个参数。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.956Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Bcrypt"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Bcrypt/">Bcrypt</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>一个跨平台的加密工具。</p>
-<h2 id="在-Node-上使用"><a href="#在-Node-上使用" class="headerlink" title="在 Node 上使用"></a>在 Node 上使用</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><pre><code class="bash">npm install --save bcryptjs
-</code></pre>
-<h3 id="加密数据"><a href="#加密数据" class="headerlink" title="加密数据"></a>加密数据</h3><p>使用<code>bcrypt.hash()</code>加密数据，该方法接收两个参数：</p>
-<ul>
-<li><p>第一个参数：需要加密的数据</p>
-</li>
-<li><p>第二个参数：表示 hash 加密的轮数</p>
-<blockquote>
-<p>安全度越高，花费的时间就越长。<strong>12</strong>被认为是较高安全度的。</p>
-</blockquote>
-</li>
-</ul>
-<p>返回一个 Promise，内部传递一个加密后的数据：</p>
-<pre><code class="js">const bcrypt = require(&quot;bcryptjs&quot;); // 引入bcryptjs
-
-const password = &quot;sdfdsfdsafdsf&quot;;
-
-// 注册
-exports.postSignup = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
-  User.findOne(&#123; email: email &#125;)
-    .then((userDoc) =&gt; &#123;
-      if (userDoc) &#123;
-        return res.redirect(&quot;/signup&quot;);
-      &#125;
-      return bcrypt
-        .hash(password, 12) // 使用hash加密密码
-        .then((hashedPassword) =&gt; &#123;
-          // 加密后的数据
-          const user = new User(&#123;
-            email: email,
-            password: hashedPassword, // 用加密后的密码替换原密码传给数据库
-            cart: &#123; items: [] &#125;,
-          &#125;);
-          return user.save();
-        &#125;)
-        .then((result) =&gt; &#123;
-          res.redirect(&quot;/login&quot;);
-        &#125;);
-    &#125;)
-    .catch((err) =&gt; &#123;
-      console.log(err);
-    &#125;);
-&#125;;
-</code></pre>
-<h3 id="对比数据"><a href="#对比数据" class="headerlink" title="对比数据"></a>对比数据</h3><p>由于数据经过 bcrypt 通过某种算法加密后，我们无法得知原信息是否与需要验证的信息相匹配，所以要通过 bcrypt 内部的来对比。可以使用<code>bcrypt.compare()</code>来进行对比，该方法接收两个参数：</p>
-<ul>
-<li>第一个参数：未经加密的数据</li>
-<li>第二个参数：经过 hash 加密后的数据</li>
-</ul>
-<p>返回一个 Promise，内部传递一个 boolean 表示是否匹配：</p>
-<pre><code class="js">// 登录
-exports.postLogin = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  User.findOne(&#123; email: email &#125;)
-    .then((user) =&gt; &#123;
-      if (!user) &#123;
-        return res.redirect(&quot;/login&quot;);
-      &#125;
-      bcrypt
-        .compare(password, user.password) // 将浏览器（用户）输入的密码和数据库中存储的hash密码进行匹配
-        .then((doMatch) =&gt; &#123;
-          // 是否匹配
-          if (doMatch) &#123;
-            req.session.isLoggedIn = true;
-            req.session.user = user;
-            return req.session.save((err) =&gt; &#123;
-              console.log(err);
-              res.redirect(&quot;/&quot;);
-            &#125;);
-          &#125;
-          res.redirect(&quot;/login&quot;);
-        &#125;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.955Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-micro-frontends/wujie/Wujie简介"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E7%AE%80%E4%BB%8B/"></a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="Wujie简介"><a href="#Wujie简介" class="headerlink" title="Wujie简介"></a>Wujie简介</h1><p>由腾讯开发的微前端框架，帮助开发者将复杂的前端项目拆分为多个微前端应用，实现分治开发、独立部署、统一集成的目标。</p>
-<p>拥有以下几个特点（官网）：</p>
-<h2 id="极速"><a href="#极速" class="headerlink" title="极速"></a>极速</h2><p>页面切换时速度快，无白屏。（主要是通过开启预加载实现）</p>
-<h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><p>预加载指的是在应用空闲的时候<code>requestIdleCallback</code>将所需要的静态资源提前从网络中加载到内存中。</p>
-<blockquote>
-<p>主流的PC屏幕刷新率（FPS）大多在60Hz，即1秒钟对屏幕进行60次刷新，平均每次刷新耗时大概是16.6ms。</p>
-</blockquote>
-<p><code>requestidlecallback</code>触发的时机有两种：</p>
-<ul>
-<li><p>在一帧的输入渲染合成完成后才会有空闲时间触发<code>requestidlecallback</code>;</p>
-<blockquote>
-<p>一帧内所做的事情如下：</p>
-<ul>
-<li>输入事件处理：浏览器会处理用户的输入事件，如鼠标点击、键盘输入等，并将这些事件放入事件队列中；</li>
-<li>JavaScript 执行：浏览器会从事件队列中取出事件并执行对应的 JavaScript 代码，如事件处理函数、定时器等；</li>
-<li>执行 requestAnimationFrame；</li>
-<li>执行dom 的回流与重绘；</li>
-<li>计算更新图层的绘制指令（浏览器会将布局信息转换成绘制指令，并使用 GPU 进行绘制渲染，生成对应的位图）；</li>
-<li>绘制指令合并主线程（浏览器会将多个位图进行合成，生成最终的页面图像），如果有空余时间会执行 <code>requestidlecallback</code>。</li>
-</ul>
-<p>在这个过程中，浏览器会尽可能地优化渲染流程，以提高页面的渲染性能和用户体验。实际上就是在16.6ms之内完成输入渲染合成，空闲的时间才会留给 <code>requestidlecallback</code>。</p>
-</blockquote>
-</li>
-<li><p>没有任务执行浏览器会有50ms空闲时间，这个时间段也会执行 <code>requestidlecallback</code>。</p>
-<blockquote>
-<p>例如直接在控制台输出。</p>
-</blockquote>
-</li>
-</ul>
-<pre><code class="js">requestidlecallback(function (deadline) &#123;
-    console.log(deadline.timeRemaining());
-&#125;)
-</code></pre>
-<p>由于子应用提前渲染可能会导致阻塞主应用的线程，所以无界提供了类似于<code>react-fiber</code>方式来防止阻塞线程：</p>
-<p>react16： <code>postMessage + requestAnimationFrame</code>来实现类似<code>requestidlecallback()</code>的功能；</p>
-<blockquote>
-<ul>
-<li>使用<code>postMessage + requestAnimationFrame</code>是因为react开发人员经过测试发现<code>requestidlecallback()</code>可能会超过16ms，超过16ms绘制就会看起来很卡，所以react16是用<code>postMessage + requestAnimationFrame</code>实现的。</li>
-<li>使用<code>postMessage </code>来代替<code>setTimeOut()</code>是因为后者即使为0</li>
-</ul>
-</blockquote>
-<p>react18 ：使用<code>MessageChannel</code>实现<code>requestidlecallback()</code>。</p>
-<h2 id="强大"><a href="#强大" class="headerlink" title="强大"></a>强大</h2><p>支持子应用保活、内嵌、去中心化通信、多应用激活。</p>
-<h3 id="子应用保活"><a href="#子应用保活" class="headerlink" title="子应用保活"></a>子应用保活</h3><h2 id="简单"><a href="#简单" class="headerlink" title="简单"></a>简单</h2><p>框架封装，保持普通组件使用体验一致。</p>
-<h2 id="原生隔离"><a href="#原生隔离" class="headerlink" title="原生隔离"></a>原生隔离</h2><p>基于 WebComponent 和 iframe，原生物理隔离。</p>
-<h3 id="WebComponent"><a href="#WebComponent" class="headerlink" title="WebComponent"></a>WebComponent</h3><pre><code class="tsx">window.onload = () =&gt; &#123;
-  class Wujie extends HTMLElement &#123;
-    constructor() &#123;
-      super();
-      // shadowdom 样式隔离
-      let dom = this.attachShadow(&#123; mode: &quot;open&quot; &#125;);
-      let template = document.querySelector(&quot;#wujie&quot;) as HTMLTemplateElement;
-
-      dom.appendChild(template.content.cloneNode(true));
-
-      console.log(this.getAttr(&quot;name&quot;), this.getAttr(&quot;url&quot;));
-    &#125;
-    private getAttr(attr: string) &#123;
-      return this.getAttribute(attr);
-    &#125;
-
-    // webComponents的生命周期
-    connectedCallback() &#123;
-      console.log(&quot;类似于vue的mounted&quot;);
-    &#125;
-    disconnectedCallback() &#123;
-      console.log(&quot;类似于vue的destory&quot;);
-    &#125;
-    attributeChangedCallback(name: any, oldVal: any, newVal: any) &#123;
-      console.log(&quot;类似于vue的watch&quot;);
-    &#125;
+<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
+<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
+<pre><code class="js">const scrollToTop = () =&gt; &#123;
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  console.log(c);
+  if (c &gt; 0) &#123;
+    window.requestAnimationFrame(scrollToTop); // 平滑回滚
+    window.scrollTo(0, c - c / 8);
+    // window.scrollTo(0, c - c);
   &#125;
-  // 使用原生js挂载一个组件
-  window.customElements.define(&quot;wu-jie&quot;, Wujie);
 &#125;;
 </code></pre>
-<pre><code class="html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot; /&gt;
-    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;wu-jie name=&quot;fdsf&quot; url=&quot;dsafas&quot;&gt;&lt;/wu-jie&gt;
-    &lt;div&gt;我是外层的div&lt;/div&gt;
-
-    &lt;template id=&quot;wujie&quot;&gt;
-      &lt;style&gt;
-        div &#123;
-          background: red;
-        &#125;
-      &lt;/style&gt;
-      &lt;div&gt;我是template里面的div&lt;/div&gt;
-    &lt;/template&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
+<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
+  window.requestAnimationFrame(() =&gt; &#123;
+    console.log(&quot;scroll&quot;);
+  &#125;);
+&#125;);
 </code></pre>
-<h3 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h3><p>将js单独存放在iframe中。</p>
-<h2 id="原生性能"><a href="#原生性能" class="headerlink" title="原生性能"></a>原生性能</h2><p>避免 with 语句运行代码，整体的运行性能接近原生。</p>
-<h2 id="开箱即用"><a href="#开箱即用" class="headerlink" title="开箱即用"></a>开箱即用</h2><p>主、子应用无需做任何适配，开箱即用。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><ul>
-<li>隔离js使用一个空的iframe进行隔离。</li>
-<li>子应用axios需要自行适配。</li>
-<li>iframe沙箱的src设置了主应用的host，初始化iframe的时候需要等待iframe的location.orign从’about:blank’初始化为主应用的host，这个采用的计时器去等待的不是很优雅。</li>
-</ul>
+<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
 <blockquote>
-<p>底层原理：使用shadowDom 隔离css，js使用空的iframe隔离，通讯使用的是proxy。</p>
+<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
 </blockquote>
+<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
+<pre><code class="js">//需要插入的容器
+const ul = document.getElementById(&quot;container&quot;);
+// 插入十万条数据
+const total = 100000;
+// 一次插入 20 条
+const once = 20;
+//总页数
+const page = total / once;
+//每条记录的索引
+const index = 0;
+//循环加载数据
+function loop(curTotal, curIndex) &#123;
+  if (curTotal &lt;= 0) &#123;
+    return false;
+  &#125;
+  //每页多少条
+  const pageCount = Math.min(curTotal, once);
+  function addData() &#123;
+    for (let i = 0; i &lt; pageCount; i++) &#123;
+      let li = document.createElement(&quot;li&quot;);
+      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
+      ul.appendChild(li);
+    &#125;
+    loop(curTotal - pageCount, curIndex + pageCount);
+  &#125;
+  window.requestAnimationFrame(addData);
+  // setTimeout(addData, 0);
+&#125;
+loop(total, index);
+</code></pre>
+<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
+<blockquote>
+<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
+</blockquote>
+<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
 
         
     </div>
@@ -1392,8 +431,12 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:13:36.039Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
 </div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
     
     
     </div>
@@ -1405,7 +448,7 @@ class="article article-type-post"
   
     
       <article
-id="post-micro-frontends/wujie/Wujie使用"
+id="post-JS/this"
 class="article article-type-post"
 >
 
@@ -1416,336 +459,229 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/"></a>
+        <a href="/ferhannah-blog/2024/12/24/JS/this/">js 中 this 指向（绑定）</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="Wujie使用"><a href="#Wujie使用" class="headerlink" title="Wujie使用"></a>Wujie使用</h1><h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><ul>
-<li><p>安装wujie</p>
-<pre><code class="bash">npm i wujie
-</code></pre>
-</li>
-<li><p>在主应用中引入（以Vue应用为例）</p>
-<p>index.js</p>
-<pre><code class="js">import &#123; createApp &#125; from &#39;vue&#39;
-import App from &#39;./App.vue&#39;
-
-import &#123; startApp &#125; from &#39;wujie&#39; // 引入wujie，通过其中的startApp来设置子应用
-
-const app = createApp(App)
-setupApp(&#123; name: &quot;唯一id&quot;, url: &quot;子应用地址&quot;, exec: true, el: &quot;容器&quot;, sync: true &#125;)
-
-app.mount(&#39;#app&#39;)
-</code></pre>
-</li>
-</ul>
-<h2 id="Vue组件封装"><a href="#Vue组件封装" class="headerlink" title="Vue组件封装"></a>Vue组件封装</h2><p>如果使用的是vue2或vue3的应用，可以直接使用封装好的组件。</p>
-<ul>
-<li><p>安装 wujie-vue2&#x2F; wujie-vue3</p>
-<pre><code class="bash"># vue2 框架
-npm i wujie-vue2 -S
-# vue3 框架
-npm i wujie-vue3 -S
-</code></pre>
-</li>
-<li><p>在主应用中引入并挂载</p>
-<pre><code class="js">import &#123; createApp &#125; from &#39;vue&#39;
-import App from &#39;./App.vue&#39;
-import Wujie from &#39;wujie-vue3&#39; // 引入wujie-vue3
-const app = createApp(App)
-
-app.use(Wujie); // 注册
- 
-app.mount(&#39;#app&#39;)
-</code></pre>
-</li>
-<li><p>在主应用中使用，接入子应用</p>
+        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
 <blockquote>
-<p>在此之前要先启动子应用。</p>
+<p>this 指向（绑定）与函数调用的位置有关。</p>
 </blockquote>
-<pre><code class="html">&lt;WujieVue url=&quot;http://127.0.0.1:5147&quot; name=&quot;vue3&quot;&gt;&lt;/WujieVue&gt; &lt;!--子应用vue3--&gt;
-...
-&lt;WujieVue
-  width=&quot;100%&quot; 
-  height=&quot;100%&quot;
-  name=&quot;xxx&quot;
-  :url=&quot;xxx&quot;
-  :sync=&quot;true&quot;
-  :fetch=&quot;fetch&quot;
-  :props=&quot;props&quot;
-  :beforeLoad=&quot;beforeLoad&quot;
-  :beforeMount=&quot;beforeMount&quot;
-  :afterMount=&quot;afterMount&quot;
-  :beforeUnmount=&quot;beforeUnmount&quot;
-  :afterUnmount=&quot;afterUnmount&quot;
-&lt;/WujieVue&gt;
-...
-</code></pre>
-</li>
+<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
+<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
+<ul>
+<li>直接在全局调用 this；</li>
+<li>在全局直接执行函数，函数中直接调用 this；</li>
 </ul>
-<h3 id="封装原理"><a href="#封装原理" class="headerlink" title="封装原理"></a>封装原理</h3><p><code>wujie-vue3</code>是按照一个组件的原理去实现的。</p>
-<pre><code class="ts">import &#123;defineComponent, h, getCurrentInstance, onMounted, watch, onBeforeUnmount&#125; from &#39;vue&#39;
-import &#123;startApp, bus &#125; from &#39;wujie&#39;
-import type &#123; PropType &#125; from &#39;vue&#39;
-import &#123; Props &#125; from &#39;./type&#39;
-
-const WujieVue = defineComponent(&#123;
-    props: &#123;
-        width: &#123; type: String, default: &quot;&quot; &#125;,
-        height: &#123; type: String, default: &quot;&quot; &#125;,
-        name: &#123; type: String, default: &quot;&quot;, required: true &#125;,
-        loading: &#123; type: HTMLElement, default: undefined &#125;,
-        url: &#123; type: String, default: &quot;&quot;, required: true &#125;,
-        sync: &#123; type: Boolean, default: undefined &#125;,
-        prefix: &#123; type: Object, default: undefined &#125;,
-        alive: &#123; type: Boolean, default: undefined &#125;,
-        props: &#123; type: Object, default: undefined &#125;,
-        attrs: &#123; type: Object, default: undefined &#125;,
-        replace: &#123; type: Function as PropType&lt;Props[&#39;replace&#39;]&gt;, default: undefined &#125;,
-        fetch: &#123; type: Function as PropType&lt;Props[&#39;fetch&#39;]&gt;, default: undefined &#125;,
-        fiber: &#123; type: Boolean, default: undefined &#125;,
-        degrade: &#123; type: Boolean, default: undefined &#125;,
-        plugins: &#123; type: Array as PropType&lt;Props[&#39;plugins&#39;]&gt;, default: null &#125;,
-        beforeLoad: &#123; type: Function as PropType&lt;Props[&#39;beforeLoad&#39;]&gt;, default: null &#125;,
-        beforeMount: &#123; type: Function as PropType&lt;Props[&#39;beforeMount&#39;]&gt;, default: null &#125;,
-        afterMount: &#123; type: Function as PropType&lt;Props[&#39;afterMount&#39;]&gt;, default: null &#125;,
-        beforeUnmount: &#123; type: Function as PropType&lt;Props[&#39;beforeUnmount&#39;]&gt;, default: null &#125;,
-        afterUnmount: &#123; type: Function as PropType&lt;Props[&#39;afterUnmount&#39;]&gt;, default: null &#125;,
-        activated: &#123; type: Function as PropType&lt;Props[&#39;activated&#39;]&gt;, default: null &#125;,
-        deactivated: &#123; type: Function as PropType&lt;Props[&#39;deactivated&#39;]&gt;, default: null &#125;
-    &#125;,
-    setup(props, &#123;emit&#125;) &#123;
-        const init = () =&gt; &#123;
-            const instance = getCurrentInstance()
-            startApp(&#123; // 微前端初始化所需方法
-                name: props.name,
-                url: props.url,
-                el: instance?.refs.wujie as HTMLElement,
-                loading: props.loading,
-                alive: props.alive,
-                fetch: props.fetch,
-                props: props.props,
-                attrs: props.attrs,
-                replace: props.replace,
-                sync: props.sync,
-                prefix: props.prefix,
-                fiber: props.fiber,
-                degrade: props.degrade,
-                plugins: props.plugins,
-                beforeLoad: props.beforeLoad,
-                beforeMount: props.beforeMount,
-                afterMount: props.afterMount,
-                beforeUnmount: props.beforeUnmount,
-                afterUnmount: props.afterUnmount,
-                activated: props.activated,
-                deactivated: props.deactivated,
-            &#125;)
-        &#125;
-        // name和url可能是动态的，所以需要监听它们的变化，然后再初始化
-        watch([props.name, props.url], () =&gt; &#123;
-            init()
-        &#125;)
-        
-        // 传参函数
-        const hanlderEmit = (event:string,...args:any[]) =&gt; &#123;
-            emit(event,...args) // 暴露给父组件（给bus做了一个中转）
-        &#125;
-        
-        onMounted(()=&gt; &#123;
-            bus.$onAll(hanlderEmit); // 监听所有事件
-            init()
-        &#125;)
-        
-        onBeforeUnmount(()=&gt; &#123;
-            bus.$offAll(hanlderEmit); // 销毁
-        &#125;)
-        
-        return () =&gt; h(&#39;div&#39;, &#123;
-            style: &#123;
-                width: props.width,
-                height: props.height
-            &#125;,
-            ref: &quot;wujie&quot; // 便于之后获取到这个dom
-        &#125;)
-    &#125;
-&#125;)
-WujieVue.install = function (app) &#123;
-  app.component(&quot;WujieVue&quot;, WujieVue); // 组件注册
+<blockquote>
+<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
+</blockquote>
+<blockquote>
+<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
+</blockquote>
+<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
+<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
+<li>直接使用<code>window.x</code>；</li>
+<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
+</ul>
+<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
+<p>匿名函数和具名函数则不受其影响。</p>
+</blockquote>
+</li>
+<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
+</ul>
+<pre><code class="js">const obj = &#123;
+  a: 10,
+  b: function () &#123;
+    console.log(this);
+  &#125;,
 &#125;;
+const copy_obj = obj.b;
+copy_obj(); // undefined / window
 
-export default WujieVue;
+obj.b(); // &#123;a: 10, b: ƒ&#125;
 </code></pre>
+<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
 <blockquote>
-<p>注意：</p>
-<ul>
-<li>PropType：有很多复杂的数据结构是办法没有标注类型的（在ts中类型与接口不对应会报错），所以vue3提供一个PropType来与定义的结构相对应。（此处的类型对应的就是导出的Props里的类型，见下文）</li>
-<li>getCurrentInstance：在<code>setup()</code>中的<code>this</code>还是undefined，所以没有办法通过<code>this.$refs</code>来读取。在vue3中可以使用<code>getCurrentInstance()</code>来获取组件的实例。</li>
-<li>bus：wujie封装的用于传参的对象。</li>
-</ul>
+<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
 </blockquote>
-<p>定义所需参数（wujie的参数）</p>
-<pre><code class="ts">import type &#123; plugin &#125; from &#39;wujie&#39;
-type lifecycle = (appWindow: Window) =&gt; any;
-interface Props &#123;
-    /** 唯一性用户必须保证 */
-    name: string;
-    /** 需要渲染的url */
-    url: string;
-    /** 需要渲染的html, 如果用户已有则无需从url请求 */
-    html?: string;
-    /** 渲染的容器 */
-    loading?: HTMLElement;
-    /** 路由同步开关， false刷新无效，但是前进后退依然有效 */
-    sync?: boolean;
-    /** 子应用短路径替换，路由同步时生效 */
-    prefix?: &#123; [key: string]: string &#125;;
-    /** 子应用保活模式，state不会丢失 */
-    alive?: boolean;
-    /** 注入给子应用的数据 */
-    props?: &#123; [key: string]: any &#125;;
-    /** js采用fiber模式执行 */
-    fiber?: boolean;
-    /** 子应用采用降级iframe方案 */
-    degrade?: boolean;
-    /** 自定义运行iframe的属性 */
-    attrs?: &#123; [key: string]: any &#125;;
-    /** 自定义降级渲染iframe的属性 */
-    degradeAttrs?: &#123; [key: string]: any &#125;;
-    /** 代码替换钩子 */
-    replace?: (codeText: string) =&gt; string;
-    /** 自定义fetch，资源和接口 */
-    fetch?: (input: RequestInfo, init?: RequestInit) =&gt; Promise&lt;Response&gt;;
-    /** 子应插件 */
-    plugins: Array&lt;plugin&gt;;
-    /** 子应用生命周期 */
-    beforeLoad?: lifecycle;
-    /** 没有做生命周期改造的子应用不会调用 */
-    beforeMount?: lifecycle;
-    afterMount?: lifecycle;
-    beforeUnmount?: lifecycle;
-    afterUnmount?: lifecycle;
-    /** 非保活应用不会调用 */
-    activated?: lifecycle;
-    deactivated?: lifecycle;
-&#125;;
-
-export &#123; Props &#125; 
-</code></pre>
-<h2 id="React组件封装"><a href="#React组件封装" class="headerlink" title="React组件封装"></a>React组件封装</h2><p>wujie基于<code>react</code>的组件封装，使用参数基本和Vue的封装类似，只是换了react的写法。</p>
-<h2 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h2><ul>
-<li>解构出preloadApp()</li>
-<li>使用preloadApp()，将<code>exec</code>设置为true开启预加载</li>
-</ul>
-<pre><code class="js">import &#123; createApp &#125; from &#39;vue&#39;
-import App from &#39;./App.vue&#39;
-
-import Wujie from &#39;wujie-vue3&#39;
-const &#123; preloadApp &#125; = Wujie // 解构出preloadApp()
-const app = createApp(App)
-
-app.use(Wujie)
-app.mount(&#39;#app&#39;)
-
-preloadApp(&#123; name: &#39;react&#39;, url: &quot;http://127.0.0.1:5147&quot;, exec: true &#125;) // 开启预加载（参数和setupApp相同，多了个exec）
-</code></pre>
-<h2 id="应用通信"><a href="#应用通信" class="headerlink" title="应用通信"></a>应用通信</h2><p>wujie提供三种通信方式：</p>
-<h3 id="window通信"><a href="#window通信" class="headerlink" title="window通信"></a>window通信</h3><p>由于子应用运行的<code>iframe</code>的<code>src</code>和主应用是同域的，所以相互可以直接通信。</p>
-<ul>
-<li><p>主应用调用子应用的全局数据</p>
-<pre><code class="js">window.document.querySelector(&quot;iframe[name=子应用id]&quot;).contentWindow.xxx;
-</code></pre>
-</li>
-<li><p>子应用调用主应用的全局数据</p>
-<pre><code class="js">window.parent.xxx;
-</code></pre>
-</li>
-</ul>
+<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
+<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
+<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
 <blockquote>
-<p>例子：</p>
-<p>主应用定义一个全局变量：</p>
-<pre><code class="js">var a = &#39;abc&#39;;
-</code></pre>
-<p>子应用通过<code>window.parent.a</code>访问：</p>
-<pre><code class="js">const getParentA = () =&gt; &#123;
-    console.log(alter(window.parent.a))
+<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
+</blockquote>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
+<blockquote>
+<p>todo… which parttern</p>
+</blockquote>
+<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
+<ul>
+<li>call()：一个一个传参；</li>
+<li>apply()：传递一个数组；</li>
+<li>bind()：直接返回一个新函数；</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
+<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
+<li>es6 之前的 self 同 this 机制；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/debounceAndtrottle"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/18/JS/debounceAndtrottle/">防抖和节流</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>防抖（Debounce）和节流（Throttle）是两种常用的优化前端性能的技术，用于控制事件触发频率，避免过多的事件触发导致性能问题。</p>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>事件触发之后等待一定时间再执行，如果这个时间内该事件又被触发了则重新计时。</p>
+<pre><code class="js">function debounce(func, delay) &#123;
+  let timer;
+
+  return function () &#123;
+    clearTimeout(timer);
+    timer = setTimeout(() =&gt; &#123;
+      func.apply(this, arguments);
+    &#125;, delay);
+  &#125;;
 &#125;
 </code></pre>
-</blockquote>
-<blockquote>
-<p><strong>注意</strong>：由于同源策略的限制，如果iframe的源与主页面的源不同，那么在控制iframe中的元素时可能会受到限制。（如果需要跨域控制iframe中的元素，可以考虑使用postMessage API来进行通信）</p>
-</blockquote>
-<h3 id="props通信"><a href="#props通信" class="headerlink" title="props通信"></a>props通信</h3><ul>
-<li><p>主应用可以通过<code>props</code>注入数据和方法</p>
-<pre><code class="html">&lt;WujieVue name=&quot;xxx&quot; url=&quot;xxx&quot; :props=&quot;&#123; data: xxx, methods: xxx &#125;&quot;&gt;&lt;/WujieVue&gt;
-</code></pre>
-<p>例子：</p>
-<pre><code class="html">&lt;template&gt;
-    &lt;WujieVue url=&quot;http://127.0.0.1:5147&quot; name=&quot;vue3&quot; :props=&quot;&#123;age: 23, name: &#39;张三&#39;&#125;&quot;&gt;&lt;/WujieVue&gt;
-&lt;/template&gt;
-</code></pre>
-</li>
-<li><p>子应用可以通过<code>$wujie</code>来获取：</p>
-<blockquote>
-<p>无界对子应用注入了<code>$wujie</code>对象，可以通过<code>$wujie</code>或者<code>window.$wujie</code>获取。</p>
-</blockquote>
-<pre><code class="js">const props = window.$wujie?.props; // &#123;data: xxx, methods: xxx&#125;
-</code></pre>
-<blockquote>
-<p>注意：直接写<code>window.$wujie.props</code>可能能用，但是会报错，这是因为没有写<code>$wujie</code>的声明文件，在全局声明一下就好了：</p>
-<pre><code class="ts">declare global &#123;
-    interface Window &#123;
-        $wujie: &#123;
-            props: Record&lt;string, any&gt;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-</blockquote>
-</li>
-</ul>
-<h3 id="eventBus通信"><a href="#eventBus通信" class="headerlink" title="eventBus通信"></a>eventBus通信</h3><p>无界提供一套去中心化的通信方案，主应用和子应用、子应用和子应用都可以通过这种方式进行通信。</p>
-<blockquote>
-<p>通过<code>$on</code>监听，<code>$emit</code>触发双向传递消息。</p>
-</blockquote>
+<p>适用场景：</p>
 <ul>
-<li><p>主应用使用</p>
-<pre><code class="js">// 如果使用wujie
-import &#123; bus &#125; from &quot;wujie&quot;;
-
-// 如果使用wujie-vue
-import WujieVue from &quot;wujie-vue&quot;;
-const &#123; bus &#125; = WujieVue;
-
-// 如果使用wujie-react
-import WujieReact from &quot;wujie-react&quot;;
-const &#123; bus &#125; = WujieReact;
-
-// 主应用监听事件
-bus.$on(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-// 主应用发送事件
-bus.$emit(&quot;事件名字&quot;, arg1, arg2, ...);
-// 主应用取消事件监听
-bus.$off(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-</code></pre>
-<p>例子：</p>
-<pre><code class="js">bus.$on(&quot;vue3&quot;, (data: any) =&gt; &#123;
-    console.log(date, &#39;我是主应用&#39;)
-&#125;);
-</code></pre>
-</li>
-<li><p>子应用使用</p>
-<pre><code class="js">// 子应用监听事件
-window.$wujie?.bus.$on(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-// 子应用发送事件
-window.$wujie?.bus.$emit(&quot;事件名字&quot;, arg1, arg2, ...);
-// 子应用取消事件监听
-window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-</code></pre>
-<p>例子：</p>
-<pre><code class="js">const send = () =&gt; &#123;
-    window.$wujie.bus.$emit(&#39;vue3&#39;, &#39;我是子应用&#39;);
+<li>输入框搜索建议：用户在输入时，只有在停止输入一段时间后才触发搜索请求。；</li>
+<li>窗口大小调整：窗口大小调整时，只在停止调整一段时间后触发重新计算布局。</li>
+</ul>
+<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>一定时间间隔内，无论事件触发多少次，只会执行一次。事件只会按照一定时间间隔一次一次执行。</p>
+<pre><code class="js">function throttle(func, delay) &#123;
+  let isRun = true;
+  return function () &#123;
+    if (!isRun) return;
+    isRun = false;
+    setTimeout(() =&gt; &#123;
+      func.apply(this, arguments);
+      isRun = true;
+    &#125;, delay);
+  &#125;;
 &#125;
 </code></pre>
+<blockquote>
+<p>setTimeout 不精准，详情见 setTimeout 一章。</p>
+</blockquote>
+<p>适用场景：</p>
+<ul>
+<li>滚动加载：滚动页面时，只在一定时间间隔内加载更多内容，避免频繁加载。</li>
+<li>防止按钮重复点击：按钮点击后在一定时间内禁用，防止用户多次点击。</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-17T16:00:00.000Z" itemprop="datePublished">2024-12-18</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/event"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/10/JS/event/">js 事件</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="事件的冒泡和捕获"><a href="#事件的冒泡和捕获" class="headerlink" title="事件的冒泡和捕获"></a>事件的冒泡和捕获</h2><p>js 事件流大体分为三个阶段，描述了事件在 dom 文档中传播的顺序：</p>
+<ol>
+<li>捕获阶段：事件从文档的根节点开始，向目标元素传播。（由外向内）</li>
+<li>目标阶段：事件到达目标元素。</li>
+<li>冒泡阶段：事件从目标元素向根节点传播。（由内向外）</li>
+</ol>
+<p>当点击一个子元素触发某个事件时，如果其父元素也绑定了相同的事件，那么子元素和父元素都会触发相同的事件函数。如果只想触发子元素，则可以在子元素中使用<code>e.stopPropagation()</code>阻止事件传播（无论是冒泡阶段还是捕获阶段）。</p>
+<blockquote>
+<p>阻止了之后点击子元素时后续元素都不会触发该事件了。</p>
+</blockquote>
+<p><strong>addEventListener(type, listener, options)<strong>：<br>options: bool，该事件是否在捕获或冒泡阶段执行，</strong>默认不会在捕获阶段执行（false）</strong>；如果设置为 true，会在捕获阶段执行这个事件，这会导致事件再还没到达指定元素时就先被外层设置了为 true 的父元素上的监听器捕获到。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><code>e.stopPropagation()</code>阻止事件传播（既可以阻止捕获阶段又可以阻止冒泡阶段）；</li>
+<li>adddEventListener(type, listener, options)&#96;：中的第三个设置是否在事件捕获阶段执行；</li>
+</ul>
+<h2 id="其他事件"><a href="#其他事件" class="headerlink" title="其他事件"></a>其他事件</h2><ul>
+<li>unhandledrejection：当有 Promise 返回 reject 或抛出异常，且该异常没有被 catch 时触发。</li>
+<li>error：抛出异常时触发（img、script、css、and jsonp）。<blockquote>
+<p>但是在 Promise 中抛出异常则不会触发该事件，可能是因为 Promise 中的异常被 catch 了，就不会触发该事件了吧（猜测）。<br>解答：该事件是针对资源加载时的异常（img、script、css、and jsonp）等出错时才会触发。</p>
+</blockquote>
 </li>
 </ul>
 
@@ -1763,8 +699,199 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:13:36.038Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2024-12-09T16:00:00.000Z" itemprop="datePublished">2024-12-10</time>
 </div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/11/16/buildTools/Vite/index/">vite</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="vite-加载文件原理"><a href="#vite-加载文件原理" class="headerlink" title="vite 加载文件原理"></a>vite 加载文件原理</h2><ul>
+<li><p>vite 在启动时会以 ESModule 模块化规范来加载文件，所以会先<strong>将所有文件转换为 ES Module 的 js 文件</strong>，再执行。</p>
+<blockquote>
+<p>包括但不限于<code>.css</code>、<code>.vue</code>等。</p>
+</blockquote>
+</li>
+<li><p>对所有打包资源文件进行依赖预构建，将其统放在<code>node_modules/.vite</code>下，这样方便浏览器引用资源路径。</p>
+</li>
+<li><p>浏览器请求资源文件时，对返回的文件内容中的资源请求路径继续拦截预处理，将请求路径统一替换为<code>node_modules/.vite</code>下的路径。</p>
+</li>
+<li><p>资源能正确访问。</p>
+</li>
+</ul>
+<h2 id="vue-文件处理"><a href="#vue-文件处理" class="headerlink" title=".vue 文件处理"></a>.vue 文件处理</h2><p>对于<code>.vue</code>的文件会先用对应的编译工具将其转换为 esm 模块，，然后以 js（application&#x2F;javascript）的形式返回给浏览器，这样浏览器就能正确识别到了。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-11-15T16:00:00.000Z" itemprop="datePublished">2024-11-16</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/math"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/11/08/Algorithm/math/">math</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p>用于求两个正整数的<strong>最大公约数</strong>（Greatest Common Divisor，GCD）。</p>
+<p>基本思想：<br>以<strong>除数</strong>和<strong>余数</strong>反复做除法运算，当余数为 0 时，取当前算式除数为最大公约数。</p>
+<p>$$<br>gcd(a, b) &#x3D; gcd(b, a mod b)<br>$$</p>
+<pre><code class="js">// 递归
+function gcd(a, b) &#123;
+  return a % b ? gcd(b, a % b) : b;
+&#125;
+
+// 迭代
+function gcd(a, b) &#123;
+  while (a % b) &#123;
+    [a, b] = [b, a % b];
+  &#125;
+  return b;
+&#125;
+</code></pre>
+<blockquote>
+<p>补充：扩展的欧几里得算法可用于 RSA 加密算法等领域。</p>
+</blockquote>
+<h3 id="最小公倍数（Leatest-Common-Multiple，LCM）"><a href="#最小公倍数（Leatest-Common-Multiple，LCM）" class="headerlink" title="最小公倍数（Leatest Common Multiple，LCM）"></a>最小公倍数（Leatest Common Multiple，LCM）</h3><p>可以用最大公约数求得。</p>
+<p>$$<br>lcm(a, b) &#x3D; \frac{ab}{gcd(a, b)}<br>$$</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-11-07T16:00:00.000Z" itemprop="datePublished">2024-11-08</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/binarySearch"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/31/Algorithm/binarySearch/">二分搜索</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="二分间值"><a href="#二分间值" class="headerlink" title="二分间值"></a>二分间值</h2><h2 id="最小化最大值"><a href="#最小化最大值" class="headerlink" title="最小化最大值"></a>最小化最大值</h2><p>二分答案求最小。</p>
+<h2 id="最大化最小值"><a href="#最大化最小值" class="headerlink" title="最大化最小值"></a>最大化最小值</h2><p>二分答案求最大。</p>
+<h2 id="第-K-小-大"><a href="#第-K-小-大" class="headerlink" title="第 K 小&#x2F;大"></a>第 K 小&#x2F;大</h2><ul>
+<li>第 k 小等价于：求最小的 x，<strong>满足 &lt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
+<li>第 k 大等价于：求最大的 x，<strong>满足 &gt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
+</ul>
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>数组去重问题：一般不会去重；</li>
+<li>规定 k 从 1 开始，而不是数组下标 0；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
     
     
     </div>
@@ -1808,7 +935,7 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>Tags</span></div>
     <div class="widget-inner">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li></ul>
     </div>
   </div>
 
@@ -1821,23 +948,23 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>
@@ -1849,7 +976,7 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
   <div class="widget-wrap widget-archive">
     <div class="widget-title"><span>Archive</span></div>
     <div class="widget-inner">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
     </div>
   </div>
 

@@ -154,79 +154,6 @@
   
     
       <article
-id="post-CSS/useful"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/CSS/useful/">一些有用的 css 属性</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="columns"><a href="#columns" class="headerlink" title="columns"></a>columns</h2><p>将一个元素拆分成多列，并设置每列的宽度。</p>
-<pre><code class="css">.content &#123;
-  columns: 200px 3; /* 每列的宽度为 200px，共 3 列 */
-  column-gap: 12px;
-&#125;
-</code></pre>
-<h2 id="break-inside"><a href="#break-inside" class="headerlink" title="break-inside"></a>break-inside</h2><p>在浏览器中，列表项将不会被拆分到不同的列中。每个列表项将作为一个整体出现在同一列中。</p>
-<pre><code class="css">.menu-list &#123;
-  break-inside: avoid;
-&#125;
-</code></pre>
-<h2 id="使用伪元素通过-border-绘制一条直线"><a href="#使用伪元素通过-border-绘制一条直线" class="headerlink" title="使用伪元素通过 border 绘制一条直线"></a>使用伪元素通过 border 绘制一条直线</h2><p>使用伪元素中的 <code>content</code> 在元素前&#x2F;后添加直线时如果手动添加并不能使其自动填满父元素的剩余空间。<br>所以可以使用 border 配合 flex 来实现更好的效果：</p>
-<pre><code class="html">&lt;div class=&quot;title&quot;&gt;首页&lt;/div&gt;
-</code></pre>
-<pre><code class="css">.title &#123;
-  width: 100%;
-  display: inline-flex; /* 设置该元素为行内flex元素 */
-  padding-left: 4px;
-&#125;
-.title::after &#123;
-  content: &quot;&quot;;
-  flex: 1 1 0%; /* 使用flex填满剩余空间 */
-  border-top: 1px solid #ebebeb; /* 设置border作为分割线 */
-  margin: 16px;
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:31:25.119Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-CSS/cssModule"
 class="article article-type-post"
 >
@@ -238,7 +165,7 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/CSS/cssModule/">CSS Modules</a>
+        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
     </header>
     <div class="article-entry post-inner-html">
         
@@ -343,11 +270,64 @@ module.exports = &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-28T14:31:25.117Z" itemprop="datePublished">2025-02-28</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/dataset"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/HTML/dataset/">dataset</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>html 中使用<code>data-</code>来定义自定义属性，这是因为：</p>
+<ul>
+<li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
+<li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
+<li>可以使用 dataset 将所有的自定义属性获取到；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
         </div>
     
     
@@ -371,7 +351,7 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
+        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
     </header>
     <div class="article-entry post-inner-html">
         
@@ -403,7 +383,7 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-28T14:31:03.814Z" itemprop="datePublished">2025-02-28</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
@@ -420,7 +400,7 @@ class="article article-type-post"
   
     
       <article
-id="post-HTML/dataset"
+id="post-JS/copyObject"
 class="article article-type-post"
 >
 
@@ -431,15 +411,13 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/HTML/dataset/">dataset</a>
+        <a href="/ferhannah-blog/2024/09/22/JS/copyObject/">js 拷贝数组（对象）</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>html 中使用<code>data-</code>来定义自定义属性，这是因为：</p>
-<ul>
-<li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
-<li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
-<li>可以使用 dataset 将所有的自定义属性获取到；</li>
+        <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
+<li>slice()</li>
+<li>扩展运算符 […]</li>
 </ul>
 
         
@@ -456,173 +434,59 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-28T14:31:03.813Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-HTML/Node和Element"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
-<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:31:03.812Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/this"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/this/">js 中 this 指向（绑定）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
-<blockquote>
-<p>this 指向（绑定）与函数调用的位置有关。</p>
-</blockquote>
-<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
-<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
-<ul>
-<li>直接在全局调用 this；</li>
-<li>在全局直接执行函数，函数中直接调用 this；</li>
-</ul>
-<blockquote>
-<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
-</blockquote>
-<blockquote>
-<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
-</blockquote>
-<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
-<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
-<li>直接使用<code>window.x</code>；</li>
-<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
-</ul>
-<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
-<p>匿名函数和具名函数则不受其影响。</p>
-</blockquote>
-</li>
-<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
-</ul>
-<pre><code class="js">const obj = &#123;
-  a: 10,
-  b: function () &#123;
-    console.log(this);
-  &#125;,
-&#125;;
-const copy_obj = obj.b;
-copy_obj(); // undefined / window
-
-obj.b(); // &#123;a: 10, b: ƒ&#125;
-</code></pre>
-<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
-<blockquote>
-<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
-</blockquote>
-<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
-<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
-<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
-<blockquote>
-<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
-</blockquote>
-<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
-<blockquote>
-<p>todo… which parttern</p>
-</blockquote>
-<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
-<ul>
-<li>call()：一个一个传参；</li>
-<li>apply()：传递一个数组；</li>
-<li>bind()：直接返回一个新函数；</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
-<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
-<li>es6 之前的 self 同 this 机制；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.019Z" itemprop="datePublished">2025-02-28</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/slidedWindow"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
@@ -646,7 +510,7 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/setTimout/">setTimeout</a>
+        <a href="/ferhannah-blog/2024/09/22/JS/setTimout/">setTimeout</a>
     </header>
     <div class="article-entry post-inner-html">
         
@@ -694,7 +558,7 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.018Z" itemprop="datePublished">2025-02-28</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
@@ -711,7 +575,7 @@ class="article article-type-post"
   
     
       <article
-id="post-JS/requestAnimationFrame"
+id="post-network/AJAX"
 class="article article-type-post"
 >
 
@@ -722,86 +586,293 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/requestAnimationFrame/">requestAnimationFrame</a>
+        <a href="/ferhannah-blog/2024/09/22/network/AJAX/">AJAX</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
-<ul>
-<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
-<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
-</blockquote>
-</li>
-<li>隐藏的元素不会触发回调。<blockquote>
-<p>保证更少的 CPU、GPU 消耗。</p>
-</blockquote>
-</li>
-<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
-</ul>
-<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
-<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
-<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
-<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
-</ul>
-<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
-<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
-<pre><code class="js">const scrollToTop = () =&gt; &#123;
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-  console.log(c);
-  if (c &gt; 0) &#123;
-    window.requestAnimationFrame(scrollToTop); // 平滑回滚
-    window.scrollTo(0, c - c / 8);
-    // window.scrollTo(0, c - c);
-  &#125;
-&#125;;
-</code></pre>
-<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
-  window.requestAnimationFrame(() =&gt; &#123;
-    console.log(&quot;scroll&quot;);
-  &#125;);
-&#125;);
-</code></pre>
-<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
+        <p>异步的 JS 和 XML，是一种用于网页进行异步交换数据的技术，它可以在不刷新整个页面的情况下向服务器异步发起请求获取数据，从而实现动态更新页面（异步更新页面）。它减少了响应实现和带宽的消耗，提高了用户的交互体验。但是它不利于 SEO。（因为 SEO 在进行爬虫抓取的时候没有办法去抓取 AJAX 里的内容以及发送的 url），如果要做 SEO 可以使用服务端渲染技术（SSR）</p>
 <blockquote>
-<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
+<p>没有 AJAX 时需要手动刷新页面。</p>
 </blockquote>
-<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
-<pre><code class="js">//需要插入的容器
-const ul = document.getElementById(&quot;container&quot;);
-// 插入十万条数据
-const total = 100000;
-// 一次插入 20 条
-const once = 20;
-//总页数
-const page = total / once;
-//每条记录的索引
-const index = 0;
-//循环加载数据
-function loop(curTotal, curIndex) &#123;
-  if (curTotal &lt;= 0) &#123;
-    return false;
-  &#125;
-  //每页多少条
-  const pageCount = Math.min(curTotal, once);
-  function addData() &#123;
-    for (let i = 0; i &lt; pageCount; i++) &#123;
-      let li = document.createElement(&quot;li&quot;);
-      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
-      ul.appendChild(li);
+<h3 id="SEO"><a href="#SEO" class="headerlink" title="SEO"></a>SEO</h3><p>搜索引擎优化。</p>
+<h2 id="AJAX-实现"><a href="#AJAX-实现" class="headerlink" title="AJAX 实现"></a>AJAX 实现</h2><ul>
+<li>创建一个 XMLHttpRequest 的实例对象；</li>
+<li>使用 open 方法定义请求的方式、url 地址、是否异步（默认异步）；</li>
+<li>如果是 post 请求需要设置请求头 setRequestHeader；</li>
+<li>如果需要向后端传递信息，可以使用 send 方法传递；<blockquote>
+<p>get 请求一般不用 xhr.send(null)，有也是作为 query 在 url 地址中传递；</p>
+</blockquote>
+</li>
+<li>通过在 onreadystatechange 函数中监听 readyState 的值，来接收后端返回的数据，这个函数在整个 AJAX 初始到连接到结束都会执行；<blockquote>
+<p>0: 未初始化 —— XMLHttpRequest 对象已经创建，但还没有调用 open 方法；<br>1：已开启 —— open 方法被调用，send 方法没被调用；<br>2：已发送 —— send 方法已调用，请求已经发给服务器了；<br>3：正在接收 —— 服务器正在处理请求并返回数据；<br>4：完成 —— 服务器已经完成了数据传输；<br>status 200： 服务器返回状态码。</p>
+</blockquote>
+</li>
+<li>或者直接使用 addEventListener 去监听 load 事件，该事件只会在 readyState&#x3D;4 的时候执行。</li>
+<li>也可以使用 addEventListener 去监听一个 progress，来获取一个进度；</li>
+<li>也可以设置超时时间 timeout，然后使用 addEventListener 去监听一个 timeout；</li>
+<li>也可也中断请求；</li>
+</ul>
+<h3 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h3><ul>
+<li>1xx：信息性状态码。比如 102 服务器已经收到并正在处理该请求；</li>
+<li>2xx：请求成功响应。</li>
+<li>3xx：重定向消息。304 服务端告诉客户端数据没有变换，可以使用缓存。</li>
+<li>4xx：客户端响应错误。400 参数错误，401 可能是 token 掉了，403 没有权限。</li>
+<li>5xx：服务端错误。</li>
+</ul>
+<h3 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h3><p>JSON 是一种数据格式，常用于前后端数据传输。它体积小，传输快，易于用户阅读和编写，也可也被各种编程语言轻松解析。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/Fetch"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/Fetch/">Fetch</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>也是用于客户端和服务端数据交互的技术。相对于 xhr，它的更加简洁、易于使用。并且基于 Promise，可以使用链式调用。<br>但是它不支持超时控制（如果需要则要手动设置 setTimeout），终止请求很麻烦（需要基于一个构造函数 AbortController 完成）</p>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><h2 id="Fetch-使用"><a href="#Fetch-使用" class="headerlink" title="Fetch 使用"></a>Fetch 使用</h2><p>fetch 可以设置两个参数，第一个参数是必填的，也就是访问的 url 地址；第二个参数是一个对象，可以配置一些请求的信息，比如请求方法、请求头、请求体等。</p>
+<p>设置好之后 fetch 其实返回的是一个 Promise，在.then()中接收的默认参数其实是一个 response 对象，并不是一个拿到值的结果。</p>
+<p>在这个 response 对象中有各种响应的信息，并且在它的原型对象上有一些响应体解析方法，我们需要根据后端返回的格式来调用不同的响应体解析方法来拿到这个结果：</p>
+<ul>
+<li>text()：将响应体解析为纯文本字符串返回；</li>
+<li>json()：将响应体解析为 JSON 格式并返回一个 JS 对象；</li>
+<li>blob()：将响应体解析为二进制数据并返回一个 Blob 对象；</li>
+<li>arrayBuffer()：将响应体解析为二进制数据并返回一个 ArrayBuffer 对象；</li>
+<li>formData()：将响应体解析为 FormData 对象；</li>
+</ul>
+<p>然后在第二个.then()中拿到最终的结果。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/Cross-domain"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
+<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
+<blockquote>
+<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
+</blockquote>
+<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
+<blockquote>
+<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
+</blockquote>
+<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
+<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/HTTPS"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/HTTPS/">HTTP 和 HTTPS</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
+<li>使用明文传输（不加密），内容可能会被盗用；</li>
+<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
+<li>无法验证报文的完整性，报文可能会被篡改；</li>
+</ul>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
+<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
+<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
+<blockquote>
+<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
+</blockquote>
+<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
+<blockquote>
+<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
+</blockquote>
+<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
+<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
+<blockquote>
+<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
+<blockquote>
+<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
+<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
+</blockquote>
+<ul>
+<li>安装 openSSL 生成私钥；<blockquote>
+<p>Mac 自带，Windows 需要去官网下载。</p>
+</blockquote>
+</li>
+</ul>
+<p>需要用到以下文件来完成证书相关操作：</p>
+<ol>
+<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
+<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
+<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
+</ol>
+<ul>
+<li>创建私钥</li>
+</ul>
+<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
+</code></pre>
+<ul>
+<li>生成 pem 签名文件</li>
+</ul>
+<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
+</code></pre>
+<blockquote>
+<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
+</blockquote>
+<ul>
+<li>生成数字证书</li>
+</ul>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
+import fs from &quot;node:fs&quot;;
+
+//http 端口号 80 https端口号 443
+https
+  .createserver(
+    &#123;
+      key: fs.readFilesync(&quot;private-key.pem&quot;),
+      cert: fs.readFilesync(&quot;certificate.pem&quot;),
+      //密码短语
+      passphrase: &quot;123456&quot;,
+    &#125;,
+    (req, res) =&gt; &#123;
+      res.writeHead(200);
+      res.end(&quot;success&quot;);
     &#125;
-    loop(curTotal - pageCount, curIndex + pageCount);
-  &#125;
-  window.requestAnimationFrame(addData);
-  // setTimeout(addData, 0);
-&#125;
-loop(total, index);
+  )
+  .listen(443, () =&gt; &#123;
+    console.log(&quot;https server is running at https://localhost:433&quot;);
+  &#125;);
 </code></pre>
-<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
-<blockquote>
-<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
-</blockquote>
-<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
 
         
     </div>
@@ -817,196 +888,17 @@ loop(total, index);
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.016Z" itemprop="datePublished">2025-02-28</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
         </div>
     
     
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/promise"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/promise/">Promise</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>注意不是实例上的方法。</p>
-</blockquote>
-<ul>
-<li><strong>any()：</strong>传入一个 promise 实例 数组，<strong>返回第一个 fulfiiled promise 的值</strong>，如果都 rejected，则会在 catch 中捕获到 All promises were rejected，并且包含一个 reject 函数传递值得数组。</li>
-<li><strong>all()<strong>：传入一个 promise 实例 数组，</strong>返回一个 fulfiiled promise 的值的数组</strong>，如果有一个 rejected，则会在 catch 中捕获第一个 reject 函数传递值得数组。<blockquote>
-<p>webpack 的动态组件引入是借助的<code>Promise.all()</code>。</p>
-</blockquote>
-</li>
-<li><strong>allSettled()<strong>：传入一个 promise 实例 数组，</strong>返回所有 promise 的值的数组，无论是 fulfilled 还是 rejected</strong>。</li>
-<li><strong>race()<strong>：传入一个 promise 实例 数组，</strong>返回第一个被处理的 promise 的值，无论 fulfilled 还是 rejected</strong>。</li>
-</ul>
-<blockquote>
-<p>2024 新特性。</p>
-</blockquote>
-<ul>
-<li>withResolvers()：解构 promise，可以让我们在外面使用 resolve、reject 函数。</li>
-</ul>
-<pre><code class="js">(&#123; promise, resolve, reject &#125; = Promise.withResolvers());
-</code></pre>
-<blockquote>
-<p>火狐暂不支持。</p>
-</blockquote>
-<ul>
-<li>try()：可以简化在 promise 中 resolve 一个函数的写法，该函数也需要返回值、抛出异常或者返回一个 promise。</li>
-</ul>
-<pre><code class="js">function test() &#123;
-  return 1;
-&#125; // 可异步
-
-Promise.try(test).then((res) =&gt; &#123;
-  console.log(res);
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.015Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
         </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-HTML/iframe"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/HTML/iframe/">iframe</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <pre><code class="html">&lt;iframe
-  src=&quot;https://www.example.com&quot;
-  width=&quot;100%&quot;
-  height=&quot;500&quot;
-  frameborder=&quot;0&quot;
-  allowfullscreen
-  sandbox
-&gt;
-  &lt;!-- 当浏览器不支持 iframe 时，显示链接（但一般都支持） --&gt;
-  &lt;p&gt;&lt;a href=&quot;https://www.example.com&quot;&gt;点击打开嵌入页面&lt;/a&gt;&lt;/p&gt;
-&lt;/iframe&gt;
-</code></pre>
-<h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><ul>
-<li>allowfullscreen：允许嵌入的网页全屏显示，需要全屏 API 的支持（JS）。</li>
-<li>frameborder：是否绘制边框，0 为不绘制，1 为绘制（默认值）。建议尽量少用这个属性，而是在 CSS 里面设置样式。</li>
-<li>src：嵌入的网页的 URL。</li>
-<li>width：显示区域的宽度。</li>
-<li>height：显示区域的高度。</li>
-<li>importance：浏览器下载嵌入的网页的优先级，可以设置三个值。high 表示高优先级，low 表示低优先级，auto 表示由浏览器自行决定。</li>
-<li>name：内嵌窗口的名称，可以用于<a>、<form>、<base>的 target 属性。</li>
-<li>referrerpolicy：请求嵌入网页时，HTTP 请求的 Referer 字段的设置。参见<a>标签的介绍。</li>
-<li>sandbox：设置嵌入的网页的权限，详见下文。</li>
-</ul>
-<h2 id="sandbox"><a href="#sandbox" class="headerlink" title="sandbox"></a>sandbox</h2><p>为了限制<code>&lt;iframe&gt;</code>的风险，HTML 提供了 <code>sandbox</code> 属性，允许设置嵌入的网页的权限。（提供了一个隔离层-沙箱）</p>
-<p>sandbox 为 bool 时，表示打开所有限制。但其中具体限制也可以逐一打开：</p>
-<ul>
-<li>allow-forms：允许提交表单。</li>
-<li>allow-modals：允许提示框，即允许执行 window.alert()等会产生弹出提示框的 JavaScript 方法。</li>
-<li>allow-popups：允许嵌入的网页使用 window.open()方法弹出窗口。</li>
-<li>allow-popups-to-escape-sandbox：允许弹出窗口不受沙箱的限制。</li>
-<li>allow-orientation-lock：允许嵌入的网页用脚本锁定屏幕的方向，即横屏或竖屏。</li>
-<li>allow-pointer-lock：允许嵌入的网页使用 Pointer Lock API，锁定鼠标的移动。</li>
-<li>allow-presentation：允许嵌入的网页使用 Presentation API。</li>
-<li>allow-same-origin：不打开该项限制，将使得所有加载的网页都视为跨域。</li>
-<li>allow-scripts：允许嵌入的网页运行脚本（但不创建弹出窗口）。</li>
-<li>allow-storage-access-by-user-activation：允许在用户激动的情况下，嵌入的网页通过 Storage Access API 访问父窗口的储存。</li>
-<li>allow-top-navigation：允许嵌入的网页对顶级窗口进行导航。</li>
-<li>allow-top-navigation-by-user-activation：允许嵌入的网页对顶级窗口进行导航，但必须由用户激活。</li>
-<li>allow-downloads-without-user-activation：允许在没有用户激活的情况下，嵌入的网页启动下载。</li>
-</ul>
-<blockquote>
-<p>注意：不要同时设置 allow-scripts 和 allow-same-origin 属性，这将使得嵌入的网页可以改变或删除 sandbox 属性</p>
-</blockquote>
-<h2 id="loading"><a href="#loading" class="headerlink" title="loading"></a>loading</h2><p><code>&lt;iframe&gt;</code>指定的网页会立即加载，但我们也可以让其滚动进入视口以后再加载以节约带宽，这时就可以使用 loading 属性。</p>
-<p>loading 属性可以触发<code>&lt;iframe&gt;</code>网页的懒加载。该属性可以取以下三个值。</p>
-<ul>
-<li>auto：浏览器的默认行为，与不使用 loading 属性效果相同。</li>
-<li>lazy：<code>&lt;iframe&gt;</code>的懒加载，即将滚动进入视口时开始加载。</li>
-<li>eager：立即加载资源，无论在页面上的位置如何。</li>
-</ul>
-<pre><code class="html">&lt;iframe src=&quot;https://example.com&quot; loading=&quot;lazy&quot;&gt;&lt;/iframe&gt;
-</code></pre>
-<blockquote>
-<p>注意：如果<code>&lt;iframe&gt;</code>是隐藏的，则 loading 属性无效，将会立即加载。<br><code>&lt;iframe&gt;</code>的宽度和高度为 4 像素或更小。<br>样式设为 display: none 或 visibility: hidden。<br>使用定位坐标为负 X 或负 Y，将<code>&lt;iframe&gt;</code>放置在屏幕外。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.014Z" itemprop="datePublished">2025-02-28</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
     
     </div>
 </footer>
@@ -1049,7 +941,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>Tags</span></div>
     <div class="widget-inner">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li></ul>
     </div>
   </div>
 
@@ -1062,23 +954,23 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>
@@ -1090,7 +982,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-archive">
     <div class="widget-title"><span>Archive</span></div>
     <div class="widget-inner">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
     </div>
   </div>
 

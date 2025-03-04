@@ -154,7 +154,7 @@
   
     
       <article
-id="post-buildTools/Vite/ts"
+id="post-Algorithm/sort"
 class="article article-type-post"
 >
 
@@ -165,518 +165,85 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/ts/">vite 中使用 ts</a>
+        <a href="/ferhannah-blog/2024/10/31/Algorithm/sort/">排序算法</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>vite 中默认支持 ts，不需要额外配置。</p>
-<h2 id="vite-plugin-checker"><a href="#vite-plugin-checker" class="headerlink" title="vite-plugin-checker"></a>vite-plugin-checker</h2><p>它是一个可以在工作线程中运行 TypeScript、 VLS、 vue-tsc、 ESLint 的插件，可以根据配置，阻断编译，在控制台及浏览器展示报错信息。</p>
-<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><ul>
-<li>安装：</li>
-</ul>
-<pre><code class="bash">npm i vite-plugin-checker -D
-</code></pre>
-<ul>
-<li>vite config 中配置：</li>
-</ul>
-<pre><code class="js">// vite.config.js
-import checker from &quot;vite-plugin-checker&quot;;
-import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  plugins: [
-    checker(&#123;
-      typescript: true,
-    &#125;),
-  ],
-&#125;);
-</code></pre>
-<ul>
-<li>生成 tsconfig.json 配置文件：</li>
-</ul>
-<pre><code class="bash">npm tsc --init
-</code></pre>
-<ul>
-<li>指定需要进行 ts check 的文件：</li>
-</ul>
-<pre><code class="json">// tsconfig.json
-&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;]
-&#125;
-</code></pre>
-<blockquote>
-<p>注意：以上配置不影响正常打包，只是在运行的时候出报错。</p>
-</blockquote>
-<h2 id="打包前进行-ts-检查"><a href="#打包前进行-ts-检查" class="headerlink" title="打包前进行 ts 检查"></a>打包前进行 ts 检查</h2><p>vite 本身仅执行 .ts 文件的转译工作，并不执行任何类型检查。所以我们可以借助 ts 本身的类型检查功能，在打包前对代码进行类型检查：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;build&quot;: &quot;tsc --noEmit &amp;&amp; vite build&quot;
-&#125;
-</code></pre>
-<blockquote>
-<p>对于 .vue 文件，可以安装 vue-tsc 然后运行 vue-tsc –noEmit 来对 *.vue 文件做类型检查。</p>
-</blockquote>
-<p><strong>原理：</strong><br><code>tsc</code>是 TypeScript 的编译器，它负责将 TypeScript 代码转换为 JavaScript 代码。<code>tsc</code> 会读取配置文件获取参数值，<code>--noEmit</code> 的作用是只进行检查，不进行编译输出。如果我们的代码无错，会直接退出，执行下一条语句，否则报错。</p>
-<h2 id="ts-智能提示"><a href="#ts-智能提示" class="headerlink" title="ts 智能提示"></a>ts 智能提示</h2><p>默认情况下，vite 在 vite&#x2F;client.d.ts 中为<code>import.meta.env</code>提供了类型定义。但是如果我们设置了一些自定义的环境变量（<code>.env[mode]</code>）是没有提示的，如果也想在<strong>浏览器环境代码</strong>中有智能提示，可以在<code>env.d.ts</code>中定义：</p>
-<pre><code class="ts">/// &lt;reference types=&quot;vite/client&quot; /&gt;
-
-interface ImportMetaEnv &#123;
-  readonly VITE_APP_TITLE: string;
-&#125;
-interface ImportMeta &#123;
-  readonly env: ImportMetaEnv;
-&#125;
-</code></pre>
-<p><strong>注意：</strong>定义的文件名和文件位置其实不重要，重要的是需要在 tsconfig.json 配置将其文件进行 ts 检查：</p>
-<pre><code class="json">&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;, &quot;env.d.ts&quot;]
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.873Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/static_asset"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/static_asset/">静态资源</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>json 文件、图片、打包后的文件（dist）都是常见的静态资源，静态资源都是一开始就被载入的；而动态资源则通过后续在页面中发起请求后获取的。</p>
-<h2 id="静态资源文件夹"><a href="#静态资源文件夹" class="headerlink" title="静态资源文件夹"></a>静态资源文件夹</h2><p>vite 默认静态资源存放于为位于项目根目录下的 public 文件夹，该目录中的资源在开发时能直接通过 &#x2F; 根路径访问到，并且打包时会被完整复制到目标目录的根目录下。</p>
-<h2 id="静态资源处理"><a href="#静态资源处理" class="headerlink" title="静态资源处理"></a>静态资源处理</h2><h3 id="vite-引入静态资源文件"><a href="#vite-引入静态资源文件" class="headerlink" title="vite 引入静态资源文件"></a>vite 引入静态资源文件</h3><p>vite 针对不同的静态资源，在导入 js 文件中时：</p>
-<ul>
-<li>css 文件：直接引入生效；</li>
-<li>js 文件：引入可输出为内部导出函数；</li>
-<li>图片、媒体和字体文件类型：引入可以默认输出其文件所在的 url 地址；</li>
-<li>json 文件：引入可以默认输出为对象；<blockquote>
-<p>vite 将其预处理为对象的键值对形式。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="将资源引入为-url"><a href="#将资源引入为-url" class="headerlink" title="将资源引入为 url"></a>将资源引入为 url</h3><p>一般来说图片、媒体和字体文件类型的文件会自动引入为 url，而 js 或其他文件则不会（引入为内部导出函数和对象），如果想让它们引入为 url 则可以使用 <code>assetsInclude</code> 选项，来添加内部静态资源路径问题。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  assetsInclude: [&quot;./src/plugin.ts&quot;, &quot;**/*.gltf&quot;],
-&#125;);
-</code></pre>
-<blockquote>
-<p>在 vite 的内建支持的资源类型列表中已经包括了很多引入 url 地址使用的资源文件，所以其目的（<code>assetsInclude</code> ）主要是针对于那些没在里面的文件但是又需要通过 url 引入。（只是在下的猜测）</p>
-</blockquote>
-<p><strong>内建支持的资源类型列：</strong></p>
-<ul>
-<li>images：’apng’,’bmp’,’png’,’jpe?g’,’jfif’,’pjpeg’,’pjp’,’gif’,’svg’,’ico’,’webp’,’avif’</li>
-<li>media：’mp4’,’webm’,’ogg’,’mp3’,’wav’,’flac’,’aac’,’opus’,’mov’,’m4a’,’vtt’</li>
-<li>fonts：’woff2?’,’eot’,’ttf’,’otf’</li>
-<li>other：’webmanifest’,’pdf’,’txt’</li>
-</ul>
-<h3 id="强制将资源引入为-url"><a href="#强制将资源引入为-url" class="headerlink" title="强制将资源引入为 url"></a>强制将资源引入为 url</h3><p>未被包含在内部列表或 assetsInclude 中的资源，可以使用 <code>?url</code> 后缀显式导入为一个 URL。</p>
-<pre><code class="js">import testCss from &quot;./assets/test.css?url &quot;;
-console.log(&quot;css-path&quot;, testCss);
-</code></pre>
-<blockquote>
-<p>vite 版本 5.3.1：主要是针对 css，可恶 css 的油盐不进，直接引入和放在 assetsInclude 中都不行。</p>
-</blockquote>
-<h3 id="将资源引入为源文件"><a href="#将资源引入为源文件" class="headerlink" title="将资源引入为源文件"></a>将资源引入为源文件</h3><p>资源可以使用 <code>?raw</code> 后缀声明作为字符串（源文件）引入。</p>
-<pre><code class="js">import testCss from &quot;./assets/test.css?raw &quot;;
-import testPng from &quot;./assets/box.png?raw&quot;;
-import testJson from &quot;./assets/test.json?raw&quot;;
-
-console.log(&quot;json-raw&quot;, testJson);
-console.log(&quot;png-raw&quot;, testPng);
-console.log(&quot;css-raw&quot;, testCss);
-</code></pre>
-<p>css、js、json 都将其内容以文本形式输出。jpg、mp4 文件以流的形式输出。svg 以 html 文本（svg 标签）输出。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.872Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/index"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/index/">vite</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="vite-加载文件原理"><a href="#vite-加载文件原理" class="headerlink" title="vite 加载文件原理"></a>vite 加载文件原理</h2><ul>
-<li><p>vite 在启动时会以 ESModule 模块化规范来加载文件，所以会先<strong>将所有文件转换为 ES Module 的 js 文件</strong>，再执行。</p>
-<blockquote>
-<p>包括但不限于<code>.css</code>、<code>.vue</code>等。</p>
-</blockquote>
-</li>
-<li><p>对所有打包资源文件进行依赖预构建，将其统放在<code>node_modules/.vite</code>下，这样方便浏览器引用资源路径。</p>
-</li>
-<li><p>浏览器请求资源文件时，对返回的文件内容中的资源请求路径继续拦截预处理，将请求路径统一替换为<code>node_modules/.vite</code>下的路径。</p>
-</li>
-<li><p>资源能正确访问。</p>
-</li>
-</ul>
-<h2 id="vue-文件处理"><a href="#vue-文件处理" class="headerlink" title=".vue 文件处理"></a>.vue 文件处理</h2><p>对于<code>.vue</code>的文件会先用对应的编译工具将其转换为 esm 模块，，然后以 js（application&#x2F;javascript）的形式返回给浏览器，这样浏览器就能正确识别到了。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.870Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/env_config_integration"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>vite 是运行在 node 环境中的，但是 vite.config.js 却支持 esm 形式的代码，这是因为 vite 在读取 vite.config.js 时，会率先通过 node 解析文件语法， 在加载文件之前进行预处理（如果发现你是 esmodule 规范会直接将你的 esmodule 规范进行替换变成 commonjs 规范）。</p>
-</blockquote>
-<h2 id="指定配置文件"><a href="#指定配置文件" class="headerlink" title="指定配置文件"></a>指定配置文件</h2><p>可以通过<code>--config</code>在 vite 运行的时候指定配置文件入口：</p>
-<pre><code class="bash">vite --config vite.config.js
-</code></pre>
-<h2 id="配置文件语法提示"><a href="#配置文件语法提示" class="headerlink" title="配置文件语法提示"></a>配置文件语法提示</h2><ul>
-<li><p>defineConfig 工具函数<br>适用于 vscode。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;&#125;);
-</code></pre>
-</li>
-<li><p>jsdoc 注释</p>
-<blockquote>
-<p>Vite 本身附带 TypeScript 类型，所以你可以通过 IDE 和 jsdoc 的配合来实现智能提示</p>
-</blockquote>
-<pre><code class="js">/** @type &#123;import(&#39;vite&#39;).UserConfig&#125; */
-export default &#123;
-  // ...
-&#125;;
-</code></pre>
-<blockquote>
-<p>好像不起作用？</p>
-</blockquote>
-</li>
-<li><p>TS 配置文件</p>
-<pre><code class="ts">import type &#123; UserConfig &#125; from &quot;vite&quot;;
-export default &#123;
-  // ...
-&#125; satisfies UserConfig;
-</code></pre>
-</li>
-</ul>
-<h2 id="多环境配置文件集成"><a href="#多环境配置文件集成" class="headerlink" title="多环境配置文件集成"></a>多环境配置文件集成</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-
-import viteBaseConfig from &quot;./vite.base.config&quot;;
-import viteDevConfig from &quot;./vite.dev.config&quot;;
-import viteProdConfig from &quot;./vite.prod.config&quot;;
-
-export default defineConfig((&#123; command, mode, isSsrBuild &#125;) =&gt; &#123;
-  if (command === &quot;serve&quot;) &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteDevConfig,
-    &#125;;
-  &#125; else &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteProdConfig,
-    &#125;;
-  &#125;
-&#125;);
-</code></pre>
-<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><pre><code class="js">const envResolver = &#123;
-  serve: () =&gt; &#123;
-    console.log(&quot;开发环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteDevConfig);
-  &#125;,
-  build: () =&gt; &#123;
-    console.log(&quot;生产环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteProdConfig);
-  &#125;,
-&#125;;
-export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
-  return envResolver[command]();
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.869Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/env_variables"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/env_variables/">环境变量</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>根据当前的代码环境变化的变量就叫做环境变量。</strong>我们可以设置生产环境和开发环境的 base_url，来请求不同环境的接口。</p>
-<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h3 id="node-js-——-process-env"><a href="#node-js-——-process-env" class="headerlink" title="node.js —— process.env"></a>node.js —— process.env</h3><blockquote>
-<p><code>process.env</code>是 Nodejs 提供的 API，其返回一个对象，包含了当前 Shell 的所有环境变量。</p>
-</blockquote>
-<p>vite.config.js 运行在 node 环境中，所以可以识别<code>process.env</code>变量，而<code>process.env.NODE_ENV</code>就是当前 Node 运行环境变量。</p>
-<h3 id="浏览器环境-——-import-meta-env"><a href="#浏览器环境-——-import-meta-env" class="headerlink" title="浏览器环境 —— import.meta.env"></a>浏览器环境 —— import.meta.env</h3><p>在浏览器环境中，Vite 在一个特殊的<code>import.meta.env</code> 对象上暴露环境变量。</p>
-<blockquote>
-<p>这些变量在 vite.config.js 中无法访问到的。</p>
-</blockquote>
-<h2 id="自定义环境变量"><a href="#自定义环境变量" class="headerlink" title="自定义环境变量"></a>自定义环境变量</h2><h3 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h3><p>vite 中内置了 dotenv，dotenv 会从环境目录下自动读取.env 文件：</p>
-<blockquote>
-<p>.env：默认所有环境都会加载<br>.env.[mode]：只在指定模式下加载</p>
-</blockquote>
-<p>加载的环境变量也会通过 <code>import.meta.env</code> 以<strong>字符串形式</strong>暴露给客户端源码。为了防止意外地将一些环境变量泄漏到客户端，只有<strong>以 VITE_ 为前缀的变量</strong>才会暴露给经过 vite 处理的代码。</p>
-<blockquote>
-<p>注：所以在其中不用写<code>&quot;&quot;</code>也行。</p>
-</blockquote>
-<p>在指定模式下运行时，.env 在 .env.[mode] 中的同名变量会被 .env.[mode] 覆盖，而其他变量则会被进行合并。</p>
-<h3 id="指定运行模式（运行加载的自定义环境变量文件）"><a href="#指定运行模式（运行加载的自定义环境变量文件）" class="headerlink" title="指定运行模式（运行加载的自定义环境变量文件）"></a>指定运行模式（运行加载的自定义环境变量文件）</h3><p>运行命令时以 –mode 参数指定运行模式，如：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;dev&quot;: &quot;vite&quot;, // 默认开发模式 development
-  &quot;build&quot;: &quot;vite build&quot;, // build 默认为生产模式
-  &quot;test&quot;: &quot;vite --mode test&quot;
-&#125;,
-</code></pre>
-<p>指定的<code>--mode xxx</code>会去寻找对应的.env.xxx 文件，并在浏览器中将<code>import.meta.env</code>设置为 xxx 模式。如果没有找到这个文件，则只加载<code>.env</code>中的环境变量。</p>
-<blockquote>
-<p>注意：自定义模式（test）和设置的.env.xxx（.env.test）只在 vite 经过处理的浏览器端生效，Nodejs 是不会承认它的，也就是说只能在使用<code>import.meta.env</code>时才能读取到自定义环境变量，而 process.env.NODE_ENV 中没有，并且通过<code>loadEnv()</code>方法也只能获取到开发环境和生产环境。（测试了一下即使在浏览器中 MOED&#x3D;test，但是<code>process.env.NODE_ENV</code>还是 development）</p>
-</blockquote>
-<h3 id="更改-env-文件的默认入口地址"><a href="#更改-env-文件的默认入口地址" class="headerlink" title="更改.env 文件的默认入口地址"></a>更改.env 文件的默认入口地址</h3><p>一般来说 .env 文件都是建立在根目录下的，但如果环境文件太多，都散落在根目录下会让目录变得混乱。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envDir: &quot;env&quot;,
-&#125;);
-</code></pre>
-<blockquote>
-<p>这样所有的文件都可以放在根目录下的 env 文件夹下。</p>
-</blockquote>
-<h3 id="更改环境变量的-VITE-前缀"><a href="#更改环境变量的-VITE-前缀" class="headerlink" title="更改环境变量的 VITE_前缀"></a>更改环境变量的 VITE_前缀</h3><p>以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envPrefix: &quot;FER&quot;,
-&#125;);
-</code></pre>
-<h3 id="获取所有的环境变量"><a href="#获取所有的环境变量" class="headerlink" title="获取所有的环境变量"></a>获取所有的环境变量</h3><p>vite.config.js 中的环境变量获取默认以设置的 envPrefix 为开头，可以使用 Vite 内置的 API 方法<code>loadEnv()</code>获取所有的环境变量：</p>
-<pre><code class="js">const env1 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;&quot;); // 将所有的配置文件放在 env 文件夹下，这样能获取到 node 环境中(env)的所有变量
-const env2 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;); // 默认获取到以 VITE\_ 开头的环境变量
-const env3 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;FER_&quot;); // 获取到以 FER\_ 开头的环境变量
-</code></pre>
-<ul>
-<li><code>&quot;&quot;</code>：表示需要获取的环境变量的前缀，默认为 <code>VITE_</code>开头。</li>
-<li>对于不同的 NODE_ENV，只会获取对应模式（只有 production 和 development）的环境变量。</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.869Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/dependency_pre_bundling"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/dependency_pre_bundling/">Vite 的依赖预构建</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="快速识别引入第三方包"><a href="#快速识别引入第三方包" class="headerlink" title="快速识别引入第三方包"></a>快速识别引入第三方包</h2><p>浏览器原生识别相对路径或者绝对路径，类似<code>import _ from &quot;lodash&quot;</code>的方式浏览器是无法识别的。</p>
-<blockquote>
-<p>如果浏览器帮我们识别引入，会导致浏览器需要加载非常巨大的依赖文件，会让其速度非常慢！</p>
-</blockquote>
-<p>vite 的功能就是识别第三方包，只需要使用 vite 启动即可（默认去找根目录下的 index.html）。</p>
-<h2 id="依赖预加载"><a href="#依赖预加载" class="headerlink" title="依赖预加载"></a>依赖预加载</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>vite 能够识别非绝对路径或者相对路径的引用，是因为它进行了<strong>路径补全</strong>。</p>
-<p>vite 会对 lodash 进行预处理，并把它放在了 node_modules&#x2F;.vite&#x2F;deps 目录下。</p>
-<blockquote>
-<p>是 vite 在考虑另外一个问题（模块规范兼容性问题）的时候顺便把这个问题解决了！</p>
-</blockquote>
-<h3 id="依赖预构建"><a href="#依赖预构建" class="headerlink" title="依赖预构建"></a>依赖预构建</h3><p>浏览器只认识 esmodule 的包，但是在早期的很多包是以 commonjs 规范导出的，所以需要工具来处理这些包。</p>
-<p>vite 处理这些包步骤：</p>
+        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：</p>
 <ol>
-<li>找到项目中的依赖包，比如 lodash；</li>
-<li>利用 esbuild（对 js 语法进行处理的一个库）将其他规范的代码转换成 esmodule 规范的代码，将其放在 node_modules&#x2F;.vite&#x2F;deps 目录下；</li>
-<li>将将 esmodule 规范的各个模块进行统一集成导出。</li>
+<li>找到一个基准值，将数组分成两个部分，左边的都比基准值小，右边的都比基准值大。<blockquote>
+<p>基准值一般选用第一个数，然后与最后一个数开始比较</p>
+</blockquote>
+</li>
+<li>左右两个部分又可以进行上述过程，直到左右两个部分都只有一个元素。</li>
 </ol>
-<p><strong>解决问题</strong>：</p>
-<ul>
-<li>统一包为 esmodule 规范，浏览器可以识别。</li>
-<li>对路径的处理上可以直接使用 <strong>.vite&#x2F;deps</strong>，方便路径重写。</li>
-<li>优化了网络多包传输的性能问题。</li>
-</ul>
-<h4 id="关闭依赖预构建"><a href="#关闭依赖预构建" class="headerlink" title="关闭依赖预构建"></a>关闭依赖预构建</h4><p>在 vite.config.js 中添加如下配置：</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-
-export default defineConfig(&#123;
-  optimizeDeps: &#123;
-    exclude: [&quot;lodash-es&quot;],
-  &#125;,
-&#125;);
+<blockquote>
+<p>可以看出将排序过程采用了分治思想，将问题分解成更小的子问题，然后递归求解，最后合并结果。</p>
+</blockquote>
+<pre><code class="js">function quickSort(arr, start = 0, end = arr.length - 1) &#123;
+  if (start &lt; end) &#123;
+    const base = arr[start]; // 基准值
+    let left = start,
+      right = end;
+    while (left &lt; right) &#123;
+      while (left &lt; right &amp;&amp; base &lt;= arr[right]) &#123;
+        right--;
+      &#125;
+      arr[left] = arr[right];
+      while (left &lt; right &amp;&amp; base &gt;= arr[left]) &#123;
+        left++;
+      &#125;
+      arr[right] = arr[left];
+    &#125;
+    arr[left] = base;
+    quickSort(arr, start, left - 1); // 分治
+    quickSort(arr, left + 1, end); // 分治
+  &#125;
+&#125;
 </code></pre>
-<p>关闭依赖依赖预构建后，访问地址直接在 node_modules 中，浏览器会请求很多依赖文件，这也是原生 esmodule 规范不敢支持直接加载 node_modules 的原因之一。</p>
+<p><strong>特性</strong></p>
+<ul>
+<li>不稳定</li>
+<li>原地排序</li>
+<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(logn)</li>
+</ul>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>基本思想：</p>
+<ol>
+<li>分：将组数分成两个子数组，直到不能再分。</li>
+<li>治：将两个子数组合并成一个有序数组。创建一个新数组，再分别为两个子数组设置标志位同向双指针移动比较，将较小的值放入新数组中。</li>
+</ol>
+<blockquote>
+<p>典型分治思想。</p>
+</blockquote>
+<pre><code class="js">function mergeSort(arr) &#123;
+  if (arr.length &lt;= 1) return arr;
+  const mid = arr.length &gt;&gt; 1;
+  const left = arr.slice(0, mid);
+  const right = arr.slice(mid);
+  return merge(mergeSort(left), mergeSort(right));
+&#125;
+
+function merge(left, right) &#123;
+  const result = [];
+  let l = 0,
+    r = 0;
+  while (l &lt; left.length &amp;&amp; r &lt; right.length) &#123;
+    if (left[l] &lt; right[r]) &#123;
+      result.push(left[l++]);
+    &#125; else &#123;
+      result.push(right[r++]);
+    &#125;
+  &#125;
+  result.push(...left.slice(l), ...right.slice(r));
+  return result;
+&#125;
+</code></pre>
+<p><strong>特性</strong></p>
+<ul>
+<li>稳定</li>
+<li>“治”时需要额外的数组空间，并且最终也返回这个数组（非原地排序）</li>
+<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(n)</li>
+</ul>
 
         
     </div>
@@ -692,7 +259,392 @@ export default defineConfig(&#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.868Z" itemprop="datePublished">2025-03-01</time>
+  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/30/Algorithm/index/">tips</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><ul>
+<li>快速查找某个区间内相加（减）、相乘（除）、异或等运算结果，有结合律和交换律的一些运算。</li>
+<li>计算子数组的个数一般会用 map 来记录某个值出现的次数。</li>
+</ul>
+<h2 id="两数相加之后判断能否被一个数整除"><a href="#两数相加之后判断能否被一个数整除" class="headerlink" title="两数相加之后判断能否被一个数整除"></a>两数相加之后判断能否被一个数整除</h2><p>相加后判断能否被 24 整除。<br>原理：利用 hash 表记录之前遍历的数的模数，然后对比当前所需要的模数是否在 hash 表中出现过，如果出现过，则说明存在两个数相加后能被 24 整除。</p>
+<pre><code class="js">// 哈希表记录
+const hours = [12, 12, 30, 24, 24];
+const cnt = new Map();
+let ans = 0;
+for (const h of hours) &#123;
+  const cur = (24 - (h % 24)) % 24; // 寻找凑对后能被整除的凑对数的模数
+  if (cnt.has(cur)) &#123;
+    ans += cnt.get(cur);
+  &#125;
+  cnt.set(h % 24, (cnt.get(h % 24) || 0) + 1);
+&#125;
+return ans;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-29T16:00:00.000Z" itemprop="datePublished">2024-10-30</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/chunk_strategy"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/19/buildTools/Vite/chunk_strategy/">分包策略-性能优化</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>由于浏览器的缓存策略，在请求静态资源时只要静态资源的名称不变就不会重新请求。所以使用 vite 打包后的文件带有哈希值，只要有一点代码的变动文件的哈希值就会变换，以此来保证每次请求获取的都是最新代码。</p>
+<p>但是有很多包是不需要经常更新的（第三方资源包，例如 lodash 等），每次重新请求对浏览器来说就是浪费资源，我们可以将这部分的包单独进行打包处理。</p>
+<h2 id="output-manualChunks"><a href="#output-manualChunks" class="headerlink" title="output.manualChunks"></a>output.manualChunks</h2><p>利用 rollup 本身的配置来实现。当该选项值为函数形式时，每个被解析的模块都会经过该函数处理。如果函数返回字符串，那么该模块及其所有依赖将被添加到以返回字符串命名的自定义 chunk 中。</p>
+<pre><code class="js">export default defineConfig(&#123;
+  // ...
+  build: &#123;
+    rollupOptions: &#123;
+      output: &#123;
+        manualChunks: (id) =&gt; &#123;
+          console.log(&quot;id----&quot;, id); // id 对象所有需要打包的文件路径
+          // 路径包含 node_modules 的包，一般为第三方包，不会变动的
+          if (id.includes(&quot;node_modules&quot;)) &#123;
+            return &quot;vendor&quot;; // 会分出一个前缀为 vender的包
+          &#125;
+        &#125;,
+      &#125;,
+    &#125;,
+  &#125;,
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-18T16:00:00.000Z" itemprop="datePublished">2024-10-19</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-CSS/useful"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/16/CSS/useful/">一些有用的 css 属性</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="columns"><a href="#columns" class="headerlink" title="columns"></a>columns</h2><p>将一个元素拆分成多列，并设置每列的宽度。</p>
+<pre><code class="css">.content &#123;
+  columns: 200px 3; /* 每列的宽度为 200px，共 3 列 */
+  column-gap: 12px;
+&#125;
+</code></pre>
+<h2 id="break-inside"><a href="#break-inside" class="headerlink" title="break-inside"></a>break-inside</h2><p>在浏览器中，列表项将不会被拆分到不同的列中。每个列表项将作为一个整体出现在同一列中。</p>
+<pre><code class="css">.menu-list &#123;
+  break-inside: avoid;
+&#125;
+</code></pre>
+<h2 id="使用伪元素通过-border-绘制一条直线"><a href="#使用伪元素通过-border-绘制一条直线" class="headerlink" title="使用伪元素通过 border 绘制一条直线"></a>使用伪元素通过 border 绘制一条直线</h2><p>使用伪元素中的 <code>content</code> 在元素前&#x2F;后添加直线时如果手动添加并不能使其自动填满父元素的剩余空间。<br>所以可以使用 border 配合 flex 来实现更好的效果：</p>
+<pre><code class="html">&lt;div class=&quot;title&quot;&gt;首页&lt;/div&gt;
+</code></pre>
+<pre><code class="css">.title &#123;
+  width: 100%;
+  display: inline-flex; /* 设置该元素为行内flex元素 */
+  padding-left: 4px;
+&#125;
+.title::after &#123;
+  content: &quot;&quot;;
+  flex: 1 1 0%; /* 使用flex填满剩余空间 */
+  border-top: 1px solid #ebebeb; /* 设置border作为分割线 */
+  margin: 16px;
+&#125;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-15T16:00:00.000Z" itemprop="datePublished">2024-10-16</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/css_postcss"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/16/buildTools/Vite/css_postcss/">css 浏览器兼容</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>css 在不同的浏览器兼容性是不同的，有些特殊的样式在不同的浏览器前需要加上特殊性的前缀，比如：</p>
+<pre><code class="css">// 只有chrome和safari支持，且需要添加webkit前缀
+-webkit-margin-before
+-webkit-margin-after
+</code></pre>
+<h1 id="postcss"><a href="#postcss" class="headerlink" title="postcss"></a>postcss</h1><p>postcss 是一个用 JavaScript 工具和插件转换 CSS 代码的工具，postcss 自身没有什么功能，只是一个平台，可以下载各种插件，从而实现一些功能！</p>
+<ul>
+<li>Autoprefixer：自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮你自动为 CSS 规则添加前缀。</li>
+<li>PostCSS Preset Env：将最新的 CSS 语法转换成大多数浏览器都能兼容的语法。</li>
+<li>CSS module：解决 css 命名冲突。</li>
+</ul>
+<h2 id="vite-中配置-postcss"><a href="#vite-中配置-postcss" class="headerlink" title="vite 中配置 postcss"></a>vite 中配置 postcss</h2><p>在 vite 中配置主要使用<code>postcss-preset-env</code>插件，它支持 css 变量和一些未来 css 语法以及自动补全(autoprefixer)。</p>
+<ul>
+<li><p>安装插件：</p>
+<pre><code class="bash">npm i postcss-preset-env -D
+</code></pre>
+</li>
+<li><p>在 vite.config.js 中配置：</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+const postcssPresetEnv = require(&quot;postcss-preset-env&quot;);
+export default defineConfig(&#123;
+  css: &#123;
+    // modules
+    // devSourcemap
+    // ...
+    postcss: &#123;
+      plugins: [postcssPresetEnv()],
+    &#125;,
+  &#125;,
+&#125;);
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-15T16:00:00.000Z" itemprop="datePublished">2024-10-16</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/css"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/css/">vite 中使用 css</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>vite 直接就支持 css 文件，不需要别的操作。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当 vite 在读取到 main.js 中引用的 index.css 时：</p>
+<ol>
+<li><p>首先使用 node 的 fs 模块获取 css 文件的内容。<br><strong>浏览器行为：</strong><br>在浏览器获取 css 文件时，vite 会将其原本的 css 内容替换为 js 脚本，并让浏览器以执行 js 文件的形式来执行 css 后缀的文件。该脚本的内容执行内容如下：</p>
+<blockquote>
+<p>细节：获取到内容后，会见文件在本地的绝对路径作为 id 和内容一起传给 vite 处理 css 的函数 ——— updateStyle(id, content)，该函数会创建一个 <code>style</code> 标签，并将 type 设置为 ‘text&#x2F;css’，将其插入到 <code>head</code> 中（后面的内容）。</p>
+</blockquote>
+</li>
+<li><p>创建一个 <code>style</code> 标签，将 css 文件中的内容直接复制到里面。</p>
+</li>
+<li><p>将 <code>style</code> 标签插入到 <code>head</code> 中。</p>
+</li>
+</ol>
+<h2 id="CSS-Module"><a href="#CSS-Module" class="headerlink" title="CSS Module"></a>CSS Module</h2><p>问题：如果两个 css 文件定义了同一个类名，样式会被覆盖。<br>解决：使用 CSS Module（postcss），将每一个 class 名变为独一无二的，不会与其他选择器重名。</p>
+<p>将 css 文件的后缀改为 <code>.module.css</code> 即可。vite 会利用 postcss 自动将后缀名为 <code>.module.css</code> 的文件转换为 CSS Module，在类名前添加上独一无二的 hash 值。</p>
+<p>使用：</p>
+<pre><code class="js">import index from &#39;./css/test2.module.css&#39;
+...
+div.className = index.test
+</code></pre>
+<blockquote>
+<p>引入的值可以是认为原始 css 类名 和修改后独一无二的 css 类名 的映射表。</p>
+</blockquote>
+<h2 id="配置-CSS-Module"><a href="#配置-CSS-Module" class="headerlink" title="配置 CSS Module"></a>配置 CSS Module</h2><p>可以通过 vite.config.js 配置 CSS Module，其实也是将参数传递给 postcss。</p>
+<pre><code class="ts">export default defineConfig(&#123;
+  // css module
+  css: &#123;
+    // （postcss）
+    modules: &#123;
+      scopeBehaviour: &quot;local&quot;, // 是否开启模块化 local(*) | global
+      localsConvention: &quot;camelCaseOnly&quot;, // 返回键值对格式 camelCaseOnly(*) | camelCase | dashes | dashesOnly | null
+      // 修改生成的 hash 名称
+      // generateScopedName: &#39;[name]-[local]-[hash:base64:5]&#39;, // string
+
+      // hashPrefix: &#39;prefix-&#39;, // 生成的 hash 名前缀 ？
+      globalModulePaths: [&quot;src/module/cssNoUseModule/*.*.css&quot;], // 不想使用css module的路径 RegExp[]
+    &#125;,
+  &#125;,
+&#125;);
+</code></pre>
+<h2 id="CSS-sourcemap"><a href="#CSS-sourcemap" class="headerlink" title="CSS sourcemap"></a>CSS sourcemap</h2><p>默认情况下，我们在开发环境调试定位元素时，指向的是 <code>head</code> 里的 <code>style</code> 标签。在<strong>开发环境下</strong>，vite 可以配置 css 的 sourcemap 属性<code>devSourcemap</code>，可以让我们找到处理后 css 类所对应的源文件。</p>
+<pre><code class="js">export default defineConfig(&#123;
+  css: &#123;
+    // modules: &#123;
+    //   // ...
+    // &#125;,
+    // preprocessorOptions: &#123;
+    //   // ...
+    // &#125;
+    devSourcemap: true,
+  &#125;,
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
 </div>
     
         <div class="article-category">
@@ -720,7 +672,7 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css_pre_processor/">vite 的 css 预处理</a>
+        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/css_pre_processor/">vite 的 css 预处理</a>
     </header>
     <div class="article-entry post-inner-html">
         
@@ -822,7 +774,207 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.861Z" itemprop="datePublished">2025-03-01</time>
+  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/ts"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/ts/">vite 中使用 ts</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>vite 中默认支持 ts，不需要额外配置。</p>
+<h2 id="vite-plugin-checker"><a href="#vite-plugin-checker" class="headerlink" title="vite-plugin-checker"></a>vite-plugin-checker</h2><p>它是一个可以在工作线程中运行 TypeScript、 VLS、 vue-tsc、 ESLint 的插件，可以根据配置，阻断编译，在控制台及浏览器展示报错信息。</p>
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><ul>
+<li>安装：</li>
+</ul>
+<pre><code class="bash">npm i vite-plugin-checker -D
+</code></pre>
+<ul>
+<li>vite config 中配置：</li>
+</ul>
+<pre><code class="js">// vite.config.js
+import checker from &quot;vite-plugin-checker&quot;;
+import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  plugins: [
+    checker(&#123;
+      typescript: true,
+    &#125;),
+  ],
+&#125;);
+</code></pre>
+<ul>
+<li>生成 tsconfig.json 配置文件：</li>
+</ul>
+<pre><code class="bash">npm tsc --init
+</code></pre>
+<ul>
+<li>指定需要进行 ts check 的文件：</li>
+</ul>
+<pre><code class="json">// tsconfig.json
+&#123;
+  &quot;include&quot;: [&quot;src/*.ts&quot;]
+&#125;
+</code></pre>
+<blockquote>
+<p>注意：以上配置不影响正常打包，只是在运行的时候出报错。</p>
+</blockquote>
+<h2 id="打包前进行-ts-检查"><a href="#打包前进行-ts-检查" class="headerlink" title="打包前进行 ts 检查"></a>打包前进行 ts 检查</h2><p>vite 本身仅执行 .ts 文件的转译工作，并不执行任何类型检查。所以我们可以借助 ts 本身的类型检查功能，在打包前对代码进行类型检查：</p>
+<pre><code class="json">&quot;scripts&quot;: &#123;
+  &quot;build&quot;: &quot;tsc --noEmit &amp;&amp; vite build&quot;
+&#125;
+</code></pre>
+<blockquote>
+<p>对于 .vue 文件，可以安装 vue-tsc 然后运行 vue-tsc –noEmit 来对 *.vue 文件做类型检查。</p>
+</blockquote>
+<p><strong>原理：</strong><br><code>tsc</code>是 TypeScript 的编译器，它负责将 TypeScript 代码转换为 JavaScript 代码。<code>tsc</code> 会读取配置文件获取参数值，<code>--noEmit</code> 的作用是只进行检查，不进行编译输出。如果我们的代码无错，会直接退出，执行下一条语句，否则报错。</p>
+<h2 id="ts-智能提示"><a href="#ts-智能提示" class="headerlink" title="ts 智能提示"></a>ts 智能提示</h2><p>默认情况下，vite 在 vite&#x2F;client.d.ts 中为<code>import.meta.env</code>提供了类型定义。但是如果我们设置了一些自定义的环境变量（<code>.env[mode]</code>）是没有提示的，如果也想在<strong>浏览器环境代码</strong>中有智能提示，可以在<code>env.d.ts</code>中定义：</p>
+<pre><code class="ts">/// &lt;reference types=&quot;vite/client&quot; /&gt;
+
+interface ImportMetaEnv &#123;
+  readonly VITE_APP_TITLE: string;
+&#125;
+interface ImportMeta &#123;
+  readonly env: ImportMetaEnv;
+&#125;
+</code></pre>
+<p><strong>注意：</strong>定义的文件名和文件位置其实不重要，重要的是需要在 tsconfig.json 配置将其文件进行 ts 检查：</p>
+<pre><code class="json">&#123;
+  &quot;include&quot;: [&quot;src/*.ts&quot;, &quot;env.d.ts&quot;]
+&#125;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/binary"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/Algorithm/binary/">二进制的一些小技巧</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
+<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
+<p>汉明距离是使用在数据传输差错控制编码里。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
+<li>用于清除 num 最右边的 1；</li>
+</ul>
+<blockquote>
+<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
+</blockquote>
+<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
+<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
+</ul>
+<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
+<li>用于将 num 的二进制表示向右移动一位；</li>
+</ul>
+<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
+<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
+<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
+<ul>
+<li>用于比较一个二进制数的高位是否为 1。</li>
+</ul>
+<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
+
+let x = num;
+const ans = [];
+while (x &gt; 0) &#123;
+  ans.push(lowbit(x));
+  x -= lowbit(x);
+&#125;
+
+function lowbit(x) &#123;
+  return x &amp; -x;
+&#125;
+</code></pre>
+<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
+<blockquote>
+<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
@@ -839,7 +991,7 @@ class="article article-type-post"
   
     
       <article
-id="post-buildTools/Vite/css_postcss"
+id="post-HTML/Node和Element"
 class="article article-type-post"
 >
 
@@ -850,43 +1002,12 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css_postcss/">css 浏览器兼容</a>
+        <a href="/ferhannah-blog/2024/09/22/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>css 在不同的浏览器兼容性是不同的，有些特殊的样式在不同的浏览器前需要加上特殊性的前缀，比如：</p>
-<pre><code class="css">// 只有chrome和safari支持，且需要添加webkit前缀
--webkit-margin-before
--webkit-margin-after
-</code></pre>
-<h1 id="postcss"><a href="#postcss" class="headerlink" title="postcss"></a>postcss</h1><p>postcss 是一个用 JavaScript 工具和插件转换 CSS 代码的工具，postcss 自身没有什么功能，只是一个平台，可以下载各种插件，从而实现一些功能！</p>
-<ul>
-<li>Autoprefixer：自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮你自动为 CSS 规则添加前缀。</li>
-<li>PostCSS Preset Env：将最新的 CSS 语法转换成大多数浏览器都能兼容的语法。</li>
-<li>CSS module：解决 css 命名冲突。</li>
-</ul>
-<h2 id="vite-中配置-postcss"><a href="#vite-中配置-postcss" class="headerlink" title="vite 中配置 postcss"></a>vite 中配置 postcss</h2><p>在 vite 中配置主要使用<code>postcss-preset-env</code>插件，它支持 css 变量和一些未来 css 语法以及自动补全(autoprefixer)。</p>
-<ul>
-<li><p>安装插件：</p>
-<pre><code class="bash">npm i postcss-preset-env -D
-</code></pre>
-</li>
-<li><p>在 vite.config.js 中配置：</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-const postcssPresetEnv = require(&quot;postcss-preset-env&quot;);
-export default defineConfig(&#123;
-  css: &#123;
-    // modules
-    // devSourcemap
-    // ...
-    postcss: &#123;
-      plugins: [postcssPresetEnv()],
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-</li>
-</ul>
+        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
+<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
 
         
     </div>
@@ -902,178 +1023,11 @@ export default defineConfig(&#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.860Z" itemprop="datePublished">2025-03-01</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/css"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/css/">vite 中使用 css</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>vite 直接就支持 css 文件，不需要别的操作。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当 vite 在读取到 main.js 中引用的 index.css 时：</p>
-<ol>
-<li><p>首先使用 node 的 fs 模块获取 css 文件的内容。<br><strong>浏览器行为：</strong><br>在浏览器获取 css 文件时，vite 会将其原本的 css 内容替换为 js 脚本，并让浏览器以执行 js 文件的形式来执行 css 后缀的文件。该脚本的内容执行内容如下：</p>
-<blockquote>
-<p>细节：获取到内容后，会见文件在本地的绝对路径作为 id 和内容一起传给 vite 处理 css 的函数 ——— updateStyle(id, content)，该函数会创建一个 <code>style</code> 标签，并将 type 设置为 ‘text&#x2F;css’，将其插入到 <code>head</code> 中（后面的内容）。</p>
-</blockquote>
-</li>
-<li><p>创建一个 <code>style</code> 标签，将 css 文件中的内容直接复制到里面。</p>
-</li>
-<li><p>将 <code>style</code> 标签插入到 <code>head</code> 中。</p>
-</li>
-</ol>
-<h2 id="CSS-Module"><a href="#CSS-Module" class="headerlink" title="CSS Module"></a>CSS Module</h2><p>问题：如果两个 css 文件定义了同一个类名，样式会被覆盖。<br>解决：使用 CSS Module（postcss），将每一个 class 名变为独一无二的，不会与其他选择器重名。</p>
-<p>将 css 文件的后缀改为 <code>.module.css</code> 即可。vite 会利用 postcss 自动将后缀名为 <code>.module.css</code> 的文件转换为 CSS Module，在类名前添加上独一无二的 hash 值。</p>
-<p>使用：</p>
-<pre><code class="js">import index from &#39;./css/test2.module.css&#39;
-...
-div.className = index.test
-</code></pre>
-<blockquote>
-<p>引入的值可以是认为原始 css 类名 和修改后独一无二的 css 类名 的映射表。</p>
-</blockquote>
-<h2 id="配置-CSS-Module"><a href="#配置-CSS-Module" class="headerlink" title="配置 CSS Module"></a>配置 CSS Module</h2><p>可以通过 vite.config.js 配置 CSS Module，其实也是将参数传递给 postcss。</p>
-<pre><code class="ts">export default defineConfig(&#123;
-  // css module
-  css: &#123;
-    // （postcss）
-    modules: &#123;
-      scopeBehaviour: &quot;local&quot;, // 是否开启模块化 local(*) | global
-      localsConvention: &quot;camelCaseOnly&quot;, // 返回键值对格式 camelCaseOnly(*) | camelCase | dashes | dashesOnly | null
-      // 修改生成的 hash 名称
-      // generateScopedName: &#39;[name]-[local]-[hash:base64:5]&#39;, // string
-
-      // hashPrefix: &#39;prefix-&#39;, // 生成的 hash 名前缀 ？
-      globalModulePaths: [&quot;src/module/cssNoUseModule/*.*.css&quot;], // 不想使用css module的路径 RegExp[]
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-<h2 id="CSS-sourcemap"><a href="#CSS-sourcemap" class="headerlink" title="CSS sourcemap"></a>CSS sourcemap</h2><p>默认情况下，我们在开发环境调试定位元素时，指向的是 <code>head</code> 里的 <code>style</code> 标签。在<strong>开发环境下</strong>，vite 可以配置 css 的 sourcemap 属性<code>devSourcemap</code>，可以让我们找到处理后 css 类所对应的源文件。</p>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    // modules: &#123;
-    //   // ...
-    // &#125;,
-    // preprocessorOptions: &#123;
-    //   // ...
-    // &#125;
-    devSourcemap: true,
-  &#125;,
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.859Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/chunk_strategy"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/buildTools/Vite/chunk_strategy/">分包策略-性能优化</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>由于浏览器的缓存策略，在请求静态资源时只要静态资源的名称不变就不会重新请求。所以使用 vite 打包后的文件带有哈希值，只要有一点代码的变动文件的哈希值就会变换，以此来保证每次请求获取的都是最新代码。</p>
-<p>但是有很多包是不需要经常更新的（第三方资源包，例如 lodash 等），每次重新请求对浏览器来说就是浪费资源，我们可以将这部分的包单独进行打包处理。</p>
-<h2 id="output-manualChunks"><a href="#output-manualChunks" class="headerlink" title="output.manualChunks"></a>output.manualChunks</h2><p>利用 rollup 本身的配置来实现。当该选项值为函数形式时，每个被解析的模块都会经过该函数处理。如果函数返回字符串，那么该模块及其所有依赖将被添加到以返回字符串命名的自定义 chunk 中。</p>
-<pre><code class="js">export default defineConfig(&#123;
-  // ...
-  build: &#123;
-    rollupOptions: &#123;
-      output: &#123;
-        manualChunks: (id) =&gt; &#123;
-          console.log(&quot;id----&quot;, id); // id 对象所有需要打包的文件路径
-          // 路径包含 node_modules 的包，一般为第三方包，不会变动的
-          if (id.includes(&quot;node_modules&quot;)) &#123;
-            return &quot;vendor&quot;; // 会分出一个前缀为 vender的包
-          &#125;
-        &#125;,
-      &#125;,
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-01T10:15:52.858Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
         </div>
     
     
@@ -1118,7 +1072,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>Tags</span></div>
     <div class="widget-inner">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li></ul>
     </div>
   </div>
 
@@ -1131,23 +1085,23 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>
@@ -1159,7 +1113,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-archive">
     <div class="widget-title"><span>Archive</span></div>
     <div class="widget-inner">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
     </div>
   </div>
 

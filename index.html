@@ -165,7 +165,7 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Node.js/">Node.js</a>
+        <a href="/ferhannah-blog/2023/02/06/Node/Node.js/">Node.js</a>
     </header>
     <div class="article-entry post-inner-html">
         
@@ -283,7 +283,7 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.970Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2023-02-05T16:00:00.000Z" itemprop="datePublished">2023-02-06</time>
 </div>
     
         <div class="article-category">
@@ -311,7 +311,7 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/28/JS/es6/">ES6 特性</a>
+        <a href="/ferhannah-blog/2024/09/22/JS/es6/">ES6 特性</a>
     </header>
     <div class="article-entry post-inner-html">
         
@@ -432,898 +432,11 @@ const proxy = new Proxy(target, handler);
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-02-28T14:30:49.012Z" itemprop="datePublished">2025-02-28</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Python/base"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/Python/base/">grammar</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="Walrus-操作符（海象操作符）"><a href="#Walrus-操作符（海象操作符）" class="headerlink" title="Walrus 操作符（海象操作符）"></a>Walrus 操作符（海象操作符）</h3><blockquote>
-<p><code>:=</code></p>
-</blockquote>
-<p>赋值表达式。在 Python 3.8 中引入的新特性。这个操作符允许你在表达式中进行赋值，而不仅仅是语句中。</p>
-<pre><code class="python">if (t := sum ^ value) in cnt:
-    ans += cnt[t] * key - total[t]
-</code></pre>
-<h3 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h3><p>用于截取子字符串，子列表也可可以，只要<strong>数据类型为 list</strong>。</p>
-<pre><code class="python">test = &#39;hello world
-
-# 截取前 7 个字符：hello w
-substring = test[:7]
-substring = test[0:7]
-
-# 截取第 1 个到第 5 个字符（不包含）：ello
-substring = test[1:5]
-
-# 截取后 3 个字符：rld
-substring = test[-3:]
-
-# 从第 1 个到第 6 个字符，步长为3（每隔 2 个取一个）：eo
-substring = test[1:6:3]
-substring = test[::3] # 对整个字符串每隔步长为 3 进行取
-substring = test[::-1] # 反转字符串
-
-# 截取到第 1 个空格：hello
-substring = test[:test.find(&#39; &#39;)]
-</code></pre>
-<h3 id="nonlocal"><a href="#nonlocal" class="headerlink" title="nonlocal"></a>nonlocal</h3><p>用于在嵌套函数中声明一个变量不是局部变量。如果不申明的话，就会将同名变量当作嵌套作用域内部自己的局部变量。</p>
-<pre><code class="python">def wrappedFunc() -&gt; None:
-    ans = 0
-    def insideFunc() -&gt; None:
-        nonlocal ans # 声明为非局部变量
-        ans += 1
-</code></pre>
-<h3 id="内置方法"><a href="#内置方法" class="headerlink" title="内置方法"></a>内置方法</h3><h4 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h4><p>用于将一个字符串列表连接成一个单一的字符串。</p>
-<pre><code class="python">separator.join(iterable)
-</code></pre>
-<h4 id="count"><a href="#count" class="headerlink" title="count()"></a>count()</h4><p>获取一个字符串中某个字符的数量。</p>
-<pre><code class="python">print(&#39;1jjjjj0&#39;.count(&#39;j&#39;)) # 5
-</code></pre>
-<h4 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h4><p>原地排序。默认从小到大。</p>
-<pre><code class="python">arr = [1,4,6,2,4,9]
-people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
-
-# 根据第一项从大到小排序后根据第二项从小到大
-people.sort(key = lambda x : (-x[0], x[1])) # [[7, 0], [7, 1], [6, 1], [5, 0], [5, 2], [4, 4]]
-</code></pre>
-<h4 id="split"><a href="#split" class="headerlink" title="split"></a>split</h4><p>拆分字符串。</p>
-<pre><code class="python">text = &quot;hello world&quot;
-words = text.split() # 默认以空格为分隔符 [&#39;hello&#39;, &#39;world&#39;]
-</code></pre>
-<h4 id="items"><a href="#items" class="headerlink" title="items()"></a>items()</h4><p>用于返回字典（dict、Counter）的键值对列表。</p>
-<blockquote>
-<p>Counter 继承于字典。</p>
-</blockquote>
-<pre><code class="python">arr = [1,1,1,2,2,3]
-cnt = Counter(arr)
-for c in cnt.items():
-  print(c)
-</code></pre>
-<h3 id="二进制操作"><a href="#二进制操作" class="headerlink" title="二进制操作"></a>二进制操作</h3><h4 id="bit"><a href="#bit" class="headerlink" title="bit()"></a>bit()</h4><p>返回一个数字的二进制。</p>
-<blockquote>
-<p>但是在 python 中该二进制的数字是以 0b 开头，所以需要进行拆分。</p>
-</blockquote>
-<pre><code class="python">bit(3)[2:] # 11
-</code></pre>
-<h4 id="bit-count"><a href="#bit-count" class="headerlink" title="bit_count()"></a>bit_count()</h4><p>返回一个数字的二进制形式的 1 的数量。</p>
-<h2 id="库函数"><a href="#库函数" class="headerlink" title="库函数"></a>库函数</h2><h3 id="Counter"><a href="#Counter" class="headerlink" title="Counter()"></a>Counter()</h3><p>计数器。专门用于计数元素的频率，默认值是一个整形（0），是一个特殊的字典类。</p>
-<blockquote>
-<p>可以实现类似 js map 的数据结构。</p>
-</blockquote>
-<h3 id="defaultdict-list"><a href="#defaultdict-list" class="headerlink" title="defaultdict(list)"></a>defaultdict(list)</h3><p>创建一个字典类，当你访问一个不存在的键时，它会自动返回一个默认值（这个是空列表）。</p>
-<blockquote>
-<p>可以实现类似 js map 的数据结构。</p>
-</blockquote>
-<pre><code class="python">idx = &#123;&#125; # &#123;&#125; 被认为是一个空的字典
-</code></pre>
-<h3 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate()"></a>enumerate()</h3><p>迭代函数。</p>
-<blockquote>
-<p>对于遍历的数组来说，可以遍历获取它的索引和值。第二个参数可以控制遍历的开始的索引值。</p>
-</blockquote>
-<pre><code class="python">for i, h in enumerate(hours, 1):
-  print(i) # 1...
-</code></pre>
-<h3 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate()"></a>accumulate()</h3><p>累加函数。</p>
-<blockquote>
-<p>可遍历累加后的值。</p>
-</blockquote>
-<h3 id="sum"><a href="#sum" class="headerlink" title="sum()"></a>sum()</h3><p>累加函数。</p>
-<blockquote>
-<p>累加遍历的值。</p>
-</blockquote>
-<pre><code class="python">arr = [1, 2, 3, 4, 5]
-total1 = sum(arr)
-total2 = sum(-(-x // 2) for x in arr)
-</code></pre>
-<p>遍历累加符合的值（找到符合的值将其映射为 1）</p>
-<pre><code class="python">max_count = sum(1 for v in cnt.values() if v == max_exec)
-</code></pre>
-<h3 id="max"><a href="#max" class="headerlink" title="max()"></a>max()</h3><p>遍历元素获取最大值。</p>
-<ul>
-<li>获取二维数组中的最大值：</li>
-</ul>
-<pre><code class="python"># intervals = [[1, 8], [2, 3], [3, 4]]
-len = max(max(x) for x in intervals)
-</code></pre>
-<h3 id="list"><a href="#list" class="headerlink" title="list()"></a>list()</h3><p>动态数组类型，它可以存储任何类型的元素，并且支持动态扩展。</p>
-<h3 id="range-start-end-step"><a href="#range-start-end-step" class="headerlink" title="range(start, end, step)"></a>range(start, end, step)</h3><p>创建一个整数序列，从 start 到 end，步长为 step。</p>
-<h3 id="ord"><a href="#ord" class="headerlink" title="ord()"></a>ord()</h3><p>获取一个字符对应的 Unicode 编码。</p>
-<h3 id="all"><a href="#all" class="headerlink" title="all()"></a>all()</h3><p>用于检测一个可迭代对象（如列表、元组、集合等）中的所有元素是否都为 True 或者是否都满足某个条件。</p>
-<pre><code class="python"># all(iterable)
-if all(i &gt; 0 for i in [1, 2, 3]):
-</code></pre>
-<h3 id="zip"><a href="#zip" class="headerlink" title="zip()"></a>zip()</h3><p>将多个可迭代对象（如列表、元组等）中的元素按位置配对，返回一个迭代器。如果可迭代对象的长度不一致，则返回的迭代器长度与<strong>最短</strong>的可迭代对象相同。</p>
-<pre><code class="python"># 将两个列表的元素配对
-list1 = [1, 2, 3]
-list2 = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
-zipped = zip(list1, list2)
-
-# 将zip对象转换为列表
-zipped_list = list(zipped)
-print(zipped_list)  # [(1, &#39;a&#39;), (2, &#39;b&#39;), (3, &#39;c&#39;)]
-
-# 直接遍历 zip 对象
-for x, y in zipped:
-  print(x, y)
-
-# 解码 zip （in place）
-a, b = zip(*zipped)
-print(a, b) # (1, 2, 3) (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
-print(list(zipped)) # []
-</code></pre>
-<h3 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h3><p>将可迭代对象转换为集合。</p>
-<pre><code class="python">s = set([2, 3, 3]) # &#123;2, 3&#125;
-
-s1 = s - &#123;2&#125; # &#123;3&#125;
-
-print(s) # &#123;2, 3&#125;
-</code></pre>
-<p><strong>注意</strong>：python 可以<strong>使用<code>-&#123;&#125;</code>直接减去</strong> set 中的某个值，并且会<strong>生成一个新的 set</strong>，而不会修改原 set！！！</p>
-<blockquote>
-<p>哇哦！真是方便呢（js 没有，叽叽叽）</p>
-</blockquote>
-<h3 id="permutations"><a href="#permutations" class="headerlink" title="permutations"></a>permutations</h3><p>对迭代器进行排列组合。</p>
-<pre><code class="js">nums = [1, 2, 3]
-for p in permutations(nums):
-  print(p)
-</code></pre>
-<h2 id="heapq"><a href="#heapq" class="headerlink" title="heapq"></a>heapq</h2><p>使用 heapq 库创建一个小根堆，如果想用大根堆可以将里面的数值变为负数然后再处理。</p>
-<h3 id="heapify"><a href="#heapify" class="headerlink" title="heapify"></a>heapify</h3><p>初始化堆。</p>
-<pre><code class="python">heap = [4,5,7,2,3,9]
-heapq.heapify(heap)
-</code></pre>
-<h3 id="heappop"><a href="#heappop" class="headerlink" title="heappop"></a>heappop</h3><p>弹出堆顶。</p>
-<h3 id="heappush"><a href="#heappush" class="headerlink" title="heappush"></a>heappush</h3><p>入堆顶。</p>
-<h3 id="heapreplace"><a href="#heapreplace" class="headerlink" title="heapreplace"></a>heapreplace</h3><p>弹出堆的最小元素，并将给定的新元素插入到堆中。这个操作是一个原子操作，即在单次操作中完成弹出和插入的过程。</p>
-<blockquote>
-<p>新元素也会根据按照堆进行排序。</p>
-</blockquote>
-<h2 id="itertools"><a href="#itertools" class="headerlink" title="itertools"></a>itertools</h2><p>为高效循环创建迭代器的函数。</p>
-<h3 id="chain-from-iterable"><a href="#chain-from-iterable" class="headerlink" title="chain.from_iterable"></a>chain.from_iterable</h3><p>可用于扁平化数组。</p>
-<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>函数定义的语法：</p>
-<p>使用<code>def</code>来定义一个函数。</p>
-<ul>
-<li>self 是类方法中的第一个参数，它代表类的实例本身。具体来说，在类的方法定义中，self 参数是用来访问类的属性和其他方法的。</li>
-</ul>
-<pre><code class="python">class Solution:
-    def backspaceCompare(self, s: str, t: str) -&gt; bool:
-        self.getStr(&#39;ert&#39;)
-    def getStr(self, s: str):
-        print(self)
-</code></pre>
-<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><h3 id=""><a href="#" class="headerlink" title="&#x3D;"></a>&#x3D;</h3><p>python 中的数组其实是一个 list（列表），它是可以直接进行比较的。<code>==</code> 操作符可以用来比较两个列表是否相等，它会逐元素地比较两个列表的内容和顺序是否完全相同。如果两个列表的内容和顺序都相同，则返回 True；否则返回 False。</p>
-<blockquote>
-<p>js 中是不能直接进行数组比较的，数组是引用数据类型，比较的永远是内存地址，永远是 false。</p>
-</blockquote>
-<h2 id="time"><a href="#time" class="headerlink" title="time"></a>time</h2><p>该模块提供了各种与时间相关的函数。</p>
-<blockquote>
-<p>此模块中定义的大多数函数的实现都是调用其所在平台的 C 语言库的同名函数。因为这些函数的语义可能因平台而异，所以使用时最好查阅对应平台的相关文档。</p>
-</blockquote>
-<p>下面是一些术语和惯例的解释.</p>
-<h3 id="time-1"><a href="#time-1" class="headerlink" title="time()"></a>time()</h3><p>返回以浮点数表示的从 epoch 开始的秒数形式的时间。</p>
-<blockquote>
-<p>epoch 是起始的时间点，即 time.gmtime(0) 的返回值。 这在所有平台上都是 1970-01-01, 00:00:00 (UTC)。</p>
-</blockquote>
-<h2 id="匿名函数（lambda）"><a href="#匿名函数（lambda）" class="headerlink" title="匿名函数（lambda）"></a>匿名函数（lambda）</h2><pre><code class="python">lambda arguments: expression
-</code></pre>
-<pre><code class="python"># 定义一个加法的 lambda 函数
-add = lambda x, y: x + y
-print(add(2, 3))  # 输出: 5
-
-points = [(2, 3), (1, 2), (4, 1)]
-# 根据 y 坐标排序
-sorted_points = sorted(points, key=lambda p: p[1])
-print(sorted_points)
-</code></pre>
-<h2 id="bisect"><a href="#bisect" class="headerlink" title="bisect"></a>bisect</h2><p>bisect 是 Python 内置的二分查找模块，用于在已排序的列表中查找元素。</p>
-<h3 id="bisect-left"><a href="#bisect-left" class="headerlink" title="bisect_left"></a>bisect_left</h3><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素左边插入的索引。</p>
-<pre><code class="python">arr = [1, 2, 5, 9, 12]
-print(bisect.bisect_left(arr, 3)) # 2
-print(bisect.bisect_left(arr, 2)) # 1
-</code></pre>
-<blockquote>
-<p>可以相当于找的是<strong>大于等于 target</strong> 的第一个元素的索引值。</p>
-</blockquote>
-<h3 id="bisect-right"><a href="#bisect-right" class="headerlink" title="bisect_right"></a>bisect_right</h3><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素右边插入的索引。</p>
-<pre><code class="python">arr = [1, 2, 5, 9, 12]
-print(bisect.bisect_right(arr, 3)) # 2
-print(bisect.bisect_right(arr, 2)) # 2
-</code></pre>
-<blockquote>
-<p>可以相当于找的是<strong>大于 target</strong> 的第一个元素的索引值。</p>
-</blockquote>
-<h3 id="自定义函数（key）"><a href="#自定义函数（key）" class="headerlink" title="自定义函数（key）"></a>自定义函数（key）</h3><p>使用二分时可以通过自定义目标值（目标值可以是任何类型）和函数来控制二分的结果和方向。</p>
-<pre><code class="python">def check(size: int) -&gt; bool:
-    if size &lt; 11:
-        return True
-    return False
-ans = bisect_left(range(20), True, key = check) # 找到 key=True 的值后往左二分，如果找不到则一直往右二分
-ans2 = bisect_right(range(20), True, key = check) # 找到 key=True 的值后往右二分，如果找不到则一直往左二分
-</code></pre>
-<h2 id="操作符技巧"><a href="#操作符技巧" class="headerlink" title="操作符技巧"></a>操作符技巧</h2><h3 id="-1"><a href="#-1" class="headerlink" title="&#x2F;&#x2F;"></a>&#x2F;&#x2F;</h3><p>做除法，向下取整。</p>
-<pre><code class="python"># 向下取整
-print(5 // 2) # 2
-
-# 向上取整
-print(-(-5 // 2)) # 3
-</code></pre>
-<h2 id="math"><a href="#math" class="headerlink" title="math"></a>math</h2><h3 id="lcm"><a href="#lcm" class="headerlink" title="lcm"></a>lcm</h3><p>找到两个数的最小公倍数。</p>
-<pre><code class="python">num = math.lcm(2, 3) # 6
-</code></pre>
-<h3 id="gcd"><a href="#gcd" class="headerlink" title="gcd"></a>gcd</h3><p>找到两个数的最大公约数。</p>
-<pre><code class="python">num = math.gcd(2, 3) # 1
-</code></pre>
-<h3 id="isqrt"><a href="#isqrt" class="headerlink" title="isqrt"></a>isqrt</h3><p>返回一个整数，它是给定整数的平方根。如果给定整数不是平方数，则返回一个小于给定整数的平方数的整数。</p>
-<pre><code class="python">num = math.isqrt(9) # 3
-num2 = math.isqrt(8) # 2
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        <div class="article-top">
-            <ion-icon name="arrow-up"></ion-icon>
-        </div>
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T15:21:39.043Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/身份认证（Authentication）"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ul>
-<li><p>用户发动登录请求（之前已经注册了用户信息）到服务端，服务端验证用户信息是否有效，数据库中是否存有该用户的信息（此时服务器会为用户创建一个识别用户的 session）。</p>
-<blockquote>
-<p>如果没有 session，即使用户发送的登录信息是有效的，用户下一个请求仍然会被注销登录，因为请求和请求之间是完全独立分开的，所以我们需要一个 session 来连接它们。</p>
-</blockquote>
-</li>
-<li><p>验证成功后服务器会返回一个状态码为 200 的响应，将对应存储的 seesion ID 返回给浏览器并使用 cookie 存储 。</p>
-</li>
-<li><p><strong>cookie 会伴随每个请求发送，服务器可以根据 cookie 中的 session ID 来找到对应的 session 数据</strong>（如是否登录等信息）。</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.985Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/生命周期(事件循环)"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="Node-js-程序的生命周期"><a href="#Node-js-程序的生命周期" class="headerlink" title="Node.js 程序的生命周期"></a>Node.js 程序的生命周期</h2><p>当我们使用<code>node app.js</code>执行文件时，node.js 会运行整个文件，解析代码，注册变量和函数等，我们会一直处于这个运行文件中，这是因为 node.js 的事件循环。</p>
-<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环处理处理所有的回调</p>
-<p>由 node.js 管理的循环进程。只要其中的工作没有做完，它就会一直运行程序。</p>
-<blockquote>
-<p>这意味着这样注册了事件监听器程序就会一直执行（没有手动强制退出的情况下）。</p>
-<ul>
-<li>告诉 node.js 这里的工作都执行完了，强制退出：</li>
-</ul>
-<pre><code class="js">process.exit();
-</code></pre>
-</blockquote>
-<p>node.js 不止在服务器上使用事件循环，也在其他地方使用，例如数据库。</p>
-<p><strong>原因</strong>：</p>
-<p><strong>node.js 使用事件循环是因为它实际上执行的 JS 是单线程，整个 node 程序使用的是计算机里的一个线程；而如果用 node 创建一个服务器，那它应该能够处理传入的多个数据请求，而不是因为一个请求暂停而导致所有请求等待</strong>。</p>
-<p>当我们执行 node.js 时事件循环就自动开启了，它负责处理事件回调函数。它会优先处理快速完成的回调函数。</p>
-<p>而 fs 模块的功能会被发送到一个工作池中，这个工作池运行在不同的线程中，跟 JS 代码是完全分离的。这个工作池和操作系统密切相关，可以启动多个线程 。我们读取或写入文件就在这个工作池中进行，而当读写或写入（工作）完成后，它会触发事件循环里对应的回调函数进入事件循环的队列。</p>
-<p><img src="D:\typora\notes\photo\singleThread.png" alt="image-20230202102955839"></p>
-<h2 id="事件循环（）"><a href="#事件循环（）" class="headerlink" title="事件循环（）"></a>事件循环（）</h2><p>Node.js 在主线程里维护了一个<strong>事件队列，</strong>当接到请求后，就将该请求作为一个事件放入这个队列中，然后继续接收其他请求。当主线程空闲时(没有请求接入时)，就开始循环事件队列，检查队列中是否有要处理的事件，这时要分两种情况：如果是非 I&#x2F;O 任务，就亲自处理，并通过回调函数返回到上层调用；如果是 I&#x2F;O 任务，就从 **线程池 **中拿出一个线程来处理这个事件，并指定回调函数，然后继续循环队列中的其他事件。</p>
-<p>当线程中的 I&#x2F;O 任务完成以后，就执行指定的回调函数，并把这个完成的事件放到事件队列的尾部，等待事件循环，当主线程再次循环到该事件时，就直接处理并返回给上层调用。 这个过程就叫 **事件循环 **(Event Loop)</p>
-<blockquote>
-<p><strong>Node.js 本身是一个多线程平台，而它对 JavaScript 层面的任务处理是单线程的。</strong></p>
-</blockquote>
-<h2 id="Node-js-事件循环和-JS-事件循环"><a href="#Node-js-事件循环和-JS-事件循环" class="headerlink" title="Node.js 事件循环和 JS 事件循环"></a>Node.js 事件循环和 JS 事件循环</h2><p><img src="D:\typora\notes\photo\enventLoop.png" alt="image-20230202103531435"></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.984Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/核心模块"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p>帮助我们启动服务器或执行发送请求等其他任务。</p>
-<pre><code class="js">const http = require(&quot;http&quot;);
-</code></pre>
-<blockquote>
-<p>导入模块，它会自动在全局模块（这是在 node.js 中自带的模块）中寻找。</p>
-</blockquote>
-<h3 id="createServer"><a href="#createServer" class="headerlink" title="createServer()"></a>createServer()</h3><p><strong>创建服务器并返回 server 对象。接收一个函数作为参数，每当有请求时就会执行这个函数。</strong>函数有两个默认参数——请求的信息，和响应的信息：</p>
-<pre><code class="js">const server = http.createServer((req, res) =&gt; &#123;
-  // req：包含请求的详细信息
-  console.log(req.url); // 发起请求的地址（http://localhost:3000/后的地址）
-  console.log(req.method); // 请求方法（GET/POST等）
-  console.log(req.headers); // 请求头信息
-
-  // res：服务端响应回去的对象
-  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;); // 设置响应头（响应的文本为HTML）
-  // 写入文本信息（此处为HTML）
-  res.write(&quot;&lt;html&gt;&quot;);
-  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
-  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
-  res.write(&quot;&lt;/html&gt;&quot;);
-
-  res.end(); // 结束编写，发送响应给浏览器（此后的写入无效）
-&#125;);
-server.listen(3000);
-</code></pre>
-<blockquote>
-<p>注意：<code>res.write()</code>也可以使用模板字符串直接写入。</p>
-</blockquote>
-<p>我们可以通过这个返回的 server 对象来对 server 进行操作：</p>
-<ul>
-<li><p>**listen()**：确保 node.js 不会立刻退出我们的代码，而是通过<code>listen()</code>保留它的进程。<code>listen()</code>有几个参数：</p>
-<p>第一个参数：需要监听的端口号；</p>
-<blockquote>
-<p>一般在生产环境中不需要填写，默认端口为 80；如果本地开发则可能需要不同的端口。</p>
-</blockquote>
-<pre><code class="js">server.listen(3000);
-</code></pre>
-<blockquote>
-<p>现在启动 node.js 执行文件后，node.js 可以监听到访问本地 3000 地址后的请求，然后执行<code>createServer()</code>的里的函数。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="https"><a href="#https" class="headerlink" title="https"></a>https</h2><p>帮助我们启动一个 SSL 加密的服务器。</p>
-<h2 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h2><p>帮助我们操作文件，对文件进行读写操作。</p>
-<pre><code class="js">const fs = require(&quot;fs&quot;);
-</code></pre>
-<h3 id="writeFile"><a href="#writeFile" class="headerlink" title="writeFile()"></a>writeFile()</h3><p><strong>写入一个文件</strong>，接收三个参数：</p>
-<ul>
-<li>第一个参数：完整文件名</li>
-<li>第二个参数：文件内容</li>
-<li>第三个参数：回调函数，接收一个 error 对象，如果执行出现错误可以在这里得到</li>
-</ul>
-<pre><code class="js">fs.writeFile(&quot;message.txt&quot;, &quot;ds&quot;);
-</code></pre>
-<h3 id="writeFileSync"><a href="#writeFileSync" class="headerlink" title="writeFileSync()"></a>writeFileSync()</h3><p><strong>同步写入文件</strong>，在写入文件完成后才能执行下一步。用法与<code>writeFile()</code>相同。</p>
-<h3 id="readFile"><a href="#readFile" class="headerlink" title="readFile()"></a>readFile()</h3><p><strong>读取指定路径的文件</strong>，接收两个参数：</p>
-<ul>
-<li>第一个参数：文件路径</li>
-<li>第二个参数：回调函数，接收一个读取错误时的对象（error 对象）和文件内容</li>
-</ul>
-<pre><code class="js">fs.readFile(path, (err, fileContent) =&gt; &#123;&#125;);
-</code></pre>
-<h2 id="path"><a href="#path" class="headerlink" title="path"></a>path</h2><p>帮助我们构建文件路径，让文件的路径能够在任何操作系统（Windows&#x2F;Mac&#x2F;Linux）上运行。</p>
-<pre><code class="js">const path = require(&quot;path&quot;);
-</code></pre>
-<h3 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h3><p>使用特定于平台的分隔符作为定界符将所有给定的 <strong><code>path</code> 片段</strong>连接在一起，然后规范化生成的路径。</p>
-<pre><code class="js">path.join(&quot;/foo&quot;, &quot;bar&quot;, &quot;baz/asdf&quot;, &quot;quux&quot;);
-// 返回：\foo\bar\baz\asdf\quux
-
-path.join(__dirname, &quot;..&quot;, &quot;views&quot;, &quot;shop.html&quot;);
-// __dirname: 当前文件夹的父目录
-// &#39;../&#39;: 上级目录
-</code></pre>
-<blockquote>
-<ul>
-<li>返回路径在不同的环境下可能有所不同；</li>
-<li>如果有任何路径片段不是字符串，则抛出 TypeError。</li>
-</ul>
-</blockquote>
-<h3 id="dirname"><a href="#dirname" class="headerlink" title="dirname()"></a>dirname()</h3><p>返回 <code>path</code> 的目录名，类似于 Unix <code>dirname</code> 命令。 尾随的目录分隔符被忽略。</p>
-<pre><code class="js">path.dirname(&quot;/foo/bar/baz/asdf/quux&quot;);
-// 返回: &#39;/foo/bar/baz/asdf&#39;
-</code></pre>
-<blockquote>
-<p>如果有任何路径片段不是字符串，则抛出 TypeError。</p>
-</blockquote>
-<ul>
-<li><p><strong>使用辅助函数来构建路径</strong></p>
-<p>util&#x2F;path.js</p>
-<pre><code class="js">const path = require(&quot;path&quot;);
-
-// process.mainModule(require.main).filename 为我们提供了文件路径，该文件负责我们应用程序的运行，而这个文件名就是通过我们放在dirname里文件路径获取到的
-module.exports = path.dirname(require.main.filename);
-</code></pre>
-<pre><code class="js">const rootDir = require(&quot;../util/path&quot;);
-
-res.sendFile(path.join(rootDir, &quot;views&quot;, &quot;shop.html&quot;));
-</code></pre>
-<blockquote>
-<p>这样我们就不需要编写根目录了。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>帮助我们了解操作系统相关信息。</p>
-<h2 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h2><p>帮助我们将数据进行加密。</p>
-<pre><code class="js">const crypto = require(&quot;crypto&quot;);
-</code></pre>
-<h3 id="randomBytes"><a href="#randomBytes" class="headerlink" title="randomBytes()"></a>randomBytes()</h3><p>生成随机字符，接收两个参数：</p>
-<ul>
-<li>第一个参数：随机字符的数量</li>
-<li>第二个参数：回调函数，内部传递一个出错时的 error 对象和存储字符的 buffer</li>
-</ul>
-<pre><code class="js">crypto.randomBytes(32, (err, buffer) =&gt; &#123;
-  if (err) &#123;
-    console.log(err);
-    return res.redirect(&quot;/reset&quot;);
-  &#125;
-  const token = buffer.toString(&quot;hex&quot;); // 从缓冲区中生成一个token @1
-&#125;);
-</code></pre>
-<blockquote>
-<p>@1：buffer 中存储字符是十六进制，需要通过<code>toString(&#39;hex&#39;)</code>将十六进制的值转化为 ASCII。</p>
-</blockquote>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><ul>
-<li>引入 http 模块，创建一个服务器监听 3000 端口；</li>
-<li>在服务器中判断 3000 端口的路由地址：如果是根路由，则写入一段 HTML 代码（一个表单，里面含有输入框和提交按钮，表单的提交地址为<code>/message</code>，提交方法为<code>POST</code>）后返回响应给浏览器；；</li>
-</ul>
-<pre><code class="js">const http = require(&quot;http&quot;);
-const fs = require(&quot;fs&quot;);
-
-const server = http.createServer((req, res) =&gt; &#123;
-  const url = req.url;
-  if (url === &quot;/&quot;) &#123;
-    // 如果url地址是/
-    res.write(&quot;&lt;html&gt;&quot;);
-    res.write(&quot;&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;/head&gt;&quot;);
-    res.write(
-      &#39;&lt;body&gt;&lt;form action=&quot;/message method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;message&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;&#39;
-    );
-    res.write(&quot;&lt;/html&gt;&quot;);
-    return res.end(); // 返回退出代码，如果没有return则不会执行外层后面的res各个操作，就不能获取下面的Hello,Node.js页面
-  &#125;
-
-  if (url === &quot;/message&quot; &amp;&amp; method === &quot;POST&quot;) &#123;
-    const body = [];
-
-    // 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个参数块
-    req.on(&quot;data&quot;, (chunk) =&gt; &#123;
-      body.push(chunk); // 将块推入到body中
-    &#125;);
-    req.on(&quot;end&quot;, () =&gt; &#123;
-      const parseBody = Buffer.concat(body).toString(); // 创建一个缓冲区连接到body上
-      const message = parseBody.split(&quot;=&quot;)[1];
-      fs.writeFileSync(&quot;message.txt&quot;, message);
-    &#125;);
-
-    res.statusCode = 302;
-    res.setHeader(&quot;Location&quot;, &quot;/&quot;);
-    // res.writeHead(302, &#123;
-    //     &#39;Location&#39;: &#39;/&#39;
-    // &#125;)
-    return res.end();
-  &#125;
-
-  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;);
-  res.write(&quot;&lt;html&gt;&quot;);
-  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
-  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
-  res.write(&quot;&lt;/html&gt;&quot;);
-  res.end();
-&#125;);
-
-server.listen(3000);
-</code></pre>
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="res"><a href="#res" class="headerlink" title="res"></a>res</h3><p>响应对象可调用的常用方法：</p>
-<ul>
-<li><p><strong>setHeader</strong>：设置<strong>响应标头</strong>的单个属性，以键值对的方式修改，<strong>可调用多次</strong>；</p>
-<pre><code class="js">res.setHeader(&quot;Location&quot;, &quot;/&quot;); // 设置地址跳转到/
-</code></pre>
-</li>
-<li><p><strong>writeHead</strong>：设置响应头多个属性（包括<strong>状态码、状态信息和响应标头</strong>），<strong>只调用一次，可进行链式调用</strong>；</p>
-<pre><code class="js">res.writeHead(statusCode, [reasonPhrase], [headers]);
-
-res.writeHead(200, &#123;
-  &quot;Content-Type&quot;: &quot;text/plain&quot;,
-  Location: &quot;/&quot;,
-&#125;);
-</code></pre>
-<ul>
-<li>statusCode：状态码；</li>
-</ul>
-<ul>
-<li><p>reasonPhrase（可选）：状态信息；</p>
-</li>
-<li><p>headers：响应标头；</p>
-<blockquote>
-<p>注意：<strong>两个参数的最后一个参数是 headers 响应标头</strong>！三个参数只是方便 reasonPhrase。</p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>注意：<code>setHeader</code>和<code>writeHead</code>都有的时候，<code>setHeader</code>的内容合会并到<code>writeHead</code>，合并有冲突时以<code>writeHead</code>的内容为准（<code>writeHead</code>优先级高）。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="req"><a href="#req" class="headerlink" title="req"></a>req</h3><p>请求数据的常用方法：</p>
-<ul>
-<li><p><strong>on</strong>：事件监听。接收两个参数，一个是监听的事件，一个是触发的函数：</p>
-<pre><code class="js">// 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个默认参数，块（chunk）
-req.on(&quot;data&quot;, (chunk) =&gt; &#123;&#125;);
-
-// 在完成读取传入的数据或请求后结束监听
-req.on(&quot;end&quot;, () =&gt; &#123;&#125;);
-</code></pre>
-<blockquote>
-<p>当遇到<code>req.on()</code>时，Node.js 会自动在内部添加一个新的事件监听器来管理所有的监听器，相当于一个注册表在注册了这些事件但没有执行它，然后跳过继续执行下一条。（注册未来某个时间运行但不一定现在运行的代码函数）</p>
-</blockquote>
-</li>
-<li></li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.982Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/数据验证（Validate）"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="为什么要验证"><a href="#为什么要验证" class="headerlink" title="为什么要验证"></a>为什么要验证</h2><p>在用户使用表单发送数据到后端、后端将数据写入数据库的过程中，如果用户输入了一些无效的数据，可能会影响整个代码的逻辑。（避免提交数据不合法）</p>
-<h2 id="如何进行验证"><a href="#如何进行验证" class="headerlink" title="如何进行验证"></a>如何进行验证</h2><p>我们可以在不同的地方对数据进行验证：</p>
-<ul>
-<li><p><strong>在客户端进行验证（可选）</strong>：在发送任何请求到服务端之前，通过 JS 监听输入事件，然后在用户进行表单输入时检查，在页面上进行反馈显示。这可以<strong>提高用户的体验</strong>。</p>
-<blockquote>
-<p>在客户端验证是可选的，它并不安全。因为客户端使用的 JS 是在浏览器中运行的，用户可以看到、更改或禁用 JS 代码，不利于保护安全数据发送到服务器。</p>
-</blockquote>
-</li>
-<li><p><strong>在服务端进行验证（必须）</strong>：将任何数据存储在数据库之前进行验证，保证存储数据的正确性。并且有些验证功能需要查询数据库，在服务器端进行验证能做的事要多一些。</p>
-<blockquote>
-<p>用户无法看到、更改或禁用代码，因为这些都发生在服务器上，而不是浏览器中。</p>
-</blockquote>
-</li>
-<li><p><strong>数据库内置验证（可选）</strong>：大多数数据库引擎都有一个内置验证，但是如果在服务端进行了良好的验证，基本上不需要。</p>
-</li>
-</ul>
-<h1 id="在-Node（Express）中进行数据验证"><a href="#在-Node（Express）中进行数据验证" class="headerlink" title="在 Node（Express）中进行数据验证"></a>在 Node（Express）中进行数据验证</h1><h2 id="安装验证器"><a href="#安装验证器" class="headerlink" title="安装验证器"></a>安装验证器</h2><p>在 Node（Express）中，我们可以安装第三方验证器<code>express-validator</code>来辅助我们进行数据的验证：</p>
-<pre><code class="bash">npm install --save express-validator
-</code></pre>
-<h2 id="进行验证"><a href="#进行验证" class="headerlink" title="进行验证"></a>进行验证</h2><p>引入<code>express-validator/check</code>中的<code>check()</code>，<code>check()</code>接收两个参数，第一个参数为作为检查对象的 name；第二个参数是触发校验错误的信息：</p>
-<pre><code class="js">const &#123; check &#125; = require(&#39;express-validator/check&#39;);
-
-const app = express();
-
-app.use(&#39;/signup&#39;, check(&#39;email&#39;).isEmail(), authController.postSignup)&#39;); // 通过isEmail()检查渲染页面中name为email的输入选项是否为有效的Email格式
-</code></pre>
-<h3 id="自定义验证"><a href="#自定义验证" class="headerlink" title="自定义验证"></a>自定义验证</h3><p>除了直接使用已有的内置验证器函数，我们也使用<code>custom()</code>自定义验证器。</p>
-<p><code>custom()</code>接收一个回调函数，其中回调函数中第一个参数为需要验证的值；第二个参数为一个对象，我们可以从中提取一些信息（如请求、位置、路径）：</p>
-<pre><code class="js">app.use(
-  &quot;/signup&quot;,
-  check(&quot;email&quot;)
-    .isEmail()
-    .withMessage(&quot;Please enter a valid email.&quot;)
-    .custom((value, &#123; req &#125;) =&gt; &#123;
-      // 自定义验证逻辑
-      if (value === &quot;test@test.com&quot;) &#123;
-        throw new Error(&quot;This email address if forbidden.&quot;); // 抛出错误异常消息
-      &#125;
-      return true;
-    &#125;),
-  authController.postSignup
-);
-</code></pre>
-<ul>
-<li><p><strong>验证再次确认密码</strong></p>
-<p>我们可以用数组，同时注册验证多字段：</p>
-<pre><code class="js">app.use(
-  &quot;/signup&quot;,
-  [
-    check(&quot;email&quot;)
-      .isEmail()
-      .withMessage(&quot;Please enter a valid email.&quot;)
-      .custom((value, &#123; req &#125;) =&gt; &#123;
-        if (value === &quot;test@test.com&quot;) &#123;
-          throw new Error(&quot;This email address if forbidden.&quot;);
-        &#125;
-        return true;
-      &#125;),
-    body(
-      &quot;password&quot;,
-      &quot;Please enter a password with only numbers and text and at least 5 characters.&quot;
-    )
-      .isLength(&#123; min: 5 &#125;)
-      .isAlphanumeric(),
-    body(&quot;confirmPassword&quot;).custom((value, &#123; req &#125;) =&gt; &#123;
-      if (value !== req.body.password) &#123;
-        // req.body.password获取输入请求的密码
-        throw new Error(&quot;Password have to match!&quot;);
-      &#125;
-      return true;
-    &#125;),
-  ],
-  authController.postSignup
-);
-</code></pre>
-</li>
-</ul>
-<h3 id="指定验证"><a href="#指定验证" class="headerlink" title="指定验证"></a>指定验证</h3><p>在引入<code>check()</code>时，我们可以指定引入传入请求时的一些信息（例如 body、param、query、cookie、header 等），用法和<code>check()</code>相同：</p>
-<pre><code class="js">const &#123; check, body &#125; = require(&#39;express-validator/check&#39;)
-...
-app.use(
-  &#39;/signup&#39;,
-  [
-    check(&#39;email&#39;)
-      .isEmail()
-      .withMessage(&#39;Please enter a valid email.&#39;)
-      .custom((value, &#123;req&#125;) =&gt; &#123;
-        if (value === &#39;test@test.com&#39;) &#123;
-          throw new Error(&#39;This email address if forbidden.&#39;)
-        &#125;
-        return true;
-      &#125;),
-    body(
-      &#39;password&#39;,
-      &#39;Please enter a password with only numbers and text and at least 5 characters.&#39;
-      )
-      .isLength(&#123;min: 5&#125;)
-      .isAlphanumeric()
-  ],
-  authController.postSignup
-);
-</code></pre>
-<blockquote>
-<p>isLength({min: 5})：最小长度为 5</p>
-<p>isAlphanumeric()：允许数字和普通字符</p>
-</blockquote>
-<h2 id="验证结果"><a href="#验证结果" class="headerlink" title="验证结果"></a>验证结果</h2><p>引入<code>express-validator/check</code>中的<code>validationResult()</code>，<code>validationResult()</code>中包含了所有验证的结果：</p>
-<pre><code class="js">const &#123; validationResult &#125; = require(&quot;express-validator/check&quot;);
-
-exports.postSignup = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
-  const errors = validationResult(req); // 存储使用验证中间件的请求里的验证结果
-  if (!errors.isEmpty()) &#123;
-    // 检测errors中是否有错误信息
-    console.log(errors.array()); // 打印错误信息数组
-    return res.status(422).render(&quot;auth/signup&quot;, &#123;
-      // 返回422状态码，重新返回注册页面
-      path: &quot;/signup&quot;,
-      pageTitle: &quot;Signup&quot;,
-      errorMessage: errors.array()[0].msg, // 错误信息数组里的每一项的msg为错误信息
-    &#125;);
-  &#125;
-&#125;;
-</code></pre>
-<h2 id="自定义错误信息"><a href="#自定义错误信息" class="headerlink" title="自定义错误信息"></a>自定义错误信息</h2><p>可以在注册中间件函数时添加<code>withMessage()</code>来自定义错误信息：</p>
-<pre><code class="js">app.use(
-  &quot;/signup&quot;,
-  check(&quot;email&quot;).isEmail().withMessage(&quot;Please enter a valid email.&quot;),
-  authController.postSignup
-);
-</code></pre>
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="express-validator-内置验证器函数"><a href="#express-validator-内置验证器函数" class="headerlink" title="express-validator 内置验证器函数"></a>express-validator 内置验证器函数</h3><ul>
-<li><p>isEmail()：输入是否为 Email 格式。</p>
-</li>
-<li><p>isURL()：输入是否为一个 url 网址形式。</p>
-</li>
-<li><p>isFloat()：输入保留一位小数。</p>
-</li>
-<li><p>isLength({})：是否限制输入长度。接收一个对象，对象内设置最长或最短字符数量。</p>
-</li>
-<li><p>withMessage()：定义错误信息。</p>
-</li>
-<li><p>custom()：自定义验证函数。</p>
-</li>
-<li><p>isAlphanumeric()：是否数字和普通字符。</p>
-</li>
-<li><p>isString()：是否是字符串形式。</p>
-</li>
-<li><p>normalizeEmail()：规范化 Email 格式。</p>
-</li>
-<li><p>trim()：删除多余空格。</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.981Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/other/">other</a>
         </div>
     
     
@@ -1853,7 +966,7 @@ npm run dev
   
     
       <article
-id="post-Node/connect-flash"
+id="post-Node/Express/在Node（Express）中上传或下载文件"
 class="article article-type-post"
 >
 
@@ -1864,51 +977,160 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/connect-flash/">connect-flash</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <blockquote>
-<p>跨请求存储数据，需要一个 session。但如果不想将错误信息永久存储在 session 中，而是想在错误信息中添加一些别的信息，将其快速发送到 session 中。一旦我们使用了这个在 session 中的错误信息，这个错误信息将会从 session 中删除，这样对于后面的请求，session 中将不会存在这个错误信息。</p>
-</blockquote>
-<p>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空。我们将消息入到 flash 中，跳转目标页中显示该消息。它常和<code>redirect</code>一起使用，用于一次性消息提示。</p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><pre><code class="bash">npm install --save connect-flash
+        <p>在前端页面上传文件表单时，设置一个文件上传器（将输入文本类型设置为<code>file</code>）：</p>
+<pre><code class="html">&lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
 </code></pre>
-<h2 id="引入注册"><a href="#引入注册" class="headerlink" title="引入注册"></a>引入注册</h2><p>app.js</p>
-<pre><code class="js">const flash = require(&#39;connect-flash&#39;);
+<h2 id="Multer"><a href="#Multer" class="headerlink" title="Multer"></a>Multer</h2><blockquote>
+<p>纯文本可以使用<code>body-parser</code>：</p>
+<pre><code class="js">const bodyParser = require(&quot;body-parser&quot;);
+app.use(bodyParser.urlencoded(&#123; extended: false &#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
+</code></pre>
+</blockquote>
+<p>由于文件不是纯文本，而是二进制数据，我们需要下载一个文件请求解析中间件——<code>multer</code>来识别上传的文件：</p>
+<pre><code class="bash">npm install --save multer
+</code></pre>
+<p><strong><code>multer</code>能解析文件请求数据，能够处理文件请求或文本和文件混合的请求数据。</strong></p>
+<h3 id="发送文件数据"><a href="#发送文件数据" class="headerlink" title="发送文件数据"></a><strong>发送文件数据</strong></h3><ul>
+<li><p><strong>需要在客户端发送表单数据的时候添加<code>enctype</code>来选择发送解析的数据类型</strong>：</p>
+<pre><code class="html">&lt;form action=&quot;/profile&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+  &lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<blockquote>
+<p>multipart&#x2F;form-data：请求不包含纯文本，而是包含文本和二进制的混合数据。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="获取发送的文件数据"><a href="#获取发送的文件数据" class="headerlink" title="获取发送的文件数据"></a><strong>获取发送的文件数据</strong></h3><ul>
+<li><p><strong>引入<code>multer</code>，将其注册为中间件</strong>：</p>
+<pre><code class="js">const express = require(&quot;express&quot;);
+const multer = require(&quot;multer&quot;);
 
 const app = express();
-app.use(flash());
-...
+
+app.use(multer().single(&quot;image&quot;)); // 获取一个文件，文件名为name中的名字 @1
 </code></pre>
-<h2 id="将信息存入-flash-中"><a href="#将信息存入-flash-中" class="headerlink" title="将信息存入 flash 中"></a>将信息存入 flash 中</h2><p>通过<code>req.flash(&#39;name&#39;, &#39;value&#39;)</code>来向 falsh 中存入一条信息：</p>
-<pre><code class="js">exports.postLogin = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  User.findOne(&#123; email: email &#125;)
-    .then((user) =&gt; &#123;
-      if (!user) &#123;
-        req.flash(&quot;error&quot;, &quot;Invalid email or password&quot;);
-        return res.redirect(&quot;/login&quot;);
-      &#125;
-    &#125;)
-    .catch((err) =&gt; console.log(err));
+<blockquote>
+<p>@1：multer 必须作为一个执行函数注册，它可以调用其他的方法来设置获取文件的形式（如单个文件或多个文件）。</p>
+</blockquote>
+</li>
+<li><p><strong>获取上传的文件数据</strong>：</p>
+<pre><code class="js">app.post(&quot;/add-product&quot;, postAddProduct);
+</code></pre>
+<pre><code class="js">exports.postAddProduct = (req, res, next) =&gt; &#123;
+  const imageUrl = req.file; // req.file中获取文件数据信息 @2
 &#125;;
 </code></pre>
-<h2 id="获取-falsh-中的信息"><a href="#获取-falsh-中的信息" class="headerlink" title="获取 falsh 中的信息"></a>获取 falsh 中的信息</h2><p>通过<code>req.flash(&#39;name&#39;)</code>来获取设置的信息，并将它发送到页面：</p>
-<pre><code class="js">exports.getLogin = (req, res, next) =&gt; &#123;
-  let message = req.flash(&quot;error&quot;); // 获取flash中存入的信息
-  if (message.length &gt; 0) &#123;
-    message = message[0];
-  &#125; else &#123;
-    message = null;
-  &#125;
-  res.render(&quot;auth/login&quot;, &#123;
-    path: &quot;/login&quot;,
-    pageTitle: &quot;Login&quot;,
-    errorMessage: message, // 发送到页面中
-  &#125;);
-&#125;;
+<blockquote>
+<p>@2：它会返回一个 buffer 的混合数据流，我们可以设置它为一个图片结构（图片名为没有文件扩展名的随机的哈希名称，添加扩展名可以恢复图片）：</p>
+<pre><code class="js">app.use(multer(&#123; dest: &quot;images&quot; &#125;).single(&quot;image&quot;));
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<h3 id="存储文件数据"><a href="#存储文件数据" class="headerlink" title="存储文件数据"></a>存储文件数据</h3><ul>
+<li><p><strong>设置存储引擎：</strong></p>
+<p><code>diskStorage()</code>是 multer 的存储引擎，它可以通过传递一个 JS 对象来配置，他需要两个 key：</p>
+<ul>
+<li>destination：存储位置（存储文件路径）；</li>
+<li>filename：存储名字</li>
+</ul>
+<pre><code class="js">const fileStorage = multer.diskStorage(&#123;
+  destination: (req, file, cb) =&gt; &#123;
+    cb(null, &quot;images&quot;);
+  &#125;,
+  filename: (req, file, cb) =&gt; &#123;
+    cb(null, file.filename + &quot;-&quot; + file.originalname);
+  &#125;,
+&#125;);
+
+app.use(multer(&#123; storage: fileStorage &#125;).single(&quot;image&quot;));
+</code></pre>
+<p>这样文件就会以指定的名字存储到指定的路径文件中。</p>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.966Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Express/使用Node（Express）发送邮件"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Node（Express）能创建一个服务端（器），但是创建一个邮件服务器是很困难的，处理邮件与处理传入的请求和响应完全不同。我们基本上没有办法创建自己的邮件服务器，所以一般使用<strong>第三方的邮件服务器</strong>。</p>
+<p><strong>第三方邮件服务器</strong>：MailChimp、SendGrid 等</p>
+<h2 id="下载-Nodemailer"><a href="#下载-Nodemailer" class="headerlink" title="下载 Nodemailer"></a>下载 Nodemailer</h2><p>需要利用 nodemailer 发送邮件：</p>
+<pre><code class="bash">npm install --save nodemailer
+</code></pre>
+<h2 id="使用-SendGrid-作为第三方邮件服务器"><a href="#使用-SendGrid-作为第三方邮件服务器" class="headerlink" title="使用 SendGrid 作为第三方邮件服务器"></a>使用 SendGrid 作为第三方邮件服务器</h2><p>使用 SendGrid 作为第三方邮件服务器<strong>还</strong>需要安装<code>nodemailer-sendgrid-transport</code>来与之交互：</p>
+<pre><code class="bash">npm install --save nodemailer-sendgrid-transport
+</code></pre>
+<blockquote>
+<p>注意：注册 SendGrid 账号和开启后续服务均需要挂 VPN，连接外网。</p>
+</blockquote>
+<h3 id="初始化传输器"><a href="#初始化传输器" class="headerlink" title="初始化传输器"></a>初始化传输器</h3><p>app.js</p>
+<pre><code class="js">const nodemailer = require(&quot;nodemailer&quot;); // 引入nodemailer
+const sendgridTransport = require(&quot;nodemailer-sendgrid-transport&quot;); // 引入nodemailer-sendgrid-transport
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport(&#123;
+    auth: &#123;
+      api_user: &quot;fxh&quot;, // SendGrid用户名
+      api_key: &quot;dsafdsfdsf&quot;, // SendGrid获取的密钥
+    &#125;,
+  &#125;)
+); // 设置node传输邮件的方式，并通过sendgridTransport执行（这样可以用nodemailer配置SendGrid）
+</code></pre>
+<h3 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h3><p>通过<code>sendMail()</code>发送邮件，它返回一个 Promise：</p>
+<pre><code class="js">transporter.sendMail(&#123;
+  to: userEmail, // 邮件发送的地址（用户的邮件地址）
+  from: &quot;shop@node-cm.com&quot;, // 发出邮件的地址
+  subject: &quot;Signup succeeded&quot;, // 邮件主题
+  html: &quot;&lt;h1&gt;You successfully signed up!&lt;/h1&gt;&quot;, // 邮件内容
+&#125;);
 </code></pre>
 
         
@@ -1925,7 +1147,571 @@ app.use(flash());
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.977Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2025-03-03T14:19:31.965Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Express/Node（Express）与数据库"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="Node（Express）连接数据库"><a href="#Node（Express）连接数据库" class="headerlink" title="Node（Express）连接数据库"></a>Node（Express）连接数据库</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p><strong>关系型数据库</strong>。</p>
+<h3 id="使用-mysql-的-connection-连接数据库"><a href="#使用-mysql-的-connection-连接数据库" class="headerlink" title="使用 mysql 的 connection 连接数据库"></a><strong>使用 mysql 的 connection 连接数据库</strong></h3><blockquote>
+<p>准备工作跟下一章节相同。</p>
+</blockquote>
+<p>我们可以使用它来进行查询，查询完成之后会关闭连接。</p>
+<blockquote>
+<p>这种方法较为底层，且<strong>每次操作数据库都需要新建数据库连接</strong>，若数据库操作需求多，对服务器消耗较大，因此，可以使用第二种连接方式。</p>
+</blockquote>
+<pre><code class="js">const mysql = require(&quot;mysql&quot;);
+const connection = mysql.createConnection(&#123;
+  host: &quot;localhost&quot;,
+  user: &quot;me&quot;,
+  password: &quot;secret&quot;,
+  database: &quot;my_db&quot;,
+&#125;);
+
+connection.connect();
+
+connection.query(&quot;SELECT 1 + 1 AS solution&quot;, function (err, rows, fields) &#123;
+  if (err) throw err;
+
+  console.log(&quot;The solution is: &quot;, rows[0].solution);
+&#125;);
+
+connection.end();
+</code></pre>
+<h3 id="使用-mysql-建立数据库连接池连接数据库"><a href="#使用-mysql-建立数据库连接池连接数据库" class="headerlink" title="使用 mysql 建立数据库连接池连接数据库"></a><strong>使用 mysql 建立数据库连接池连接数据库</strong></h3><h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><ul>
+<li><p>需要下载 MySQL 数据库在电脑上；</p>
+</li>
+<li><p>项目中下载 mysql2 来辅助连接 MySQL 数据库：</p>
+<pre><code class="bash">npm install --save mysql2
+</code></pre>
+<blockquote>
+<p>mysql2 就是 mysql 的升级版。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>以连接池的方式连接数据库：</p>
+<p>database.js</p>
+<pre><code class="js">const mysql = require(&quot;mysql2&quot;); // 导入mysql2模块
+
+// 创建一个连接池 @1
+const pool = mysql.createPool(&#123;
+  host: &quot;localhost&quot;, // 连接的服务器的IP地址
+  user: &quot;root&quot;, // 数据库用户
+  database: &quot;node-complete&quot;, // 连接的具体数据库
+  password: &quot;159638&quot;, // 安装时填写的密码
+&#125;);
+
+// 导出连接池
+module.exports = pool.promise(); // @2
+</code></pre>
+<blockquote>
+<p>@1：连接池方式——每当我们运行一个查询语句时能随时访问它，然后从管理的多个连接池中获取一个新连接，这样就可以同时运行多个查询，因为每个查询都需要自己的连接，并且一次查询完成后连接会交还到连接池中用于新的查询，最后在应用程序关闭时完成连接池。</p>
+<p>@2：以 Promise 的方式导出，我们在其他地方使用的时候可以处理异步任务。</p>
+</blockquote>
+<h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a><strong>获取数据</strong></h4><p>我们要获取数据库表中的数据，需要<strong>使用<code>execute()</code>结合一条数据库语句</strong>来实现对数据库中表的操作：</p>
+<p>app.js</p>
+<pre><code class="js">const db = require(&#39;./util/database&#39;);
+...
+// 查询数据库中的products表
+db.execute(&#39;SELECT * FROM products&#39;)
+    .then(([rows, fieldData]) =&gt; &#123;
+        console.log(rows); // 存储了数据库表中的数据
+        console.log(fieldData); // 存储数据库表的一些元字段
+    &#125;)
+    .catch(err =&gt; console.log(err));
+
+// 增加一条数据
+db.execute(
+    &#39;INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)&#39;,
+    [this.title, this.price, this.imageUrl, this.description] // 增加数据字段（与库中的表相对应）
+).then(() =&gt; &#123;&#125;).catch(err =&gt; console.log(err));
+</code></pre>
+<h3 id="使用-sequelize-连接数据库"><a href="#使用-sequelize-连接数据库" class="headerlink" title="使用 sequelize 连接数据库"></a><strong>使用 sequelize 连接数据库</strong></h3><p>详情见 sequelize 一章。</p>
+<h2 id="MongDB"><a href="#MongDB" class="headerlink" title="MongDB"></a>MongDB</h2><p><strong>非关系型数据库。</strong>MongoDB 是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似<em>json</em>的 bson<em>格式</em>，因此可以存储比较复杂的数据类型。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>能存储大量的数据；</li>
+<li>支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，查询速度块；</li>
+<li>而且还支持对数据建立索引；</li>
+</ul>
+<h3 id="使用-mongodb-连接数据库"><a href="#使用-mongodb-连接数据库" class="headerlink" title="使用 mongodb 连接数据库"></a><strong>使用 mongodb 连接数据库</strong></h3><h4 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><p>下载 mongodb：</p>
+<pre><code class="bash">npm instal --save mongodb
+</code></pre>
+<blockquote>
+<p>准备一个 MongoDB 数据库连接地址，我使用的是云数据库 MongoDB Atlas。</p>
+</blockquote>
+<h4 id="连接数据库-1"><a href="#连接数据库-1" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>database.js</p>
+<pre><code class="js">const mongodb = require(&quot;mongodb&quot;); // 引入mongodb
+const MongoClient = mongodb.MongoClient; // 新建一个MongoClient用于连接数据库
+
+const mongoConnect = (callback) =&gt; &#123;
+  MongoClient.connect(
+    // 连接数据库地址
+    &quot;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/?retryWrites=true&amp;w=majority&quot;
+  ) // @1
+    .then((client) =&gt; &#123;
+      console.log(&quot;Connected!&quot;);
+      callback(client);
+    &#125;)
+    .catch((err) =&gt; &#123;
+      console.log(err);
+    &#125;);
+&#125;;
+
+module.exports = mongoConnect;
+</code></pre>
+<blockquote>
+<p>@1：该 url 是云数据库的地址，其中包含了云数据库存储的用户名和密码。</p>
+</blockquote>
+<p>app.js</p>
+<pre><code class="js">const mongoConnect = require(&#39;./util/database&#39;);
+const app = express();
+...
+mongoConnect(client =&gt; &#123;
+  console.log(client);
+  app.listen(3000);
+&#125;);
+</code></pre>
+<blockquote>
+<p>更多详细信息见 MongoDB 一章。</p>
+</blockquote>
+<h3 id="使用-mongoose-连接数据库"><a href="#使用-mongoose-连接数据库" class="headerlink" title="使用 mongoose 连接数据库"></a>使用 mongoose 连接数据库</h3><h4 id="准备工作-2"><a href="#准备工作-2" class="headerlink" title="准备工作"></a>准备工作</h4><p>下载 mongoose：</p>
+<pre><code class="bash">npm install --save mongoose
+</code></pre>
+<h4 id="连接数据库-2"><a href="#连接数据库-2" class="headerlink" title="连接数据库"></a>连接数据库</h4><p>app.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
+...
+mongoose
+  .connect(
+    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
+  ) // 连接MongoDB数据库
+  .then(result =&gt; &#123;
+    app.listen(3000);
+  &#125;)
+  .catch(err =&gt; &#123;
+    console.log(err);
+  &#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.963Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Express/Express"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express/">Express.js模块化路由（Router）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">npm install --save express
+</code></pre>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Express.js所有都是关于中间件的。中间件意味着传入的请求会通过一堆由Express.js汇集（封装）的函数。（实际上挂载并拥有多个请求处理程序，而不是一个请求处理程序。请求将一步一步通过这个功能，直到我们发出响应）</p>
+<p><img src="D:\typora\notes\photo\middleware.png" alt="image-20230206142003029"></p>
+<p>中间件允许我们将代码拆分为多个块或片段，而不是一个包含许多功能的巨大函数。这就是Express.js的<strong>可插拔性</strong>(<strong>pluggable</strong>)，我们可以在其中轻松添加其他第三方包（添加中间件）</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>下载完后引入Express.js的模块，并创建一个由Express.js管理的对象：</p>
+<pre><code class="js">const express =  require(&#39;express&#39;);
+
+const app = express();
+</code></pre>
+<p>在我们把它传递给创建的服务器之前，我们可以通过Express.js使用app并调用定义的方法——<code>use</code>：</p>
+<h3 id="添加中间件"><a href="#添加中间件" class="headerlink" title="添加中间件"></a>添加中间件</h3><p><code>use()</code>允许我们添加一个新的中间件，它接收一个必填的函数，<strong>所有传入的请求都会执行它</strong>；这个函数接收三个参数：</p>
+<ul>
+<li><p><strong>request</strong>：请求对象</p>
+</li>
+<li><p><strong>response</strong>：响应对象</p>
+</li>
+<li><p><strong>next</strong>：Express.js提供的内部函数，<strong>前往下一个中间件</strong></p>
+<blockquote>
+<p>如果不调用<code>next</code>，就不会前往下一个中间件。</p>
+</blockquote>
+</li>
+</ul>
+<pre><code class="js">app.use((req, res, next) =&gt; &#123;
+    console.log(&#39;我是中间件&#39;);
+    next(); // 前往下一个中间件
+&#125;);
+</code></pre>
+<blockquote>
+<p>注意：中间件是根据代码的先后顺序，从上到下执行的。</p>
+</blockquote>
+<h3 id="不同路由"><a href="#不同路由" class="headerlink" title="不同路由"></a>不同路由</h3><p><code>use()</code>的第一个参数是可选的<strong>路径字符串</strong>，通过它来区分不同的路由：</p>
+<pre><code class="js">app.use(&#39;/add-product&#39;, (req, res, next) =&gt; &#123;
+    console.log(&#39;我是中间件&#39;);
+    res.send(&#39;&lt;h1&gt;The &quot;Add Product&quot; Page&lt;/h1&gt;&#39;);
+&#125;);
+
+app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
+    console.log(&#39;我是另一个中间件&#39;);
+    res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
+&#125;);
+</code></pre>
+<p>可以通过调整中间件的位置，控制路由先后或是否执行：</p>
+<pre><code class="js">app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
+    console.log(&#39;总是要通过我才能进入下一个&#39;);
+    next();
+&#125;)
+...
+</code></pre>
+<h3 id="设置响应标头"><a href="#设置响应标头" class="headerlink" title="设置响应标头"></a>设置响应标头</h3><p>默认响应标头是<code>text/html</code></p>
+<h3 id="发送响应"><a href="#发送响应" class="headerlink" title="发送响应"></a>发送响应</h3><p>使用<code>res.send()</code>发送响应：</p>
+<pre><code class="js">app.use((req, res, next) =&gt; &#123;
+    res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
+&#125;);
+</code></pre>
+<p>使用<code>res.sendFile()</code>发送响应HTML文件（路径需<code>path</code>模块）：</p>
+<pre><code class="js">app.use((req, res, next) =&gt; &#123;
+    res.sendFile(path.join(&#39;../&#39;, &#39;views&#39;, &#39;shop.html&#39;));
+&#125;);
+</code></pre>
+<h3 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h3><pre><code class="js">app.listen(3000);
+</code></pre>
+<blockquote>
+<p>Express.js会帮我们完成（背后原理）：</p>
+<pre><code class="js">const http = require(&#39;http&#39;);
+const server = http.createServer(app);
+server.listen(3000);
+</code></pre>
+</blockquote>
+<h3 id="解析请求体"><a href="#解析请求体" class="headerlink" title="解析请求体"></a>解析请求体</h3><p>通过第三方包中间件（body-parser）来解析，比使用Node.js本身的Buffer的存储机制来解析要简单得多：</p>
+<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
+...
+app.use(bodyParser.urlencoded(&#123;extended: false&#125;));
+</code></pre>
+<h3 id="启动静态文件（CSS-JS-…）"><a href="#启动静态文件（CSS-JS-…）" class="headerlink" title="启动静态文件（CSS&#x2F;JS&#x2F;…）"></a>启动静态文件（CSS&#x2F;JS&#x2F;…）</h3><p>静态文件的启动需要借助<code>express.static()</code>来访问，例如静态文件存存储在根目录下<code>public/css/main.css</code>中：</p>
+<pre><code class="js">app.use(express.static(path.join(__dirname, &#39;public&#39;)));
+</code></pre>
+<blockquote>
+<p>express.static会寻找在<code>...（根目录）/public</code>下的所有地址文件。</p>
+</blockquote>
+<p>在需要使用的HTML中：</p>
+<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/main.css&quot;&gt;
+</code></pre>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><pre><code class="js">const express =  require(&#39;express&#39;);
+const bodyParser = require(&#39;body-parser&#39;);
+
+const app = express();
+
+app.use(bodyParser.urlencoded(&#123;extended: false&#125;));
+
+// app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
+//     console.log(&#39;总是要通过我&#39;);
+//     next();
+// &#125;)
+
+app.use(&#39;/add-product&#39;, (req, res, next) =&gt; &#123;
+    res.send(&#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;);
+&#125;);
+
+app.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
+    console.log(req.body);
+    res.redirect(&#39;/&#39;);
+&#125;);
+
+app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
+    res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
+&#125;);
+
+
+app.listen(3000);
+</code></pre>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a><strong>附录</strong></h2><h3 id="app"><a href="#app" class="headerlink" title="app"></a><strong>app</strong></h3><h4 id="use"><a href="#use" class="headerlink" title="use()"></a>use()</h4><p>注册一个中间件。总是会按顺序执行的中间件，<strong>所有传入的请求都会执行它</strong>（无论请求是GET还是POST）。</p>
+<p><strong>用途：</strong></p>
+<ul>
+<li><p>添加中间件</p>
+</li>
+<li><p>不同路由</p>
+</li>
+<li><p>添加多个回调函数（中间件）</p>
+<p>在注册中间件时可以添加多个回调函数，不同回调函数之间用逗号隔开：</p>
+<pre><code class="js">app.use(&#39;/add-product&#39;, callback1 , callback2);
+</code></pre>
+</li>
+</ul>
+<h4 id="get-post-…"><a href="#get-post-…" class="headerlink" title="get()&#x2F;post()…"></a>get()&#x2F;post()…</h4><p><strong>只会在传入GET&#x2F;POST&#x2F;…请求（request）时触发</strong>。</p>
+<h4 id="listen"><a href="#listen" class="headerlink" title="listen()"></a>listen()</h4><p>监听端口。</p>
+<h4 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h4><p>允许我们设置任何全局变量的值。</p>
+<pre><code class="js">const app = express();
+
+app.set(&#39;view engine&#39;, &#39;pug&#39;); // 设置模板引擎
+</code></pre>
+<blockquote>
+<p>注意：因为Pug下载后是内置的，所以可以使用set直接引用。</p>
+</blockquote>
+<h4 id="engine"><a href="#engine" class="headerlink" title="engine()"></a>engine()</h4><p>注册一个非内置的模板引擎。</p>
+<pre><code class="js">app.engine(&#39;handlebars&#39;,expressHba());
+</code></pre>
+<h3 id="res"><a href="#res" class="headerlink" title="res"></a><strong>res</strong></h3><p>响应相关信息。</p>
+<h4 id="send"><a href="#send" class="headerlink" title="send()"></a>send()</h4><p>发送响应。默认响应标头是<code>text/html</code>。</p>
+<pre><code class="js">res.send(&#39;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&#39;);
+</code></pre>
+<h4 id="sendFile"><a href="#sendFile" class="headerlink" title="sendFile()"></a>sendFile()</h4><p>传入一个需响应的文件地址，发送响应文件。需借助path（Node.js）模块。</p>
+<pre><code class="js"> res.sendFile(path.join(&#39;../&#39;, &#39;views&#39;, &#39;shop.html&#39;));
+</code></pre>
+<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect()"></a>redirect()</h4><p>路由重定向。</p>
+<pre><code class="js">res.redirect(&#39;/&#39;);
+</code></pre>
+<h4 id="render"><a href="#render" class="headerlink" title="render()"></a>render()</h4><p>发送默认模板引擎渲染的文件。</p>
+<pre><code class="js">res.render(&#39;shop&#39;); // 发送渲染shop.pug文件
+</code></pre>
+<p>它可以使用第二个参数，向模板文件中传递参数：</p>
+<pre><code class="js">const products = &#39;apple&#39;;
+res.render(&#39;shop&#39;, &#123; prods: products, docTitle: &#39;Shop&#39;&#125;); // 发送到shop.pug的参数
+</code></pre>
+<h4 id="locals"><a href="#locals" class="headerlink" title="locals"></a>locals</h4><p>设置局部变量传递给视图。</p>
+<pre><code class="js">res.locals.xxx = 
+</code></pre>
+<blockquote>
+<p>例子：</p>
+<pre><code class="js">app.use((res, req, next) =&gt; &#123;
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+&#125;);
+</code></pre>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.962Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Express/Express.js模块化路由（Router）"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%B7%AF%E7%94%B1%EF%BC%88Router%EF%BC%89/">Express.js模块化路由（Router）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>使用 <code>express.Router</code> 类来创建可安装的模块化路由处理程序。<code>Router</code> <strong>实例是完整的中间件和路由系统</strong>；因此，常常将其称为“<strong>微型应用程序</strong>”（像是在服务器内部嵌套一个小型的服务器）。</p>
+<blockquote>
+<p>router 的用法和<code>const app = express()</code>创建的 app 是一样的。</p>
+</blockquote>
+<p>routes&#x2F;oneRoute.js：</p>
+<pre><code class="js">const express = require(&quot;express&quot;);
+
+const router = express.Router(); // 创建Router实例
+
+router.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  res.send(
+    &#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
+  );
+&#125;);
+
+router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
+  console.log(req.body);
+  res.redirect(&quot;/&quot;);
+&#125;);
+
+module.exports = router; // 导出router
+</code></pre>
+<p>在某个文件中导入：</p>
+<pre><code class="js">const oneRoute = require(&quot;./routes/oneRoute&quot;);
+
+app.use(oneRoute);
+</code></pre>
+<h2 id="添加公共路径路由（过滤路径）"><a href="#添加公共路径路由（过滤路径）" class="headerlink" title="添加公共路径路由（过滤路径）"></a>添加公共路径路由（过滤路径）</h2><p>有时候我们的模块化路由里中间件的路由地址有一段是相同，可以在注册这个路由模块时通过<code>use</code>来定义：</p>
+<pre><code class="js">...
+app.use(&#39;/admin&#39;, adminRoutes); // 公共路径
+...
+</code></pre>
+<p>routes&#x2F;oneRoute.js：</p>
+<pre><code class="js">// /admin/add-product =&gt; GET
+router.get(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  res.send(
+    &#39;&lt;form action=&quot;/admin/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
+  );
+&#125;);
+
+// /admin/product =&gt; POST
+router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
+  console.log(req.body);
+  res.redirect(&quot;/&quot;);
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.961Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Express/Express.js中间件的包"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <ul>
+<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
+<pre><code class="bash">npm install --save body-parser
+</code></pre>
+<blockquote>
+<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
+</blockquote>
+<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
+...
+app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
+</code></pre>
+</li>
+<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
+<blockquote>
+<p>此包依赖 express 和 express-session。</p>
+</blockquote>
+<pre><code class="bash">npm install --save csurf
+</code></pre>
+</li>
+<li><p>express-validator：Express 验证器</p>
+<pre><code class="bash">npm install --save express-validator
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
@@ -1974,7 +1760,7 @@ app.use(flash());
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>Tags</span></div>
     <div class="widget-inner">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li></ul>
     </div>
   </div>
 
@@ -1987,23 +1773,23 @@ app.use(flash());
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>
@@ -2015,7 +1801,7 @@ app.use(flash());
   <div class="widget-wrap widget-archive">
     <div class="widget-title"><span>Archive</span></div>
     <div class="widget-inner">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
     </div>
   </div>
 
