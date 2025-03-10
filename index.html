@@ -154,244 +154,6 @@
   
     
       <article
-id="post-UniApp/Vue速通uniapp"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="迁移对比"><a href="#迁移对比" class="headerlink" title="迁移对比"></a>迁移对比</h2><p>uni-app 与 Vue 相对比。</p>
-<h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><ul>
-<li>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置：<ul>
-<li>按下样式</li>
-<li>事件冒泡</li>
-<li>手指按住和松开状态时间</li>
-</ul>
-</li>
-</ul>
-<h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>uni-app 与 html 的标签对应。</p>
-<ul>
-<li>view：div</li>
-<li>text：span</li>
-<li>ul&#x2F;li：view v-for</li>
-<li>img：image</li>
-<li>a：navigator</li>
-<li>iframe：web-view</li>
-<li>select：picker</li>
-<li>table：uni-table</li>
-</ul>
-<blockquote>
-<p>其他没提到的大致相同。</p>
-</blockquote>
-<h3 id="css"><a href="#css" class="headerlink" title="css"></a>css</h3><ul>
-<li>一些在 <strong>css 需要设置定义的属性可直接通过对应容器和标签属性来开启</strong>：scroll-view</li>
-</ul>
-<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><h3 id="视图容器"><a href="#视图容器" class="headerlink" title="视图容器"></a>视图容器</h3><ul>
-<li>view：div</li>
-<li>scroll-view：区域滚动。</li>
-<li>swiper：滑块区域。类似实现轮播图。</li>
-</ul>
-<h3 id="表单组件"><a href="#表单组件" class="headerlink" title="表单组件"></a>表单组件</h3><ul>
-<li>button：原生组件就跟用了组件库的效果差不多，还可以设置大小，样式。</li>
-<li>input：输入框，同 html 差不多，但是还可以指定设备弹出键盘。</li>
-<li>switch：开关。</li>
-</ul>
-<h3 id="路由（页面跳转）"><a href="#路由（页面跳转）" class="headerlink" title="路由（页面跳转）"></a>路由（页面跳转）</h3><ul>
-<li>navigator：可设置是否可以返回上一个页面（<code>open-type</code>）。</li>
-</ul>
-<h3 id="媒体组件"><a href="#媒体组件" class="headerlink" title="媒体组件"></a>媒体组件</h3><ul>
-<li>image：通过 <code>mode</code> 属性来设置图像相对容器的适应（缩放、裁剪等）。</li>
-</ul>
-<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><h3 id="页面级别"><a href="#页面级别" class="headerlink" title="页面级别"></a>页面级别</h3><ul>
-<li><p><strong>onLoad</strong>：页面进入后执行（只执行一次）。</p>
-<blockquote>
-<p>默认参数接收 url 参数，代替 vue-router。</p>
-</blockquote>
-</li>
-<li><p><strong>onShow</strong>（keep-alive）：进入页面时触发，离开页面再回来也能触发。</p>
-<blockquote>
-<p>广告植入（讨厌）。</p>
-</blockquote>
-</li>
-<li><p><strong>onReady</strong>（onMounted）（只执行一次）。</p>
-</li>
-<li><p><strong>onHide</strong>：离开页面时触发。</p>
-<blockquote>
-<p>清除生命周期钩子等。</p>
-</blockquote>
-</li>
-<li><p><strong>onUnload</strong>：需要配置 <code>open-type=reLaunch</code>。</p>
-<blockquote>
-<p>卸载页面是进行数据缓存的清理。</p>
-</blockquote>
-</li>
-<li><p>onPageScroll：监听页面滚动。</p>
-</li>
-<li><p>onPullDownRefresh：监听用户下拉动作。</p>
-<blockquote>
-<p>下拉刷新。</p>
-</blockquote>
-</li>
-<li><p>onReachBottom：页面滚动到底部的事件（不是 scroll-view 滚到底）。</p>
-<blockquote>
-<p>用于下拉到下一页数据。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="应用级别"><a href="#应用级别" class="headerlink" title="应用级别"></a>应用级别</h3><ul>
-<li><p><strong>onLaunch</strong>：第一次进入应用执行。</p>
-<blockquote>
-<p>验证本地缓存是否有登录信息。</p>
-</blockquote>
-</li>
-<li><p><strong>onShow</strong>：应用级别。（全局）</p>
-</li>
-<li><p><strong>onHide</strong>：应用级别。（全局）</p>
-</li>
-</ul>
-<h3 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h3><blockquote>
-<p>应用 -&gt; 页面</p>
-</blockquote>
-<p><strong>不包含组件</strong>：</p>
-<p><strong>onLoad -&gt; onShow -&gt;onReady</strong></p>
-<p><strong>包含组件</strong>：</p>
-<p><strong>onLoad -&gt; onShow -&gt; setup -&gt; beforeMount -&gt; onReady -&gt; mounted</strong></p>
-<blockquote>
-<p>onReady 和 mounted 文档是 onReady 在后面，但实际测试确实在前面执行？</p>
-</blockquote>
-<p><strong>uni-app 的生命周期虽然支持与 Vue 混用，但是最好还是只用一个。</strong></p>
-<h2 id="尺寸单位"><a href="#尺寸单位" class="headerlink" title="尺寸单位"></a>尺寸单位</h2><h3 id="rpx"><a href="#rpx" class="headerlink" title="rpx"></a>rpx</h3><p>微信小程序提出的一种用于响应式布局的单位，可以根据屏幕自适应的动态单位。（以 750 像素为基准）</p>
-<blockquote>
-<p>一般来说 UI 稿子等比缩放宽以 750 为基准。</p>
-</blockquote>
-<h2 id="pages-json"><a href="#pages-json" class="headerlink" title="pages.json"></a>pages.json</h2><p>该文件可以：</p>
-<ul>
-<li><strong>定义路由</strong>。对于每个路由页面也<strong>可也设置单独的窗口页面表现</strong>。pages</li>
-<li><strong>设置默认窗口页面表现</strong>（导航栏等）。globalStyle</li>
-<li>设置<strong>自动引入组件规则</strong>（默认开启）。easycom</li>
-<li>设置<strong>页面底部切换按钮栏</strong>。tabBar</li>
-<li>模拟直达页面场景（仅限开发，用于测试）。condition</li>
-</ul>
-<h2 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h2><p>进行一些应用的配置。</p>
-<ul>
-<li><p>如果想上传应用，或者进行真机调试，需要定义好 AppId。</p>
-<blockquote>
-<p>这个 AppId 需要进行小程序注册才可以获得</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><blockquote>
-<p>注意：针对不同的平台可能某些 API 或者事件等不可使用，具体需要查阅官方标准。</p>
-</blockquote>
-<ul>
-<li><p>有些标签的名字有变化：div（view）、span（text）</p>
-</li>
-<li><p>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置；</p>
-</li>
-<li><p>一些之前需要<strong>引用组件库或者手写的样式，直接被容器集成</strong>了；并且可以在<strong>容器上直接设置属性来设置</strong>，<strong>无需使用 js</strong>；</p>
-</li>
-<li><p>使用路由跳转时可设置 <code>open-type</code> 模式来控制跳转后上一个页面的行为（是否可以回跳）；</p>
-</li>
-<li><p>Vue 的<strong>一些语法和事件可以参照官方对照表</strong>将其一一对应起来；</p>
-</li>
-<li><p>uni-app <strong>有对应的 js&#x2F;vue 事件，也有自己原生的事件</strong>；</p>
-</li>
-<li><p>uni-app 中的<strong>组件不需要手动导入，只需要放在 components 文件夹</strong>下即可；</p>
-</li>
-<li><p>uni-app 中的生命周期除了继承 Vue 的组件生命周期，还有应用级别和页面级别的生命周期；</p>
-</li>
-<li><p>可以在 uni.scss 中<strong>定义一些全局的 css 变量</strong>；也可以指定<strong>小程序特有的环境变量（例如 env(safe-area-inset-bottom)）来设置其独有的样式属性</strong>。</p>
-<blockquote>
-<p>如果想定义局部的变量可以在 common 文件夹中定义好后，在 uni.scss 中使用<code>@import</code>导入，重启生效。</p>
-</blockquote>
-</li>
-<li><p>内置有 API 可以完成交互反馈（uni.showToast 等），类似于全局封装好的组件；</p>
-</li>
-<li><p>发送请求也可<strong>以使用 uni.request 完成，自身支持 Promise，不需要额外使用 axios 等网络请求库</strong>；</p>
-</li>
-<li><p>可直接配置跨域；</p>
-<blockquote>
-<p>微信小程序：在本地设置配置不检验 https，上线时在小程序的后台里配置服务器域名即可。</p>
-</blockquote>
-</li>
-<li><p>官方有扩展组件可直接安装使用（官方组件库）；</p>
-<blockquote>
-<p>安装好之后会出现在 uni_modules 底下。</p>
-</blockquote>
-</li>
-<li><p>对于不同端的适配，<strong>可以使用<code>#ifdef</code>、<code>#ifndef</code>和<code>#endif</code>来根据设备控制不同的 dom 元素渲染</strong>；</p>
-<blockquote>
-<p>例如对于小程序来说可以配置联系客服，就可以直接到达客服的微信；而对于 pc 端，可以展示电话号码。</p>
-</blockquote>
-</li>
-<li><p>改变小程序<strong>内置图标样式也需添加一个类名，再深度选择即可</strong>；</p>
-</li>
-<li><p>针对不同的设备，<strong>uni-app 会提供 api 来获取当前设备的信息，我们可以根据里面的设备型号做处</strong>理；</p>
-<blockquote>
-<p>uni.getSystemInfoSync、uni.getSystemInfo。</p>
-</blockquote>
-</li>
-<li><p>一些样式需要和<strong>胶囊按钮对齐</strong>，可以用 <strong>api 获取胶囊按钮的位置信息，做动态的自适应</strong>；</p>
-<blockquote>
-<p>uni.getMenuButtonBoundingClientRect。一般将其抽离出来在 utils 下的 system.ts 中。</p>
-</blockquote>
-</li>
-<li><p><strong>路由传参直接拼在 url</strong> 上，再在<strong>组件内的生命周期的默认参数中获取</strong>；</p>
-<blockquote>
-<p>navigator；load。</p>
-</blockquote>
-</li>
-<li><p>uni-app 中同样也可以将<strong>数据放入缓存</strong>中；</p>
-<blockquote>
-<p>uni.setStorage。</p>
-</blockquote>
-</li>
-<li><p>调用小程序 api 分享时，可以<strong>通过 url 传参到达指定的分享页面</strong>；</p>
-</li>
-<li><p>对于<strong>富文本的渲染</strong>，<strong>uni-app 有专门的插件，还可以渲染 dom 元素</strong>；</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-10T15:14:39.166Z" itemprop="datePublished">2025-03-10</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/npm/packages和modules"
 class="article article-type-post"
 >
@@ -1671,7 +1433,7 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
   
     
       <article
-id="post-micro-frontends/wujie/Wujie简介"
+id="post-UniApp/Vue速通uniapp"
 class="article article-type-post"
 >
 
@@ -1682,121 +1444,201 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E7%AE%80%E4%BB%8B/">Wujie 简介</a>
+        <a href="/ferhannah-blog/2025/03/01/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>由腾讯开发的微前端框架，帮助开发者将复杂的前端项目拆分为多个微前端应用，实现分治开发、独立部署、统一集成的目标。</p>
-<p>拥有以下几个特点（官网）：</p>
-<h2 id="极速"><a href="#极速" class="headerlink" title="极速"></a>极速</h2><p>页面切换时速度快，无白屏。（主要是通过开启预加载实现）</p>
-<h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><p>预加载指的是在应用空闲的时候<code>requestIdleCallback</code>将所需要的静态资源提前从网络中加载到内存中。</p>
-<blockquote>
-<p>主流的 PC 屏幕刷新率（FPS）大多在 60Hz，即 1 秒钟对屏幕进行 60 次刷新，平均每次刷新耗时大概是 16.6ms。</p>
-</blockquote>
-<p><code>requestidlecallback</code>触发的时机有两种：</p>
-<ul>
-<li><p>在一帧的输入渲染合成完成后才会有空闲时间触发<code>requestidlecallback</code>;</p>
-<blockquote>
-<p>一帧内所做的事情如下：</p>
-<ul>
-<li>输入事件处理：浏览器会处理用户的输入事件，如鼠标点击、键盘输入等，并将这些事件放入事件队列中；</li>
-<li>JavaScript 执行：浏览器会从事件队列中取出事件并执行对应的 JavaScript 代码，如事件处理函数、定时器等；</li>
-<li>执行 requestAnimationFrame；</li>
-<li>执行 dom 的回流与重绘；</li>
-<li>计算更新图层的绘制指令（浏览器会将布局信息转换成绘制指令，并使用 GPU 进行绘制渲染，生成对应的位图）；</li>
-<li>绘制指令合并主线程（浏览器会将多个位图进行合成，生成最终的页面图像），如果有空余时间会执行 <code>requestidlecallback</code>。</li>
+        <h1 id="迁移对比"><a href="#迁移对比" class="headerlink" title="迁移对比"></a>迁移对比</h1><p>uni-app 与 Vue 相对比。</p>
+<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><ul>
+<li>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置：<ul>
+<li>按下样式</li>
+<li>事件冒泡</li>
+<li>手指按住和松开状态时间</li>
 </ul>
-<p>在这个过程中，浏览器会尽可能地优化渲染流程，以提高页面的渲染性能和用户体验。实际上就是在 16.6ms 之内完成输入渲染合成，空闲的时间才会留给 <code>requestidlecallback</code>。</p>
-</blockquote>
-</li>
-<li><p>没有任务执行浏览器会有 50ms 空闲时间，这个时间段也会执行 <code>requestidlecallback</code>。</p>
-<blockquote>
-<p>例如直接在控制台输出。</p>
-</blockquote>
 </li>
 </ul>
-<pre><code class="js">requestidlecallback(function (deadline) &#123;
-  console.log(deadline.timeRemaining());
-&#125;);
-</code></pre>
-<p>由于子应用提前渲染可能会导致阻塞主应用的线程，所以无界提供了类似于<code>react-fiber</code>方式来防止阻塞线程：</p>
-<p>react16： <code>postMessage + requestAnimationFrame</code>来实现类似<code>requestidlecallback()</code>的功能；</p>
-<blockquote>
+<h2 id="html"><a href="#html" class="headerlink" title="html"></a>html</h2><p>uni-app 与 html 的标签对应。</p>
 <ul>
-<li>使用<code>postMessage + requestAnimationFrame</code>是因为 react 开发人员经过测试发现<code>requestidlecallback()</code>可能会超过 16ms，超过 16ms 绘制就会看起来很卡，所以 react16 是用<code>postMessage + requestAnimationFrame</code>实现的。</li>
-<li>使用<code>postMessage </code>来代替<code>setTimeOut()</code>是因为后者即使为 0</li>
-</ul>
-</blockquote>
-<p>react18 ：使用<code>MessageChannel</code>实现<code>requestidlecallback()</code>。</p>
-<h2 id="强大"><a href="#强大" class="headerlink" title="强大"></a>强大</h2><p>支持子应用保活、内嵌、去中心化通信、多应用激活。</p>
-<h3 id="子应用保活"><a href="#子应用保活" class="headerlink" title="子应用保活"></a>子应用保活</h3><h2 id="简单"><a href="#简单" class="headerlink" title="简单"></a>简单</h2><p>框架封装，保持普通组件使用体验一致。</p>
-<h2 id="原生隔离"><a href="#原生隔离" class="headerlink" title="原生隔离"></a>原生隔离</h2><p>基于 WebComponent 和 iframe，原生物理隔离。</p>
-<h3 id="WebComponent"><a href="#WebComponent" class="headerlink" title="WebComponent"></a>WebComponent</h3><pre><code class="tsx">window.onload = () =&gt; &#123;
-  class Wujie extends HTMLElement &#123;
-    constructor() &#123;
-      super();
-      // shadowdom 样式隔离
-      let dom = this.attachShadow(&#123; mode: &quot;open&quot; &#125;);
-      let template = document.querySelector(&quot;#wujie&quot;) as HTMLTemplateElement;
-
-      dom.appendChild(template.content.cloneNode(true));
-
-      console.log(this.getAttr(&quot;name&quot;), this.getAttr(&quot;url&quot;));
-    &#125;
-    private getAttr(attr: string) &#123;
-      return this.getAttribute(attr);
-    &#125;
-
-    // webComponents的生命周期
-    connectedCallback() &#123;
-      console.log(&quot;类似于vue的mounted&quot;);
-    &#125;
-    disconnectedCallback() &#123;
-      console.log(&quot;类似于vue的destory&quot;);
-    &#125;
-    attributeChangedCallback(name: any, oldVal: any, newVal: any) &#123;
-      console.log(&quot;类似于vue的watch&quot;);
-    &#125;
-  &#125;
-  // 使用原生js挂载一个组件
-  window.customElements.define(&quot;wu-jie&quot;, Wujie);
-&#125;;
-</code></pre>
-<pre><code class="html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot; /&gt;
-    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;wu-jie name=&quot;fdsf&quot; url=&quot;dsafas&quot;&gt;&lt;/wu-jie&gt;
-    &lt;div&gt;我是外层的div&lt;/div&gt;
-
-    &lt;template id=&quot;wujie&quot;&gt;
-      &lt;style&gt;
-        div &#123;
-          background: red;
-        &#125;
-      &lt;/style&gt;
-      &lt;div&gt;我是template里面的div&lt;/div&gt;
-    &lt;/template&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<h3 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h3><p>将 js 单独存放在 iframe 中。</p>
-<h2 id="原生性能"><a href="#原生性能" class="headerlink" title="原生性能"></a>原生性能</h2><p>避免 with 语句运行代码，整体的运行性能接近原生。</p>
-<h2 id="开箱即用"><a href="#开箱即用" class="headerlink" title="开箱即用"></a>开箱即用</h2><p>主、子应用无需做任何适配，开箱即用。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><ul>
-<li>隔离 js 使用一个空的 iframe 进行隔离。</li>
-<li>子应用 axios 需要自行适配。</li>
-<li>iframe 沙箱的 src 设置了主应用的 host，初始化 iframe 的时候需要等待 iframe 的 location.orign 从’about:blank’初始化为主应用的 host，这个采用的计时器去等待的不是很优雅。</li>
+<li>view：div</li>
+<li>text：span</li>
+<li>ul&#x2F;li：view v-for</li>
+<li>img：image</li>
+<li>a：navigator</li>
+<li>iframe：web-view</li>
+<li>select：picker</li>
+<li>table：uni-table</li>
 </ul>
 <blockquote>
-<p>底层原理：使用 shadowDom 隔离 css，js 使用空的 iframe 隔离，通讯使用的是 proxy。</p>
+<p>其他没提到的大致相同。</p>
 </blockquote>
+<h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><ul>
+<li>一些在 <strong>css 需要设置定义的属性可直接通过对应容器和标签属性来开启</strong>：scroll-view</li>
+</ul>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h2 id="视图容器"><a href="#视图容器" class="headerlink" title="视图容器"></a>视图容器</h2><ul>
+<li>view：div</li>
+<li>scroll-view：区域滚动。</li>
+<li>swiper：滑块区域。类似实现轮播图。</li>
+</ul>
+<h2 id="表单组件"><a href="#表单组件" class="headerlink" title="表单组件"></a>表单组件</h2><ul>
+<li>button：原生组件就跟用了组件库的效果差不多，还可以设置大小，样式。</li>
+<li>input：输入框，同 html 差不多，但是还可以指定设备弹出键盘。</li>
+<li>switch：开关。</li>
+</ul>
+<h2 id="路由（页面跳转）"><a href="#路由（页面跳转）" class="headerlink" title="路由（页面跳转）"></a>路由（页面跳转）</h2><ul>
+<li>navigator：可设置是否可以返回上一个页面（<code>open-type</code>）。</li>
+</ul>
+<h2 id="媒体组件"><a href="#媒体组件" class="headerlink" title="媒体组件"></a>媒体组件</h2><ul>
+<li>image：通过 <code>mode</code> 属性来设置图像相对容器的适应（缩放、裁剪等）。</li>
+</ul>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><h2 id="页面级别"><a href="#页面级别" class="headerlink" title="页面级别"></a>页面级别</h2><ul>
+<li><p><strong>onLoad</strong>：页面进入后执行（只执行一次）。</p>
+<blockquote>
+<p>默认参数接收 url 参数，代替 vue-router。</p>
+</blockquote>
+</li>
+<li><p><strong>onShow</strong>（keep-alive）：进入页面时触发，离开页面再回来也能触发。</p>
+<blockquote>
+<p>广告植入（讨厌）。</p>
+</blockquote>
+</li>
+<li><p><strong>onReady</strong>（onMounted）（只执行一次）。</p>
+</li>
+<li><p><strong>onHide</strong>：离开页面时触发。</p>
+<blockquote>
+<p>清除生命周期钩子等。</p>
+</blockquote>
+</li>
+<li><p><strong>onUnload</strong>：需要配置 <code>open-type=reLaunch</code>。</p>
+<blockquote>
+<p>卸载页面是进行数据缓存的清理。</p>
+</blockquote>
+</li>
+<li><p>onPageScroll：监听页面滚动。</p>
+</li>
+<li><p>onPullDownRefresh：监听用户下拉动作。</p>
+<blockquote>
+<p>下拉刷新。</p>
+</blockquote>
+</li>
+<li><p>onReachBottom：页面滚动到底部的事件（不是 scroll-view 滚到底）。</p>
+<blockquote>
+<p>用于下拉到下一页数据。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="应用级别"><a href="#应用级别" class="headerlink" title="应用级别"></a>应用级别</h2><ul>
+<li><p><strong>onLaunch</strong>：第一次进入应用执行。</p>
+<blockquote>
+<p>验证本地缓存是否有登录信息。</p>
+</blockquote>
+</li>
+<li><p><strong>onShow</strong>：应用级别。（全局）</p>
+</li>
+<li><p><strong>onHide</strong>：应用级别。（全局）</p>
+</li>
+</ul>
+<h2 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h2><blockquote>
+<p>应用 -&gt; 页面</p>
+</blockquote>
+<p><strong>不包含组件</strong>：</p>
+<p><strong>onLoad -&gt; onShow -&gt;onReady</strong></p>
+<p><strong>包含组件</strong>：</p>
+<p><strong>onLoad -&gt; onShow -&gt; setup -&gt; beforeMount -&gt; onReady -&gt; mounted</strong></p>
+<blockquote>
+<p>onReady 和 mounted 文档是 onReady 在后面，但实际测试确实在前面执行？</p>
+</blockquote>
+<p><strong>uni-app 的生命周期虽然支持与 Vue 混用，但是最好还是只用一个。</strong></p>
+<h1 id="尺寸单位"><a href="#尺寸单位" class="headerlink" title="尺寸单位"></a>尺寸单位</h1><h2 id="rpx"><a href="#rpx" class="headerlink" title="rpx"></a>rpx</h2><p>微信小程序提出的一种用于响应式布局的单位，可以根据屏幕自适应的动态单位。（以 750 像素为基准）</p>
+<blockquote>
+<p>一般来说 UI 稿子等比缩放宽以 750 为基准。</p>
+</blockquote>
+<h1 id="pages-json"><a href="#pages-json" class="headerlink" title="pages.json"></a>pages.json</h1><p>该文件可以：</p>
+<ul>
+<li><strong>定义路由</strong>。对于每个路由页面也<strong>可也设置单独的窗口页面表现</strong>。pages</li>
+<li><strong>设置默认窗口页面表现</strong>（导航栏等）。globalStyle</li>
+<li>设置<strong>自动引入组件规则</strong>（默认开启）。easycom</li>
+<li>设置<strong>页面底部切换按钮栏</strong>。tabBar</li>
+<li>模拟直达页面场景（仅限开发，用于测试）。condition</li>
+</ul>
+<h1 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h1><p>进行一些应用的配置。</p>
+<ul>
+<li><p>如果想上传应用，或者进行真机调试，需要定义好 AppId。</p>
+<blockquote>
+<p>这个 AppId 需要进行小程序注册才可以获得</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><blockquote>
+<p>注意：针对不同的平台可能某些 API 或者事件等不可使用，具体需要查阅官方标准。</p>
+</blockquote>
+<ul>
+<li><p>有些标签的名字有变化：div（view）、span（text）</p>
+</li>
+<li><p>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置；</p>
+</li>
+<li><p>一些之前需要<strong>引用组件库或者手写的样式，直接被容器集成</strong>了；并且可以在<strong>容器上直接设置属性来设置</strong>，<strong>无需使用 js</strong>；</p>
+</li>
+<li><p>使用路由跳转时可设置 <code>open-type</code> 模式来控制跳转后上一个页面的行为（是否可以回跳）；</p>
+</li>
+<li><p>Vue 的<strong>一些语法和事件可以参照官方对照表</strong>将其一一对应起来；</p>
+</li>
+<li><p>uni-app <strong>有对应的 js&#x2F;vue 事件，也有自己原生的事件</strong>；</p>
+</li>
+<li><p>uni-app 中的<strong>组件不需要手动导入，只需要放在 components 文件夹</strong>下即可；</p>
+</li>
+<li><p>uni-app 中的生命周期除了继承 Vue 的组件生命周期，还有应用级别和页面级别的生命周期；</p>
+</li>
+<li><p>可以在 uni.scss 中<strong>定义一些全局的 css 变量</strong>；也可以指定<strong>小程序特有的环境变量（例如 env(safe-area-inset-bottom)）来设置其独有的样式属性</strong>。</p>
+<blockquote>
+<p>如果想定义局部的变量可以在 common 文件夹中定义好后，在 uni.scss 中使用<code>@import</code>导入，重启生效。</p>
+</blockquote>
+</li>
+<li><p>内置有 API 可以完成交互反馈（uni.showToast 等），类似于全局封装好的组件；</p>
+</li>
+<li><p>发送请求也可<strong>以使用 uni.request 完成，自身支持 Promise，不需要额外使用 axios 等网络请求库</strong>；</p>
+</li>
+<li><p>可直接配置跨域；</p>
+<blockquote>
+<p>微信小程序：在本地设置配置不检验 https，上线时在小程序的后台里配置服务器域名即可。</p>
+</blockquote>
+</li>
+<li><p>官方有扩展组件可直接安装使用（官方组件库）；</p>
+<blockquote>
+<p>安装好之后会出现在 uni_modules 底下。</p>
+</blockquote>
+</li>
+<li><p>对于不同端的适配，<strong>可以使用<code>#ifdef</code>、<code>#ifndef</code>和<code>#endif</code>来根据设备控制不同的 dom 元素渲染</strong>；</p>
+<blockquote>
+<p>例如对于小程序来说可以配置联系客服，就可以直接到达客服的微信；而对于 pc 端，可以展示电话号码。</p>
+</blockquote>
+</li>
+<li><p>改变小程序<strong>内置图标样式也需添加一个类名，再深度选择即可</strong>；</p>
+</li>
+<li><p>针对不同的设备，<strong>uni-app 会提供 api 来获取当前设备的信息，我们可以根据里面的设备型号做处</strong>理；</p>
+<blockquote>
+<p>uni.getSystemInfoSync、uni.getSystemInfo。</p>
+</blockquote>
+</li>
+<li><p>一些样式需要和<strong>胶囊按钮对齐</strong>，可以用 <strong>api 获取胶囊按钮的位置信息，做动态的自适应</strong>；</p>
+<blockquote>
+<p>uni.getMenuButtonBoundingClientRect。一般将其抽离出来在 utils 下的 system.ts 中。</p>
+</blockquote>
+</li>
+<li><p><strong>路由传参直接拼在 url</strong> 上，再在<strong>组件内的生命周期的默认参数中获取</strong>；</p>
+<blockquote>
+<p>navigator；load。</p>
+</blockquote>
+</li>
+<li><p>uni-app 中同样也可以将<strong>数据放入缓存</strong>中；</p>
+<blockquote>
+<p>uni.setStorage。</p>
+</blockquote>
+</li>
+<li><p>调用小程序 api 分享时，可以<strong>通过 url 传参到达指定的分享页面</strong>；</p>
+</li>
+<li><p>对于<strong>富文本的渲染</strong>，<strong>uni-app 有专门的插件，还可以渲染 dom 元素</strong>；</p>
+</li>
+</ul>
 
         
     </div>
@@ -1812,17 +1654,69 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:13:36.039Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2025-02-28T16:00:00.000Z" itemprop="datePublished">2025-03-01</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a>
         </div>
     
     
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
-        </div>
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-hello-world"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/hello-world/">Hello World</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:03:55.763Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
     
     </div>
 </footer>
@@ -1878,10 +1772,6 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -1895,6 +1785,10 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>

@@ -17,7 +17,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content= "Wujie 使用 | Fxh&#39;s blog"  />
     <meta property="og:description" content= "Fxh&#39;s blog" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/index.html" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2024/12/11/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/index.html" />
     <meta property="og:site_name" content="" />
     <meta property="article:author" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
@@ -29,7 +29,7 @@
             "description": "Fxh&#39;s blog",
             "author": { "@type": "Person", "name": "feng xiaohan" },
             "@type": "BlogPosting",
-            "url": "https://fxh31.github.io/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/index.html",
+            "url": "https://fxh31.github.io/ferhannah-blog/2024/12/11/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/index.html",
             "publisher": {
             "@type": "Organization",
             "logo": {
@@ -39,10 +39,10 @@
             "name": "feng xiaohan"
             },
             "headline": "Wujie 使用 | Fxh&#39;s blog",
-            "datePublished": "2025-03-03T14:13:36.038Z",
+            "datePublished": "2024-12-10T16:00:00.000Z",
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "https://fxh31.github.io/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/index.html"
+                "@id": "https://fxh31.github.io/ferhannah-blog/2024/12/11/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/index.html"
             },
             "@context": "http://schema.org"
         }
@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm837oucj005m8cvs2rnoanjx" class="article article-type-post" itemscope
+    <article id="post-cm837zqgw004o3svsahec3vug" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -191,7 +191,7 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2025-03-03T14:13:36.038Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2024-12-10T16:00:00.000Z" itemprop="datePublished">2024-12-11</time>
 </div>
 
             
@@ -211,7 +211,7 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><ul>
+            <h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><ul>
 <li><p>安装 wujie</p>
 <pre><code class="bash">npm i wujie
 </code></pre>
@@ -236,7 +236,7 @@ app.mount(&quot;#app&quot;);
 </code></pre>
 </li>
 </ul>
-<h2 id="Vue-组件封装"><a href="#Vue-组件封装" class="headerlink" title="Vue 组件封装"></a>Vue 组件封装</h2><p>如果使用的是 vue2 或 vue3 的应用，可以直接使用封装好的组件。</p>
+<h1 id="Vue-组件封装"><a href="#Vue-组件封装" class="headerlink" title="Vue 组件封装"></a>Vue 组件封装</h1><p>如果使用的是 vue2 或 vue3 的应用，可以直接使用封装好的组件。</p>
 <ul>
 <li><p>安装 wujie-vue2&#x2F; wujie-vue3</p>
 <pre><code class="bash"># vue2 框架
@@ -280,7 +280,7 @@ app.mount(&quot;#app&quot;);
 </code></pre>
 </li>
 </ul>
-<h3 id="封装原理"><a href="#封装原理" class="headerlink" title="封装原理"></a>封装原理</h3><p><code>wujie-vue3</code>是按照一个组件的原理去实现的。</p>
+<h2 id="封装原理"><a href="#封装原理" class="headerlink" title="封装原理"></a>封装原理</h2><p><code>wujie-vue3</code>是按照一个组件的原理去实现的。</p>
 <pre><code class="ts">import &#123;
   defineComponent,
   h,
@@ -461,8 +461,8 @@ interface Props &#123;
 
 export &#123; Props &#125;;
 </code></pre>
-<h2 id="React-组件封装"><a href="#React-组件封装" class="headerlink" title="React 组件封装"></a>React 组件封装</h2><p>wujie 基于<code>react</code>的组件封装，使用参数基本和 Vue 的封装类似，只是换了 react 的写法。</p>
-<h2 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h2><ul>
+<h1 id="React-组件封装"><a href="#React-组件封装" class="headerlink" title="React 组件封装"></a>React 组件封装</h1><p>wujie 基于<code>react</code>的组件封装，使用参数基本和 Vue 的封装类似，只是换了 react 的写法。</p>
+<h1 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h1><ul>
 <li>解构出 preloadApp()</li>
 <li>使用 preloadApp()，将<code>exec</code>设置为 true 开启预加载</li>
 </ul>
@@ -478,8 +478,8 @@ app.mount(&quot;#app&quot;);
 
 preloadApp(&#123; name: &quot;react&quot;, url: &quot;http://127.0.0.1:5147&quot;, exec: true &#125;); // 开启预加载（参数和setupApp相同，多了个exec）
 </code></pre>
-<h2 id="应用通信"><a href="#应用通信" class="headerlink" title="应用通信"></a>应用通信</h2><p>wujie 提供三种通信方式：</p>
-<h3 id="window-通信"><a href="#window-通信" class="headerlink" title="window 通信"></a>window 通信</h3><p>由于子应用运行的<code>iframe</code>的<code>src</code>和主应用是同域的，所以相互可以直接通信。</p>
+<h1 id="应用通信"><a href="#应用通信" class="headerlink" title="应用通信"></a>应用通信</h1><p>wujie 提供三种通信方式：</p>
+<h2 id="window-通信"><a href="#window-通信" class="headerlink" title="window 通信"></a>window 通信</h2><p>由于子应用运行的<code>iframe</code>的<code>src</code>和主应用是同域的，所以相互可以直接通信。</p>
 <ul>
 <li><p>主应用调用子应用的全局数据</p>
 <pre><code class="js">window.document.querySelector(&quot;iframe[name=子应用id]&quot;).contentWindow.xxx;
@@ -504,7 +504,7 @@ preloadApp(&#123; name: &quot;react&quot;, url: &quot;http://127.0.0.1:5147&quot
 <blockquote>
 <p><strong>注意</strong>：由于同源策略的限制，如果 iframe 的源与主页面的源不同，那么在控制 iframe 中的元素时可能会受到限制。（如果需要跨域控制 iframe 中的元素，可以考虑使用 postMessage API 来进行通信）</p>
 </blockquote>
-<h3 id="props-通信"><a href="#props-通信" class="headerlink" title="props 通信"></a>props 通信</h3><ul>
+<h2 id="props-通信"><a href="#props-通信" class="headerlink" title="props 通信"></a>props 通信</h2><ul>
 <li><p>主应用可以通过<code>props</code>注入数据和方法</p>
 <pre><code class="html">&lt;WujieVue
   name=&quot;xxx&quot;
@@ -541,7 +541,7 @@ preloadApp(&#123; name: &quot;react&quot;, url: &quot;http://127.0.0.1:5147&quot
 </blockquote>
 </li>
 </ul>
-<h3 id="eventBus-通信"><a href="#eventBus-通信" class="headerlink" title="eventBus 通信"></a>eventBus 通信</h3><p>无界提供一套去中心化的通信方案，主应用和子应用、子应用和子应用都可以通过这种方式进行通信。</p>
+<h2 id="eventBus-通信"><a href="#eventBus-通信" class="headerlink" title="eventBus 通信"></a>eventBus 通信</h2><p>无界提供一套去中心化的通信方案，主应用和子应用、子应用和子应用都可以通过这种方式进行通信。</p>
 <blockquote>
 <p>通过<code>$on</code>监听，<code>$emit</code>触发双向传递消息。</p>
 </blockquote>
@@ -604,19 +604,19 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
     
 <nav class="article-nav">
   
-    <a href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E7%AE%80%E4%BB%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/ferhannah-blog/2024/12/18/JS/debounceAndtrottle/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-caption">下一篇</div>
       <div class="article-nav-title">
         
-          Wujie 简介
+          防抖和节流
         
       </div>
     </a>
   
   
-    <a href="/ferhannah-blog/2025/02/27/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/ferhannah-blog/2024/12/11/micro-frontends/wujie/Wujie%E7%AE%80%E4%BB%8B/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">Wujie 简介</div>
     </a>
   
 </nav>
@@ -625,15 +625,15 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
     <section class="share">
         <!-- <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=Wujie 使用 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F03%2Fmicro-frontends%2Fwujie%2FWujie%25E4%25BD%25BF%25E7%2594%25A8%2F">
+            href="https://twitter.com/share?text=Wujie 使用 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2024%2F12%2F11%2Fmicro-frontends%2Fwujie%2FWujie%25E4%25BD%25BF%25E7%2594%25A8%2F">
             <ion-icon name="logo-twitter"></ion-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=Wujie 使用 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F03%2Fmicro-frontends%2Fwujie%2FWujie%25E4%25BD%25BF%25E7%2594%25A8%2F">
+            href="https://www.facebook.com/sharer.php?title=Wujie 使用 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2024%2F12%2F11%2Fmicro-frontends%2Fwujie%2FWujie%25E4%25BD%25BF%25E7%2594%25A8%2F">
             <ion-icon name="logo-facebook"></ion-icon>
         </a> -->
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=Wujie 使用 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/&pic=">
+            href="https://service.weibo.com/share/share.php?title=Wujie 使用 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2024/12/11/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>
@@ -701,10 +701,6 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -718,6 +714,10 @@ window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>

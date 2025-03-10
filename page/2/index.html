@@ -154,488 +154,6 @@
   
     
       <article
-id="post-micro-frontends/wujie/Wujie使用"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/">Wujie 使用</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><ul>
-<li><p>安装 wujie</p>
-<pre><code class="bash">npm i wujie
-</code></pre>
-</li>
-<li><p>在主应用中引入（以 Vue 应用为例）</p>
-<p>index.js</p>
-<pre><code class="js">import &#123; createApp &#125; from &quot;vue&quot;;
-import App from &quot;./App.vue&quot;;
-
-import &#123; startApp &#125; from &quot;wujie&quot;; // 引入wujie，通过其中的startApp来设置子应用
-
-const app = createApp(App);
-setupApp(&#123;
-  name: &quot;唯一id&quot;,
-  url: &quot;子应用地址&quot;,
-  exec: true,
-  el: &quot;容器&quot;,
-  sync: true,
-&#125;);
-
-app.mount(&quot;#app&quot;);
-</code></pre>
-</li>
-</ul>
-<h2 id="Vue-组件封装"><a href="#Vue-组件封装" class="headerlink" title="Vue 组件封装"></a>Vue 组件封装</h2><p>如果使用的是 vue2 或 vue3 的应用，可以直接使用封装好的组件。</p>
-<ul>
-<li><p>安装 wujie-vue2&#x2F; wujie-vue3</p>
-<pre><code class="bash"># vue2 框架
-npm i wujie-vue2 -S
-# vue3 框架
-npm i wujie-vue3 -S
-</code></pre>
-</li>
-<li><p>在主应用中引入并挂载</p>
-<pre><code class="js">import &#123; createApp &#125; from &quot;vue&quot;;
-import App from &quot;./App.vue&quot;;
-import Wujie from &quot;wujie-vue3&quot;; // 引入wujie-vue3
-const app = createApp(App);
-
-app.use(Wujie); // 注册
-
-app.mount(&quot;#app&quot;);
-</code></pre>
-</li>
-<li><p>在主应用中使用，接入子应用</p>
-<blockquote>
-<p>在此之前要先启动子应用。</p>
-</blockquote>
-<pre><code class="html">&lt;WujieVue url=&quot;http://127.0.0.1:5147&quot; name=&quot;vue3&quot;&gt;&lt;/WujieVue&gt; &lt;!--子应用vue3--&gt;
-...
-&lt;WujieVue
-  width=&quot;100%&quot;
-  height=&quot;100%&quot;
-  name=&quot;xxx&quot;
-  :url=&quot;xxx&quot;
-  :sync=&quot;true&quot;
-  :fetch=&quot;fetch&quot;
-  :props=&quot;props&quot;
-  :beforeLoad=&quot;beforeLoad&quot;
-  :beforeMount=&quot;beforeMount&quot;
-  :afterMount=&quot;afterMount&quot;
-  :beforeUnmount=&quot;beforeUnmount&quot;
-  :afterUnmount=&quot;afterUnmount&quot;
-&lt;/WujieVue&gt;
-...
-</code></pre>
-</li>
-</ul>
-<h3 id="封装原理"><a href="#封装原理" class="headerlink" title="封装原理"></a>封装原理</h3><p><code>wujie-vue3</code>是按照一个组件的原理去实现的。</p>
-<pre><code class="ts">import &#123;
-  defineComponent,
-  h,
-  getCurrentInstance,
-  onMounted,
-  watch,
-  onBeforeUnmount,
-&#125; from &quot;vue&quot;;
-import &#123; startApp, bus &#125; from &quot;wujie&quot;;
-import type &#123; PropType &#125; from &quot;vue&quot;;
-import &#123; Props &#125; from &quot;./type&quot;;
-
-const WujieVue = defineComponent(&#123;
-  props: &#123;
-    width: &#123; type: String, default: &quot;&quot; &#125;,
-    height: &#123; type: String, default: &quot;&quot; &#125;,
-    name: &#123; type: String, default: &quot;&quot;, required: true &#125;,
-    loading: &#123; type: HTMLElement, default: undefined &#125;,
-    url: &#123; type: String, default: &quot;&quot;, required: true &#125;,
-    sync: &#123; type: Boolean, default: undefined &#125;,
-    prefix: &#123; type: Object, default: undefined &#125;,
-    alive: &#123; type: Boolean, default: undefined &#125;,
-    props: &#123; type: Object, default: undefined &#125;,
-    attrs: &#123; type: Object, default: undefined &#125;,
-    replace: &#123;
-      type: Function as PropType&lt;Props[&quot;replace&quot;]&gt;,
-      default: undefined,
-    &#125;,
-    fetch: &#123; type: Function as PropType&lt;Props[&quot;fetch&quot;]&gt;, default: undefined &#125;,
-    fiber: &#123; type: Boolean, default: undefined &#125;,
-    degrade: &#123; type: Boolean, default: undefined &#125;,
-    plugins: &#123; type: Array as PropType&lt;Props[&quot;plugins&quot;]&gt;, default: null &#125;,
-    beforeLoad: &#123;
-      type: Function as PropType&lt;Props[&quot;beforeLoad&quot;]&gt;,
-      default: null,
-    &#125;,
-    beforeMount: &#123;
-      type: Function as PropType&lt;Props[&quot;beforeMount&quot;]&gt;,
-      default: null,
-    &#125;,
-    afterMount: &#123;
-      type: Function as PropType&lt;Props[&quot;afterMount&quot;]&gt;,
-      default: null,
-    &#125;,
-    beforeUnmount: &#123;
-      type: Function as PropType&lt;Props[&quot;beforeUnmount&quot;]&gt;,
-      default: null,
-    &#125;,
-    afterUnmount: &#123;
-      type: Function as PropType&lt;Props[&quot;afterUnmount&quot;]&gt;,
-      default: null,
-    &#125;,
-    activated: &#123;
-      type: Function as PropType&lt;Props[&quot;activated&quot;]&gt;,
-      default: null,
-    &#125;,
-    deactivated: &#123;
-      type: Function as PropType&lt;Props[&quot;deactivated&quot;]&gt;,
-      default: null,
-    &#125;,
-  &#125;,
-  setup(props, &#123; emit &#125;) &#123;
-    const init = () =&gt; &#123;
-      const instance = getCurrentInstance();
-      startApp(&#123;
-        // 微前端初始化所需方法
-        name: props.name,
-        url: props.url,
-        el: instance?.refs.wujie as HTMLElement,
-        loading: props.loading,
-        alive: props.alive,
-        fetch: props.fetch,
-        props: props.props,
-        attrs: props.attrs,
-        replace: props.replace,
-        sync: props.sync,
-        prefix: props.prefix,
-        fiber: props.fiber,
-        degrade: props.degrade,
-        plugins: props.plugins,
-        beforeLoad: props.beforeLoad,
-        beforeMount: props.beforeMount,
-        afterMount: props.afterMount,
-        beforeUnmount: props.beforeUnmount,
-        afterUnmount: props.afterUnmount,
-        activated: props.activated,
-        deactivated: props.deactivated,
-      &#125;);
-    &#125;;
-    // name和url可能是动态的，所以需要监听它们的变化，然后再初始化
-    watch([props.name, props.url], () =&gt; &#123;
-      init();
-    &#125;);
-
-    // 传参函数
-    const hanlderEmit = (event: string, ...args: any[]) =&gt; &#123;
-      emit(event, ...args); // 暴露给父组件（给bus做了一个中转）
-    &#125;;
-
-    onMounted(() =&gt; &#123;
-      bus.$onAll(hanlderEmit); // 监听所有事件
-      init();
-    &#125;);
-
-    onBeforeUnmount(() =&gt; &#123;
-      bus.$offAll(hanlderEmit); // 销毁
-    &#125;);
-
-    return () =&gt;
-      h(&quot;div&quot;, &#123;
-        style: &#123;
-          width: props.width,
-          height: props.height,
-        &#125;,
-        ref: &quot;wujie&quot;, // 便于之后获取到这个dom
-      &#125;);
-  &#125;,
-&#125;);
-WujieVue.install = function (app) &#123;
-  app.component(&quot;WujieVue&quot;, WujieVue); // 组件注册
-&#125;;
-
-export default WujieVue;
-</code></pre>
-<blockquote>
-<p>注意：</p>
-<ul>
-<li>PropType：有很多复杂的数据结构是办法没有标注类型的（在 ts 中类型与接口不对应会报错），所以 vue3 提供一个 PropType 来与定义的结构相对应。（此处的类型对应的就是导出的 Props 里的类型，见下文）</li>
-<li>getCurrentInstance：在<code>setup()</code>中的<code>this</code>还是 undefined，所以没有办法通过<code>this.$refs</code>来读取。在 vue3 中可以使用<code>getCurrentInstance()</code>来获取组件的实例。</li>
-<li>bus：wujie 封装的用于传参的对象。</li>
-</ul>
-</blockquote>
-<p>定义所需参数（wujie 的参数）</p>
-<pre><code class="ts">import type &#123; plugin &#125; from &quot;wujie&quot;;
-type lifecycle = (appWindow: Window) =&gt; any;
-interface Props &#123;
-  /** 唯一性用户必须保证 */
-  name: string;
-  /** 需要渲染的url */
-  url: string;
-  /** 需要渲染的html, 如果用户已有则无需从url请求 */
-  html?: string;
-  /** 渲染的容器 */
-  loading?: HTMLElement;
-  /** 路由同步开关， false刷新无效，但是前进后退依然有效 */
-  sync?: boolean;
-  /** 子应用短路径替换，路由同步时生效 */
-  prefix?: &#123; [key: string]: string &#125;;
-  /** 子应用保活模式，state不会丢失 */
-  alive?: boolean;
-  /** 注入给子应用的数据 */
-  props?: &#123; [key: string]: any &#125;;
-  /** js采用fiber模式执行 */
-  fiber?: boolean;
-  /** 子应用采用降级iframe方案 */
-  degrade?: boolean;
-  /** 自定义运行iframe的属性 */
-  attrs?: &#123; [key: string]: any &#125;;
-  /** 自定义降级渲染iframe的属性 */
-  degradeAttrs?: &#123; [key: string]: any &#125;;
-  /** 代码替换钩子 */
-  replace?: (codeText: string) =&gt; string;
-  /** 自定义fetch，资源和接口 */
-  fetch?: (input: RequestInfo, init?: RequestInit) =&gt; Promise&lt;Response&gt;;
-  /** 子应插件 */
-  plugins: Array&lt;plugin&gt;;
-  /** 子应用生命周期 */
-  beforeLoad?: lifecycle;
-  /** 没有做生命周期改造的子应用不会调用 */
-  beforeMount?: lifecycle;
-  afterMount?: lifecycle;
-  beforeUnmount?: lifecycle;
-  afterUnmount?: lifecycle;
-  /** 非保活应用不会调用 */
-  activated?: lifecycle;
-  deactivated?: lifecycle;
-&#125;
-
-export &#123; Props &#125;;
-</code></pre>
-<h2 id="React-组件封装"><a href="#React-组件封装" class="headerlink" title="React 组件封装"></a>React 组件封装</h2><p>wujie 基于<code>react</code>的组件封装，使用参数基本和 Vue 的封装类似，只是换了 react 的写法。</p>
-<h2 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h2><ul>
-<li>解构出 preloadApp()</li>
-<li>使用 preloadApp()，将<code>exec</code>设置为 true 开启预加载</li>
-</ul>
-<pre><code class="js">import &#123; createApp &#125; from &quot;vue&quot;;
-import App from &quot;./App.vue&quot;;
-
-import Wujie from &quot;wujie-vue3&quot;;
-const &#123; preloadApp &#125; = Wujie; // 解构出preloadApp()
-const app = createApp(App);
-
-app.use(Wujie);
-app.mount(&quot;#app&quot;);
-
-preloadApp(&#123; name: &quot;react&quot;, url: &quot;http://127.0.0.1:5147&quot;, exec: true &#125;); // 开启预加载（参数和setupApp相同，多了个exec）
-</code></pre>
-<h2 id="应用通信"><a href="#应用通信" class="headerlink" title="应用通信"></a>应用通信</h2><p>wujie 提供三种通信方式：</p>
-<h3 id="window-通信"><a href="#window-通信" class="headerlink" title="window 通信"></a>window 通信</h3><p>由于子应用运行的<code>iframe</code>的<code>src</code>和主应用是同域的，所以相互可以直接通信。</p>
-<ul>
-<li><p>主应用调用子应用的全局数据</p>
-<pre><code class="js">window.document.querySelector(&quot;iframe[name=子应用id]&quot;).contentWindow.xxx;
-</code></pre>
-</li>
-<li><p>子应用调用主应用的全局数据</p>
-<pre><code class="js">window.parent.xxx;
-</code></pre>
-</li>
-</ul>
-<blockquote>
-<p>例子：</p>
-<p>主应用定义一个全局变量：</p>
-<pre><code class="js">var a = &quot;abc&quot;;
-</code></pre>
-<p>子应用通过<code>window.parent.a</code>访问：</p>
-<pre><code class="js">const getParentA = () =&gt; &#123;
-  console.log(alter(window.parent.a));
-&#125;;
-</code></pre>
-</blockquote>
-<blockquote>
-<p><strong>注意</strong>：由于同源策略的限制，如果 iframe 的源与主页面的源不同，那么在控制 iframe 中的元素时可能会受到限制。（如果需要跨域控制 iframe 中的元素，可以考虑使用 postMessage API 来进行通信）</p>
-</blockquote>
-<h3 id="props-通信"><a href="#props-通信" class="headerlink" title="props 通信"></a>props 通信</h3><ul>
-<li><p>主应用可以通过<code>props</code>注入数据和方法</p>
-<pre><code class="html">&lt;WujieVue
-  name=&quot;xxx&quot;
-  url=&quot;xxx&quot;
-  :props=&quot;&#123; data: xxx, methods: xxx &#125;&quot;
-&gt;&lt;/WujieVue&gt;
-</code></pre>
-<p>例子：</p>
-<pre><code class="html">&lt;template&gt;
-  &lt;WujieVue
-    url=&quot;http://127.0.0.1:5147&quot;
-    name=&quot;vue3&quot;
-    :props=&quot;&#123;age: 23, name: &#39;张三&#39;&#125;&quot;
-  &gt;&lt;/WujieVue&gt;
-&lt;/template&gt;
-</code></pre>
-</li>
-<li><p>子应用可以通过<code>$wujie</code>来获取：</p>
-<blockquote>
-<p>无界对子应用注入了<code>$wujie</code>对象，可以通过<code>$wujie</code>或者<code>window.$wujie</code>获取。</p>
-</blockquote>
-<pre><code class="js">const props = window.$wujie?.props; // &#123;data: xxx, methods: xxx&#125;
-</code></pre>
-<blockquote>
-<p>注意：直接写<code>window.$wujie.props</code>可能能用，但是会报错，这是因为没有写<code>$wujie</code>的声明文件，在全局声明一下就好了：</p>
-<pre><code class="ts">declare global &#123;
-  interface Window &#123;
-    $wujie: &#123;
-      props: Record&lt;string, any&gt;;
-    &#125;;
-  &#125;
-&#125;
-</code></pre>
-</blockquote>
-</li>
-</ul>
-<h3 id="eventBus-通信"><a href="#eventBus-通信" class="headerlink" title="eventBus 通信"></a>eventBus 通信</h3><p>无界提供一套去中心化的通信方案，主应用和子应用、子应用和子应用都可以通过这种方式进行通信。</p>
-<blockquote>
-<p>通过<code>$on</code>监听，<code>$emit</code>触发双向传递消息。</p>
-</blockquote>
-<ul>
-<li><p>主应用使用</p>
-<pre><code class="js">// 如果使用wujie
-import &#123; bus &#125; from &quot;wujie&quot;;
-
-// 如果使用wujie-vue
-import WujieVue from &quot;wujie-vue&quot;;
-const &#123; bus &#125; = WujieVue;
-
-// 如果使用wujie-react
-import WujieReact from &quot;wujie-react&quot;;
-const &#123; bus &#125; = WujieReact;
-
-// 主应用监听事件
-bus.$on(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-// 主应用发送事件
-bus.$emit(&quot;事件名字&quot;, arg1, arg2, ...);
-// 主应用取消事件监听
-bus.$off(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-</code></pre>
-<p>例子：</p>
-<pre><code class="js">bus.$on(&quot;vue3&quot;, (data: any) =&gt; &#123;
-  console.log(date, &quot;我是主应用&quot;);
-&#125;);
-</code></pre>
-</li>
-<li><p>子应用使用</p>
-<pre><code class="js">// 子应用监听事件
-window.$wujie?.bus.$on(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-// 子应用发送事件
-window.$wujie?.bus.$emit(&quot;事件名字&quot;, arg1, arg2, ...);
-// 子应用取消事件监听
-window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
-</code></pre>
-<p>例子：</p>
-<pre><code class="js">const send = () =&gt; &#123;
-  window.$wujie.bus.$emit(&quot;vue3&quot;, &quot;我是子应用&quot;);
-&#125;;
-</code></pre>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:13:36.038Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-hello-world"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/02/27/hello-world/">Hello World</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
-</code></pre>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-27T12:03:55.763Z" itemprop="datePublished">2025-02-27</time>
-</div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-JS/WebWorker"
 class="article article-type-post"
 >
@@ -813,14 +331,14 @@ class="article article-type-post"
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="Walrus-操作符（海象操作符）"><a href="#Walrus-操作符（海象操作符）" class="headerlink" title="Walrus 操作符（海象操作符）"></a>Walrus 操作符（海象操作符）</h3><blockquote>
+        <h1 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h1><h2 id="Walrus-操作符（海象操作符）"><a href="#Walrus-操作符（海象操作符）" class="headerlink" title="Walrus 操作符（海象操作符）"></a>Walrus 操作符（海象操作符）</h2><blockquote>
 <p><code>:=</code></p>
 </blockquote>
 <p>赋值表达式。在 Python 3.8 中引入的新特性。这个操作符允许你在表达式中进行赋值，而不仅仅是语句中。</p>
 <pre><code class="python">if (t := sum ^ value) in cnt:
     ans += cnt[t] * key - total[t]
 </code></pre>
-<h3 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h3><p>用于截取子字符串，子列表也可可以，只要<strong>数据类型为 list</strong>。</p>
+<h2 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h2><p>用于截取子字符串，子列表也可可以，只要<strong>数据类型为 list</strong>。</p>
 <pre><code class="python">test = &#39;hello world
 
 # 截取前 7 个字符：hello w
@@ -841,31 +359,31 @@ substring = test[::-1] # 反转字符串
 # 截取到第 1 个空格：hello
 substring = test[:test.find(&#39; &#39;)]
 </code></pre>
-<h3 id="nonlocal"><a href="#nonlocal" class="headerlink" title="nonlocal"></a>nonlocal</h3><p>用于在嵌套函数中声明一个变量不是局部变量。如果不申明的话，就会将同名变量当作嵌套作用域内部自己的局部变量。</p>
+<h2 id="nonlocal"><a href="#nonlocal" class="headerlink" title="nonlocal"></a>nonlocal</h2><p>用于在嵌套函数中声明一个变量不是局部变量。如果不申明的话，就会将同名变量当作嵌套作用域内部自己的局部变量。</p>
 <pre><code class="python">def wrappedFunc() -&gt; None:
     ans = 0
     def insideFunc() -&gt; None:
         nonlocal ans # 声明为非局部变量
         ans += 1
 </code></pre>
-<h3 id="内置方法"><a href="#内置方法" class="headerlink" title="内置方法"></a>内置方法</h3><h4 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h4><p>用于将一个字符串列表连接成一个单一的字符串。</p>
+<h2 id="内置方法"><a href="#内置方法" class="headerlink" title="内置方法"></a>内置方法</h2><h2 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h2><p>用于将一个字符串列表连接成一个单一的字符串。</p>
 <pre><code class="python">separator.join(iterable)
 </code></pre>
-<h4 id="count"><a href="#count" class="headerlink" title="count()"></a>count()</h4><p>获取一个字符串中某个字符的数量。</p>
+<h2 id="count"><a href="#count" class="headerlink" title="count()"></a>count()</h2><p>获取一个字符串中某个字符的数量。</p>
 <pre><code class="python">print(&#39;1jjjjj0&#39;.count(&#39;j&#39;)) # 5
 </code></pre>
-<h4 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h4><p>原地排序。默认从小到大。</p>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h2><p>原地排序。默认从小到大。</p>
 <pre><code class="python">arr = [1,4,6,2,4,9]
 people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
 
 # 根据第一项从大到小排序后根据第二项从小到大
 people.sort(key = lambda x : (-x[0], x[1])) # [[7, 0], [7, 1], [6, 1], [5, 0], [5, 2], [4, 4]]
 </code></pre>
-<h4 id="split"><a href="#split" class="headerlink" title="split"></a>split</h4><p>拆分字符串。</p>
+<h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><p>拆分字符串。</p>
 <pre><code class="python">text = &quot;hello world&quot;
 words = text.split() # 默认以空格为分隔符 [&#39;hello&#39;, &#39;world&#39;]
 </code></pre>
-<h4 id="items"><a href="#items" class="headerlink" title="items()"></a>items()</h4><p>用于返回字典（dict、Counter）的键值对列表。</p>
+<h2 id="items"><a href="#items" class="headerlink" title="items()"></a>items()</h2><p>用于返回字典（dict、Counter）的键值对列表。</p>
 <blockquote>
 <p>Counter 继承于字典。</p>
 </blockquote>
@@ -874,35 +392,35 @@ cnt = Counter(arr)
 for c in cnt.items():
   print(c)
 </code></pre>
-<h3 id="二进制操作"><a href="#二进制操作" class="headerlink" title="二进制操作"></a>二进制操作</h3><h4 id="bit"><a href="#bit" class="headerlink" title="bit()"></a>bit()</h4><p>返回一个数字的二进制。</p>
+<h2 id="二进制操作"><a href="#二进制操作" class="headerlink" title="二进制操作"></a>二进制操作</h2><h2 id="bit"><a href="#bit" class="headerlink" title="bit()"></a>bit()</h2><p>返回一个数字的二进制。</p>
 <blockquote>
 <p>但是在 python 中该二进制的数字是以 0b 开头，所以需要进行拆分。</p>
 </blockquote>
 <pre><code class="python">bit(3)[2:] # 11
 </code></pre>
-<h4 id="bit-count"><a href="#bit-count" class="headerlink" title="bit_count()"></a>bit_count()</h4><p>返回一个数字的二进制形式的 1 的数量。</p>
-<h2 id="库函数"><a href="#库函数" class="headerlink" title="库函数"></a>库函数</h2><h3 id="Counter"><a href="#Counter" class="headerlink" title="Counter()"></a>Counter()</h3><p>计数器。专门用于计数元素的频率，默认值是一个整形（0），是一个特殊的字典类。</p>
+<h2 id="bit-count"><a href="#bit-count" class="headerlink" title="bit_count()"></a>bit_count()</h2><p>返回一个数字的二进制形式的 1 的数量。</p>
+<h1 id="库函数"><a href="#库函数" class="headerlink" title="库函数"></a>库函数</h1><h2 id="Counter"><a href="#Counter" class="headerlink" title="Counter()"></a>Counter()</h2><p>计数器。专门用于计数元素的频率，默认值是一个整形（0），是一个特殊的字典类。</p>
 <blockquote>
 <p>可以实现类似 js map 的数据结构。</p>
 </blockquote>
-<h3 id="defaultdict-list"><a href="#defaultdict-list" class="headerlink" title="defaultdict(list)"></a>defaultdict(list)</h3><p>创建一个字典类，当你访问一个不存在的键时，它会自动返回一个默认值（这个是空列表）。</p>
+<h2 id="defaultdict-list"><a href="#defaultdict-list" class="headerlink" title="defaultdict(list)"></a>defaultdict(list)</h2><p>创建一个字典类，当你访问一个不存在的键时，它会自动返回一个默认值（这个是空列表）。</p>
 <blockquote>
 <p>可以实现类似 js map 的数据结构。</p>
 </blockquote>
 <pre><code class="python">idx = &#123;&#125; # &#123;&#125; 被认为是一个空的字典
 </code></pre>
-<h3 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate()"></a>enumerate()</h3><p>迭代函数。</p>
+<h2 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate()"></a>enumerate()</h2><p>迭代函数。</p>
 <blockquote>
 <p>对于遍历的数组来说，可以遍历获取它的索引和值。第二个参数可以控制遍历的开始的索引值。</p>
 </blockquote>
 <pre><code class="python">for i, h in enumerate(hours, 1):
   print(i) # 1...
 </code></pre>
-<h3 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate()"></a>accumulate()</h3><p>累加函数。</p>
+<h2 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate()"></a>accumulate()</h2><p>累加函数。</p>
 <blockquote>
 <p>可遍历累加后的值。</p>
 </blockquote>
-<h3 id="sum"><a href="#sum" class="headerlink" title="sum()"></a>sum()</h3><p>累加函数。</p>
+<h2 id="sum"><a href="#sum" class="headerlink" title="sum()"></a>sum()</h2><p>累加函数。</p>
 <blockquote>
 <p>累加遍历的值。</p>
 </blockquote>
@@ -913,21 +431,21 @@ total2 = sum(-(-x // 2) for x in arr)
 <p>遍历累加符合的值（找到符合的值将其映射为 1）</p>
 <pre><code class="python">max_count = sum(1 for v in cnt.values() if v == max_exec)
 </code></pre>
-<h3 id="max"><a href="#max" class="headerlink" title="max()"></a>max()</h3><p>遍历元素获取最大值。</p>
+<h2 id="max"><a href="#max" class="headerlink" title="max()"></a>max()</h2><p>遍历元素获取最大值。</p>
 <ul>
 <li>获取二维数组中的最大值：</li>
 </ul>
 <pre><code class="python"># intervals = [[1, 8], [2, 3], [3, 4]]
 len = max(max(x) for x in intervals)
 </code></pre>
-<h3 id="list"><a href="#list" class="headerlink" title="list()"></a>list()</h3><p>动态数组类型，它可以存储任何类型的元素，并且支持动态扩展。</p>
-<h3 id="range-start-end-step"><a href="#range-start-end-step" class="headerlink" title="range(start, end, step)"></a>range(start, end, step)</h3><p>创建一个整数序列，从 start 到 end，步长为 step。</p>
-<h3 id="ord"><a href="#ord" class="headerlink" title="ord()"></a>ord()</h3><p>获取一个字符对应的 Unicode 编码。</p>
-<h3 id="all"><a href="#all" class="headerlink" title="all()"></a>all()</h3><p>用于检测一个可迭代对象（如列表、元组、集合等）中的所有元素是否都为 True 或者是否都满足某个条件。</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list()"></a>list()</h2><p>动态数组类型，它可以存储任何类型的元素，并且支持动态扩展。</p>
+<h2 id="range-start-end-step"><a href="#range-start-end-step" class="headerlink" title="range(start, end, step)"></a>range(start, end, step)</h2><p>创建一个整数序列，从 start 到 end，步长为 step。</p>
+<h2 id="ord"><a href="#ord" class="headerlink" title="ord()"></a>ord()</h2><p>获取一个字符对应的 Unicode 编码。</p>
+<h2 id="all"><a href="#all" class="headerlink" title="all()"></a>all()</h2><p>用于检测一个可迭代对象（如列表、元组、集合等）中的所有元素是否都为 True 或者是否都满足某个条件。</p>
 <pre><code class="python"># all(iterable)
 if all(i &gt; 0 for i in [1, 2, 3]):
 </code></pre>
-<h3 id="zip"><a href="#zip" class="headerlink" title="zip()"></a>zip()</h3><p>将多个可迭代对象（如列表、元组等）中的元素按位置配对，返回一个迭代器。如果可迭代对象的长度不一致，则返回的迭代器长度与<strong>最短</strong>的可迭代对象相同。</p>
+<h2 id="zip"><a href="#zip" class="headerlink" title="zip()"></a>zip()</h2><p>将多个可迭代对象（如列表、元组等）中的元素按位置配对，返回一个迭代器。如果可迭代对象的长度不一致，则返回的迭代器长度与<strong>最短</strong>的可迭代对象相同。</p>
 <pre><code class="python"># 将两个列表的元素配对
 list1 = [1, 2, 3]
 list2 = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
@@ -946,7 +464,7 @@ a, b = zip(*zipped)
 print(a, b) # (1, 2, 3) (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
 print(list(zipped)) # []
 </code></pre>
-<h3 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h3><p>将可迭代对象转换为集合。</p>
+<h2 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h2><p>将可迭代对象转换为集合。</p>
 <pre><code class="python">s = set([2, 3, 3]) # &#123;2, 3&#125;
 
 s1 = s - &#123;2&#125; # &#123;3&#125;
@@ -957,25 +475,25 @@ print(s) # &#123;2, 3&#125;
 <blockquote>
 <p>哇哦！真是方便呢（js 没有，叽叽叽）</p>
 </blockquote>
-<h3 id="permutations"><a href="#permutations" class="headerlink" title="permutations"></a>permutations</h3><p>对迭代器进行排列组合。</p>
+<h2 id="permutations"><a href="#permutations" class="headerlink" title="permutations"></a>permutations</h2><p>对迭代器进行排列组合。</p>
 <pre><code class="js">nums = [1, 2, 3]
 for p in permutations(nums):
   print(p)
 </code></pre>
-<h2 id="heapq"><a href="#heapq" class="headerlink" title="heapq"></a>heapq</h2><p>使用 heapq 库创建一个小根堆，如果想用大根堆可以将里面的数值变为负数然后再处理。</p>
-<h3 id="heapify"><a href="#heapify" class="headerlink" title="heapify"></a>heapify</h3><p>初始化堆。</p>
+<h1 id="heapq"><a href="#heapq" class="headerlink" title="heapq"></a>heapq</h1><p>使用 heapq 库创建一个小根堆，如果想用大根堆可以将里面的数值变为负数然后再处理。</p>
+<h2 id="heapify"><a href="#heapify" class="headerlink" title="heapify"></a>heapify</h2><p>初始化堆。</p>
 <pre><code class="python">heap = [4,5,7,2,3,9]
 heapq.heapify(heap)
 </code></pre>
-<h3 id="heappop"><a href="#heappop" class="headerlink" title="heappop"></a>heappop</h3><p>弹出堆顶。</p>
-<h3 id="heappush"><a href="#heappush" class="headerlink" title="heappush"></a>heappush</h3><p>入堆顶。</p>
-<h3 id="heapreplace"><a href="#heapreplace" class="headerlink" title="heapreplace"></a>heapreplace</h3><p>弹出堆的最小元素，并将给定的新元素插入到堆中。这个操作是一个原子操作，即在单次操作中完成弹出和插入的过程。</p>
+<h2 id="heappop"><a href="#heappop" class="headerlink" title="heappop"></a>heappop</h2><p>弹出堆顶。</p>
+<h2 id="heappush"><a href="#heappush" class="headerlink" title="heappush"></a>heappush</h2><p>入堆顶。</p>
+<h2 id="heapreplace"><a href="#heapreplace" class="headerlink" title="heapreplace"></a>heapreplace</h2><p>弹出堆的最小元素，并将给定的新元素插入到堆中。这个操作是一个原子操作，即在单次操作中完成弹出和插入的过程。</p>
 <blockquote>
 <p>新元素也会根据按照堆进行排序。</p>
 </blockquote>
-<h2 id="itertools"><a href="#itertools" class="headerlink" title="itertools"></a>itertools</h2><p>为高效循环创建迭代器的函数。</p>
-<h3 id="chain-from-iterable"><a href="#chain-from-iterable" class="headerlink" title="chain.from_iterable"></a>chain.from_iterable</h3><p>可用于扁平化数组。</p>
-<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>函数定义的语法：</p>
+<h1 id="itertools"><a href="#itertools" class="headerlink" title="itertools"></a>itertools</h1><p>为高效循环创建迭代器的函数。</p>
+<h2 id="chain-from-iterable"><a href="#chain-from-iterable" class="headerlink" title="chain.from_iterable"></a>chain.from_iterable</h2><p>可用于扁平化数组。</p>
+<h1 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h1><p>函数定义的语法：</p>
 <p>使用<code>def</code>来定义一个函数。</p>
 <ul>
 <li>self 是类方法中的第一个参数，它代表类的实例本身。具体来说，在类的方法定义中，self 参数是用来访问类的属性和其他方法的。</li>
@@ -986,20 +504,20 @@ heapq.heapify(heap)
     def getStr(self, s: str):
         print(self)
 </code></pre>
-<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><h3 id=""><a href="#" class="headerlink" title="&#x3D;"></a>&#x3D;</h3><p>python 中的数组其实是一个 list（列表），它是可以直接进行比较的。<code>==</code> 操作符可以用来比较两个列表是否相等，它会逐元素地比较两个列表的内容和顺序是否完全相同。如果两个列表的内容和顺序都相同，则返回 True；否则返回 False。</p>
+<h1 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h1><h2 id=""><a href="#" class="headerlink" title="&#x3D;"></a>&#x3D;</h2><p>python 中的数组其实是一个 list（列表），它是可以直接进行比较的。<code>==</code> 操作符可以用来比较两个列表是否相等，它会逐元素地比较两个列表的内容和顺序是否完全相同。如果两个列表的内容和顺序都相同，则返回 True；否则返回 False。</p>
 <blockquote>
 <p>js 中是不能直接进行数组比较的，数组是引用数据类型，比较的永远是内存地址，永远是 false。</p>
 </blockquote>
-<h2 id="time"><a href="#time" class="headerlink" title="time"></a>time</h2><p>该模块提供了各种与时间相关的函数。</p>
+<h1 id="time"><a href="#time" class="headerlink" title="time"></a>time</h1><p>该模块提供了各种与时间相关的函数。</p>
 <blockquote>
 <p>此模块中定义的大多数函数的实现都是调用其所在平台的 C 语言库的同名函数。因为这些函数的语义可能因平台而异，所以使用时最好查阅对应平台的相关文档。</p>
 </blockquote>
 <p>下面是一些术语和惯例的解释.</p>
-<h3 id="time-1"><a href="#time-1" class="headerlink" title="time()"></a>time()</h3><p>返回以浮点数表示的从 epoch 开始的秒数形式的时间。</p>
+<h2 id="time-1"><a href="#time-1" class="headerlink" title="time()"></a>time()</h2><p>返回以浮点数表示的从 epoch 开始的秒数形式的时间。</p>
 <blockquote>
 <p>epoch 是起始的时间点，即 time.gmtime(0) 的返回值。 这在所有平台上都是 1970-01-01, 00:00:00 (UTC)。</p>
 </blockquote>
-<h2 id="匿名函数（lambda）"><a href="#匿名函数（lambda）" class="headerlink" title="匿名函数（lambda）"></a>匿名函数（lambda）</h2><pre><code class="python">lambda arguments: expression
+<h1 id="匿名函数（lambda）"><a href="#匿名函数（lambda）" class="headerlink" title="匿名函数（lambda）"></a>匿名函数（lambda）</h1><pre><code class="python">lambda arguments: expression
 </code></pre>
 <pre><code class="python"># 定义一个加法的 lambda 函数
 add = lambda x, y: x + y
@@ -1010,8 +528,8 @@ points = [(2, 3), (1, 2), (4, 1)]
 sorted_points = sorted(points, key=lambda p: p[1])
 print(sorted_points)
 </code></pre>
-<h2 id="bisect"><a href="#bisect" class="headerlink" title="bisect"></a>bisect</h2><p>bisect 是 Python 内置的二分查找模块，用于在已排序的列表中查找元素。</p>
-<h3 id="bisect-left"><a href="#bisect-left" class="headerlink" title="bisect_left"></a>bisect_left</h3><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素左边插入的索引。</p>
+<h1 id="bisect"><a href="#bisect" class="headerlink" title="bisect"></a>bisect</h1><p>bisect 是 Python 内置的二分查找模块，用于在已排序的列表中查找元素。</p>
+<h2 id="bisect-left"><a href="#bisect-left" class="headerlink" title="bisect_left"></a>bisect_left</h2><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素左边插入的索引。</p>
 <pre><code class="python">arr = [1, 2, 5, 9, 12]
 print(bisect.bisect_left(arr, 3)) # 2
 print(bisect.bisect_left(arr, 2)) # 1
@@ -1019,7 +537,7 @@ print(bisect.bisect_left(arr, 2)) # 1
 <blockquote>
 <p>可以相当于找的是<strong>大于等于 target</strong> 的第一个元素的索引值。</p>
 </blockquote>
-<h3 id="bisect-right"><a href="#bisect-right" class="headerlink" title="bisect_right"></a>bisect_right</h3><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素右边插入的索引。</p>
+<h2 id="bisect-right"><a href="#bisect-right" class="headerlink" title="bisect_right"></a>bisect_right</h2><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素右边插入的索引。</p>
 <pre><code class="python">arr = [1, 2, 5, 9, 12]
 print(bisect.bisect_right(arr, 3)) # 2
 print(bisect.bisect_right(arr, 2)) # 2
@@ -1027,7 +545,7 @@ print(bisect.bisect_right(arr, 2)) # 2
 <blockquote>
 <p>可以相当于找的是<strong>大于 target</strong> 的第一个元素的索引值。</p>
 </blockquote>
-<h3 id="自定义函数（key）"><a href="#自定义函数（key）" class="headerlink" title="自定义函数（key）"></a>自定义函数（key）</h3><p>使用二分时可以通过自定义目标值（目标值可以是任何类型）和函数来控制二分的结果和方向。</p>
+<h2 id="自定义函数（key）"><a href="#自定义函数（key）" class="headerlink" title="自定义函数（key）"></a>自定义函数（key）</h2><p>使用二分时可以通过自定义目标值（目标值可以是任何类型）和函数来控制二分的结果和方向。</p>
 <pre><code class="python">def check(size: int) -&gt; bool:
     if size &lt; 11:
         return True
@@ -1035,20 +553,20 @@ print(bisect.bisect_right(arr, 2)) # 2
 ans = bisect_left(range(20), True, key = check) # 找到 key=True 的值后往左二分，如果找不到则一直往右二分
 ans2 = bisect_right(range(20), True, key = check) # 找到 key=True 的值后往右二分，如果找不到则一直往左二分
 </code></pre>
-<h2 id="操作符技巧"><a href="#操作符技巧" class="headerlink" title="操作符技巧"></a>操作符技巧</h2><h3 id="-1"><a href="#-1" class="headerlink" title="&#x2F;&#x2F;"></a>&#x2F;&#x2F;</h3><p>做除法，向下取整。</p>
+<h1 id="操作符技巧"><a href="#操作符技巧" class="headerlink" title="操作符技巧"></a>操作符技巧</h1><h2 id="-1"><a href="#-1" class="headerlink" title="&#x2F;&#x2F;"></a>&#x2F;&#x2F;</h2><p>做除法，向下取整。</p>
 <pre><code class="python"># 向下取整
 print(5 // 2) # 2
 
 # 向上取整
 print(-(-5 // 2)) # 3
 </code></pre>
-<h2 id="math"><a href="#math" class="headerlink" title="math"></a>math</h2><h3 id="lcm"><a href="#lcm" class="headerlink" title="lcm"></a>lcm</h3><p>找到两个数的最小公倍数。</p>
+<h1 id="math"><a href="#math" class="headerlink" title="math"></a>math</h1><h2 id="lcm"><a href="#lcm" class="headerlink" title="lcm"></a>lcm</h2><p>找到两个数的最小公倍数。</p>
 <pre><code class="python">num = math.lcm(2, 3) # 6
 </code></pre>
-<h3 id="gcd"><a href="#gcd" class="headerlink" title="gcd"></a>gcd</h3><p>找到两个数的最大公约数。</p>
+<h2 id="gcd"><a href="#gcd" class="headerlink" title="gcd"></a>gcd</h2><p>找到两个数的最大公约数。</p>
 <pre><code class="python">num = math.gcd(2, 3) # 1
 </code></pre>
-<h3 id="isqrt"><a href="#isqrt" class="headerlink" title="isqrt"></a>isqrt</h3><p>返回一个整数，它是给定整数的平方根。如果给定整数不是平方数，则返回一个小于给定整数的平方数的整数。</p>
+<h2 id="isqrt"><a href="#isqrt" class="headerlink" title="isqrt"></a>isqrt</h2><p>返回一个整数，它是给定整数的平方根。如果给定整数不是平方数，则返回一个小于给定整数的平方数的整数。</p>
 <pre><code class="python">num = math.isqrt(9) # 3
 num2 = math.isqrt(8) # 2
 </code></pre>
@@ -1165,6 +683,68 @@ Promise.try(test).then((res) =&gt; &#123;
   
     
       <article
+id="post-Python/class"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h1><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
+<ul>
+<li>append(x)：在右侧添加一个元素。</li>
+<li>appendleft(x)：在左侧添加一个元素。</li>
+<li>pop()：移除并返回一个右侧元素。</li>
+<li>popleft()：移除并返回一个左侧元素。</li>
+<li>extend(iterable)：在右侧添加多个元素。</li>
+<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
+<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
+<li>clear()：清空所有元素。</li>
+</ul>
+<pre><code class="python">queue = deque()
+queue.append(1)
+queue.popleft(2)
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-05T16:00:00.000Z" itemprop="datePublished">2025-01-06</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Python/index"
 class="article article-type-post"
 >
@@ -1180,7 +760,7 @@ class="article article-type-post"
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
+        <h1 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h1><ul>
 <li>打完包之后在 dist 目录下执行：</li>
 </ul>
 <pre><code class="shell">python -m http.server
@@ -1235,7 +815,7 @@ class="article article-type-post"
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
+        <h1 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h1><h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
 <li>切片（:）</li>
 <li>list()</li>
 <li>copy()</li>
@@ -1246,13 +826,13 @@ o1 = org[:] # 切片
 o2 = list(org) # list()
 o3 = org.copy() # copy()
 </code></pre>
-<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><ul>
 <li>copy 模块中的 deepcopy()</li>
 </ul>
 <pre><code class="python">org = [1, 2, 3, 4, 5]
 od1 = copy.deepcopy(org)
 </code></pre>
-<h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
+<h1 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h1><ul>
 <li>切片（:）</li>
 <li>reversed()</li>
 </ul>
@@ -1261,70 +841,8 @@ od1 = copy.deepcopy(org)
 o1 = org[::-1] # 切片
 o2 = reversed(org) # reversed()
 </code></pre>
-<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
+<h1 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h1><pre><code class="python">print(5 &gt; /
 2) # True
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-01-05T16:00:00.000Z" itemprop="datePublished">2025-01-06</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Python/class"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
-<ul>
-<li>append(x)：在右侧添加一个元素。</li>
-<li>appendleft(x)：在左侧添加一个元素。</li>
-<li>pop()：移除并返回一个右侧元素。</li>
-<li>popleft()：移除并返回一个左侧元素。</li>
-<li>extend(iterable)：在右侧添加多个元素。</li>
-<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
-<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
-<li>clear()：清空所有元素。</li>
-</ul>
-<pre><code class="python">queue = deque()
-queue.append(1)
-queue.popleft(2)
 </code></pre>
 
         
@@ -1415,6 +933,118 @@ class="article article-type-post"
 
     
   
+    
+      <article
+id="post-Algorithm/link"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/04/Algorithm/link/">链表</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于链表的结构特殊，没有像数组那样方便的库方法，因此其很多操作都需要用到底层算法解决。（不过也因此可以巩固一下）</p>
+<blockquote>
+<p>例如需要手写排序操作。</p>
+</blockquote>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>根据链表的类型可选择不同的排序算法。</p>
+<h3 id="单链表"><a href="#单链表" class="headerlink" title="单链表"></a>单链表</h3><p>如果要保持时间复杂度 O(nlogn)，则需要使用分治策略（归并排序），拆分链表。（详细算法实现参照排序一文）</p>
+<blockquote>
+<p>其中 n 是链表长度。</p>
+</blockquote>
+<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>双向链表既可以从前遍历，又可以从后遍历，所以不只可以使用归并排序，还可以使用快速排序。（我猜的，暂未进行实践）</p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p>寻找中间节点：<strong>快慢指针</strong>，找到 mid 后再根据需求是否断链（前指空）。<br>dummy 节点：快速返回新的链表。<br>寻找倒数第 n 个节点：<strong>前后指针</strong>，前指针走 n 步，然后两个指针再一起走。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-03T16:00:00.000Z" itemprop="datePublished">2025-01-04</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/monotoneStack"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>已知单调栈使用场景：</p>
+<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
+<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+<ul>
+<li>一般栈中存储的是数组索引下标；</li>
+<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
 
   
     <nav class="pagination">
@@ -1462,10 +1092,6 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -1479,6 +1105,10 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>
