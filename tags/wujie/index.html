@@ -6,47 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     
-    <title>Node.js常用包 | Fxh&#39;s blog</title>
+    <title>Tag | wujie | Fxh&#39;s blog</title>
 
     <meta name="description" content="Fxh&#39;s blog">
     <meta name="keywords" content="">
 
     
-
-    <meta property="og:locale" content="cn" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content= "Node.js常用包 | Fxh&#39;s blog"  />
-    <meta property="og:description" content= "Fxh&#39;s blog" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2023/09/01/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/index.html" />
-    <meta property="og:site_name" content="" />
-    <meta property="article:author" content="feng xiaohan" />
-    <meta property="article:publisher" content="" />
-    <meta property="og:description" content="Fxh&#39;s blog" />
-    <meta name="twitter:title" content="Node.js常用包 | Fxh&#39;s blog"/>
-    <meta name="twitter:description" content="Fxh&#39;s blog"/>
-    <script type="application/ld+json">
-        {
-            "description": "Fxh&#39;s blog",
-            "author": { "@type": "Person", "name": "feng xiaohan" },
-            "@type": "BlogPosting",
-            "url": "https://fxh31.github.io/ferhannah-blog/2023/09/01/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/index.html",
-            "publisher": {
-            "@type": "Organization",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
-            },
-            "name": "feng xiaohan"
-            },
-            "headline": "Node.js常用包 | Fxh&#39;s blog",
-            "datePublished": "2023-08-31T16:00:00.000Z",
-            "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://fxh31.github.io/ferhannah-blog/2023/09/01/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/index.html"
-            },
-            "@context": "http://schema.org"
-        }
-    </script>
 
 
 
@@ -74,7 +39,7 @@
 
 
     <script>
-        window.isPost = true
+        window.isPost = false
         window.aomori = {
             
             
@@ -164,183 +129,46 @@
         <div class="main">
             <section class="inner">
                 <section class="inner-main">
-                    <div class="post">
-    <article id="post-cm837mrda001xygvshtuz934l" class="article article-type-post" itemscope
-    itemprop="blogPost">
+                    
 
-    <div class="article-inner">
-
-        
-          
-        
-        
-        
-
-        
-        <header class="article-header">
-            
+    
+    
+    
+    
+    <section class="archives-wrap">
+        <div class="archive-year-wrap">
+        <a href="/ferhannah-blog/archives/2025" class="archive-year">2025</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
   
-    <h1 class="article-title" itemprop="name">
-      Node.js常用包
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E7%AE%80%E4%BB%8B/">Wujie 简介</a>
     </h1>
   
 
-        </header>
-        
-
-        <div class="article-more-info article-more-info-post hairline">
-
-            <div class="article-date">
-  <time datetime="2023-08-31T16:00:00.000Z" itemprop="datePublished">2023-09-01</time>
-</div>
-
-            
-            <div class="article-category">
-                <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-            </div>
-            
-
-            
-
-            
-
-        </div>
-
-        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <h2 id="开发环境包"><a href="#开发环境包" class="headerlink" title="开发环境包"></a>开发环境包</h2><ul>
-<li><p><strong>nodemon</strong>：当我们修改项目文件时，自动重启 node 执行该文件；</p>
-<blockquote>
-<p>没有它我们每次修改文件之后都要重新执行<code>node app.js</code>。</p>
-</blockquote>
-<p>使用：在 package.json 中的运行项目命令中添加<code>nodemon app.js</code>，然后执行<code>npm start</code>（或其他启动运行项目的命令）。</p>
-<pre><code class="json">&#123;
-    ...
-    &quot;scripts&quot;: &#123;
-        &quot;start&quot;: &quot;nodemon app.js&quot;
-    &#125;
-    ...
-&#125;
-</code></pre>
-<blockquote>
-<p>注意：nodemon 如果不是在全局安装的就不能直接在命令行输入<code>nodemon app.js</code>，而是写入 start 中，用 npm（已全局安装）来启动。</p>
-</blockquote>
-</li>
-<li><p><strong>serve</strong> ：在本地启动 serve 运行文件；（一般针对 HTML）</p>
-<pre><code class="bash">npm i -g serve
-</code></pre>
-<ul>
-<li><p>启动当前文件：</p>
-<pre><code class="bash">server .
-</code></pre>
-</li>
-<li><p>配置 package.json 后启动打包后的文件（dist）：</p>
-<pre><code class="json">&quot;serve&quot;: &quot;serve ./dist&quot;
-</code></pre>
-<pre><code class="bash">npm run serve
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p><strong>browser-sync</strong>：浏览器自动同步文件工具；</p>
-<pre><code class="bash">npm install -g browser-sync
-</code></pre>
-<blockquote>
-<p>完全可以使用插件 Live server 达到相同的效果。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="生产环境包"><a href="#生产环境包" class="headerlink" title="生产环境包"></a>生产环境包</h2><ul>
-<li><p><strong>express</strong>：Node.js 框架；</p>
-</li>
-<li><p><strong>mysql2</strong>：连接数据库的工具包；</p>
-</li>
-<li><p><strong>ejs</strong>：EJS 模板引擎；</p>
-</li>
-<li><p><strong>pug</strong>：Pug 模板引擎；</p>
-</li>
-<li><p><strong>express-handlebars</strong>：Handlebars 模板引擎；</p>
-</li>
-<li><p><strong>sequelize</strong>：对象关系映射库，简化操作 SQL 数据库；</p>
-</li>
-<li><p><strong>mongoose</strong>：对象文档映射库，简化操作 MongoDB 数据库；</p>
-</li>
-<li><p><strong>express-session</strong>：Express 使用 session 的包；</p>
-</li>
-<li><p><strong>bcryptjs</strong>：加密数据的包（加密密码，不能直接从数据库中查看到密码）；</p>
-</li>
-<li><p><strong>connect-flash：</strong>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空（联合 redirect 一起使用，确保消息只在目标页面可用）；</p>
-</li>
-</ul>
-
-        </div>
-
-    </div>
+</article>
 
     
-
     
-
-    
-
-    
-
-    
-
-    
-<nav class="article-nav">
-  
-    <a href="/ferhannah-blog/2023/09/04/Node/Node%E6%A8%A1%E5%9D%97%EF%BC%88module%EF%BC%89%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          Node模块（module）的导出导入
-        
-      </div>
-    </a>
+    <article class="archive-article archive-type-post">
   
   
-    <a href="/ferhannah-blog/2023/03/09/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">数据验证（Validate）</div>
-    </a>
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/">Wujie 使用</a>
+    </h1>
   
-</nav>
-
-
-    <section class="share">
-        <!-- <div class="share-title">分享</div>
-        <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=Node.js常用包 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2023%2F09%2F01%2FNode%2FNode.js%25E5%25B8%25B8%25E7%2594%25A8%25E5%258C%2585%2F">
-            <ion-icon name="logo-twitter"></ion-icon>
-        </a>
-        <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=Node.js常用包 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2023%2F09%2F01%2FNode%2FNode.js%25E5%25B8%25B8%25E7%2594%25A8%25E5%258C%2585%2F">
-            <ion-icon name="logo-facebook"></ion-icon>
-        </a> -->
-        <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=Node.js常用包 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2023/09/01/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/&pic=">
-            <div class="n-icon n-icon-weibo"></div>
-        </a> -->
-    </section>
 
 </article>
 
 
+    </div></section>
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-</div>
                 </section>
             </section>
 
@@ -352,12 +180,6 @@
 <div class="widget" id="widget">
     
       
-  <div class="widget-wrap">
-    <div class="widget-inner">
-      <div class="toc post-toc-html"></div>
-    </div>
-  </div>
-
     
       
   <div class="widget-wrap widget-cate">

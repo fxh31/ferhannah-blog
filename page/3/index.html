@@ -154,7 +154,7 @@
   
     
       <article
-id="post-Python/operation"
+id="post-Python/index"
 class="article article-type-post"
 >
 
@@ -165,39 +165,18 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/operation/">speration</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
-<li>切片（:）</li>
-<li>list()</li>
-<li>copy()</li>
+        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
+<li>打完包之后在 dist 目录下执行：</li>
 </ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[:] # 切片
-o2 = list(org) # list()
-o3 = org.copy() # copy()
+<pre><code class="shell">python -m http.server
 </code></pre>
-<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
-<li>copy 模块中的 deepcopy()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-od1 = copy.deepcopy(org)
-</code></pre>
-<h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
-<li>切片（:）</li>
-<li>reversed()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[::-1] # 切片
-o2 = reversed(org) # reversed()
-</code></pre>
-<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
-2) # True
-</code></pre>
+<blockquote>
+<p>注意：也可以在后面添加启动的端口号。</p>
+</blockquote>
 
         
     </div>
@@ -331,6 +310,60 @@ class="article article-type-post"
     <div class="article-more-info">
     <div class="article-date">
   <time datetime="2025-01-03T16:00:00.000Z" itemprop="datePublished">2025-01-04</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/monotoneStack"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>已知单调栈使用场景：</p>
+<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
+<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+<ul>
+<li>一般栈中存储的是数组索引下标；</li>
+<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
 </div>
     
         <div class="article-category">
@@ -571,60 +604,6 @@ obj.b(); // &#123;a: 10, b: ƒ&#125;
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/monotoneStack"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>已知单调栈使用场景：</p>
-<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
-<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
-<ul>
-<li>一般栈中存储的是数组索引下标；</li>
-<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
@@ -943,7 +922,7 @@ function gcd(a, b) &#123;
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -953,7 +932,7 @@ function gcd(a, b) &#123;
   <div class="widget-wrap widget-tags">
     <div class="widget-title"><span>Tags</span></div>
     <div class="widget-inner">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
     </div>
   </div>
 
