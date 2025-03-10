@@ -154,239 +154,6 @@
   
     
       <article
-id="post-Node/Express/Express.js中间件的包"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <ul>
-<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
-<pre><code class="bash">npm install --save body-parser
-</code></pre>
-<blockquote>
-<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
-</blockquote>
-<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
-...
-app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
-</code></pre>
-</li>
-<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
-<blockquote>
-<p>此包依赖 express 和 express-session。</p>
-</blockquote>
-<pre><code class="bash">npm install --save csurf
-</code></pre>
-</li>
-<li><p>express-validator：Express 验证器</p>
-<pre><code class="bash">npm install --save express-validator
-</code></pre>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-micro-frontends/wujie/Wujie简介"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/micro-frontends/wujie/Wujie%E7%AE%80%E4%BB%8B/">Wujie 简介</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>由腾讯开发的微前端框架，帮助开发者将复杂的前端项目拆分为多个微前端应用，实现分治开发、独立部署、统一集成的目标。</p>
-<p>拥有以下几个特点（官网）：</p>
-<h2 id="极速"><a href="#极速" class="headerlink" title="极速"></a>极速</h2><p>页面切换时速度快，无白屏。（主要是通过开启预加载实现）</p>
-<h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><p>预加载指的是在应用空闲的时候<code>requestIdleCallback</code>将所需要的静态资源提前从网络中加载到内存中。</p>
-<blockquote>
-<p>主流的 PC 屏幕刷新率（FPS）大多在 60Hz，即 1 秒钟对屏幕进行 60 次刷新，平均每次刷新耗时大概是 16.6ms。</p>
-</blockquote>
-<p><code>requestidlecallback</code>触发的时机有两种：</p>
-<ul>
-<li><p>在一帧的输入渲染合成完成后才会有空闲时间触发<code>requestidlecallback</code>;</p>
-<blockquote>
-<p>一帧内所做的事情如下：</p>
-<ul>
-<li>输入事件处理：浏览器会处理用户的输入事件，如鼠标点击、键盘输入等，并将这些事件放入事件队列中；</li>
-<li>JavaScript 执行：浏览器会从事件队列中取出事件并执行对应的 JavaScript 代码，如事件处理函数、定时器等；</li>
-<li>执行 requestAnimationFrame；</li>
-<li>执行 dom 的回流与重绘；</li>
-<li>计算更新图层的绘制指令（浏览器会将布局信息转换成绘制指令，并使用 GPU 进行绘制渲染，生成对应的位图）；</li>
-<li>绘制指令合并主线程（浏览器会将多个位图进行合成，生成最终的页面图像），如果有空余时间会执行 <code>requestidlecallback</code>。</li>
-</ul>
-<p>在这个过程中，浏览器会尽可能地优化渲染流程，以提高页面的渲染性能和用户体验。实际上就是在 16.6ms 之内完成输入渲染合成，空闲的时间才会留给 <code>requestidlecallback</code>。</p>
-</blockquote>
-</li>
-<li><p>没有任务执行浏览器会有 50ms 空闲时间，这个时间段也会执行 <code>requestidlecallback</code>。</p>
-<blockquote>
-<p>例如直接在控制台输出。</p>
-</blockquote>
-</li>
-</ul>
-<pre><code class="js">requestidlecallback(function (deadline) &#123;
-  console.log(deadline.timeRemaining());
-&#125;);
-</code></pre>
-<p>由于子应用提前渲染可能会导致阻塞主应用的线程，所以无界提供了类似于<code>react-fiber</code>方式来防止阻塞线程：</p>
-<p>react16： <code>postMessage + requestAnimationFrame</code>来实现类似<code>requestidlecallback()</code>的功能；</p>
-<blockquote>
-<ul>
-<li>使用<code>postMessage + requestAnimationFrame</code>是因为 react 开发人员经过测试发现<code>requestidlecallback()</code>可能会超过 16ms，超过 16ms 绘制就会看起来很卡，所以 react16 是用<code>postMessage + requestAnimationFrame</code>实现的。</li>
-<li>使用<code>postMessage </code>来代替<code>setTimeOut()</code>是因为后者即使为 0</li>
-</ul>
-</blockquote>
-<p>react18 ：使用<code>MessageChannel</code>实现<code>requestidlecallback()</code>。</p>
-<h2 id="强大"><a href="#强大" class="headerlink" title="强大"></a>强大</h2><p>支持子应用保活、内嵌、去中心化通信、多应用激活。</p>
-<h3 id="子应用保活"><a href="#子应用保活" class="headerlink" title="子应用保活"></a>子应用保活</h3><h2 id="简单"><a href="#简单" class="headerlink" title="简单"></a>简单</h2><p>框架封装，保持普通组件使用体验一致。</p>
-<h2 id="原生隔离"><a href="#原生隔离" class="headerlink" title="原生隔离"></a>原生隔离</h2><p>基于 WebComponent 和 iframe，原生物理隔离。</p>
-<h3 id="WebComponent"><a href="#WebComponent" class="headerlink" title="WebComponent"></a>WebComponent</h3><pre><code class="tsx">window.onload = () =&gt; &#123;
-  class Wujie extends HTMLElement &#123;
-    constructor() &#123;
-      super();
-      // shadowdom 样式隔离
-      let dom = this.attachShadow(&#123; mode: &quot;open&quot; &#125;);
-      let template = document.querySelector(&quot;#wujie&quot;) as HTMLTemplateElement;
-
-      dom.appendChild(template.content.cloneNode(true));
-
-      console.log(this.getAttr(&quot;name&quot;), this.getAttr(&quot;url&quot;));
-    &#125;
-    private getAttr(attr: string) &#123;
-      return this.getAttribute(attr);
-    &#125;
-
-    // webComponents的生命周期
-    connectedCallback() &#123;
-      console.log(&quot;类似于vue的mounted&quot;);
-    &#125;
-    disconnectedCallback() &#123;
-      console.log(&quot;类似于vue的destory&quot;);
-    &#125;
-    attributeChangedCallback(name: any, oldVal: any, newVal: any) &#123;
-      console.log(&quot;类似于vue的watch&quot;);
-    &#125;
-  &#125;
-  // 使用原生js挂载一个组件
-  window.customElements.define(&quot;wu-jie&quot;, Wujie);
-&#125;;
-</code></pre>
-<pre><code class="html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot; /&gt;
-    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
-    &lt;title&gt;Document&lt;/title&gt;
-    &lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;wu-jie name=&quot;fdsf&quot; url=&quot;dsafas&quot;&gt;&lt;/wu-jie&gt;
-    &lt;div&gt;我是外层的div&lt;/div&gt;
-
-    &lt;template id=&quot;wujie&quot;&gt;
-      &lt;style&gt;
-        div &#123;
-          background: red;
-        &#125;
-      &lt;/style&gt;
-      &lt;div&gt;我是template里面的div&lt;/div&gt;
-    &lt;/template&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<h3 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h3><p>将 js 单独存放在 iframe 中。</p>
-<h2 id="原生性能"><a href="#原生性能" class="headerlink" title="原生性能"></a>原生性能</h2><p>避免 with 语句运行代码，整体的运行性能接近原生。</p>
-<h2 id="开箱即用"><a href="#开箱即用" class="headerlink" title="开箱即用"></a>开箱即用</h2><p>主、子应用无需做任何适配，开箱即用。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><ul>
-<li>隔离 js 使用一个空的 iframe 进行隔离。</li>
-<li>子应用 axios 需要自行适配。</li>
-<li>iframe 沙箱的 src 设置了主应用的 host，初始化 iframe 的时候需要等待 iframe 的 location.orign 从’about:blank’初始化为主应用的 host，这个采用的计时器去等待的不是很优雅。</li>
-</ul>
-<blockquote>
-<p>底层原理：使用 shadowDom 隔离 css，js 使用空的 iframe 隔离，通讯使用的是 proxy。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:13:36.039Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-micro-frontends/wujie/Wujie使用"
 class="article article-type-post"
 >
@@ -1398,7 +1165,7 @@ Promise.try(test).then((res) =&gt; &#123;
   
     
       <article
-id="post-Python/class"
+id="post-Python/index"
 class="article article-type-post"
 >
 
@@ -1409,25 +1176,18 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
-<ul>
-<li>append(x)：在右侧添加一个元素。</li>
-<li>appendleft(x)：在左侧添加一个元素。</li>
-<li>pop()：移除并返回一个右侧元素。</li>
-<li>popleft()：移除并返回一个左侧元素。</li>
-<li>extend(iterable)：在右侧添加多个元素。</li>
-<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
-<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
-<li>clear()：清空所有元素。</li>
+        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
+<li>打完包之后在 dist 目录下执行：</li>
 </ul>
-<pre><code class="python">queue = deque()
-queue.append(1)
-queue.popleft(2)
+<pre><code class="shell">python -m http.server
 </code></pre>
+<blockquote>
+<p>注意：也可以在后面添加启动的端口号。</p>
+</blockquote>
 
         
     </div>
@@ -1524,6 +1284,127 @@ o2 = reversed(org) # reversed()
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Python/class"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
+<ul>
+<li>append(x)：在右侧添加一个元素。</li>
+<li>appendleft(x)：在左侧添加一个元素。</li>
+<li>pop()：移除并返回一个右侧元素。</li>
+<li>popleft()：移除并返回一个左侧元素。</li>
+<li>extend(iterable)：在右侧添加多个元素。</li>
+<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
+<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
+<li>clear()：清空所有元素。</li>
+</ul>
+<pre><code class="python">queue = deque()
+queue.append(1)
+queue.popleft(2)
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-05T16:00:00.000Z" itemprop="datePublished">2025-01-06</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/binaryTree"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/05/Algorithm/binaryTree/">二叉树</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>根据不同的遍历顺序和对根节点的操作，可以分为<strong>前序遍历、中序遍历、后序遍历</strong>。其根本原理就是递归查询，直到找到叶子节点的子节点（null），然后返回 null。</p>
+<blockquote>
+<p>思考：树节点的遍历有点类似于 js 的捕获冒泡，捕获阶段对应从根节点遍历到叶子节点，冒泡阶段对应从叶子节点处理逻辑回到根节点，这也被称为<strong>递归</strong>。</p>
+</blockquote>
+<p>相关问题只要掌握好二叉树的遍历顺序，就能解决。</p>
+<h2 id="对二叉树进行操作"><a href="#对二叉树进行操作" class="headerlink" title="对二叉树进行操作"></a>对二叉树进行操作</h2><ol>
+<li>确定遍历方法；</li>
+<li>确定每一层节点的操作是什么；</li>
+</ol>
+<blockquote>
+<p>剩下的就交给递归。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-04T16:00:00.000Z" itemprop="datePublished">2025-01-05</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     

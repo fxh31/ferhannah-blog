@@ -154,187 +154,6 @@
   
     
       <article
-id="post-CSS/cssModule"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
-<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
-<blockquote>
-<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
-</blockquote>
-<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
-<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
-<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
-<li>显示局部作用域：<code>:local(.className)</code></li>
-<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
-</ul>
-<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
-<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-
-.title &#123;
-  composes: className;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-</code></pre>
-<pre><code class="css">.title &#123;
-  composes: className from &quot;./another.css&quot;;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
-<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
-</code></pre>
-<ul>
-<li>例如在 webpack 中引入 postcss-loader</li>
-</ul>
-<pre><code class="js">var path = require(&quot;path&quot;);
-var webpack = require(&quot;webpack&quot;);
-var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
-var values = require(&quot;postcss-modules-values&quot;);
-
-module.exports = &#123;
-  entry: [&quot;./src/index&quot;],
-  output: &#123;
-    filename: &quot;bundle.js&quot;,
-    path: path.join(__dirname, &quot;public&quot;),
-    publicPath: &quot;/public/&quot;,
-  &#125;,
-  module: &#123;
-    loaders: [
-      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
-      &#123;
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          &quot;style-loader&quot;,
-          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
-        ),
-      &#125;,
-    ],
-  &#125;,
-  postcss: [values],
-  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
-&#125;;
-</code></pre>
-<ul>
-<li>设置变量</li>
-</ul>
-<p>colors.css</p>
-<pre><code class="css">@value blue: #0c77f8;
-@value red: #ff0000;
-@value green: #aaf200;
-</code></pre>
-<ul>
-<li>引入 css 文件中</li>
-</ul>
-<pre><code class="css">/* import your colors... */
-@value colors: &quot;./colors.css&quot;;
-@value blue, red, green from colors;
-
-.button &#123;
-  color: blue;
-  display: inline-block;
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/slidedWindow"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-JS/copyObject"
 class="article article-type-post"
 >
@@ -386,7 +205,7 @@ class="article article-type-post"
   
     
       <article
-id="post-HTML/Node和Element"
+id="post-JS/es6"
 class="article article-type-post"
 >
 
@@ -397,12 +216,108 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
+        <a href="/ferhannah-blog/2024/09/22/JS/es6/">ES6 特性</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
-<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
+        <h2 id="let-和-const"><a href="#let-和-const" class="headerlink" title="let 和 const"></a>let 和 const</h2><h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><pre><code class="js">const obj = &#123; a: 1, b: 2 &#125;;
+const &#123; a, b &#125; = obj;
+console.log(a, b); // 1, 2
+
+const arr = [1, 2, 3];
+const [x, y, z] = arr;
+console.log(x, y, z); // 1, 2, 3
+</code></pre>
+<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><pre><code class="js">function foo(a, b = 2, c = 3) &#123;&#125;
+</code></pre>
+<h2 id="剩余（rest）参数"><a href="#剩余（rest）参数" class="headerlink" title="剩余（rest）参数"></a>剩余（rest）参数</h2><pre><code class="js">function sum(...nums) &#123;
+  return nums.reduce((a, b) =&gt; a + b);
+&#125;
+sum(1, 2, 3, 4, 5);
+</code></pre>
+<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h2><pre><code class="js">const arr1 = [1, 2, 3];
+const arr2 = [...arr, 4, 5];
+
+const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; ...obj, c: 3 &#125;;
+</code></pre>
+<h2 id="扩展对象字面量"><a href="#扩展对象字面量" class="headerlink" title="扩展对象字面量"></a>扩展对象字面量</h2><h2 id="对象属性简写"><a href="#对象属性简写" class="headerlink" title="对象属性简写"></a>对象属性简写</h2><pre><code class="js">const name = &quot;zhangsan&quot;;
+const age = 18;
+const preson = &#123; name, age &#125;;
+</code></pre>
+<h2 id="对象方法简写"><a href="#对象方法简写" class="headerlink" title="对象方法简写"></a>对象方法简写</h2><pre><code class="js">const person = &#123;
+  name: &quot;zhangsan&quot;,
+  greet() &#123;
+    console.log(&quot;Hello！&quot;);
+  &#125;,
+&#125;;
+</code></pre>
+<h2 id="for…of-循环"><a href="#for…of-循环" class="headerlink" title="for…of 循环"></a>for…of 循环</h2><h2 id="模块化（import-export）"><a href="#模块化（import-export）" class="headerlink" title="模块化（import&#x2F;export）"></a>模块化（import&#x2F;export）</h2><pre><code class="js">// foo.js
+export const foo = () =&gt; &#123;&#125;;
+
+// main.js
+import &#123; foo &#125; from &quot;./foo&quot;;
+</code></pre>
+<h2 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h2><pre><code class="js">// foo.js
+export default () =&gt; &#123;&#125;;
+
+// main.js
+import foo from &quot;./foo&quot;;
+foo();
+</code></pre>
+<h2 id="类（class）"><a href="#类（class）" class="headerlink" title="类（class）"></a>类（class）</h2><pre><code class="js">class Person &#123;
+  constructor(name) &#123;
+    this.name = name;
+  &#125;
+  say() &#123;&#125;
+&#125;
+
+class Student extends Person &#123;
+  say() &#123;
+    console.log(`I&#39;m a student, $&#123;this.name&#125;`);
+  &#125;
+&#125;
+const s = new Student(&quot;zhangsan&quot;);
+s.say();
+</code></pre>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><h2 id="生成器和迭代器"><a href="#生成器和迭代器" class="headerlink" title="生成器和迭代器"></a>生成器和迭代器</h2><h2 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h2><h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><pre><code class="js">class MathUtil &#123;
+  static add(a, b) &#123;
+    return a + b;
+  &#125;
+&#125;
+console.log(MathUtil.add(1, 2));
+</code></pre>
+<h2 id="字符串新方法"><a href="#字符串新方法" class="headerlink" title="字符串新方法"></a>字符串新方法</h2><ul>
+<li>startsWith</li>
+<li>endsWith</li>
+<li>includes</li>
+</ul>
+<h2 id="数组新方法"><a href="#数组新方法" class="headerlink" title="数组新方法"></a>数组新方法</h2><ul>
+<li>find</li>
+<li>findIndex</li>
+</ul>
+<h2 id="对象合并"><a href="#对象合并" class="headerlink" title="对象合并"></a>对象合并</h2><pre><code class="js">const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; b: 3, c: 5 &#125;;
+const obj3 = &#123; ...obj1, ...obj2 &#125;;
+</code></pre>
+<h2 id="空值合并运算符"><a href="#空值合并运算符" class="headerlink" title="空值合并运算符"></a>空值合并运算符</h2><pre><code class="js">const foo = null ?? &quot;default&quot;;
+const bar = 0 ?? 42;
+console.log(bar); // 0
+</code></pre>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p>Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。</p>
+<pre><code class="js">const target = &#123;
+  message: &quot;hello world&quot;,
+&#125;;
+const handler = &#123;
+  get: (obj, prop) =&gt; &#123;
+    return prop in obj ? obj[prop] : &quot;not fount prop&quot;;
+  &#125;,
+  set: (obj, prop, value) =&gt; &#123;
+    return value;
+  &#125;,
+&#125;;
+const proxy = new Proxy(target, handler);
+</code></pre>
 
         
     </div>
@@ -422,7 +337,7 @@ class="article article-type-post"
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
     
@@ -499,6 +414,55 @@ class="article article-type-post"
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/Node和Element"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
+<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
         </div>
     
     
@@ -705,6 +669,68 @@ class="article article-type-post"
   
     
       <article
+id="post-network/Cross-domain"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
+<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
+<blockquote>
+<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
+</blockquote>
+<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
+<blockquote>
+<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
+</blockquote>
+<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
+<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-network/Fetch"
 class="article article-type-post"
 >
@@ -768,7 +794,7 @@ class="article article-type-post"
   
     
       <article
-id="post-network/Cross-domain"
+id="post-network/HTTPS"
 class="article article-type-post"
 >
 
@@ -779,21 +805,87 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
+        <a href="/ferhannah-blog/2024/09/22/network/HTTPS/">HTTP 和 HTTPS</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
-<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
+        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
+<li>使用明文传输（不加密），内容可能会被盗用；</li>
+<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
+<li>无法验证报文的完整性，报文可能会被篡改；</li>
+</ul>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
+<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
+<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
 <blockquote>
-<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
+<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
 </blockquote>
-<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
+<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
 <blockquote>
-<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
+<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
 </blockquote>
-<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
-<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
+<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
+<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
+<blockquote>
+<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
+<blockquote>
+<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
+<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
+</blockquote>
+<ul>
+<li>安装 openSSL 生成私钥；<blockquote>
+<p>Mac 自带，Windows 需要去官网下载。</p>
+</blockquote>
+</li>
+</ul>
+<p>需要用到以下文件来完成证书相关操作：</p>
+<ol>
+<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
+<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
+<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
+</ol>
+<ul>
+<li>创建私钥</li>
+</ul>
+<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
+</code></pre>
+<ul>
+<li>生成 pem 签名文件</li>
+</ul>
+<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
+</code></pre>
+<blockquote>
+<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
+</blockquote>
+<ul>
+<li>生成数字证书</li>
+</ul>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
+import fs from &quot;node:fs&quot;;
+
+//http 端口号 80 https端口号 443
+https
+  .createserver(
+    &#123;
+      key: fs.readFilesync(&quot;private-key.pem&quot;),
+      cert: fs.readFilesync(&quot;certificate.pem&quot;),
+      //密码短语
+      passphrase: &quot;123456&quot;,
+    &#125;,
+    (req, res) =&gt; &#123;
+      res.writeHead(200);
+      res.end(&quot;success&quot;);
+    &#125;
+  )
+  .listen(443, () =&gt; &#123;
+    console.log(&quot;https server is running at https://localhost:433&quot;);
+  &#125;);
+</code></pre>
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
 
         
     </div>
@@ -818,7 +910,7 @@ class="article article-type-post"
     
     
         <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
         </div>
     
     </div>

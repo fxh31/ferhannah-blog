@@ -154,186 +154,6 @@
   
     
       <article
-id="post-Algorithm/binarySearch"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/31/Algorithm/binarySearch/">二分搜索</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="二分间值"><a href="#二分间值" class="headerlink" title="二分间值"></a>二分间值</h2><h2 id="最小化最大值"><a href="#最小化最大值" class="headerlink" title="最小化最大值"></a>最小化最大值</h2><p>二分答案求最小。</p>
-<h2 id="最大化最小值"><a href="#最大化最小值" class="headerlink" title="最大化最小值"></a>最大化最小值</h2><p>二分答案求最大。</p>
-<h2 id="第-K-小-大"><a href="#第-K-小-大" class="headerlink" title="第 K 小&#x2F;大"></a>第 K 小&#x2F;大</h2><ul>
-<li>第 k 小等价于：求最小的 x，<strong>满足 &lt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
-<li>第 k 大等价于：求最大的 x，<strong>满足 &gt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
-</ul>
-<p><strong>注意事项：</strong></p>
-<ul>
-<li>数组去重问题：一般不会去重；</li>
-<li>规定 k 从 1 开始，而不是数组下标 0；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/sort"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/31/Algorithm/sort/">排序算法</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：</p>
-<ol>
-<li>找到一个基准值，将数组分成两个部分，左边的都比基准值小，右边的都比基准值大。<blockquote>
-<p>基准值一般选用第一个数，然后与最后一个数开始比较</p>
-</blockquote>
-</li>
-<li>左右两个部分又可以进行上述过程，直到左右两个部分都只有一个元素。</li>
-</ol>
-<blockquote>
-<p>可以看出将排序过程采用了分治思想，将问题分解成更小的子问题，然后递归求解，最后合并结果。</p>
-</blockquote>
-<pre><code class="js">function quickSort(arr, start = 0, end = arr.length - 1) &#123;
-  if (start &lt; end) &#123;
-    const base = arr[start]; // 基准值
-    let left = start,
-      right = end;
-    while (left &lt; right) &#123;
-      while (left &lt; right &amp;&amp; base &lt;= arr[right]) &#123;
-        right--;
-      &#125;
-      arr[left] = arr[right];
-      while (left &lt; right &amp;&amp; base &gt;= arr[left]) &#123;
-        left++;
-      &#125;
-      arr[right] = arr[left];
-    &#125;
-    arr[left] = base;
-    quickSort(arr, start, left - 1); // 分治
-    quickSort(arr, left + 1, end); // 分治
-  &#125;
-&#125;
-</code></pre>
-<p><strong>特性</strong></p>
-<ul>
-<li>不稳定</li>
-<li>原地排序</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(logn)</li>
-</ul>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>基本思想：</p>
-<ol>
-<li>分：将组数分成两个子数组，直到不能再分。</li>
-<li>治：将两个子数组合并成一个有序数组。创建一个新数组，再分别为两个子数组设置标志位同向双指针移动比较，将较小的值放入新数组中。</li>
-</ol>
-<blockquote>
-<p>典型分治思想。</p>
-</blockquote>
-<pre><code class="js">function mergeSort(arr) &#123;
-  if (arr.length &lt;= 1) return arr;
-  const mid = arr.length &gt;&gt; 1;
-  const left = arr.slice(0, mid);
-  const right = arr.slice(mid);
-  return merge(mergeSort(left), mergeSort(right));
-&#125;
-
-function merge(left, right) &#123;
-  const result = [];
-  let l = 0,
-    r = 0;
-  while (l &lt; left.length &amp;&amp; r &lt; right.length) &#123;
-    if (left[l] &lt; right[r]) &#123;
-      result.push(left[l++]);
-    &#125; else &#123;
-      result.push(right[r++]);
-    &#125;
-  &#125;
-  result.push(...left.slice(l), ...right.slice(r));
-  return result;
-&#125;
-</code></pre>
-<p><strong>特性</strong></p>
-<ul>
-<li>稳定</li>
-<li>“治”时需要额外的数组空间，并且最终也返回这个数组（非原地排序）</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(n)</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Algorithm/index"
 class="article article-type-post"
 >
@@ -957,6 +777,139 @@ interface ImportMeta &#123;
   
     
       <article
+id="post-CSS/cssModule"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
+<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
+<blockquote>
+<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
+</blockquote>
+<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
+<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
+<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
+<li>显示局部作用域：<code>:local(.className)</code></li>
+<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
+</ul>
+<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
+<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+
+.title &#123;
+  composes: className;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+</code></pre>
+<pre><code class="css">.title &#123;
+  composes: className from &quot;./another.css&quot;;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
+<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
+</code></pre>
+<ul>
+<li>例如在 webpack 中引入 postcss-loader</li>
+</ul>
+<pre><code class="js">var path = require(&quot;path&quot;);
+var webpack = require(&quot;webpack&quot;);
+var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
+var values = require(&quot;postcss-modules-values&quot;);
+
+module.exports = &#123;
+  entry: [&quot;./src/index&quot;],
+  output: &#123;
+    filename: &quot;bundle.js&quot;,
+    path: path.join(__dirname, &quot;public&quot;),
+    publicPath: &quot;/public/&quot;,
+  &#125;,
+  module: &#123;
+    loaders: [
+      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
+      &#123;
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          &quot;style-loader&quot;,
+          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
+        ),
+      &#125;,
+    ],
+  &#125;,
+  postcss: [values],
+  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
+&#125;;
+</code></pre>
+<ul>
+<li>设置变量</li>
+</ul>
+<p>colors.css</p>
+<pre><code class="css">@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+</code></pre>
+<ul>
+<li>引入 css 文件中</li>
+</ul>
+<pre><code class="css">/* import your colors... */
+@value colors: &quot;./colors.css&quot;;
+@value blue, red, green from colors;
+
+.button &#123;
+  color: blue;
+  display: inline-block;
+&#125;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Algorithm/binary"
 class="article article-type-post"
 >
@@ -1017,6 +970,54 @@ function lowbit(x) &#123;
 <blockquote>
 <p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
 </blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/slidedWindow"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
 
         
     </div>

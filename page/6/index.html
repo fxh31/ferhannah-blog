@@ -154,7 +154,7 @@
   
     
       <article
-id="post-network/HTTPS"
+id="post-network/SSE"
 class="article article-type-post"
 >
 
@@ -165,87 +165,109 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/HTTPS/">HTTP 和 HTTPS</a>
+        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
-<li>使用明文传输（不加密），内容可能会被盗用；</li>
-<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
-<li>无法验证报文的完整性，报文可能会被篡改；</li>
-</ul>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
-<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
-<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
+        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
 <blockquote>
-<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
+<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
 </blockquote>
-<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
-<blockquote>
-<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
-</blockquote>
-<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
-<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
-<blockquote>
-<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
-<blockquote>
-<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
-<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
-</blockquote>
+<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
+<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
+<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
+<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
 <ul>
-<li>安装 openSSL 生成私钥；<blockquote>
-<p>Mac 自带，Windows 需要去官网下载。</p>
+<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
+<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
+</ul>
+</li>
+<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
+<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
+<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
+<li>onerror()：建立连接失败触发的函数；</li>
+<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
+<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
 </blockquote>
 </li>
 </ul>
-<p>需要用到以下文件来完成证书相关操作：</p>
-<ol>
-<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
-<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
-<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
-</ol>
-<ul>
-<li>创建私钥</li>
+</li>
 </ul>
-<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
-</code></pre>
-<ul>
-<li>生成 pem 签名文件</li>
-</ul>
-<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
-</code></pre>
-<blockquote>
-<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
-</blockquote>
-<ul>
-<li>生成数字证书</li>
-</ul>
-<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
-import fs from &quot;node:fs&quot;;
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
 
-//http 端口号 80 https端口号 443
-https
-  .createserver(
-    &#123;
-      key: fs.readFilesync(&quot;private-key.pem&quot;),
-      cert: fs.readFilesync(&quot;certificate.pem&quot;),
-      //密码短语
-      passphrase: &quot;123456&quot;,
-    &#125;,
-    (req, res) =&gt; &#123;
-      res.writeHead(200);
-      res.end(&quot;success&quot;);
-    &#125;
-  )
-  .listen(443, () =&gt; &#123;
-    console.log(&quot;https server is running at https://localhost:433&quot;);
-  &#125;);
-</code></pre>
-<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/TCP"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/TCP/">TCP</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><img src="/ferhannah-blog/./images/tcpip.png" alt="tcp/ip"></p>
+<h2 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h2><ul>
+<li>seq：sequence number，序列号（通过各种算法 isn 随机生成的）；</li>
+<li>ack：acknowledgement number，确认号（ack &#x3D; seq + 1）；</li>
+<li>ACK：acknowledgement，确认序列号有效；</li>
+<li>SYN：synchronous，发起新连接；</li>
+<li>FIN：finish，完成；</li>
+</ul>
+<p>第一次握手：<br>客户端向服务端发起建立新连接（SYN），并且发送序列号（seq）；</p>
+<blockquote>
+<p>序列号用于确保发送消息的顺序不乱。</p>
+</blockquote>
+<p>第二次握手：<br>服务端接收到客户端的序列号（seq），判断该序列号的确认号是否正确（ack），如果正确就标记一个 ACK，然后向客户端发起建立新连接（SYN），并且带上服务端自己的序列号（seq）；</p>
+<p>第三次握手：<br>客户端接收到之后会判断服务端的 seq 是否正确，如果正确的话也会标记一个 ACK</p>
+<blockquote>
+<p>客户端的 seq &#x3D; 第一次握手客户端的 seq + 1<br>ack &#x3D; 服务端 seq + 1</p>
+</blockquote>
+<h3 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h3><p>四次挥手可以由客户端或者服务端发起。此处以客户端主动发起为例子。</p>
+<p>第一次挥手：<br>客户端向服务端发送连接完成状态（FIN），并添加上客户端的 seq；此时客户端从 established 状态变为 fin_wait_1 等待状态；</p>
+<p>第二次挥手：<br>服务端收到客户端的信息后需要去验证 seq，判断 ack 是否正确，如果正确就标记一个 ACK 返回给客户端；<br>此时客户端会进入 fin_wait_2 阶段，在这个阶段内，如果有未完成或未处理的任务，会将所有任务处理完成，处理完之后服务端才会发起第三次挥手，最终来结束状态；</p>
+<p>第三次挥手：<br>服务端发起 FIN + ACK（ack）+ 服务端 seq；<br>此时客户端进入超时等待状态 time_wait。</p>
+<blockquote>
+<p>该状态的存在是为了确保第四次挥手的 ACK 标记不丢失，确保连接能正常断开，保证 TCP 的可靠性。如果 ACK 标记丢失了，服务端会再次发起断开连接请求（FIN），传递 ACK（再执行一次第三次挥手）。</p>
+</blockquote>
+<p>第四次挥手：<br>客户端超时等待完成后回向服务端发起 ACK （ack）+ seq，并彻底关闭连接。</p>
 
         
     </div>
@@ -270,7 +292,7 @@ https
     
     
         <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li></ul>
         </div>
     
     </div>
@@ -425,156 +447,6 @@ app.listen(3000, () =&gt; &#123;
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li></ul>
         </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/TCP"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/TCP/">TCP</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><img src="/ferhannah-blog/./images/tcpip.png" alt="tcp/ip"></p>
-<h2 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h2><ul>
-<li>seq：sequence number，序列号（通过各种算法 isn 随机生成的）；</li>
-<li>ack：acknowledgement number，确认号（ack &#x3D; seq + 1）；</li>
-<li>ACK：acknowledgement，确认序列号有效；</li>
-<li>SYN：synchronous，发起新连接；</li>
-<li>FIN：finish，完成；</li>
-</ul>
-<p>第一次握手：<br>客户端向服务端发起建立新连接（SYN），并且发送序列号（seq）；</p>
-<blockquote>
-<p>序列号用于确保发送消息的顺序不乱。</p>
-</blockquote>
-<p>第二次握手：<br>服务端接收到客户端的序列号（seq），判断该序列号的确认号是否正确（ack），如果正确就标记一个 ACK，然后向客户端发起建立新连接（SYN），并且带上服务端自己的序列号（seq）；</p>
-<p>第三次握手：<br>客户端接收到之后会判断服务端的 seq 是否正确，如果正确的话也会标记一个 ACK</p>
-<blockquote>
-<p>客户端的 seq &#x3D; 第一次握手客户端的 seq + 1<br>ack &#x3D; 服务端 seq + 1</p>
-</blockquote>
-<h3 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h3><p>四次挥手可以由客户端或者服务端发起。此处以客户端主动发起为例子。</p>
-<p>第一次挥手：<br>客户端向服务端发送连接完成状态（FIN），并添加上客户端的 seq；此时客户端从 established 状态变为 fin_wait_1 等待状态；</p>
-<p>第二次挥手：<br>服务端收到客户端的信息后需要去验证 seq，判断 ack 是否正确，如果正确就标记一个 ACK 返回给客户端；<br>此时客户端会进入 fin_wait_2 阶段，在这个阶段内，如果有未完成或未处理的任务，会将所有任务处理完成，处理完之后服务端才会发起第三次挥手，最终来结束状态；</p>
-<p>第三次挥手：<br>服务端发起 FIN + ACK（ack）+ 服务端 seq；<br>此时客户端进入超时等待状态 time_wait。</p>
-<blockquote>
-<p>该状态的存在是为了确保第四次挥手的 ACK 标记不丢失，确保连接能正常断开，保证 TCP 的可靠性。如果 ACK 标记丢失了，服务端会再次发起断开连接请求（FIN），传递 ACK（再执行一次第三次挥手）。</p>
-</blockquote>
-<p>第四次挥手：<br>客户端超时等待完成后回向服务端发起 ACK （ack）+ seq，并彻底关闭连接。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/SSE"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
-<blockquote>
-<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
-</blockquote>
-<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
-<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
-<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
-<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
-<ul>
-<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
-<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
-</ul>
-</li>
-<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
-<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
-<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
-<li>onerror()：建立连接失败触发的函数；</li>
-<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
-<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
     
     </div>
 </footer>
@@ -889,6 +761,92 @@ heartInreaval = setInterval(heartCheck, 5000);
   
     
       <article
+id="post-network/navigator(sendBeacon)"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <blockquote>
+<p>前端发送请求的方法有哪些：</p>
+<ul>
+<li>AJAX 的 XMLHttpRequest（axios）</li>
+<li>fetch</li>
+<li>SSE</li>
+<li>Websocket</li>
+<li>jsonp</li>
+<li>image 的 src</li>
+</ul>
+</blockquote>
+<h1 id="navigator-sendBeacon"><a href="#navigator-sendBeacon" class="headerlink" title="navigator.sendBeacon"></a>navigator.sendBeacon</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<li>发送心跳检测包。</li>
+<li>做埋点。可以使用 navigator.sendBeacon 在页面关闭或卸载时记录用户的在线时间，pv（page view：页面的浏览量或点击量），uv（unique visitor：独立访客，即访客量），错误日志上报，按钮点击数等。</li>
+<li>发送用户反馈。如用户意见、bug 报告等，以便进行产品的优化和改进，</li>
+</ul>
+<h2 id="对比-AJAX-和-fetch-的优势"><a href="#对比-AJAX-和-fetch-的优势" class="headerlink" title="对比 AJAX 和 fetch 的优势"></a>对比 AJAX 和 fetch 的优势</h2><ul>
+<li>不受页面卸载过程的影响，确保数据可靠发送。</li>
+<li>异步执行，不阻塞页面关闭或跳转。</li>
+<li>能发送跨域请求。<blockquote>
+<p>使用 HTML5 新增的 ping 类型，ping 类型的请求不需要等待服务端的返回，能支持发送跨域请求。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="ping-类型请求"><a href="#ping-类型请求" class="headerlink" title="ping 类型请求"></a>ping 类型请求</h3><p>请求类型 ping 是 HTML5 新增的，并且是 sendBeacon 特有的请求类型，该请求只能携带少量数据，但是他不需要等待服务端响应（因此非常适合做埋点）。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>只能发送 post 请求。</li>
+<li>只能传输少量数据（64kb 以内），并且只能传输 ArrayBuffer、ArrayBufferView、Blob、DOMString、FormData 或 URLSerchParams 类型的数据，不能传送 json。</li>
+<li>没有办法去定义请求头（比如携带 token 之类的）。</li>
+<li>如果处理危险的网络环境（比如公共网络），或者开启了广告屏蔽的插件，该请求将失效。</li>
+</ul>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
+<li>在某个监听函数中，使用 navigator.sendBeacon()来发起请求，第一个参数为 url，第二个参数为要传送的数据。</li>
+</ul>
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>设置 post 请求（由于 sendBeacon 只能发送 post 请求），并返回简单数据。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-network/XSS"
 class="article article-type-post"
 >
@@ -980,92 +938,6 @@ class="article article-type-post"
   
     
       <article
-id="post-network/navigator(sendBeacon)"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/navigator(sendBeacon)/">navigator.sendBeacon</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>前端发送请求的方法有哪些：</p>
-<ul>
-<li>AJAX 的 XMLHttpRequest（axios）</li>
-<li>fetch</li>
-<li>SSE</li>
-<li>Websocket</li>
-<li>jsonp</li>
-<li>image 的 src</li>
-</ul>
-</blockquote>
-<h1 id="navigator-sendBeacon"><a href="#navigator-sendBeacon" class="headerlink" title="navigator.sendBeacon"></a>navigator.sendBeacon</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
-<li>发送心跳检测包。</li>
-<li>做埋点。可以使用 navigator.sendBeacon 在页面关闭或卸载时记录用户的在线时间，pv（page view：页面的浏览量或点击量），uv（unique visitor：独立访客，即访客量），错误日志上报，按钮点击数等。</li>
-<li>发送用户反馈。如用户意见、bug 报告等，以便进行产品的优化和改进，</li>
-</ul>
-<h2 id="对比-AJAX-和-fetch-的优势"><a href="#对比-AJAX-和-fetch-的优势" class="headerlink" title="对比 AJAX 和 fetch 的优势"></a>对比 AJAX 和 fetch 的优势</h2><ul>
-<li>不受页面卸载过程的影响，确保数据可靠发送。</li>
-<li>异步执行，不阻塞页面关闭或跳转。</li>
-<li>能发送跨域请求。<blockquote>
-<p>使用 HTML5 新增的 ping 类型，ping 类型的请求不需要等待服务端的返回，能支持发送跨域请求。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="ping-类型请求"><a href="#ping-类型请求" class="headerlink" title="ping 类型请求"></a>ping 类型请求</h3><p>请求类型 ping 是 HTML5 新增的，并且是 sendBeacon 特有的请求类型，该请求只能携带少量数据，但是他不需要等待服务端响应（因此非常适合做埋点）。</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
-<li>只能发送 post 请求。</li>
-<li>只能传输少量数据（64kb 以内），并且只能传输 ArrayBuffer、ArrayBufferView、Blob、DOMString、FormData 或 URLSerchParams 类型的数据，不能传送 json。</li>
-<li>没有办法去定义请求头（比如携带 token 之类的）。</li>
-<li>如果处理危险的网络环境（比如公共网络），或者开启了广告屏蔽的插件，该请求将失效。</li>
-</ul>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><ul>
-<li>在某个监听函数中，使用 navigator.sendBeacon()来发起请求，第一个参数为 url，第二个参数为要传送的数据。</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>设置 post 请求（由于 sendBeacon 只能发送 post 请求），并返回简单数据。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-network/networkState"
 class="article article-type-post"
 >
@@ -1103,6 +975,119 @@ window.addEventListener(&quot;offline&quot;, function () &#123;
 <li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
 <li>saveData：是否处于数据节省模式</li>
 </ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/outline"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/outline/">计算机网络</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="OSI-七层模型"><a href="#OSI-七层模型" class="headerlink" title="OSI 七层模型"></a>OSI 七层模型</h2><p>该模型为参考模型</p>
+<h2 id="TCP-IP-五（四）层模型"><a href="#TCP-IP-五（四）层模型" class="headerlink" title="TCP&#x2F;IP 五（四）层模型"></a>TCP&#x2F;IP 五（四）层模型</h2><p>该模型为参考模型的实施。</p>
+<h2 id="物理层（比特流）"><a href="#物理层（比特流）" class="headerlink" title="物理层（比特流）"></a>物理层（比特流）</h2><p>直接和物理介质打交道的。物理层的设备有网卡，网线，集线器，中继器，调制解调器。</p>
+<h3 id="物理层的通信（信道）"><a href="#物理层的通信（信道）" class="headerlink" title="物理层的通信（信道）"></a>物理层的通信（信道）</h3><h4 id="有线信道"><a href="#有线信道" class="headerlink" title="有线信道"></a>有线信道</h4><ul>
+<li>明线：明线是指平行架设在电线杆上的架空线路。（已逐渐被电缆所替代）<ul>
+<li>优点：传输损耗低；</li>
+<li>缺点：易受天气和环境的影响，对外界噪声干扰比较敏感；</li>
+</ul>
+</li>
+<li>对称电缆：由多对双绞线组成的线缆。</li>
+<li>同轴电缆：一共有四层，从内到外分别是中心导体、绝缘体、外层导体（带屏蔽）和外皮。同轴电缆能以低损耗的方式传输模拟信号和数字信号，适用于各种应用（如电视广播系统、长途电话传输系统、计算机系统之间短距离跳线以及局域网互联）。</li>
+<li>光纤：光导纤维是由玻璃或塑料制成的纤维，利用光在这些纤维中以全反射原理传输的光传导工具。</li>
+</ul>
+<h4 id="无线信道"><a href="#无线信道" class="headerlink" title="无线信道"></a>无线信道</h4><ul>
+<li>无线电波：以辐射无线电波为传输方式无线信道主要有地波传输，天波传输和视距传输。例如:卫星通讯，电台广播。（常说的 wifi）</li>
+</ul>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p><strong>在物理层根据传输方式的不同（电、光、无线电波等方式），会获取他们对应的传输信号，再将其转化为 010101 的电信号，单位为比特（bit），所以物理层传输的是比特流</strong>。</p>
+<blockquote>
+<p>比如电压根据伏度不同转换 01 数字不同。</p>
+</blockquote>
+<h2 id="数据链路层（数据帧）"><a href="#数据链路层（数据帧）" class="headerlink" title="数据链路层（数据帧）"></a>数据链路层（数据帧）</h2><blockquote>
+<p>在物理层已经可以拿到 01010 的比特流了，但是不知道给谁发过去，谁来接收，接收后用来干什么，所以数据链路层需要将比特流组装成一个数据帧（主要是使用 MAC 地址来组帧）。</p>
+</blockquote>
+<p>建立逻辑连接、进行硬件地址寻址、差错校验等功能。将比特组合成字节进而组合成帧，用 MAC 地址访问介质。</p>
+<blockquote>
+<p>MAC 地址：每个网卡的唯一标识。windows 寻找物理地址（MAC 地址）：ipconfig&#x2F;all</p>
+</blockquote>
+<p><strong>有了 MAC 地址和数据帧，就可以进行传播。MAC 地址保证了消息的发送者和接收者，并且知道了数据的内容进行分组。数据链路层以广播的方式在局域网内传播，该局域网内所有的计算机都能接收到消息</strong>。</p>
+<blockquote>
+<p>交互方式可以使用交换机等。</p>
+</blockquote>
+<h2 id="网络层（数据包）"><a href="#网络层（数据包）" class="headerlink" title="网络层（数据包）"></a>网络层（数据包）</h2><p>网络层控制数据链路层与传输层之间的信息转发，建立、维持和终止网络的连接。数据链路层的数据在网络层被转换为数据包，然后通过路径选择、分段组合、顺序、进出路由等控制，将信息从一个网络设备传递到另一个网络设备中。<br>它主要做了两件事：</p>
+<ul>
+<li>寻址：对网络层而言使用 IP 地址来唯一标识互联网上的设备，网络层依靠 IP 地址进行相互通信。<blockquote>
+<p>在数据链路层中已经获得了 MAC 地址，但是 Mac 地址众多，查找起来很麻烦。所以会有一个网络地址——IP</p>
+</blockquote>
+</li>
+<li>路由：不同网路之间通信的需要借助的设备。<blockquote>
+<p>在同一个网络中的内部通信并不需要网络层设备，仅仅靠数据链路层就可以完成相互通信，对于不同的网络之间相互通信则必须借助路由器等三层设备。</p>
+</blockquote>
+</li>
+</ul>
+<p>使用互联网的用户在同一个网段中时会产生广播风暴，在该网段中的所有用户都会无差别的进行数据的传播或接收，所以要将用户划分，让他们在不同的网段中，在自己的小网段中进行广播。</p>
+<blockquote>
+<p>互联网就是将无数的子网络构成一个巨大的网络。<em>子网络是网络划分的概念，而子网段是指划分出的具体 IP 地址范围。子网络是在逻辑上划分网络，而子网段是在物理上划分网络。</em></p>
+</blockquote>
+<p>为了能区分不同的网段，在网络层引入了一个网络地址——IP，也称网址。网络地址帮助我们确定计算机所在的子网络，MAC 地址则将数据包送到该子网络中的目标网卡。<br>而这一层有一个规范网络地址的协议，就叫做 IP 协议，遵守这个协议的地址就被称为 IP 地址。</p>
+<blockquote>
+<p>有 IPV4 和 IPV6，IPv4 地址长度为 32 位，通常用点分十进制表示（例如，192.168.1.1）;IPv6 地址长度为 128 位，通常用冒号分隔的十六进制表示（例如，2001:0db8:85a3:0000:0000:8a2e:0370:7334）。</p>
+</blockquote>
+<h2 id="传输层（数据段）"><a href="#传输层（数据段）" class="headerlink" title="传输层（数据段）"></a>传输层（数据段）</h2><p>主要是定义端口号，控流和校验。</p>
+<h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>面向连接，三次握手四次挥手，是可靠的传输协议。但是速度会降低。</p>
+<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>具有较好的实时性，效率高于 TCP，但是是不可靠的。由于其速度快，常用于直播。</p>
+<h2 id="会话层（报文）"><a href="#会话层（报文）" class="headerlink" title="会话层（报文）"></a>会话层（报文）</h2><p>在发送方和接收方之间进行通信时创建、维持、之后终止或断开连接的地方。</p>
+<h2 id="表示层（报文）"><a href="#表示层（报文）" class="headerlink" title="表示层（报文）"></a>表示层（报文）</h2><p>表示层主要做了几件重要的事情：安全，压缩，也是程序在网络中的一个翻译官。</p>
+<ul>
+<li>安全：发送方数据发送之前进行加密，在接受者的表示层进行解密。</li>
+<li>翻译：图片。音频等文件格式进行解码和编码。<blockquote>
+<p>ASCII 图片是人类能读懂的计算机需要转换成计算机能读懂的编码。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="应用层（报文）"><a href="#应用层（报文）" class="headerlink" title="应用层（报文）"></a>应用层（报文）</h2><p>使用最多的一层。例如 ajax 调用接口发送 http 请求，域名系统 DNS，邮件协议 SMTP，webSocket 长连接，SSH 协议等。</p>
+<blockquote>
+<p>报文，比如 f12 的 network 里的数据就叫报文，包括请求头、响应体之内的。</p>
+</blockquote>
 
         
     </div>
