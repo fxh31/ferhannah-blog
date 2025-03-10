@@ -154,6 +154,119 @@
   
     
       <article
+id="post-network/outline"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/outline/">计算机网络</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="OSI-七层模型"><a href="#OSI-七层模型" class="headerlink" title="OSI 七层模型"></a>OSI 七层模型</h2><p>该模型为参考模型</p>
+<h2 id="TCP-IP-五（四）层模型"><a href="#TCP-IP-五（四）层模型" class="headerlink" title="TCP&#x2F;IP 五（四）层模型"></a>TCP&#x2F;IP 五（四）层模型</h2><p>该模型为参考模型的实施。</p>
+<h2 id="物理层（比特流）"><a href="#物理层（比特流）" class="headerlink" title="物理层（比特流）"></a>物理层（比特流）</h2><p>直接和物理介质打交道的。物理层的设备有网卡，网线，集线器，中继器，调制解调器。</p>
+<h3 id="物理层的通信（信道）"><a href="#物理层的通信（信道）" class="headerlink" title="物理层的通信（信道）"></a>物理层的通信（信道）</h3><h4 id="有线信道"><a href="#有线信道" class="headerlink" title="有线信道"></a>有线信道</h4><ul>
+<li>明线：明线是指平行架设在电线杆上的架空线路。（已逐渐被电缆所替代）<ul>
+<li>优点：传输损耗低；</li>
+<li>缺点：易受天气和环境的影响，对外界噪声干扰比较敏感；</li>
+</ul>
+</li>
+<li>对称电缆：由多对双绞线组成的线缆。</li>
+<li>同轴电缆：一共有四层，从内到外分别是中心导体、绝缘体、外层导体（带屏蔽）和外皮。同轴电缆能以低损耗的方式传输模拟信号和数字信号，适用于各种应用（如电视广播系统、长途电话传输系统、计算机系统之间短距离跳线以及局域网互联）。</li>
+<li>光纤：光导纤维是由玻璃或塑料制成的纤维，利用光在这些纤维中以全反射原理传输的光传导工具。</li>
+</ul>
+<h4 id="无线信道"><a href="#无线信道" class="headerlink" title="无线信道"></a>无线信道</h4><ul>
+<li>无线电波：以辐射无线电波为传输方式无线信道主要有地波传输，天波传输和视距传输。例如:卫星通讯，电台广播。（常说的 wifi）</li>
+</ul>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p><strong>在物理层根据传输方式的不同（电、光、无线电波等方式），会获取他们对应的传输信号，再将其转化为 010101 的电信号，单位为比特（bit），所以物理层传输的是比特流</strong>。</p>
+<blockquote>
+<p>比如电压根据伏度不同转换 01 数字不同。</p>
+</blockquote>
+<h2 id="数据链路层（数据帧）"><a href="#数据链路层（数据帧）" class="headerlink" title="数据链路层（数据帧）"></a>数据链路层（数据帧）</h2><blockquote>
+<p>在物理层已经可以拿到 01010 的比特流了，但是不知道给谁发过去，谁来接收，接收后用来干什么，所以数据链路层需要将比特流组装成一个数据帧（主要是使用 MAC 地址来组帧）。</p>
+</blockquote>
+<p>建立逻辑连接、进行硬件地址寻址、差错校验等功能。将比特组合成字节进而组合成帧，用 MAC 地址访问介质。</p>
+<blockquote>
+<p>MAC 地址：每个网卡的唯一标识。windows 寻找物理地址（MAC 地址）：ipconfig&#x2F;all</p>
+</blockquote>
+<p><strong>有了 MAC 地址和数据帧，就可以进行传播。MAC 地址保证了消息的发送者和接收者，并且知道了数据的内容进行分组。数据链路层以广播的方式在局域网内传播，该局域网内所有的计算机都能接收到消息</strong>。</p>
+<blockquote>
+<p>交互方式可以使用交换机等。</p>
+</blockquote>
+<h2 id="网络层（数据包）"><a href="#网络层（数据包）" class="headerlink" title="网络层（数据包）"></a>网络层（数据包）</h2><p>网络层控制数据链路层与传输层之间的信息转发，建立、维持和终止网络的连接。数据链路层的数据在网络层被转换为数据包，然后通过路径选择、分段组合、顺序、进出路由等控制，将信息从一个网络设备传递到另一个网络设备中。<br>它主要做了两件事：</p>
+<ul>
+<li>寻址：对网络层而言使用 IP 地址来唯一标识互联网上的设备，网络层依靠 IP 地址进行相互通信。<blockquote>
+<p>在数据链路层中已经获得了 MAC 地址，但是 Mac 地址众多，查找起来很麻烦。所以会有一个网络地址——IP</p>
+</blockquote>
+</li>
+<li>路由：不同网路之间通信的需要借助的设备。<blockquote>
+<p>在同一个网络中的内部通信并不需要网络层设备，仅仅靠数据链路层就可以完成相互通信，对于不同的网络之间相互通信则必须借助路由器等三层设备。</p>
+</blockquote>
+</li>
+</ul>
+<p>使用互联网的用户在同一个网段中时会产生广播风暴，在该网段中的所有用户都会无差别的进行数据的传播或接收，所以要将用户划分，让他们在不同的网段中，在自己的小网段中进行广播。</p>
+<blockquote>
+<p>互联网就是将无数的子网络构成一个巨大的网络。<em>子网络是网络划分的概念，而子网段是指划分出的具体 IP 地址范围。子网络是在逻辑上划分网络，而子网段是在物理上划分网络。</em></p>
+</blockquote>
+<p>为了能区分不同的网段，在网络层引入了一个网络地址——IP，也称网址。网络地址帮助我们确定计算机所在的子网络，MAC 地址则将数据包送到该子网络中的目标网卡。<br>而这一层有一个规范网络地址的协议，就叫做 IP 协议，遵守这个协议的地址就被称为 IP 地址。</p>
+<blockquote>
+<p>有 IPV4 和 IPV6，IPv4 地址长度为 32 位，通常用点分十进制表示（例如，192.168.1.1）;IPv6 地址长度为 128 位，通常用冒号分隔的十六进制表示（例如，2001:0db8:85a3:0000:0000:8a2e:0370:7334）。</p>
+</blockquote>
+<h2 id="传输层（数据段）"><a href="#传输层（数据段）" class="headerlink" title="传输层（数据段）"></a>传输层（数据段）</h2><p>主要是定义端口号，控流和校验。</p>
+<h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>面向连接，三次握手四次挥手，是可靠的传输协议。但是速度会降低。</p>
+<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>具有较好的实时性，效率高于 TCP，但是是不可靠的。由于其速度快，常用于直播。</p>
+<h2 id="会话层（报文）"><a href="#会话层（报文）" class="headerlink" title="会话层（报文）"></a>会话层（报文）</h2><p>在发送方和接收方之间进行通信时创建、维持、之后终止或断开连接的地方。</p>
+<h2 id="表示层（报文）"><a href="#表示层（报文）" class="headerlink" title="表示层（报文）"></a>表示层（报文）</h2><p>表示层主要做了几件重要的事情：安全，压缩，也是程序在网络中的一个翻译官。</p>
+<ul>
+<li>安全：发送方数据发送之前进行加密，在接受者的表示层进行解密。</li>
+<li>翻译：图片。音频等文件格式进行解码和编码。<blockquote>
+<p>ASCII 图片是人类能读懂的计算机需要转换成计算机能读懂的编码。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="应用层（报文）"><a href="#应用层（报文）" class="headerlink" title="应用层（报文）"></a>应用层（报文）</h2><p>使用最多的一层。例如 ajax 调用接口发送 http 请求，域名系统 DNS，邮件协议 SMTP，webSocket 长连接，SSH 协议等。</p>
+<blockquote>
+<p>报文，比如 f12 的 network 里的数据就叫报文，包括请求头、响应体之内的。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-buildTools/Vite/dependency_pre_bundling"
 class="article article-type-post"
 >
@@ -202,106 +315,6 @@ export default defineConfig(&#123;
 &#125;);
 </code></pre>
 <p>关闭依赖依赖预构建后，访问地址直接在 node_modules 中，浏览器会请求很多依赖文件，这也是原生 esmodule 规范不敢支持直接加载 node_modules 的原因之一。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/env_variables"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/env_variables/">环境变量</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>根据当前的代码环境变化的变量就叫做环境变量。</strong>我们可以设置生产环境和开发环境的 base_url，来请求不同环境的接口。</p>
-<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h3 id="node-js-——-process-env"><a href="#node-js-——-process-env" class="headerlink" title="node.js —— process.env"></a>node.js —— process.env</h3><blockquote>
-<p><code>process.env</code>是 Nodejs 提供的 API，其返回一个对象，包含了当前 Shell 的所有环境变量。</p>
-</blockquote>
-<p>vite.config.js 运行在 node 环境中，所以可以识别<code>process.env</code>变量，而<code>process.env.NODE_ENV</code>就是当前 Node 运行环境变量。</p>
-<h3 id="浏览器环境-——-import-meta-env"><a href="#浏览器环境-——-import-meta-env" class="headerlink" title="浏览器环境 —— import.meta.env"></a>浏览器环境 —— import.meta.env</h3><p>在浏览器环境中，Vite 在一个特殊的<code>import.meta.env</code> 对象上暴露环境变量。</p>
-<blockquote>
-<p>这些变量在 vite.config.js 中无法访问到的。</p>
-</blockquote>
-<h2 id="自定义环境变量"><a href="#自定义环境变量" class="headerlink" title="自定义环境变量"></a>自定义环境变量</h2><h3 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h3><p>vite 中内置了 dotenv，dotenv 会从环境目录下自动读取.env 文件：</p>
-<blockquote>
-<p>.env：默认所有环境都会加载<br>.env.[mode]：只在指定模式下加载</p>
-</blockquote>
-<p>加载的环境变量也会通过 <code>import.meta.env</code> 以<strong>字符串形式</strong>暴露给客户端源码。为了防止意外地将一些环境变量泄漏到客户端，只有<strong>以 VITE_ 为前缀的变量</strong>才会暴露给经过 vite 处理的代码。</p>
-<blockquote>
-<p>注：所以在其中不用写<code>&quot;&quot;</code>也行。</p>
-</blockquote>
-<p>在指定模式下运行时，.env 在 .env.[mode] 中的同名变量会被 .env.[mode] 覆盖，而其他变量则会被进行合并。</p>
-<h3 id="指定运行模式（运行加载的自定义环境变量文件）"><a href="#指定运行模式（运行加载的自定义环境变量文件）" class="headerlink" title="指定运行模式（运行加载的自定义环境变量文件）"></a>指定运行模式（运行加载的自定义环境变量文件）</h3><p>运行命令时以 –mode 参数指定运行模式，如：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;dev&quot;: &quot;vite&quot;, // 默认开发模式 development
-  &quot;build&quot;: &quot;vite build&quot;, // build 默认为生产模式
-  &quot;test&quot;: &quot;vite --mode test&quot;
-&#125;,
-</code></pre>
-<p>指定的<code>--mode xxx</code>会去寻找对应的.env.xxx 文件，并在浏览器中将<code>import.meta.env</code>设置为 xxx 模式。如果没有找到这个文件，则只加载<code>.env</code>中的环境变量。</p>
-<blockquote>
-<p>注意：自定义模式（test）和设置的.env.xxx（.env.test）只在 vite 经过处理的浏览器端生效，Nodejs 是不会承认它的，也就是说只能在使用<code>import.meta.env</code>时才能读取到自定义环境变量，而 process.env.NODE_ENV 中没有，并且通过<code>loadEnv()</code>方法也只能获取到开发环境和生产环境。（测试了一下即使在浏览器中 MOED&#x3D;test，但是<code>process.env.NODE_ENV</code>还是 development）</p>
-</blockquote>
-<h3 id="更改-env-文件的默认入口地址"><a href="#更改-env-文件的默认入口地址" class="headerlink" title="更改.env 文件的默认入口地址"></a>更改.env 文件的默认入口地址</h3><p>一般来说 .env 文件都是建立在根目录下的，但如果环境文件太多，都散落在根目录下会让目录变得混乱。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envDir: &quot;env&quot;,
-&#125;);
-</code></pre>
-<blockquote>
-<p>这样所有的文件都可以放在根目录下的 env 文件夹下。</p>
-</blockquote>
-<h3 id="更改环境变量的-VITE-前缀"><a href="#更改环境变量的-VITE-前缀" class="headerlink" title="更改环境变量的 VITE_前缀"></a>更改环境变量的 VITE_前缀</h3><p>以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  envPrefix: &quot;FER&quot;,
-&#125;);
-</code></pre>
-<h3 id="获取所有的环境变量"><a href="#获取所有的环境变量" class="headerlink" title="获取所有的环境变量"></a>获取所有的环境变量</h3><p>vite.config.js 中的环境变量获取默认以设置的 envPrefix 为开头，可以使用 Vite 内置的 API 方法<code>loadEnv()</code>获取所有的环境变量：</p>
-<pre><code class="js">const env1 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;&quot;); // 将所有的配置文件放在 env 文件夹下，这样能获取到 node 环境中(env)的所有变量
-const env2 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;); // 默认获取到以 VITE\_ 开头的环境变量
-const env3 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;FER_&quot;); // 获取到以 FER\_ 开头的环境变量
-</code></pre>
-<ul>
-<li><code>&quot;&quot;</code>：表示需要获取的环境变量的前缀，默认为 <code>VITE_</code>开头。</li>
-<li>对于不同的 NODE_ENV，只会获取对应模式（只有 production 和 development）的环境变量。</li>
-</ul>
 
         
     </div>
@@ -416,6 +429,106 @@ export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
   return envResolver[command]();
 &#125;);
 </code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/env_variables"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/env_variables/">环境变量</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>根据当前的代码环境变化的变量就叫做环境变量。</strong>我们可以设置生产环境和开发环境的 base_url，来请求不同环境的接口。</p>
+<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h3 id="node-js-——-process-env"><a href="#node-js-——-process-env" class="headerlink" title="node.js —— process.env"></a>node.js —— process.env</h3><blockquote>
+<p><code>process.env</code>是 Nodejs 提供的 API，其返回一个对象，包含了当前 Shell 的所有环境变量。</p>
+</blockquote>
+<p>vite.config.js 运行在 node 环境中，所以可以识别<code>process.env</code>变量，而<code>process.env.NODE_ENV</code>就是当前 Node 运行环境变量。</p>
+<h3 id="浏览器环境-——-import-meta-env"><a href="#浏览器环境-——-import-meta-env" class="headerlink" title="浏览器环境 —— import.meta.env"></a>浏览器环境 —— import.meta.env</h3><p>在浏览器环境中，Vite 在一个特殊的<code>import.meta.env</code> 对象上暴露环境变量。</p>
+<blockquote>
+<p>这些变量在 vite.config.js 中无法访问到的。</p>
+</blockquote>
+<h2 id="自定义环境变量"><a href="#自定义环境变量" class="headerlink" title="自定义环境变量"></a>自定义环境变量</h2><h3 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h3><p>vite 中内置了 dotenv，dotenv 会从环境目录下自动读取.env 文件：</p>
+<blockquote>
+<p>.env：默认所有环境都会加载<br>.env.[mode]：只在指定模式下加载</p>
+</blockquote>
+<p>加载的环境变量也会通过 <code>import.meta.env</code> 以<strong>字符串形式</strong>暴露给客户端源码。为了防止意外地将一些环境变量泄漏到客户端，只有<strong>以 VITE_ 为前缀的变量</strong>才会暴露给经过 vite 处理的代码。</p>
+<blockquote>
+<p>注：所以在其中不用写<code>&quot;&quot;</code>也行。</p>
+</blockquote>
+<p>在指定模式下运行时，.env 在 .env.[mode] 中的同名变量会被 .env.[mode] 覆盖，而其他变量则会被进行合并。</p>
+<h3 id="指定运行模式（运行加载的自定义环境变量文件）"><a href="#指定运行模式（运行加载的自定义环境变量文件）" class="headerlink" title="指定运行模式（运行加载的自定义环境变量文件）"></a>指定运行模式（运行加载的自定义环境变量文件）</h3><p>运行命令时以 –mode 参数指定运行模式，如：</p>
+<pre><code class="json">&quot;scripts&quot;: &#123;
+  &quot;dev&quot;: &quot;vite&quot;, // 默认开发模式 development
+  &quot;build&quot;: &quot;vite build&quot;, // build 默认为生产模式
+  &quot;test&quot;: &quot;vite --mode test&quot;
+&#125;,
+</code></pre>
+<p>指定的<code>--mode xxx</code>会去寻找对应的.env.xxx 文件，并在浏览器中将<code>import.meta.env</code>设置为 xxx 模式。如果没有找到这个文件，则只加载<code>.env</code>中的环境变量。</p>
+<blockquote>
+<p>注意：自定义模式（test）和设置的.env.xxx（.env.test）只在 vite 经过处理的浏览器端生效，Nodejs 是不会承认它的，也就是说只能在使用<code>import.meta.env</code>时才能读取到自定义环境变量，而 process.env.NODE_ENV 中没有，并且通过<code>loadEnv()</code>方法也只能获取到开发环境和生产环境。（测试了一下即使在浏览器中 MOED&#x3D;test，但是<code>process.env.NODE_ENV</code>还是 development）</p>
+</blockquote>
+<h3 id="更改-env-文件的默认入口地址"><a href="#更改-env-文件的默认入口地址" class="headerlink" title="更改.env 文件的默认入口地址"></a>更改.env 文件的默认入口地址</h3><p>一般来说 .env 文件都是建立在根目录下的，但如果环境文件太多，都散落在根目录下会让目录变得混乱。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  envDir: &quot;env&quot;,
+&#125;);
+</code></pre>
+<blockquote>
+<p>这样所有的文件都可以放在根目录下的 env 文件夹下。</p>
+</blockquote>
+<h3 id="更改环境变量的-VITE-前缀"><a href="#更改环境变量的-VITE-前缀" class="headerlink" title="更改环境变量的 VITE_前缀"></a>更改环境变量的 VITE_前缀</h3><p>以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  envPrefix: &quot;FER&quot;,
+&#125;);
+</code></pre>
+<h3 id="获取所有的环境变量"><a href="#获取所有的环境变量" class="headerlink" title="获取所有的环境变量"></a>获取所有的环境变量</h3><p>vite.config.js 中的环境变量获取默认以设置的 envPrefix 为开头，可以使用 Vite 内置的 API 方法<code>loadEnv()</code>获取所有的环境变量：</p>
+<pre><code class="js">const env1 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;&quot;); // 将所有的配置文件放在 env 文件夹下，这样能获取到 node 环境中(env)的所有变量
+const env2 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;); // 默认获取到以 VITE\_ 开头的环境变量
+const env3 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;FER_&quot;); // 获取到以 FER\_ 开头的环境变量
+</code></pre>
+<ul>
+<li><code>&quot;&quot;</code>：表示需要获取的环境变量的前缀，默认为 <code>VITE_</code>开头。</li>
+<li>对于不同的 NODE_ENV，只会获取对应模式（只有 production 和 development）的环境变量。</li>
+</ul>
 
         
     </div>
@@ -694,6 +807,76 @@ class="article article-type-post"
   
     
       <article
+id="post-Node/ES Module和CommonJS同时使用"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2023/09/04/Node/ES%20Module%E5%92%8CCommonJS%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8/">ES Module和CommonJS同时使用</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="ES-Modules-中使用-Common-js-规范文件"><a href="#ES-Modules-中使用-Common-js-规范文件" class="headerlink" title="ES Modules 中使用 Common.js 规范文件"></a>ES Modules 中使用 Common.js 规范文件</h2><p>在 ES Module 中可以载入 Common.js 标准的模块。</p>
+<pre><code class="js">// Common.js
+module.exports = &#123;
+  foo: &quot;commonjs exports value&quot;,
+&#125;;
+
+// exports.foo = &#39;commonjs exports value&#39;; // 别名使用
+</code></pre>
+<pre><code class="js">// es-module.mjs
+import mod from &quot;./commonjs.js&quot;;
+console.log(mod); // &#123; foo: &#39;commonjs exports value&#39; &#125;
+
+// import &#123; foo &#125; from &#39;./commonjs.js&#39;
+// console.log(foo); // commonjs exports value
+</code></pre>
+<h2 id="在-Common-js-规范文件中使用-ES-Modules"><a href="#在-Common-js-规范文件中使用-ES-Modules" class="headerlink" title="在 Common.js 规范文件中使用 ES Modules"></a>在 Common.js 规范文件中使用 ES Modules</h2><p>在 <strong>Node.js 的原生环境中是&#x3D;&#x3D;不允许&#x3D;&#x3D;通过 CommonJS 模块来载入 ES Modules 的</strong>。</p>
+<pre><code class="js">// Common.js
+export const foo = &quot;es module export value&quot;;
+</code></pre>
+<pre><code class="js">// es-module.mjs
+const mod = require(&quot;./es-module.mjs&quot;);
+console.log(mod); // error
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Node中使用ES Modules规范"
 class="article article-type-post"
 >
@@ -863,76 +1046,6 @@ console.log(__dirname);
   
     
       <article
-id="post-Node/ES Module和CommonJS同时使用"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/09/04/Node/ES%20Module%E5%92%8CCommonJS%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8/">ES Module和CommonJS同时使用</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="ES-Modules-中使用-Common-js-规范文件"><a href="#ES-Modules-中使用-Common-js-规范文件" class="headerlink" title="ES Modules 中使用 Common.js 规范文件"></a>ES Modules 中使用 Common.js 规范文件</h2><p>在 ES Module 中可以载入 Common.js 标准的模块。</p>
-<pre><code class="js">// Common.js
-module.exports = &#123;
-  foo: &quot;commonjs exports value&quot;,
-&#125;;
-
-// exports.foo = &#39;commonjs exports value&#39;; // 别名使用
-</code></pre>
-<pre><code class="js">// es-module.mjs
-import mod from &quot;./commonjs.js&quot;;
-console.log(mod); // &#123; foo: &#39;commonjs exports value&#39; &#125;
-
-// import &#123; foo &#125; from &#39;./commonjs.js&#39;
-// console.log(foo); // commonjs exports value
-</code></pre>
-<h2 id="在-Common-js-规范文件中使用-ES-Modules"><a href="#在-Common-js-规范文件中使用-ES-Modules" class="headerlink" title="在 Common.js 规范文件中使用 ES Modules"></a>在 Common.js 规范文件中使用 ES Modules</h2><p>在 <strong>Node.js 的原生环境中是&#x3D;&#x3D;不允许&#x3D;&#x3D;通过 CommonJS 模块来载入 ES Modules 的</strong>。</p>
-<pre><code class="js">// Common.js
-export const foo = &quot;es module export value&quot;;
-</code></pre>
-<pre><code class="js">// es-module.mjs
-const mod = require(&quot;./es-module.mjs&quot;);
-console.log(mod); // error
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Node模块（module）的导出导入"
 class="article article-type-post"
 >
@@ -1042,117 +1155,6 @@ console.log(routes.someText);
 
     
   
-    
-      <article
-id="post-Node/Node.js常用包"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/09/01/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/">Node.js常用包</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="开发环境包"><a href="#开发环境包" class="headerlink" title="开发环境包"></a>开发环境包</h2><ul>
-<li><p><strong>nodemon</strong>：当我们修改项目文件时，自动重启 node 执行该文件；</p>
-<blockquote>
-<p>没有它我们每次修改文件之后都要重新执行<code>node app.js</code>。</p>
-</blockquote>
-<p>使用：在 package.json 中的运行项目命令中添加<code>nodemon app.js</code>，然后执行<code>npm start</code>（或其他启动运行项目的命令）。</p>
-<pre><code class="json">&#123;
-    ...
-    &quot;scripts&quot;: &#123;
-        &quot;start&quot;: &quot;nodemon app.js&quot;
-    &#125;
-    ...
-&#125;
-</code></pre>
-<blockquote>
-<p>注意：nodemon 如果不是在全局安装的就不能直接在命令行输入<code>nodemon app.js</code>，而是写入 start 中，用 npm（已全局安装）来启动。</p>
-</blockquote>
-</li>
-<li><p><strong>serve</strong> ：在本地启动 serve 运行文件；（一般针对 HTML）</p>
-<pre><code class="bash">npm i -g serve
-</code></pre>
-<ul>
-<li><p>启动当前文件：</p>
-<pre><code class="bash">server .
-</code></pre>
-</li>
-<li><p>配置 package.json 后启动打包后的文件（dist）：</p>
-<pre><code class="json">&quot;serve&quot;: &quot;serve ./dist&quot;
-</code></pre>
-<pre><code class="bash">npm run serve
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p><strong>browser-sync</strong>：浏览器自动同步文件工具；</p>
-<pre><code class="bash">npm install -g browser-sync
-</code></pre>
-<blockquote>
-<p>完全可以使用插件 Live server 达到相同的效果。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="生产环境包"><a href="#生产环境包" class="headerlink" title="生产环境包"></a>生产环境包</h2><ul>
-<li><p><strong>express</strong>：Node.js 框架；</p>
-</li>
-<li><p><strong>mysql2</strong>：连接数据库的工具包；</p>
-</li>
-<li><p><strong>ejs</strong>：EJS 模板引擎；</p>
-</li>
-<li><p><strong>pug</strong>：Pug 模板引擎；</p>
-</li>
-<li><p><strong>express-handlebars</strong>：Handlebars 模板引擎；</p>
-</li>
-<li><p><strong>sequelize</strong>：对象关系映射库，简化操作 SQL 数据库；</p>
-</li>
-<li><p><strong>mongoose</strong>：对象文档映射库，简化操作 MongoDB 数据库；</p>
-</li>
-<li><p><strong>express-session</strong>：Express 使用 session 的包；</p>
-</li>
-<li><p><strong>bcryptjs</strong>：加密数据的包（加密密码，不能直接从数据库中查看到密码）；</p>
-</li>
-<li><p><strong>connect-flash：</strong>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空（联合 redirect 一起使用，确保消息只在目标页面可用）；</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-08-31T16:00:00.000Z" itemprop="datePublished">2023-09-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1177,7 +1179,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1200,6 +1202,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -1213,10 +1219,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>

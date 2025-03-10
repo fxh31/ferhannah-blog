@@ -154,6 +154,82 @@
   
     
       <article
+id="post-Python/operation"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/06/Python/operation/">speration</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
+<li>切片（:）</li>
+<li>list()</li>
+<li>copy()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[:] # 切片
+o2 = list(org) # list()
+o3 = org.copy() # copy()
+</code></pre>
+<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
+<li>copy 模块中的 deepcopy()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+od1 = copy.deepcopy(org)
+</code></pre>
+<h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
+<li>切片（:）</li>
+<li>reversed()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[::-1] # 切片
+o2 = reversed(org) # reversed()
+</code></pre>
+<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
+2) # True
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-05T16:00:00.000Z" itemprop="datePublished">2025-01-06</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Algorithm/binaryTree"
 class="article article-type-post"
 >
@@ -255,60 +331,6 @@ class="article article-type-post"
     <div class="article-more-info">
     <div class="article-date">
   <time datetime="2025-01-03T16:00:00.000Z" itemprop="datePublished">2025-01-04</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/monotoneStack"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>已知单调栈使用场景：</p>
-<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
-<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
-<ul>
-<li>一般栈中存储的是数组索引下标；</li>
-<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
 </div>
     
         <div class="article-category">
@@ -549,6 +571,60 @@ obj.b(); // &#123;a: 10, b: ƒ&#125;
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/monotoneStack"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>已知单调栈使用场景：</p>
+<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
+<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+<ul>
+<li>一般栈中存储的是数组索引下标；</li>
+<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
@@ -843,64 +919,6 @@ function gcd(a, b) &#123;
 
     
   
-    
-      <article
-id="post-Algorithm/binarySearch"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/31/Algorithm/binarySearch/">二分搜索</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="二分间值"><a href="#二分间值" class="headerlink" title="二分间值"></a>二分间值</h2><h2 id="最小化最大值"><a href="#最小化最大值" class="headerlink" title="最小化最大值"></a>最小化最大值</h2><p>二分答案求最小。</p>
-<h2 id="最大化最小值"><a href="#最大化最小值" class="headerlink" title="最大化最小值"></a>最大化最小值</h2><p>二分答案求最大。</p>
-<h2 id="第-K-小-大"><a href="#第-K-小-大" class="headerlink" title="第 K 小&#x2F;大"></a>第 K 小&#x2F;大</h2><ul>
-<li>第 k 小等价于：求最小的 x，<strong>满足 &lt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
-<li>第 k 大等价于：求最大的 x，<strong>满足 &gt;&#x3D; x 的数的个数至少有 k 个</strong>。</li>
-</ul>
-<p><strong>注意事项：</strong></p>
-<ul>
-<li>数组去重问题：一般不会去重；</li>
-<li>规定 k 从 1 开始，而不是数组下标 0；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -925,7 +943,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -948,6 +966,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -961,10 +983,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>

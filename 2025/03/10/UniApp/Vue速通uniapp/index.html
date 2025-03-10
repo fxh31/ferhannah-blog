@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>uni-app 和 Vue | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "uni-app 和 Vue | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="uni-app 和 Vue | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "uni-app 和 Vue | Fxh&#39;s blog",
+            "datePublished": "2025-03-10T15:14:39.166Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cm837fut7002c5cvs0c7w1ulk" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      uni-app 和 Vue
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-03-10T15:14:39.166Z" itemprop="datePublished">2025-03-10</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <h2 id="迁移对比"><a href="#迁移对比" class="headerlink" title="迁移对比"></a>迁移对比</h2><p>uni-app 与 Vue 相对比。</p>
+<h3 id="js"><a href="#js" class="headerlink" title="js"></a>js</h3><ul>
+<li>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置：<ul>
+<li>按下样式</li>
+<li>事件冒泡</li>
+<li>手指按住和松开状态时间</li>
+</ul>
+</li>
+</ul>
+<h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>uni-app 与 html 的标签对应。</p>
+<ul>
+<li>view：div</li>
+<li>text：span</li>
+<li>ul&#x2F;li：view v-for</li>
+<li>img：image</li>
+<li>a：navigator</li>
+<li>iframe：web-view</li>
+<li>select：picker</li>
+<li>table：uni-table</li>
+</ul>
+<blockquote>
+<p>其他没提到的大致相同。</p>
+</blockquote>
+<h3 id="css"><a href="#css" class="headerlink" title="css"></a>css</h3><ul>
+<li>一些在 <strong>css 需要设置定义的属性可直接通过对应容器和标签属性来开启</strong>：scroll-view</li>
+</ul>
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><h3 id="视图容器"><a href="#视图容器" class="headerlink" title="视图容器"></a>视图容器</h3><ul>
+<li>view：div</li>
+<li>scroll-view：区域滚动。</li>
+<li>swiper：滑块区域。类似实现轮播图。</li>
+</ul>
+<h3 id="表单组件"><a href="#表单组件" class="headerlink" title="表单组件"></a>表单组件</h3><ul>
+<li>button：原生组件就跟用了组件库的效果差不多，还可以设置大小，样式。</li>
+<li>input：输入框，同 html 差不多，但是还可以指定设备弹出键盘。</li>
+<li>switch：开关。</li>
+</ul>
+<h3 id="路由（页面跳转）"><a href="#路由（页面跳转）" class="headerlink" title="路由（页面跳转）"></a>路由（页面跳转）</h3><ul>
+<li>navigator：可设置是否可以返回上一个页面（<code>open-type</code>）。</li>
+</ul>
+<h3 id="媒体组件"><a href="#媒体组件" class="headerlink" title="媒体组件"></a>媒体组件</h3><ul>
+<li>image：通过 <code>mode</code> 属性来设置图像相对容器的适应（缩放、裁剪等）。</li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><h3 id="页面级别"><a href="#页面级别" class="headerlink" title="页面级别"></a>页面级别</h3><ul>
+<li><p><strong>onLoad</strong>：页面进入后执行（只执行一次）。</p>
+<blockquote>
+<p>默认参数接收 url 参数，代替 vue-router。</p>
+</blockquote>
+</li>
+<li><p><strong>onShow</strong>（keep-alive）：进入页面时触发，离开页面再回来也能触发。</p>
+<blockquote>
+<p>广告植入（讨厌）。</p>
+</blockquote>
+</li>
+<li><p><strong>onReady</strong>（onMounted）（只执行一次）。</p>
+</li>
+<li><p><strong>onHide</strong>：离开页面时触发。</p>
+<blockquote>
+<p>清除生命周期钩子等。</p>
+</blockquote>
+</li>
+<li><p><strong>onUnload</strong>：需要配置 <code>open-type=reLaunch</code>。</p>
+<blockquote>
+<p>卸载页面是进行数据缓存的清理。</p>
+</blockquote>
+</li>
+<li><p>onPageScroll：监听页面滚动。</p>
+</li>
+<li><p>onPullDownRefresh：监听用户下拉动作。</p>
+<blockquote>
+<p>下拉刷新。</p>
+</blockquote>
+</li>
+<li><p>onReachBottom：页面滚动到底部的事件（不是 scroll-view 滚到底）。</p>
+<blockquote>
+<p>用于下拉到下一页数据。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="应用级别"><a href="#应用级别" class="headerlink" title="应用级别"></a>应用级别</h3><ul>
+<li><p><strong>onLaunch</strong>：第一次进入应用执行。</p>
+<blockquote>
+<p>验证本地缓存是否有登录信息。</p>
+</blockquote>
+</li>
+<li><p><strong>onShow</strong>：应用级别。（全局）</p>
+</li>
+<li><p><strong>onHide</strong>：应用级别。（全局）</p>
+</li>
+</ul>
+<h3 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h3><blockquote>
+<p>应用 -&gt; 页面</p>
+</blockquote>
+<p><strong>不包含组件</strong>：</p>
+<p><strong>onLoad -&gt; onShow -&gt;onReady</strong></p>
+<p><strong>包含组件</strong>：</p>
+<p><strong>onLoad -&gt; onShow -&gt; setup -&gt; beforeMount -&gt; onReady -&gt; mounted</strong></p>
+<blockquote>
+<p>onReady 和 mounted 文档是 onReady 在后面，但实际测试确实在前面执行？</p>
+</blockquote>
+<p><strong>uni-app 的生命周期虽然支持与 Vue 混用，但是最好还是只用一个。</strong></p>
+<h2 id="尺寸单位"><a href="#尺寸单位" class="headerlink" title="尺寸单位"></a>尺寸单位</h2><h3 id="rpx"><a href="#rpx" class="headerlink" title="rpx"></a>rpx</h3><p>微信小程序提出的一种用于响应式布局的单位，可以根据屏幕自适应的动态单位。（以 750 像素为基准）</p>
+<blockquote>
+<p>一般来说 UI 稿子等比缩放宽以 750 为基准。</p>
+</blockquote>
+<h2 id="pages-json"><a href="#pages-json" class="headerlink" title="pages.json"></a>pages.json</h2><p>该文件可以：</p>
+<ul>
+<li><strong>定义路由</strong>。对于每个路由页面也<strong>可也设置单独的窗口页面表现</strong>。pages</li>
+<li><strong>设置默认窗口页面表现</strong>（导航栏等）。globalStyle</li>
+<li>设置<strong>自动引入组件规则</strong>（默认开启）。easycom</li>
+<li>设置<strong>页面底部切换按钮栏</strong>。tabBar</li>
+<li>模拟直达页面场景（仅限开发，用于测试）。condition</li>
+</ul>
+<h2 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h2><p>进行一些应用的配置。</p>
+<ul>
+<li><p>如果想上传应用，或者进行真机调试，需要定义好 AppId。</p>
+<blockquote>
+<p>这个 AppId 需要进行小程序注册才可以获得</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><blockquote>
+<p>注意：针对不同的平台可能某些 API 或者事件等不可使用，具体需要查阅官方标准。</p>
+</blockquote>
+<ul>
+<li><p>有些标签的名字有变化：div（view）、span（text）</p>
+</li>
+<li><p>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置；</p>
+</li>
+<li><p>一些之前需要<strong>引用组件库或者手写的样式，直接被容器集成</strong>了；并且可以在<strong>容器上直接设置属性来设置</strong>，<strong>无需使用 js</strong>；</p>
+</li>
+<li><p>使用路由跳转时可设置 <code>open-type</code> 模式来控制跳转后上一个页面的行为（是否可以回跳）；</p>
+</li>
+<li><p>Vue 的<strong>一些语法和事件可以参照官方对照表</strong>将其一一对应起来；</p>
+</li>
+<li><p>uni-app <strong>有对应的 js&#x2F;vue 事件，也有自己原生的事件</strong>；</p>
+</li>
+<li><p>uni-app 中的<strong>组件不需要手动导入，只需要放在 components 文件夹</strong>下即可；</p>
+</li>
+<li><p>uni-app 中的生命周期除了继承 Vue 的组件生命周期，还有应用级别和页面级别的生命周期；</p>
+</li>
+<li><p>可以在 uni.scss 中<strong>定义一些全局的 css 变量</strong>；也可以指定<strong>小程序特有的环境变量（例如 env(safe-area-inset-bottom)）来设置其独有的样式属性</strong>。</p>
+<blockquote>
+<p>如果想定义局部的变量可以在 common 文件夹中定义好后，在 uni.scss 中使用<code>@import</code>导入，重启生效。</p>
+</blockquote>
+</li>
+<li><p>内置有 API 可以完成交互反馈（uni.showToast 等），类似于全局封装好的组件；</p>
+</li>
+<li><p>发送请求也可<strong>以使用 uni.request 完成，自身支持 Promise，不需要额外使用 axios 等网络请求库</strong>；</p>
+</li>
+<li><p>可直接配置跨域；</p>
+<blockquote>
+<p>微信小程序：在本地设置配置不检验 https，上线时在小程序的后台里配置服务器域名即可。</p>
+</blockquote>
+</li>
+<li><p>官方有扩展组件可直接安装使用（官方组件库）；</p>
+<blockquote>
+<p>安装好之后会出现在 uni_modules 底下。</p>
+</blockquote>
+</li>
+<li><p>对于不同端的适配，<strong>可以使用<code>#ifdef</code>、<code>#ifndef</code>和<code>#endif</code>来根据设备控制不同的 dom 元素渲染</strong>；</p>
+<blockquote>
+<p>例如对于小程序来说可以配置联系客服，就可以直接到达客服的微信；而对于 pc 端，可以展示电话号码。</p>
+</blockquote>
+</li>
+<li><p>改变小程序<strong>内置图标样式也需添加一个类名，再深度选择即可</strong>；</p>
+</li>
+<li><p>针对不同的设备，<strong>uni-app 会提供 api 来获取当前设备的信息，我们可以根据里面的设备型号做处</strong>理；</p>
+<blockquote>
+<p>uni.getSystemInfoSync、uni.getSystemInfo。</p>
+</blockquote>
+</li>
+<li><p>一些样式需要和<strong>胶囊按钮对齐</strong>，可以用 <strong>api 获取胶囊按钮的位置信息，做动态的自适应</strong>；</p>
+<blockquote>
+<p>uni.getMenuButtonBoundingClientRect。一般将其抽离出来在 utils 下的 system.ts 中。</p>
+</blockquote>
+</li>
+<li><p><strong>路由传参直接拼在 url</strong> 上，再在<strong>组件内的生命周期的默认参数中获取</strong>；</p>
+<blockquote>
+<p>navigator；load。</p>
+</blockquote>
+</li>
+<li><p>uni-app 中同样也可以将<strong>数据放入缓存</strong>中；</p>
+<blockquote>
+<p>uni.setStorage。</p>
+</blockquote>
+</li>
+<li><p>调用小程序 api 分享时，可以<strong>通过 url 传参到达指定的分享页面</strong>；</p>
+</li>
+<li><p>对于<strong>富文本的渲染</strong>，<strong>uni-app 有专门的插件，还可以渲染 dom 元素</strong>；</p>
+</li>
+</ul>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">modules和packages</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=uni-app 和 Vue - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F10%2FUniApp%2FVue%25E9%2580%259F%25E9%2580%259Auniapp%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=uni-app 和 Vue - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F10%2FUniApp%2FVue%25E9%2580%259F%25E9%2580%259Auniapp%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=uni-app 和 Vue - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

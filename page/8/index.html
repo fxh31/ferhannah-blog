@@ -154,6 +154,117 @@
   
     
       <article
+id="post-Node/Node.js常用包"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2023/09/01/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/">Node.js常用包</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="开发环境包"><a href="#开发环境包" class="headerlink" title="开发环境包"></a>开发环境包</h2><ul>
+<li><p><strong>nodemon</strong>：当我们修改项目文件时，自动重启 node 执行该文件；</p>
+<blockquote>
+<p>没有它我们每次修改文件之后都要重新执行<code>node app.js</code>。</p>
+</blockquote>
+<p>使用：在 package.json 中的运行项目命令中添加<code>nodemon app.js</code>，然后执行<code>npm start</code>（或其他启动运行项目的命令）。</p>
+<pre><code class="json">&#123;
+    ...
+    &quot;scripts&quot;: &#123;
+        &quot;start&quot;: &quot;nodemon app.js&quot;
+    &#125;
+    ...
+&#125;
+</code></pre>
+<blockquote>
+<p>注意：nodemon 如果不是在全局安装的就不能直接在命令行输入<code>nodemon app.js</code>，而是写入 start 中，用 npm（已全局安装）来启动。</p>
+</blockquote>
+</li>
+<li><p><strong>serve</strong> ：在本地启动 serve 运行文件；（一般针对 HTML）</p>
+<pre><code class="bash">npm i -g serve
+</code></pre>
+<ul>
+<li><p>启动当前文件：</p>
+<pre><code class="bash">server .
+</code></pre>
+</li>
+<li><p>配置 package.json 后启动打包后的文件（dist）：</p>
+<pre><code class="json">&quot;serve&quot;: &quot;serve ./dist&quot;
+</code></pre>
+<pre><code class="bash">npm run serve
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p><strong>browser-sync</strong>：浏览器自动同步文件工具；</p>
+<pre><code class="bash">npm install -g browser-sync
+</code></pre>
+<blockquote>
+<p>完全可以使用插件 Live server 达到相同的效果。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="生产环境包"><a href="#生产环境包" class="headerlink" title="生产环境包"></a>生产环境包</h2><ul>
+<li><p><strong>express</strong>：Node.js 框架；</p>
+</li>
+<li><p><strong>mysql2</strong>：连接数据库的工具包；</p>
+</li>
+<li><p><strong>ejs</strong>：EJS 模板引擎；</p>
+</li>
+<li><p><strong>pug</strong>：Pug 模板引擎；</p>
+</li>
+<li><p><strong>express-handlebars</strong>：Handlebars 模板引擎；</p>
+</li>
+<li><p><strong>sequelize</strong>：对象关系映射库，简化操作 SQL 数据库；</p>
+</li>
+<li><p><strong>mongoose</strong>：对象文档映射库，简化操作 MongoDB 数据库；</p>
+</li>
+<li><p><strong>express-session</strong>：Express 使用 session 的包；</p>
+</li>
+<li><p><strong>bcryptjs</strong>：加密数据的包（加密密码，不能直接从数据库中查看到密码）；</p>
+</li>
+<li><p><strong>connect-flash：</strong>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空（联合 redirect 一起使用，确保消息只在目标页面可用）；</p>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2023-08-31T16:00:00.000Z" itemprop="datePublished">2023-09-01</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/数据验证（Validate）"
 class="article article-type-post"
 >
@@ -1859,53 +1970,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Node/MVC"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/02/14/Node/MVC/">MVC</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>MVC 是模型（Model）、视图（View）、控制器（Controller）的简写，是一种架构模式，它将业务逻辑、数据和显示（M 和 V）的代码分离，从而使同一个程序可以使用不同的表现形式。</p>
-<h2 id="M（Model）"><a href="#M（Model）" class="headerlink" title="M（Model）"></a>M（Model）</h2><p>模型，针对应用程序<strong>数据</strong>，包含<strong>业务逻辑</strong>和<strong>状态</strong>，也包含一些<strong>HTTP 库</strong>，对数据进行操作（如保存，获取数据）。</p>
-<h2 id="V（View）"><a href="#V（View）" class="headerlink" title="V（View）"></a>V（View）</h2><p>视图，针对<strong>表示逻辑层</strong>，用户能看到的部分。</p>
-<h2 id="C（Controller）"><a href="#C（Controller）" class="headerlink" title="C（Controller）"></a>C（Controller）</h2><p>控制器，包含<strong>应用（程序）逻辑</strong>的内容。位于 Model 和 View 之间，为两者创建桥梁（如 Routes）。它规定了使用哪个模型渲染哪个视图。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-02-13T16:00:00.000Z" itemprop="datePublished">2023-02-14</time>
-</div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1930,7 +1994,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1953,6 +2017,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -1966,10 +2034,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>

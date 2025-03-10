@@ -154,6 +154,77 @@
   
     
       <article
+id="post-Node/Express/Express.js中间件的包"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <ul>
+<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
+<pre><code class="bash">npm install --save body-parser
+</code></pre>
+<blockquote>
+<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
+</blockquote>
+<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
+...
+app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
+</code></pre>
+</li>
+<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
+<blockquote>
+<p>此包依赖 express 和 express-session。</p>
+</blockquote>
+<pre><code class="bash">npm install --save csurf
+</code></pre>
+</li>
+<li><p>express-validator：Express 验证器</p>
+<pre><code class="bash">npm install --save express-validator
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-micro-frontends/wujie/Wujie简介"
 class="article article-type-post"
 >
@@ -1264,61 +1335,6 @@ Promise.try(test).then((res) =&gt; &#123;
   
     
       <article
-id="post-Python/index"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
-<li>打完包之后在 dist 目录下执行：</li>
-</ul>
-<pre><code class="shell">python -m http.server
-</code></pre>
-<blockquote>
-<p>注意：也可以在后面添加启动的端口号。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-01-05T16:00:00.000Z" itemprop="datePublished">2025-01-06</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Python/class"
 class="article article-type-post"
 >
@@ -1381,7 +1397,7 @@ queue.popleft(2)
   
     
       <article
-id="post-Python/operation"
+id="post-Python/index"
 class="article article-type-post"
 >
 
@@ -1392,39 +1408,18 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/operation/">speration</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><h3 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h3><ul>
-<li>切片（:）</li>
-<li>list()</li>
-<li>copy()</li>
+        <h2 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h2><ul>
+<li>打完包之后在 dist 目录下执行：</li>
 </ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[:] # 切片
-o2 = list(org) # list()
-o3 = org.copy() # copy()
+<pre><code class="shell">python -m http.server
 </code></pre>
-<h3 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h3><ul>
-<li>copy 模块中的 deepcopy()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-od1 = copy.deepcopy(org)
-</code></pre>
-<h2 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h2><ul>
-<li>切片（:）</li>
-<li>reversed()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[::-1] # 切片
-o2 = reversed(org) # reversed()
-</code></pre>
-<h2 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h2><pre><code class="python">print(5 &gt; /
-2) # True
-</code></pre>
+<blockquote>
+<p>注意：也可以在后面添加启动的端口号。</p>
+</blockquote>
 
         
     </div>
@@ -1479,7 +1474,7 @@ o2 = reversed(org) # reversed()
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1502,6 +1497,10 @@ o2 = reversed(org) # reversed()
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/10/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -1515,10 +1514,6 @@ o2 = reversed(org) # reversed()
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>
