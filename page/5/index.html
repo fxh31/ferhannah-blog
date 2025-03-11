@@ -154,6 +154,187 @@
   
     
       <article
+id="post-Algorithm/slidedWindow"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-CSS/cssModule"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
+<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
+<blockquote>
+<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
+</blockquote>
+<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
+<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
+<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
+<li>显示局部作用域：<code>:local(.className)</code></li>
+<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
+</ul>
+<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
+<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+
+.title &#123;
+  composes: className;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+</code></pre>
+<pre><code class="css">.title &#123;
+  composes: className from &quot;./another.css&quot;;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
+<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
+</code></pre>
+<ul>
+<li>例如在 webpack 中引入 postcss-loader</li>
+</ul>
+<pre><code class="js">var path = require(&quot;path&quot;);
+var webpack = require(&quot;webpack&quot;);
+var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
+var values = require(&quot;postcss-modules-values&quot;);
+
+module.exports = &#123;
+  entry: [&quot;./src/index&quot;],
+  output: &#123;
+    filename: &quot;bundle.js&quot;,
+    path: path.join(__dirname, &quot;public&quot;),
+    publicPath: &quot;/public/&quot;,
+  &#125;,
+  module: &#123;
+    loaders: [
+      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
+      &#123;
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          &quot;style-loader&quot;,
+          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
+        ),
+      &#125;,
+    ],
+  &#125;,
+  postcss: [values],
+  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
+&#125;;
+</code></pre>
+<ul>
+<li>设置变量</li>
+</ul>
+<p>colors.css</p>
+<pre><code class="css">@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+</code></pre>
+<ul>
+<li>引入 css 文件中</li>
+</ul>
+<pre><code class="css">/* import your colors... */
+@value colors: &quot;./colors.css&quot;;
+@value blue, red, green from colors;
+
+.button &#123;
+  color: blue;
+  display: inline-block;
+&#125;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-HTML/Node和Element"
 class="article article-type-post"
 >
@@ -223,6 +404,66 @@ class="article article-type-post"
 <li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
 <li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
 <li>可以使用 dataset 将所有的自定义属性获取到；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/innerText和textContent"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
+<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
+<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
+<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
+<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
+</blockquote>
+</li>
+<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
+</ul>
+<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
+<li>innerHTML 是 Element 对象的属性；</li>
+<li>innerHTML 返回完整的 DOM 元素；</li>
 </ul>
 
         
@@ -452,66 +693,6 @@ const proxy = new Proxy(target, handler);
   
     
       <article
-id="post-HTML/innerText和textContent"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
-<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
-<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
-<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
-<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
-</blockquote>
-</li>
-<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
-</ul>
-<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
-<li>innerHTML 是 Element 对象的属性；</li>
-<li>innerHTML 返回完整的 DOM 元素；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-JS/setTimout"
 class="article article-type-post"
 >
@@ -729,197 +910,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-network/Fetch"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/Fetch/">Fetch</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>也是用于客户端和服务端数据交互的技术。相对于 xhr，它的更加简洁、易于使用。并且基于 Promise，可以使用链式调用。<br>但是它不支持超时控制（如果需要则要手动设置 setTimeout），终止请求很麻烦（需要基于一个构造函数 AbortController 完成）</p>
-<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><h2 id="Fetch-使用"><a href="#Fetch-使用" class="headerlink" title="Fetch 使用"></a>Fetch 使用</h2><p>fetch 可以设置两个参数，第一个参数是必填的，也就是访问的 url 地址；第二个参数是一个对象，可以配置一些请求的信息，比如请求方法、请求头、请求体等。</p>
-<p>设置好之后 fetch 其实返回的是一个 Promise，在.then()中接收的默认参数其实是一个 response 对象，并不是一个拿到值的结果。</p>
-<p>在这个 response 对象中有各种响应的信息，并且在它的原型对象上有一些响应体解析方法，我们需要根据后端返回的格式来调用不同的响应体解析方法来拿到这个结果：</p>
-<ul>
-<li>text()：将响应体解析为纯文本字符串返回；</li>
-<li>json()：将响应体解析为 JSON 格式并返回一个 JS 对象；</li>
-<li>blob()：将响应体解析为二进制数据并返回一个 Blob 对象；</li>
-<li>arrayBuffer()：将响应体解析为二进制数据并返回一个 ArrayBuffer 对象；</li>
-<li>formData()：将响应体解析为 FormData 对象；</li>
-</ul>
-<p>然后在第二个.then()中拿到最终的结果。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/HTTPS"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/HTTPS/">HTTP 和 HTTPS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
-<li>使用明文传输（不加密），内容可能会被盗用；</li>
-<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
-<li>无法验证报文的完整性，报文可能会被篡改；</li>
-</ul>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
-<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
-<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
-<blockquote>
-<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
-</blockquote>
-<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
-<blockquote>
-<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
-</blockquote>
-<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
-<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
-<blockquote>
-<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
-<blockquote>
-<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
-<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
-</blockquote>
-<ul>
-<li>安装 openSSL 生成私钥；<blockquote>
-<p>Mac 自带，Windows 需要去官网下载。</p>
-</blockquote>
-</li>
-</ul>
-<p>需要用到以下文件来完成证书相关操作：</p>
-<ol>
-<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
-<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
-<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
-</ol>
-<ul>
-<li>创建私钥</li>
-</ul>
-<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
-</code></pre>
-<ul>
-<li>生成 pem 签名文件</li>
-</ul>
-<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
-</code></pre>
-<blockquote>
-<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
-</blockquote>
-<ul>
-<li>生成数字证书</li>
-</ul>
-<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
-import fs from &quot;node:fs&quot;;
-
-//http 端口号 80 https端口号 443
-https
-  .createserver(
-    &#123;
-      key: fs.readFilesync(&quot;private-key.pem&quot;),
-      cert: fs.readFilesync(&quot;certificate.pem&quot;),
-      //密码短语
-      passphrase: &quot;123456&quot;,
-    &#125;,
-    (req, res) =&gt; &#123;
-      res.writeHead(200);
-      res.end(&quot;success&quot;);
-    &#125;
-  )
-  .listen(443, () =&gt; &#123;
-    console.log(&quot;https server is running at https://localhost:433&quot;);
-  &#125;);
-</code></pre>
-<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -967,6 +957,14 @@ https
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
@@ -976,14 +974,6 @@ https
         
           <li>
             <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
           </li>
         
       </ul>
