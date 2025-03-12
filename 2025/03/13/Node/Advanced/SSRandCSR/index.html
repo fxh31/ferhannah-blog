@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     
-    <title>排序算法 | Fxh&#39;s blog</title>
+    <title>SSR 和 CSR | Fxh&#39;s blog</title>
 
     <meta name="description" content="Fxh&#39;s blog">
     <meta name="keywords" content="">
@@ -15,21 +15,21 @@
 
     <meta property="og:locale" content="cn" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content= "排序算法 | Fxh&#39;s blog"  />
+    <meta property="og:title" content= "SSR 和 CSR | Fxh&#39;s blog"  />
     <meta property="og:description" content= "Fxh&#39;s blog" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2024/10/31/Algorithm/sort/index.html" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/index.html" />
     <meta property="og:site_name" content="" />
     <meta property="article:author" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
     <meta property="og:description" content="Fxh&#39;s blog" />
-    <meta name="twitter:title" content="排序算法 | Fxh&#39;s blog"/>
+    <meta name="twitter:title" content="SSR 和 CSR | Fxh&#39;s blog"/>
     <meta name="twitter:description" content="Fxh&#39;s blog"/>
     <script type="application/ld+json">
         {
             "description": "Fxh&#39;s blog",
             "author": { "@type": "Person", "name": "feng xiaohan" },
             "@type": "BlogPosting",
-            "url": "https://fxh31.github.io/ferhannah-blog/2024/10/31/Algorithm/sort/index.html",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/index.html",
             "publisher": {
             "@type": "Organization",
             "logo": {
@@ -38,11 +38,11 @@
             },
             "name": "feng xiaohan"
             },
-            "headline": "排序算法 | Fxh&#39;s blog",
-            "datePublished": "2024-10-30T16:00:00.000Z",
+            "headline": "SSR 和 CSR | Fxh&#39;s blog",
+            "datePublished": "2025-03-12T16:00:00.000Z",
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "https://fxh31.github.io/ferhannah-blog/2024/10/31/Algorithm/sort/index.html"
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/index.html"
             },
             "@context": "http://schema.org"
         }
@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm864q4to002w8ovs606o16y6" class="article article-type-post" itemscope
+    <article id="post-cm864q4uf005l8ovsbwh87cmq" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -181,7 +181,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      排序算法
+      SSR 和 CSR
     </h1>
   
 
@@ -191,12 +191,12 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
+  <time datetime="2025-03-12T16:00:00.000Z" itemprop="datePublished">2025-03-13</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+                <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
             </div>
             
 
@@ -207,80 +207,30 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：</p>
-<ol>
-<li>找到一个基准值，将数组分成两个部分，左边的都比基准值小，右边的都比基准值大。<blockquote>
-<p>基准值一般选用第一个数，然后与最后一个数开始比较</p>
+            <h1 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h1><h2 id="Nodejs-使用-DOM-API"><a href="#Nodejs-使用-DOM-API" class="headerlink" title="Nodejs 使用 DOM API"></a>Nodejs 使用 DOM API</h2><blockquote>
+<p>Nodejs 本身是没有 DOM 的，只有浏览器环境才有。</p>
 </blockquote>
-</li>
-<li>左右两个部分又可以进行上述过程，直到左右两个部分都只有一个元素。</li>
-</ol>
-<blockquote>
-<p>可以看出将排序过程采用了分治思想，将问题分解成更小的子问题，然后递归求解，最后合并结果。</p>
-</blockquote>
-<pre><code class="js">function quickSort(arr, start = 0, end = arr.length - 1) &#123;
-  if (start &lt; end) &#123;
-    const base = arr[start]; // 基准值
-    let left = start,
-      right = end;
-    while (left &lt; right) &#123;
-      while (left &lt; right &amp;&amp; base &lt;= arr[right]) &#123;
-        right--;
-      &#125;
-      arr[left] = arr[right];
-      while (left &lt; right &amp;&amp; base &gt;= arr[left]) &#123;
-        left++;
-      &#125;
-      arr[right] = arr[left];
-    &#125;
-    arr[left] = base;
-    quickSort(arr, start, left - 1); // 分治
-    quickSort(arr, left + 1, end); // 分治
-  &#125;
-&#125;
-</code></pre>
-<p><strong>特性</strong></p>
-<ul>
-<li>不稳定</li>
-<li>原地排序</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(logn)</li>
-</ul>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>基本思想：</p>
-<ol>
-<li>分：将组数分成两个子数组，直到不能再分。</li>
-<li>治：将两个子数组合并成一个有序数组。创建一个新数组，再分别为两个子数组设置标志位同向双指针移动比较，将较小的值放入新数组中。</li>
-</ol>
-<blockquote>
-<p>典型分治思想。</p>
-</blockquote>
-<pre><code class="js">function mergeSort(arr) &#123;
-  if (arr.length &lt;= 1) return arr;
-  const mid = arr.length &gt;&gt; 1;
-  const left = arr.slice(0, mid);
-  const right = arr.slice(mid);
-  return merge(mergeSort(left), mergeSort(right));
-&#125;
+<p><strong>jsdom 是一个模拟浏览器环境的库</strong>，可以让我们在 Nodejs 中使用 DOM API。</p>
+<pre><code class="js">const &#123; JSDOM &#125; = require(&quot;jsdom&quot;);
+const fs = require(&quot;fs&quot;);
+const root = new JSDOM(
+  `&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&#39;app&#39;&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;`
+);
+const window = root.window;
+const document = window.document;
 
-function merge(left, right) &#123;
-  const result = [];
-  let l = 0,
-    r = 0;
-  while (l &lt; left.length &amp;&amp; r &lt; right.length) &#123;
-    if (left[l] &lt; right[r]) &#123;
-      result.push(left[l++]);
-    &#125; else &#123;
-      result.push(right[r++]);
-    &#125;
-  &#125;
-  result.push(...left.slice(l), ...right.slice(r));
-  return result;
-&#125;
+fs.writeFileSync(&quot;./index.html&quot;, root.serialize());
 </code></pre>
-<p><strong>特性</strong></p>
-<ul>
-<li>稳定</li>
-<li>“治”时需要额外的数组空间，并且最终也返回这个数组（非原地排序）</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(n)</li>
+<p><strong>这个完全由服务端渲染的页面就属于 SSR（服务端渲染）</strong>。</p>
+<h1 id="CSR"><a href="#CSR" class="headerlink" title="CSR"></a>CSR</h1><p>客户端渲染。（Vue、React 等 SPA）</p>
+<h1 id="SSR-和-CSR-区别"><a href="#SSR-和-CSR-区别" class="headerlink" title="SSR 和 CSR 区别"></a>SSR 和 CSR 区别</h1><ul>
+<li>页面加载方式：CSR <strong>首屏渲染慢</strong>，SSR 快。</li>
+<li>内容生成和渲染：CSR 页面的生成和渲染由客户端 JS 负责，当数据发生变换时，JS 会重新生成并更新 DOM，从而实现<strong>内容动态</strong>变换；SSR 大部分都由服务端渲染好了，<strong>多为静态</strong>的。</li>
+<li>用户交互和体验：CSR 多用 ajax 或 websocket 与服务端进行数据交互，再通过 js 更新页面内容，这样可以拥有更快的页面切换和响应速度，但不利于搜索引擎爬虫和 SEO；<strong>SSR 对 SEO 优好</strong>。</li>
+</ul>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><ul>
+<li>SSR：密集型应用，<strong>ToC。新闻网站、博客网站、电子商务、门户网站等需要更高的 SEO 支持</strong>。</li>
+<li>CSR：ToB。<strong>后台管理系统，大屏可视化等</strong>。</li>
 </ul>
 
         </div>
@@ -300,19 +250,10 @@ function merge(left, right) &#123;
     
 <nav class="article-nav">
   
-    <a href="/ferhannah-blog/2024/10/31/Algorithm/binarySearch/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          二分搜索
-        
-      </div>
-    </a>
   
-  
-    <a href="/ferhannah-blog/2024/10/30/Algorithm/index/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">tips</div>
+      <div class="article-nav-title">npx</div>
     </a>
   
 </nav>
@@ -321,15 +262,15 @@ function merge(left, right) &#123;
     <section class="share">
         <!-- <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=排序算法 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2024%2F10%2F31%2FAlgorithm%2Fsort%2F">
+            href="https://twitter.com/share?text=SSR 和 CSR - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F13%2FNode%2FAdvanced%2FSSRandCSR%2F">
             <ion-icon name="logo-twitter"></ion-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=排序算法 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2024%2F10%2F31%2FAlgorithm%2Fsort%2F">
+            href="https://www.facebook.com/sharer.php?title=SSR 和 CSR - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F13%2FNode%2FAdvanced%2FSSRandCSR%2F">
             <ion-icon name="logo-facebook"></ion-icon>
         </a> -->
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=排序算法 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2024/10/31/Algorithm/sort/&pic=">
+            href="https://service.weibo.com/share/share.php?title=SSR 和 CSR - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>

@@ -154,6 +154,75 @@
   
     
       <article
+id="post-JS/event"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/10/JS/event/">js 事件</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="事件的冒泡和捕获"><a href="#事件的冒泡和捕获" class="headerlink" title="事件的冒泡和捕获"></a>事件的冒泡和捕获</h2><p>js 事件流大体分为三个阶段，描述了事件在 dom 文档中传播的顺序：</p>
+<ol>
+<li>捕获阶段：事件从文档的根节点开始，向目标元素传播。（由外向内）</li>
+<li>目标阶段：事件到达目标元素。</li>
+<li>冒泡阶段：事件从目标元素向根节点传播。（由内向外）</li>
+</ol>
+<p>当点击一个子元素触发某个事件时，如果其父元素也绑定了相同的事件，那么子元素和父元素都会触发相同的事件函数。如果只想触发子元素，则可以在子元素中使用<code>e.stopPropagation()</code>阻止事件传播（无论是冒泡阶段还是捕获阶段）。</p>
+<blockquote>
+<p>阻止了之后点击子元素时后续元素都不会触发该事件了。</p>
+</blockquote>
+<p><strong>addEventListener(type, listener, options)<strong>：<br>options: bool，该事件是否在捕获或冒泡阶段执行，</strong>默认不会在捕获阶段执行（false）</strong>；如果设置为 true，会在捕获阶段执行这个事件，这会导致事件再还没到达指定元素时就先被外层设置了为 true 的父元素上的监听器捕获到。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><code>e.stopPropagation()</code>阻止事件传播（既可以阻止捕获阶段又可以阻止冒泡阶段）；</li>
+<li>adddEventListener(type, listener, options)&#96;：中的第三个设置是否在事件捕获阶段执行；</li>
+</ul>
+<h2 id="其他事件"><a href="#其他事件" class="headerlink" title="其他事件"></a>其他事件</h2><ul>
+<li>unhandledrejection：当有 Promise 返回 reject 或抛出异常，且该异常没有被 catch 时触发。</li>
+<li>error：抛出异常时触发（img、script、css、and jsonp）。<blockquote>
+<p>但是在 Promise 中抛出异常则不会触发该事件，可能是因为 Promise 中的异常被 catch 了，就不会触发该事件了吧（猜测）。<br>解答：该事件是针对资源加载时的异常（img、script、css、and jsonp）等出错时才会触发。</p>
+</blockquote>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-09T16:00:00.000Z" itemprop="datePublished">2024-12-10</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-buildTools/Vite/index"
 class="article article-type-post"
 >
@@ -846,136 +915,6 @@ div.className = index.test
 
     
   
-    
-      <article
-id="post-buildTools/Vite/css_pre_processor"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/css_pre_processor/">vite 的 css 预处理</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>css 的预处理器主要是用于配置 css 的预处理语言的语法，比如 less，sass，stylus 等。</p>
-<h2 id="preprocessorOptions"><a href="#preprocessorOptions" class="headerlink" title="preprocessorOptions"></a>preprocessorOptions</h2><p>通过该项来配置预处理器，该项其实会调用预处理语言（less，sass 等）的内置编译器（lessc、sassc 等）。</p>
-<p><strong>补充：</strong><br>当没有使用任何构建工具的时候如何将预处理语言文件转换为 css 文件？（以 less 为例子）</p>
-<ol>
-<li>安装 less</li>
-</ol>
-<pre><code class="bash">npm install less -g
-</code></pre>
-<blockquote>
-<p>注意：全局安装 less 就可以获得 lessc 编译工具，可直接通过 lessc 命令来编译 less 文件。如果本地安装则可以通过<code>npx lessc</code>来编译。</p>
-</blockquote>
-<ol start="2">
-<li>编译 less 文件</li>
-</ol>
-<pre><code class="bash">lessc src/index.less src/index.css
-</code></pre>
-<p>指定参数：</p>
-<pre><code class="bash">lessc src/index.less src/index.css -m=always
-</code></pre>
-<p>这样就会在指定位置生成一个编译后的 css 文件。</p>
-<h3 id="vite-中配置预处理器"><a href="#vite-中配置预处理器" class="headerlink" title="vite 中配置预处理器"></a>vite 中配置预处理器</h3><ul>
-<li><strong>安装好对应的预处理语言依赖后</strong>，在 vite 中配置：</li>
-</ul>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    preprocessorOptions: &#123;
-      less: &#123;
-        math: &quot;always&quot;,
-      &#125;,
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-<ul>
-<li>在<code>.vue</code>文件中直接使用 less：</li>
-</ul>
-<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
-.test &#123;
-  height: 10 * 2vh;
-  width: 1920 / 108vh;
-  border: 1px solid rgb(77, 73, 73);
-  color: yellowgreen;
-&#125;
-&lt;/style&gt;
-</code></pre>
-<h3 id="设置全局变量"><a href="#设置全局变量" class="headerlink" title="设置全局变量"></a>设置全局变量</h3><p>在 less 中定义了某个全局变量后，可以直接在想使用的地方引入这个文件然后使用：</p>
-<pre><code class="less">// global.less
-@textColor: rgb(43, 153, 226);
-</code></pre>
-<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
-@import &quot;./assets/global.less&quot;; // 注意要加上 ;
-
-.test &#123;
-  height: 10 * 2vh;
-  width: 1920 / 108vh;
-  border: 1px solid rgb(77, 73, 73);
-  color: @textColor;
-&#125;
-&lt;/style&gt;
-</code></pre>
-<p>如果不想直接引入这个文件，可以在 vite.config.js 的 preprocessOptions 定义全局变量：</p>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    preprocessorOptions: &#123;
-      less: &#123;
-        math: &quot;always&quot;,
-        globalVars: &#123;
-          textColor: &quot;rgb(43, 153, 226)&quot;,
-        &#125;,
-      &#125;,
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
-.test &#123;
-  height: 10 * 2vh;
-  width: 1920 / 108vh;
-  border: 1px solid rgb(77, 73, 73);
-  color: @textColor;
-&#125;
-&lt;/style&gt;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1023,7 +962,11 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">(no title)</a>
+            <a href="/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/">SSR 和 CSR</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
           </li>
         
           <li>
@@ -1036,10 +979,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
       </ul>

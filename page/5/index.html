@@ -154,6 +154,136 @@
   
     
       <article
+id="post-buildTools/Vite/css_pre_processor"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/css_pre_processor/">vite 的 css 预处理</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>css 的预处理器主要是用于配置 css 的预处理语言的语法，比如 less，sass，stylus 等。</p>
+<h2 id="preprocessorOptions"><a href="#preprocessorOptions" class="headerlink" title="preprocessorOptions"></a>preprocessorOptions</h2><p>通过该项来配置预处理器，该项其实会调用预处理语言（less，sass 等）的内置编译器（lessc、sassc 等）。</p>
+<p><strong>补充：</strong><br>当没有使用任何构建工具的时候如何将预处理语言文件转换为 css 文件？（以 less 为例子）</p>
+<ol>
+<li>安装 less</li>
+</ol>
+<pre><code class="bash">npm install less -g
+</code></pre>
+<blockquote>
+<p>注意：全局安装 less 就可以获得 lessc 编译工具，可直接通过 lessc 命令来编译 less 文件。如果本地安装则可以通过<code>npx lessc</code>来编译。</p>
+</blockquote>
+<ol start="2">
+<li>编译 less 文件</li>
+</ol>
+<pre><code class="bash">lessc src/index.less src/index.css
+</code></pre>
+<p>指定参数：</p>
+<pre><code class="bash">lessc src/index.less src/index.css -m=always
+</code></pre>
+<p>这样就会在指定位置生成一个编译后的 css 文件。</p>
+<h3 id="vite-中配置预处理器"><a href="#vite-中配置预处理器" class="headerlink" title="vite 中配置预处理器"></a>vite 中配置预处理器</h3><ul>
+<li><strong>安装好对应的预处理语言依赖后</strong>，在 vite 中配置：</li>
+</ul>
+<pre><code class="js">export default defineConfig(&#123;
+  css: &#123;
+    preprocessorOptions: &#123;
+      less: &#123;
+        math: &quot;always&quot;,
+      &#125;,
+    &#125;,
+  &#125;,
+&#125;);
+</code></pre>
+<ul>
+<li>在<code>.vue</code>文件中直接使用 less：</li>
+</ul>
+<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
+.test &#123;
+  height: 10 * 2vh;
+  width: 1920 / 108vh;
+  border: 1px solid rgb(77, 73, 73);
+  color: yellowgreen;
+&#125;
+&lt;/style&gt;
+</code></pre>
+<h3 id="设置全局变量"><a href="#设置全局变量" class="headerlink" title="设置全局变量"></a>设置全局变量</h3><p>在 less 中定义了某个全局变量后，可以直接在想使用的地方引入这个文件然后使用：</p>
+<pre><code class="less">// global.less
+@textColor: rgb(43, 153, 226);
+</code></pre>
+<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
+@import &quot;./assets/global.less&quot;; // 注意要加上 ;
+
+.test &#123;
+  height: 10 * 2vh;
+  width: 1920 / 108vh;
+  border: 1px solid rgb(77, 73, 73);
+  color: @textColor;
+&#125;
+&lt;/style&gt;
+</code></pre>
+<p>如果不想直接引入这个文件，可以在 vite.config.js 的 preprocessOptions 定义全局变量：</p>
+<pre><code class="js">export default defineConfig(&#123;
+  css: &#123;
+    preprocessorOptions: &#123;
+      less: &#123;
+        math: &quot;always&quot;,
+        globalVars: &#123;
+          textColor: &quot;rgb(43, 153, 226)&quot;,
+        &#125;,
+      &#125;,
+    &#125;,
+  &#125;,
+&#125;);
+</code></pre>
+<pre><code class="vue">&lt;style scoped lang=&quot;less&quot;&gt;
+.test &#123;
+  height: 10 * 2vh;
+  width: 1920 / 108vh;
+  border: 1px solid rgb(77, 73, 73);
+  color: @textColor;
+&#125;
+&lt;/style&gt;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-buildTools/Vite/ts"
 class="article article-type-post"
 >
@@ -250,279 +380,6 @@ interface ImportMeta &#123;
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/binary"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/binary/">二进制的一些小技巧</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
-<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
-<p>汉明距离是使用在数据传输差错控制编码里。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
-<li>用于清除 num 最右边的 1；</li>
-</ul>
-<blockquote>
-<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
-</blockquote>
-<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
-<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
-</ul>
-<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
-<li>用于将 num 的二进制表示向右移动一位；</li>
-</ul>
-<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
-<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
-<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
-<ul>
-<li>用于比较一个二进制数的高位是否为 1。</li>
-</ul>
-<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
-
-let x = num;
-const ans = [];
-while (x &gt; 0) &#123;
-  ans.push(lowbit(x));
-  x -= lowbit(x);
-&#125;
-
-function lowbit(x) &#123;
-  return x &amp; -x;
-&#125;
-</code></pre>
-<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
-<blockquote>
-<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/slidedWindow"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-CSS/cssModule"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
-<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
-<blockquote>
-<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
-</blockquote>
-<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
-<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
-<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
-<li>显示局部作用域：<code>:local(.className)</code></li>
-<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
-</ul>
-<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
-<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-
-.title &#123;
-  composes: className;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-</code></pre>
-<pre><code class="css">.title &#123;
-  composes: className from &quot;./another.css&quot;;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
-<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
-</code></pre>
-<ul>
-<li>例如在 webpack 中引入 postcss-loader</li>
-</ul>
-<pre><code class="js">var path = require(&quot;path&quot;);
-var webpack = require(&quot;webpack&quot;);
-var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
-var values = require(&quot;postcss-modules-values&quot;);
-
-module.exports = &#123;
-  entry: [&quot;./src/index&quot;],
-  output: &#123;
-    filename: &quot;bundle.js&quot;,
-    path: path.join(__dirname, &quot;public&quot;),
-    publicPath: &quot;/public/&quot;,
-  &#125;,
-  module: &#123;
-    loaders: [
-      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
-      &#123;
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          &quot;style-loader&quot;,
-          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
-        ),
-      &#125;,
-    ],
-  &#125;,
-  postcss: [values],
-  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
-&#125;;
-</code></pre>
-<ul>
-<li>设置变量</li>
-</ul>
-<p>colors.css</p>
-<pre><code class="css">@value blue: #0c77f8;
-@value red: #ff0000;
-@value green: #aaf200;
-</code></pre>
-<ul>
-<li>引入 css 文件中</li>
-</ul>
-<pre><code class="css">/* import your colors... */
-@value colors: &quot;./colors.css&quot;;
-@value blue, red, green from colors;
-
-.button &#123;
-  color: blue;
-  display: inline-block;
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
         </div>
     
     
@@ -685,6 +542,139 @@ class="article article-type-post"
     
         <div class="article-category">
         <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-CSS/cssModule"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
+<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
+<blockquote>
+<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
+</blockquote>
+<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
+<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
+<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
+<li>显示局部作用域：<code>:local(.className)</code></li>
+<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
+</ul>
+<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
+<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+
+.title &#123;
+  composes: className;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+</code></pre>
+<pre><code class="css">.title &#123;
+  composes: className from &quot;./another.css&quot;;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
+<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
+</code></pre>
+<ul>
+<li>例如在 webpack 中引入 postcss-loader</li>
+</ul>
+<pre><code class="js">var path = require(&quot;path&quot;);
+var webpack = require(&quot;webpack&quot;);
+var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
+var values = require(&quot;postcss-modules-values&quot;);
+
+module.exports = &#123;
+  entry: [&quot;./src/index&quot;],
+  output: &#123;
+    filename: &quot;bundle.js&quot;,
+    path: path.join(__dirname, &quot;public&quot;),
+    publicPath: &quot;/public/&quot;,
+  &#125;,
+  module: &#123;
+    loaders: [
+      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
+      &#123;
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          &quot;style-loader&quot;,
+          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
+        ),
+      &#125;,
+    ],
+  &#125;,
+  postcss: [values],
+  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
+&#125;;
+</code></pre>
+<ul>
+<li>设置变量</li>
+</ul>
+<p>colors.css</p>
+<pre><code class="css">@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+</code></pre>
+<ul>
+<li>引入 css 文件中</li>
+</ul>
+<pre><code class="css">/* import your colors... */
+@value colors: &quot;./colors.css&quot;;
+@value blue, red, green from colors;
+
+.button &#123;
+  color: blue;
+  display: inline-block;
+&#125;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
         </div>
     
     
@@ -967,6 +957,98 @@ class="article article-type-post"
 
     
   
+    
+      <article
+id="post-Algorithm/binary"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/Algorithm/binary/">二进制的一些小技巧</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
+<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
+<p>汉明距离是使用在数据传输差错控制编码里。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
+<li>用于清除 num 最右边的 1；</li>
+</ul>
+<blockquote>
+<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
+</blockquote>
+<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
+<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
+</ul>
+<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
+<li>用于将 num 的二进制表示向右移动一位；</li>
+</ul>
+<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
+<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
+<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
+<ul>
+<li>用于比较一个二进制数的高位是否为 1。</li>
+</ul>
+<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
+
+let x = num;
+const ans = [];
+while (x &gt; 0) &#123;
+  ans.push(lowbit(x));
+  x -= lowbit(x);
+&#125;
+
+function lowbit(x) &#123;
+  return x &amp; -x;
+&#125;
+</code></pre>
+<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
+<blockquote>
+<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
 
   
     <nav class="pagination">
@@ -1014,7 +1096,11 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">(no title)</a>
+            <a href="/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/">SSR 和 CSR</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
           </li>
         
           <li>
@@ -1027,10 +1113,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
           </li>
         
       </ul>
