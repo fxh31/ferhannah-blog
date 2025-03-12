@@ -154,6 +154,135 @@
   
     
       <article
+id="post-buildTools/Vite/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/11/16/buildTools/Vite/index/">vite</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="vite-加载文件原理"><a href="#vite-加载文件原理" class="headerlink" title="vite 加载文件原理"></a>vite 加载文件原理</h2><ul>
+<li><p>vite 在启动时会以 ESModule 模块化规范来加载文件，所以会先<strong>将所有文件转换为 ES Module 的 js 文件</strong>，再执行。</p>
+<blockquote>
+<p>包括但不限于<code>.css</code>、<code>.vue</code>等。</p>
+</blockquote>
+</li>
+<li><p>对所有打包资源文件进行依赖预构建，将其统放在<code>node_modules/.vite</code>下，这样方便浏览器引用资源路径。</p>
+</li>
+<li><p>浏览器请求资源文件时，对返回的文件内容中的资源请求路径继续拦截预处理，将请求路径统一替换为<code>node_modules/.vite</code>下的路径。</p>
+</li>
+<li><p>资源能正确访问。</p>
+</li>
+</ul>
+<h2 id="vue-文件处理"><a href="#vue-文件处理" class="headerlink" title=".vue 文件处理"></a>.vue 文件处理</h2><p>对于<code>.vue</code>的文件会先用对应的编译工具将其转换为 esm 模块，，然后以 js（application&#x2F;javascript）的形式返回给浏览器，这样浏览器就能正确识别到了。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-11-15T16:00:00.000Z" itemprop="datePublished">2024-11-16</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/math"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/11/08/Algorithm/math/">math</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p>用于求两个正整数的<strong>最大公约数</strong>（Greatest Common Divisor，GCD）。</p>
+<p>基本思想：<br>以<strong>除数</strong>和<strong>余数</strong>反复做除法运算，当余数为 0 时，取当前算式除数为最大公约数。</p>
+<p>$$<br>gcd(a, b) &#x3D; gcd(b, a mod b)<br>$$</p>
+<pre><code class="js">// 递归
+function gcd(a, b) &#123;
+  return a % b ? gcd(b, a % b) : b;
+&#125;
+
+// 迭代
+function gcd(a, b) &#123;
+  while (a % b) &#123;
+    [a, b] = [b, a % b];
+  &#125;
+  return b;
+&#125;
+</code></pre>
+<blockquote>
+<p>补充：扩展的欧几里得算法可用于 RSA 加密算法等领域。</p>
+</blockquote>
+<h3 id="最小公倍数（Leatest-Common-Multiple，LCM）"><a href="#最小公倍数（Leatest-Common-Multiple，LCM）" class="headerlink" title="最小公倍数（Leatest Common Multiple，LCM）"></a>最小公倍数（Leatest Common Multiple，LCM）</h3><p>可以用最大公约数求得。</p>
+<p>$$<br>lcm(a, b) &#x3D; \frac{ab}{gcd(a, b)}<br>$$</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-11-07T16:00:00.000Z" itemprop="datePublished">2024-11-08</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Algorithm/binarySearch"
 class="article article-type-post"
 >
@@ -847,206 +976,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-buildTools/Vite/ts"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/ts/">vite 中使用 ts</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>vite 中默认支持 ts，不需要额外配置。</p>
-<h2 id="vite-plugin-checker"><a href="#vite-plugin-checker" class="headerlink" title="vite-plugin-checker"></a>vite-plugin-checker</h2><p>它是一个可以在工作线程中运行 TypeScript、 VLS、 vue-tsc、 ESLint 的插件，可以根据配置，阻断编译，在控制台及浏览器展示报错信息。</p>
-<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><ul>
-<li>安装：</li>
-</ul>
-<pre><code class="bash">npm i vite-plugin-checker -D
-</code></pre>
-<ul>
-<li>vite config 中配置：</li>
-</ul>
-<pre><code class="js">// vite.config.js
-import checker from &quot;vite-plugin-checker&quot;;
-import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  plugins: [
-    checker(&#123;
-      typescript: true,
-    &#125;),
-  ],
-&#125;);
-</code></pre>
-<ul>
-<li>生成 tsconfig.json 配置文件：</li>
-</ul>
-<pre><code class="bash">npm tsc --init
-</code></pre>
-<ul>
-<li>指定需要进行 ts check 的文件：</li>
-</ul>
-<pre><code class="json">// tsconfig.json
-&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;]
-&#125;
-</code></pre>
-<blockquote>
-<p>注意：以上配置不影响正常打包，只是在运行的时候出报错。</p>
-</blockquote>
-<h2 id="打包前进行-ts-检查"><a href="#打包前进行-ts-检查" class="headerlink" title="打包前进行 ts 检查"></a>打包前进行 ts 检查</h2><p>vite 本身仅执行 .ts 文件的转译工作，并不执行任何类型检查。所以我们可以借助 ts 本身的类型检查功能，在打包前对代码进行类型检查：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;build&quot;: &quot;tsc --noEmit &amp;&amp; vite build&quot;
-&#125;
-</code></pre>
-<blockquote>
-<p>对于 .vue 文件，可以安装 vue-tsc 然后运行 vue-tsc –noEmit 来对 *.vue 文件做类型检查。</p>
-</blockquote>
-<p><strong>原理：</strong><br><code>tsc</code>是 TypeScript 的编译器，它负责将 TypeScript 代码转换为 JavaScript 代码。<code>tsc</code> 会读取配置文件获取参数值，<code>--noEmit</code> 的作用是只进行检查，不进行编译输出。如果我们的代码无错，会直接退出，执行下一条语句，否则报错。</p>
-<h2 id="ts-智能提示"><a href="#ts-智能提示" class="headerlink" title="ts 智能提示"></a>ts 智能提示</h2><p>默认情况下，vite 在 vite&#x2F;client.d.ts 中为<code>import.meta.env</code>提供了类型定义。但是如果我们设置了一些自定义的环境变量（<code>.env[mode]</code>）是没有提示的，如果也想在<strong>浏览器环境代码</strong>中有智能提示，可以在<code>env.d.ts</code>中定义：</p>
-<pre><code class="ts">/// &lt;reference types=&quot;vite/client&quot; /&gt;
-
-interface ImportMetaEnv &#123;
-  readonly VITE_APP_TITLE: string;
-&#125;
-interface ImportMeta &#123;
-  readonly env: ImportMetaEnv;
-&#125;
-</code></pre>
-<p><strong>注意：</strong>定义的文件名和文件位置其实不重要，重要的是需要在 tsconfig.json 配置将其文件进行 ts 检查：</p>
-<pre><code class="json">&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;, &quot;env.d.ts&quot;]
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/binary"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/binary/">二进制的一些小技巧</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
-<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
-<p>汉明距离是使用在数据传输差错控制编码里。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
-<li>用于清除 num 最右边的 1；</li>
-</ul>
-<blockquote>
-<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
-</blockquote>
-<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
-<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
-</ul>
-<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
-<li>用于将 num 的二进制表示向右移动一位；</li>
-</ul>
-<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
-<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
-<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
-<ul>
-<li>用于比较一个二进制数的高位是否为 1。</li>
-</ul>
-<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
-
-let x = num;
-const ans = [];
-while (x &gt; 0) &#123;
-  ans.push(lowbit(x));
-  x -= lowbit(x);
-&#125;
-
-function lowbit(x) &#123;
-  return x &amp; -x;
-&#125;
-</code></pre>
-<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
-<blockquote>
-<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1094,7 +1023,11 @@ function lowbit(x) &#123;
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
           </li>
         
           <li>
@@ -1102,15 +1035,11 @@ function lowbit(x) &#123;
           </li>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
           </li>
         
       </ul>

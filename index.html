@@ -154,6 +154,199 @@
   
     
       <article
+id="post-Node/Advanced/npx"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/"></a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h1><p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
+<blockquote>
+<p>使用完安装包就删。</p>
+</blockquote>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ul>
+<li>避免全局安装；</li>
+<li>总是使用你最新版本；</li>
+<li>可执行任意 npm package 包；</li>
+</ul>
+<h2 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h2><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
+<h2 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h2><ul>
+<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
+<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
+</code></pre>
+<blockquote>
+<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
+</blockquote>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-12T12:19:00.129Z" itemprop="datePublished">2025-03-12</time>
+</div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/module"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs 模块化遵循两套规范：CommonJS 和 ESM 规范。</p>
+<h1 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h1><p>使用<code>require()</code>引入模块，一共五种类型引入模块：<strong>自定义、第三方、内置、C++扩展、JSON 文件</strong><br>使用<code>module.exports</code>导出，支持解构。</p>
+<h1 id="ESM"><a href="#ESM" class="headerlink" title="ESM"></a>ESM</h1><p>使用<code>import</code>引入，<code>export</code>导出。</p>
+<p><strong>注意</strong>： esm 不支持引入 JSON 文件。但是 node16 以上可以使用断言来引入：</p>
+<pre><code class="js">import json from &quot;./test.json&quot; assert &#123; type: &quot;json&quot; &#125;;
+</code></pre>
+<h1 id="CommonJS-和-ESM-区别"><a href="#CommonJS-和-ESM-区别" class="headerlink" title="CommonJS 和 ESM 区别"></a>CommonJS 和 ESM 区别</h1><ul>
+<li>CJS 是基于<strong>运行时</strong>同步加载，ESM 是基于<strong>编译时异步加载</strong>；<blockquote>
+<p>一般<code>import</code>语句只能在顶层，而<code>require()</code>可以在块级作用域底下；但是可以<strong>使用<code>import()</code>的函数模式，返回一个 promise</strong>。</p>
+</blockquote>
+</li>
+<li>CJS 可以修改值，ESM 只读；</li>
+<li>CJS <strong>不支持 tree shaking</strong>，ESM 支持；</li>
+<li>CJS 中顶层的 <strong>this 指向模块本身</strong>，而 ES6 中顶层 <strong>this 指向 undefined</strong>；</li>
+</ul>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>各个文件引入并使用的原理。</p>
+<h2 id="json"><a href="#json" class="headerlink" title=".json"></a><code>.json</code></h2><p>使用 fs 直接读取文件内容并转换为 utf-8 字符串，然后再将其转换为对象。</p>
+<h2 id="node"><a href="#node" class="headerlink" title=".node"></a><code>.node</code></h2><p>使用 process 读取文件内容。</p>
+<h2 id="js"><a href="#js" class="headerlink" title=".js"></a><code>.js</code></h2><ol>
+<li>在类 weakmap 中查找是否有缓存，如果没有则通过 fs 读取文件内容并转换为 utf-8 字符串；</li>
+<li>判断是否是以<code>.js</code>结尾，是则读取 package.json 的 type，如果不是 module 则获取父级以及确认报错的行号和错误信息；</li>
+<li>如果都没问题则会调用<code>_compile()</code>进行编译，在这个方法中会将文件名和文件内容进行拼接，将文件内容包装进一个匿名函数中（类似 js 沙箱，隔离上下文环境）；</li>
+<li>调用 script 去执行这个匿名函数，并查看里面是否有动态引入的 import，有的话就引入对应模块，最后返回一个执行结果；</li>
+<li>在拼接文件时，会传递五个参数，执行完匿名函数后会有去组装这五个参数（export、require、module、filename、dirname），再使用 ReflectApply 透传给匿名函数，最后返回结果。</li>
+</ol>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>Nodejs 是 JS 的运行时环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
+<li>Nodejs 使用异步 I&#x2F;O 和事件驱动设计理念，可以高效地处理大量并发请求，提供了非阻塞式 I&#x2F;O 接口和事件循环机制；<blockquote>
+<p>异步 I&#x2F;O 最终都是由 libuv 事件循环库去实现的。</p>
+</blockquote>
+</li>
+<li>Nodejs 依靠 libuv，适合处理一些 IO 密集型应用；<blockquote>
+<p>由于 js 的单线程，很容易造成 cpu 占用率高，不适合 cpu 密集型应用（图像处理、音频处理等需要大量数据结构 + 算法）；如果非要写可以使用 c++ 插件或 Nodejs 提供的 cluster。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>常见的一些库和框架都需要依赖 nodejs 环境。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-10T16:00:00.000Z" itemprop="datePublished">2025-03-11</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/npm"
 class="article article-type-post"
 >
@@ -201,6 +394,7 @@ class="article article-type-post"
     &quot;type&quot;: &quot;git&quot;,
     &quot;url&quot;: &quot;&quot;
   &#125;,
+  &quot;files&quot;: [], // 发布后能看到的文件
   &quot;homepage&quot;: &quot;&quot;,
   &quot;author&quot;: &quot;fxh&quot;,
   &quot;license&quot;: &quot;ISC&quot;
@@ -286,65 +480,6 @@ class="article article-type-post"
 <blockquote>
 <p>注意：dev 命令可以换成其他任何自定义命令，周期命令的配置也一样。</p>
 </blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-10T16:00:00.000Z" itemprop="datePublished">2025-03-11</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Advanced/index"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>Nodejs 是 JS 的运行时环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
-<li>Nodejs 使用异步 I&#x2F;O 和事件驱动设计理念，可以高效地处理大量并发请求，提供了非阻塞式 I&#x2F;O 接口和事件循环机制；<blockquote>
-<p>异步 I&#x2F;O 最终都是由 libuv 事件循环库去实现的。</p>
-</blockquote>
-</li>
-<li>Nodejs 依靠 libuv，适合处理一些 IO 密集型应用；<blockquote>
-<p>由于 js 的单线程，很容易造成 cpu 占用率高，不适合 cpu 密集型应用（图像处理、音频处理等需要大量数据结构 + 算法）；如果非要写可以使用 c++ 插件或 Nodejs 提供的 cluster。</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>常见的一些库和框架都需要依赖 nodejs 环境。</p>
 
         
     </div>
@@ -1490,170 +1625,6 @@ res.render(&#39;shop&#39;, &#123; prods: products, docTitle: &#39;Shop&#39;&#125
 
     
   
-    
-      <article
-id="post-Node/Express/Express.js模块化路由（Router）"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%B7%AF%E7%94%B1%EF%BC%88Router%EF%BC%89/">Express.js模块化路由（Router）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>使用 <code>express.Router</code> 类来创建可安装的模块化路由处理程序。<code>Router</code> <strong>实例是完整的中间件和路由系统</strong>；因此，常常将其称为“<strong>微型应用程序</strong>”（像是在服务器内部嵌套一个小型的服务器）。</p>
-<blockquote>
-<p>router 的用法和<code>const app = express()</code>创建的 app 是一样的。</p>
-</blockquote>
-<p>routes&#x2F;oneRoute.js：</p>
-<pre><code class="js">const express = require(&quot;express&quot;);
-
-const router = express.Router(); // 创建Router实例
-
-router.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
-  res.send(
-    &#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
-  );
-&#125;);
-
-router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
-  console.log(req.body);
-  res.redirect(&quot;/&quot;);
-&#125;);
-
-module.exports = router; // 导出router
-</code></pre>
-<p>在某个文件中导入：</p>
-<pre><code class="js">const oneRoute = require(&quot;./routes/oneRoute&quot;);
-
-app.use(oneRoute);
-</code></pre>
-<h2 id="添加公共路径路由（过滤路径）"><a href="#添加公共路径路由（过滤路径）" class="headerlink" title="添加公共路径路由（过滤路径）"></a>添加公共路径路由（过滤路径）</h2><p>有时候我们的模块化路由里中间件的路由地址有一段是相同，可以在注册这个路由模块时通过<code>use</code>来定义：</p>
-<pre><code class="js">...
-app.use(&#39;/admin&#39;, adminRoutes); // 公共路径
-...
-</code></pre>
-<p>routes&#x2F;oneRoute.js：</p>
-<pre><code class="js">// /admin/add-product =&gt; GET
-router.get(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
-  res.send(
-    &#39;&lt;form action=&quot;/admin/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
-  );
-&#125;);
-
-// /admin/product =&gt; POST
-router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
-  console.log(req.body);
-  res.redirect(&quot;/&quot;);
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.961Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Express/Express.js中间件的包"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <ul>
-<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
-<pre><code class="bash">npm install --save body-parser
-</code></pre>
-<blockquote>
-<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
-</blockquote>
-<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
-...
-app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
-</code></pre>
-</li>
-<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
-<blockquote>
-<p>此包依赖 express 和 express-session。</p>
-</blockquote>
-<pre><code class="bash">npm install --save csurf
-</code></pre>
-</li>
-<li><p>express-validator：Express 验证器</p>
-<pre><code class="bash">npm install --save express-validator
-</code></pre>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1701,7 +1672,11 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
           </li>
         
           <li>
@@ -1709,15 +1684,11 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
           </li>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
           </li>
         
       </ul>
