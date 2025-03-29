@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>child_process | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "child_process | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/03/20/Node/Advanced/child_process/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="child_process | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/03/20/Node/Advanced/child_process/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "child_process | Fxh&#39;s blog",
+            "datePublished": "2025-03-19T16:00:00.000Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/03/20/Node/Advanced/child_process/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cm8u1wrgq003wbwvs3mneb6gp" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      child_process
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <p>Nodejs 核心 API，可用于<strong>处理 cpu 密集型应用</strong>。</p>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><ul>
+<li><strong>exec</strong>：<strong>异步方法</strong>。一般会有一个回调函数，返回 buffer。<blockquote>
+<p>可用于<strong>执行 shell 命令</strong>，或跟<strong>软件进行交互</strong>。</p>
+</blockquote>
+</li>
+<li><strong>execSync</strong>：<strong>同步的方法</strong>。</li>
+</ul>
+<h2 id="exec-execSync"><a href="#exec-execSync" class="headerlink" title="exec&#x2F;execSync"></a>exec&#x2F;execSync</h2><p><strong>执行指定命令</strong>。</p>
+<pre><code class="js">exec(&#39;node-v&#39;, (err, stdout, stderr) =&gt; &#123;
+  if (err)&#123;
+    retunr err
+  &#125;
+&#125;)
+
+execSync(&#39;mkdir test&#39;) // 执行命令
+execSync(&#39;start chrome http://www.baidu.com&#39;) // 软件交互
+</code></pre>
+<ul>
+<li><strong>适用于执行较小的 shell 命令；</strong></li>
+<li>想要立即拿到结果的 shell 可以用 execSync；</li>
+<li><strong>字节上限 200kb，超出则报错</strong>；</li>
+</ul>
+<h2 id="spawn-spawnSync"><a href="#spawn-spawnSync" class="headerlink" title="spawn&#x2F;spawnSync"></a>spawn&#x2F;spawnSync</h2><p><strong>执行指定命令</strong>。</p>
+<pre><code class="js">const netInfo = execSync(&quot;netstat&quot;);
+console.log(netInfo); // 卡住，数量太大
+
+const &#123; stdout &#125; = spawn(&quot;netstat&quot;, [&quot;-a&quot;]);
+stdout.on(&quot;data&quot;, (msg) =&gt; &#123;
+  console.log(msg.toString());
+&#125;);
+stdout.on(&quot;close&quot;, (msg) =&gt; &#123;
+  console.log(&quot;end&quot;);
+&#125;);
+</code></pre>
+<ul>
+<li><strong>没有字节上限，返回的是流</strong>；</li>
+<li><strong>实时返回</strong>；</li>
+<li><strong>有结束事件</strong>；</li>
+</ul>
+<p>_更多配置项_：</p>
+<pre><code class="js">const &#123; stdout &#125; = spawn(&quot;netstat&quot;, [&quot;-a&quot;], &#123;
+  cwd: &quot;&quot;, // string 子进程的当前工作目录
+  env: &quot;&quot;, // object 环境变量键值对
+  encodingL: &quot;&quot;, // string 默认为&#39;utf8&#39;.
+  shell: &quot;&quot;, // string 用于执行命令的 she11, 在 UNIX 上默认为&#39;/bin/sh&#39;,在 windows 上默认为 process.env.ComSpec。
+  timeout: &quot;&quot;, // 超时时间，默认为 0
+  maxBuffer: &quot;&quot;, //stdout 或 stderr 允许的最大字节数。默认为 288*1024.。如果超过限制，则子进程会被终止
+  killSignal: &quot;&quot;, // string|integer 默认为&#39;SIGTERM&#39;
+  uid: &quot;&quot;, // 设置该进程的用户标识。
+  gid: &quot;&quot;, // 设置该进程的组标识。
+&#125;);
+</code></pre>
+<h2 id="execFile-execFileSync"><a href="#execFile-execFileSync" class="headerlink" title="execFile&#x2F;execFileSync"></a>execFile&#x2F;execFileSync</h2><p><strong>执行可执行文件</strong>。</p>
+<p>bat.sh（mac、linux）</p>
+<p>bat.cmd（windows）</p>
+<pre><code class="bash">// bat.cmd
+echo &#39;start&#39;
+mkdir test
+cd ./test
+echo console.log(&#39;test bar&#39;) &gt;test.js
+echo &#39;end&#39;
+</code></pre>
+<pre><code class="js">execFile(path.resolve(__dirname, &quot;./bat.cmd&quot;), null, (err, stdout) =&gt; &#123;&#125;);
+</code></pre>
+<h2 id="底层实现顺序"><a href="#底层实现顺序" class="headerlink" title="底层实现顺序"></a>底层实现顺序</h2><p><strong>exec -&gt; execFile -&gt; spawn</strong></p>
+<h2 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h2><p>只接受 js 模块，为 <strong>js 创建子进程</strong>。</p>
+<blockquote>
+<p>注意：web worker 是浏览器的，而 fork 是 node 的。</p>
+</blockquote>
+<pre><code class="js">const childProcess = fork(&quot;./child.js&quot;);
+childProcess.sent(&quot;hello，我是主进程&quot;);
+
+// child.js
+process.on(&quot;message&quot;, (msg) =&gt; &#123;
+  console.log(&quot;收到消息了&quot;, msg);
+&#125;);
+</code></pre>
+<p><strong>原理</strong>：底层<strong>通过 IPC 去通讯</strong>，IPC 又基于 libuv 实现，libuv 会根据不同的操作系统调用不同的命令实现。（windows：named pipe | posix: unix domain socket）</p>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">event</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=child_process - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F20%2FNode%2FAdvanced%2Fchild_process%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=child_process - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F03%2F20%2FNode%2FAdvanced%2Fchild_process%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=child_process - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/03/20/Node/Advanced/child_process/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

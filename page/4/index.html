@@ -154,6 +154,916 @@
   
     
       <article
+id="post-JS/requestAnimationFrame"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/24/JS/requestAnimationFrame/">requestAnimationFrame</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
+<ul>
+<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
+<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
+</blockquote>
+</li>
+<li>隐藏的元素不会触发回调。<blockquote>
+<p>保证更少的 CPU、GPU 消耗。</p>
+</blockquote>
+</li>
+<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
+</ul>
+<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
+<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
+<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
+<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
+</ul>
+<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
+<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
+<pre><code class="js">const scrollToTop = () =&gt; &#123;
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  console.log(c);
+  if (c &gt; 0) &#123;
+    window.requestAnimationFrame(scrollToTop); // 平滑回滚
+    window.scrollTo(0, c - c / 8);
+    // window.scrollTo(0, c - c);
+  &#125;
+&#125;;
+</code></pre>
+<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
+  window.requestAnimationFrame(() =&gt; &#123;
+    console.log(&quot;scroll&quot;);
+  &#125;);
+&#125;);
+</code></pre>
+<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
+<blockquote>
+<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
+</blockquote>
+<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
+<pre><code class="js">//需要插入的容器
+const ul = document.getElementById(&quot;container&quot;);
+// 插入十万条数据
+const total = 100000;
+// 一次插入 20 条
+const once = 20;
+//总页数
+const page = total / once;
+//每条记录的索引
+const index = 0;
+//循环加载数据
+function loop(curTotal, curIndex) &#123;
+  if (curTotal &lt;= 0) &#123;
+    return false;
+  &#125;
+  //每页多少条
+  const pageCount = Math.min(curTotal, once);
+  function addData() &#123;
+    for (let i = 0; i &lt; pageCount; i++) &#123;
+      let li = document.createElement(&quot;li&quot;);
+      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
+      ul.appendChild(li);
+    &#125;
+    loop(curTotal - pageCount, curIndex + pageCount);
+  &#125;
+  window.requestAnimationFrame(addData);
+  // setTimeout(addData, 0);
+&#125;
+loop(total, index);
+</code></pre>
+<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
+<blockquote>
+<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
+</blockquote>
+<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/this"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/24/JS/this/">js 中 this 指向（绑定）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
+<blockquote>
+<p>this 指向（绑定）与函数调用的位置有关。</p>
+</blockquote>
+<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
+<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
+<ul>
+<li>直接在全局调用 this；</li>
+<li>在全局直接执行函数，函数中直接调用 this；</li>
+</ul>
+<blockquote>
+<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
+</blockquote>
+<blockquote>
+<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
+</blockquote>
+<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
+<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
+<li>直接使用<code>window.x</code>；</li>
+<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
+</ul>
+<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
+<p>匿名函数和具名函数则不受其影响。</p>
+</blockquote>
+</li>
+<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
+</ul>
+<pre><code class="js">const obj = &#123;
+  a: 10,
+  b: function () &#123;
+    console.log(this);
+  &#125;,
+&#125;;
+const copy_obj = obj.b;
+copy_obj(); // undefined / window
+
+obj.b(); // &#123;a: 10, b: ƒ&#125;
+</code></pre>
+<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
+<blockquote>
+<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
+</blockquote>
+<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
+<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
+<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
+<blockquote>
+<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
+</blockquote>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
+<blockquote>
+<p>todo… which parttern</p>
+</blockquote>
+<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
+<ul>
+<li>call()：一个一个传参；</li>
+<li>apply()：传递一个数组；</li>
+<li>bind()：直接返回一个新函数；</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
+<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
+<li>es6 之前的 self 同 this 机制；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/debounceAndtrottle"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/18/JS/debounceAndtrottle/">防抖和节流</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>防抖（Debounce）和节流（Throttle）是两种常用的优化前端性能的技术，用于控制事件触发频率，避免过多的事件触发导致性能问题。</p>
+<h2 id="防抖"><a href="#防抖" class="headerlink" title="防抖"></a>防抖</h2><p>事件触发之后等待一定时间再执行，如果这个时间内该事件又被触发了则重新计时。</p>
+<pre><code class="js">function debounce(func, delay) &#123;
+  let timer;
+
+  return function () &#123;
+    clearTimeout(timer);
+    timer = setTimeout(() =&gt; &#123;
+      func.apply(this, arguments);
+    &#125;, delay);
+  &#125;;
+&#125;
+</code></pre>
+<p>适用场景：</p>
+<ul>
+<li>输入框搜索建议：用户在输入时，只有在停止输入一段时间后才触发搜索请求。；</li>
+<li>窗口大小调整：窗口大小调整时，只在停止调整一段时间后触发重新计算布局。</li>
+</ul>
+<h2 id="节流"><a href="#节流" class="headerlink" title="节流"></a>节流</h2><p>一定时间间隔内，无论事件触发多少次，只会执行一次。事件只会按照一定时间间隔一次一次执行。</p>
+<pre><code class="js">function throttle(func, delay) &#123;
+  let isRun = true;
+  return function () &#123;
+    if (!isRun) return;
+    isRun = false;
+    setTimeout(() =&gt; &#123;
+      func.apply(this, arguments);
+      isRun = true;
+    &#125;, delay);
+  &#125;;
+&#125;
+</code></pre>
+<blockquote>
+<p>setTimeout 不精准，详情见 setTimeout 一章。</p>
+</blockquote>
+<p>适用场景：</p>
+<ul>
+<li>滚动加载：滚动页面时，只在一定时间间隔内加载更多内容，避免频繁加载。</li>
+<li>防止按钮重复点击：按钮点击后在一定时间内禁用，防止用户多次点击。</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-17T16:00:00.000Z" itemprop="datePublished">2024-12-18</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-micro-frontends/wujie/Wujie使用"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/11/micro-frontends/wujie/Wujie%E4%BD%BF%E7%94%A8/">Wujie 使用</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><ul>
+<li><p>安装 wujie</p>
+<pre><code class="bash">npm i wujie
+</code></pre>
+</li>
+<li><p>在主应用中引入（以 Vue 应用为例）</p>
+<p>index.js</p>
+<pre><code class="js">import &#123; createApp &#125; from &quot;vue&quot;;
+import App from &quot;./App.vue&quot;;
+
+import &#123; startApp &#125; from &quot;wujie&quot;; // 引入wujie，通过其中的startApp来设置子应用
+
+const app = createApp(App);
+setupApp(&#123;
+  name: &quot;唯一id&quot;,
+  url: &quot;子应用地址&quot;,
+  exec: true,
+  el: &quot;容器&quot;,
+  sync: true,
+&#125;);
+
+app.mount(&quot;#app&quot;);
+</code></pre>
+</li>
+</ul>
+<h1 id="Vue-组件封装"><a href="#Vue-组件封装" class="headerlink" title="Vue 组件封装"></a>Vue 组件封装</h1><p>如果使用的是 vue2 或 vue3 的应用，可以直接使用封装好的组件。</p>
+<ul>
+<li><p>安装 wujie-vue2&#x2F; wujie-vue3</p>
+<pre><code class="bash"># vue2 框架
+npm i wujie-vue2 -S
+# vue3 框架
+npm i wujie-vue3 -S
+</code></pre>
+</li>
+<li><p>在主应用中引入并挂载</p>
+<pre><code class="js">import &#123; createApp &#125; from &quot;vue&quot;;
+import App from &quot;./App.vue&quot;;
+import Wujie from &quot;wujie-vue3&quot;; // 引入wujie-vue3
+const app = createApp(App);
+
+app.use(Wujie); // 注册
+
+app.mount(&quot;#app&quot;);
+</code></pre>
+</li>
+<li><p>在主应用中使用，接入子应用</p>
+<blockquote>
+<p>在此之前要先启动子应用。</p>
+</blockquote>
+<pre><code class="html">&lt;WujieVue url=&quot;http://127.0.0.1:5147&quot; name=&quot;vue3&quot;&gt;&lt;/WujieVue&gt; &lt;!--子应用vue3--&gt;
+...
+&lt;WujieVue
+  width=&quot;100%&quot;
+  height=&quot;100%&quot;
+  name=&quot;xxx&quot;
+  :url=&quot;xxx&quot;
+  :sync=&quot;true&quot;
+  :fetch=&quot;fetch&quot;
+  :props=&quot;props&quot;
+  :beforeLoad=&quot;beforeLoad&quot;
+  :beforeMount=&quot;beforeMount&quot;
+  :afterMount=&quot;afterMount&quot;
+  :beforeUnmount=&quot;beforeUnmount&quot;
+  :afterUnmount=&quot;afterUnmount&quot;
+&lt;/WujieVue&gt;
+...
+</code></pre>
+</li>
+</ul>
+<h2 id="封装原理"><a href="#封装原理" class="headerlink" title="封装原理"></a>封装原理</h2><p><code>wujie-vue3</code>是按照一个组件的原理去实现的。</p>
+<pre><code class="ts">import &#123;
+  defineComponent,
+  h,
+  getCurrentInstance,
+  onMounted,
+  watch,
+  onBeforeUnmount,
+&#125; from &quot;vue&quot;;
+import &#123; startApp, bus &#125; from &quot;wujie&quot;;
+import type &#123; PropType &#125; from &quot;vue&quot;;
+import &#123; Props &#125; from &quot;./type&quot;;
+
+const WujieVue = defineComponent(&#123;
+  props: &#123;
+    width: &#123; type: String, default: &quot;&quot; &#125;,
+    height: &#123; type: String, default: &quot;&quot; &#125;,
+    name: &#123; type: String, default: &quot;&quot;, required: true &#125;,
+    loading: &#123; type: HTMLElement, default: undefined &#125;,
+    url: &#123; type: String, default: &quot;&quot;, required: true &#125;,
+    sync: &#123; type: Boolean, default: undefined &#125;,
+    prefix: &#123; type: Object, default: undefined &#125;,
+    alive: &#123; type: Boolean, default: undefined &#125;,
+    props: &#123; type: Object, default: undefined &#125;,
+    attrs: &#123; type: Object, default: undefined &#125;,
+    replace: &#123;
+      type: Function as PropType&lt;Props[&quot;replace&quot;]&gt;,
+      default: undefined,
+    &#125;,
+    fetch: &#123; type: Function as PropType&lt;Props[&quot;fetch&quot;]&gt;, default: undefined &#125;,
+    fiber: &#123; type: Boolean, default: undefined &#125;,
+    degrade: &#123; type: Boolean, default: undefined &#125;,
+    plugins: &#123; type: Array as PropType&lt;Props[&quot;plugins&quot;]&gt;, default: null &#125;,
+    beforeLoad: &#123;
+      type: Function as PropType&lt;Props[&quot;beforeLoad&quot;]&gt;,
+      default: null,
+    &#125;,
+    beforeMount: &#123;
+      type: Function as PropType&lt;Props[&quot;beforeMount&quot;]&gt;,
+      default: null,
+    &#125;,
+    afterMount: &#123;
+      type: Function as PropType&lt;Props[&quot;afterMount&quot;]&gt;,
+      default: null,
+    &#125;,
+    beforeUnmount: &#123;
+      type: Function as PropType&lt;Props[&quot;beforeUnmount&quot;]&gt;,
+      default: null,
+    &#125;,
+    afterUnmount: &#123;
+      type: Function as PropType&lt;Props[&quot;afterUnmount&quot;]&gt;,
+      default: null,
+    &#125;,
+    activated: &#123;
+      type: Function as PropType&lt;Props[&quot;activated&quot;]&gt;,
+      default: null,
+    &#125;,
+    deactivated: &#123;
+      type: Function as PropType&lt;Props[&quot;deactivated&quot;]&gt;,
+      default: null,
+    &#125;,
+  &#125;,
+  setup(props, &#123; emit &#125;) &#123;
+    const init = () =&gt; &#123;
+      const instance = getCurrentInstance();
+      startApp(&#123;
+        // 微前端初始化所需方法
+        name: props.name,
+        url: props.url,
+        el: instance?.refs.wujie as HTMLElement,
+        loading: props.loading,
+        alive: props.alive,
+        fetch: props.fetch,
+        props: props.props,
+        attrs: props.attrs,
+        replace: props.replace,
+        sync: props.sync,
+        prefix: props.prefix,
+        fiber: props.fiber,
+        degrade: props.degrade,
+        plugins: props.plugins,
+        beforeLoad: props.beforeLoad,
+        beforeMount: props.beforeMount,
+        afterMount: props.afterMount,
+        beforeUnmount: props.beforeUnmount,
+        afterUnmount: props.afterUnmount,
+        activated: props.activated,
+        deactivated: props.deactivated,
+      &#125;);
+    &#125;;
+    // name和url可能是动态的，所以需要监听它们的变化，然后再初始化
+    watch([props.name, props.url], () =&gt; &#123;
+      init();
+    &#125;);
+
+    // 传参函数
+    const hanlderEmit = (event: string, ...args: any[]) =&gt; &#123;
+      emit(event, ...args); // 暴露给父组件（给bus做了一个中转）
+    &#125;;
+
+    onMounted(() =&gt; &#123;
+      bus.$onAll(hanlderEmit); // 监听所有事件
+      init();
+    &#125;);
+
+    onBeforeUnmount(() =&gt; &#123;
+      bus.$offAll(hanlderEmit); // 销毁
+    &#125;);
+
+    return () =&gt;
+      h(&quot;div&quot;, &#123;
+        style: &#123;
+          width: props.width,
+          height: props.height,
+        &#125;,
+        ref: &quot;wujie&quot;, // 便于之后获取到这个dom
+      &#125;);
+  &#125;,
+&#125;);
+WujieVue.install = function (app) &#123;
+  app.component(&quot;WujieVue&quot;, WujieVue); // 组件注册
+&#125;;
+
+export default WujieVue;
+</code></pre>
+<blockquote>
+<p>注意：</p>
+<ul>
+<li>PropType：有很多复杂的数据结构是办法没有标注类型的（在 ts 中类型与接口不对应会报错），所以 vue3 提供一个 PropType 来与定义的结构相对应。（此处的类型对应的就是导出的 Props 里的类型，见下文）</li>
+<li>getCurrentInstance：在<code>setup()</code>中的<code>this</code>还是 undefined，所以没有办法通过<code>this.$refs</code>来读取。在 vue3 中可以使用<code>getCurrentInstance()</code>来获取组件的实例。</li>
+<li>bus：wujie 封装的用于传参的对象。</li>
+</ul>
+</blockquote>
+<p>定义所需参数（wujie 的参数）</p>
+<pre><code class="ts">import type &#123; plugin &#125; from &quot;wujie&quot;;
+type lifecycle = (appWindow: Window) =&gt; any;
+interface Props &#123;
+  /** 唯一性用户必须保证 */
+  name: string;
+  /** 需要渲染的url */
+  url: string;
+  /** 需要渲染的html, 如果用户已有则无需从url请求 */
+  html?: string;
+  /** 渲染的容器 */
+  loading?: HTMLElement;
+  /** 路由同步开关， false刷新无效，但是前进后退依然有效 */
+  sync?: boolean;
+  /** 子应用短路径替换，路由同步时生效 */
+  prefix?: &#123; [key: string]: string &#125;;
+  /** 子应用保活模式，state不会丢失 */
+  alive?: boolean;
+  /** 注入给子应用的数据 */
+  props?: &#123; [key: string]: any &#125;;
+  /** js采用fiber模式执行 */
+  fiber?: boolean;
+  /** 子应用采用降级iframe方案 */
+  degrade?: boolean;
+  /** 自定义运行iframe的属性 */
+  attrs?: &#123; [key: string]: any &#125;;
+  /** 自定义降级渲染iframe的属性 */
+  degradeAttrs?: &#123; [key: string]: any &#125;;
+  /** 代码替换钩子 */
+  replace?: (codeText: string) =&gt; string;
+  /** 自定义fetch，资源和接口 */
+  fetch?: (input: RequestInfo, init?: RequestInit) =&gt; Promise&lt;Response&gt;;
+  /** 子应插件 */
+  plugins: Array&lt;plugin&gt;;
+  /** 子应用生命周期 */
+  beforeLoad?: lifecycle;
+  /** 没有做生命周期改造的子应用不会调用 */
+  beforeMount?: lifecycle;
+  afterMount?: lifecycle;
+  beforeUnmount?: lifecycle;
+  afterUnmount?: lifecycle;
+  /** 非保活应用不会调用 */
+  activated?: lifecycle;
+  deactivated?: lifecycle;
+&#125;
+
+export &#123; Props &#125;;
+</code></pre>
+<h1 id="React-组件封装"><a href="#React-组件封装" class="headerlink" title="React 组件封装"></a>React 组件封装</h1><p>wujie 基于<code>react</code>的组件封装，使用参数基本和 Vue 的封装类似，只是换了 react 的写法。</p>
+<h1 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h1><ul>
+<li>解构出 preloadApp()</li>
+<li>使用 preloadApp()，将<code>exec</code>设置为 true 开启预加载</li>
+</ul>
+<pre><code class="js">import &#123; createApp &#125; from &quot;vue&quot;;
+import App from &quot;./App.vue&quot;;
+
+import Wujie from &quot;wujie-vue3&quot;;
+const &#123; preloadApp &#125; = Wujie; // 解构出preloadApp()
+const app = createApp(App);
+
+app.use(Wujie);
+app.mount(&quot;#app&quot;);
+
+preloadApp(&#123; name: &quot;react&quot;, url: &quot;http://127.0.0.1:5147&quot;, exec: true &#125;); // 开启预加载（参数和setupApp相同，多了个exec）
+</code></pre>
+<h1 id="应用通信"><a href="#应用通信" class="headerlink" title="应用通信"></a>应用通信</h1><p>wujie 提供三种通信方式：</p>
+<h2 id="window-通信"><a href="#window-通信" class="headerlink" title="window 通信"></a>window 通信</h2><p>由于子应用运行的<code>iframe</code>的<code>src</code>和主应用是同域的，所以相互可以直接通信。</p>
+<ul>
+<li><p>主应用调用子应用的全局数据</p>
+<pre><code class="js">window.document.querySelector(&quot;iframe[name=子应用id]&quot;).contentWindow.xxx;
+</code></pre>
+</li>
+<li><p>子应用调用主应用的全局数据</p>
+<pre><code class="js">window.parent.xxx;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p>例子：</p>
+<p>主应用定义一个全局变量：</p>
+<pre><code class="js">var a = &quot;abc&quot;;
+</code></pre>
+<p>子应用通过<code>window.parent.a</code>访问：</p>
+<pre><code class="js">const getParentA = () =&gt; &#123;
+  console.log(alter(window.parent.a));
+&#125;;
+</code></pre>
+</blockquote>
+<blockquote>
+<p><strong>注意</strong>：由于同源策略的限制，如果 iframe 的源与主页面的源不同，那么在控制 iframe 中的元素时可能会受到限制。（如果需要跨域控制 iframe 中的元素，可以考虑使用 postMessage API 来进行通信）</p>
+</blockquote>
+<h2 id="props-通信"><a href="#props-通信" class="headerlink" title="props 通信"></a>props 通信</h2><ul>
+<li><p>主应用可以通过<code>props</code>注入数据和方法</p>
+<pre><code class="html">&lt;WujieVue
+  name=&quot;xxx&quot;
+  url=&quot;xxx&quot;
+  :props=&quot;&#123; data: xxx, methods: xxx &#125;&quot;
+&gt;&lt;/WujieVue&gt;
+</code></pre>
+<p>例子：</p>
+<pre><code class="html">&lt;template&gt;
+  &lt;WujieVue
+    url=&quot;http://127.0.0.1:5147&quot;
+    name=&quot;vue3&quot;
+    :props=&quot;&#123;age: 23, name: &#39;张三&#39;&#125;&quot;
+  &gt;&lt;/WujieVue&gt;
+&lt;/template&gt;
+</code></pre>
+</li>
+<li><p>子应用可以通过<code>$wujie</code>来获取：</p>
+<blockquote>
+<p>无界对子应用注入了<code>$wujie</code>对象，可以通过<code>$wujie</code>或者<code>window.$wujie</code>获取。</p>
+</blockquote>
+<pre><code class="js">const props = window.$wujie?.props; // &#123;data: xxx, methods: xxx&#125;
+</code></pre>
+<blockquote>
+<p>注意：直接写<code>window.$wujie.props</code>可能能用，但是会报错，这是因为没有写<code>$wujie</code>的声明文件，在全局声明一下就好了：</p>
+<pre><code class="ts">declare global &#123;
+  interface Window &#123;
+    $wujie: &#123;
+      props: Record&lt;string, any&gt;;
+    &#125;;
+  &#125;
+&#125;
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<h2 id="eventBus-通信"><a href="#eventBus-通信" class="headerlink" title="eventBus 通信"></a>eventBus 通信</h2><p>无界提供一套去中心化的通信方案，主应用和子应用、子应用和子应用都可以通过这种方式进行通信。</p>
+<blockquote>
+<p>通过<code>$on</code>监听，<code>$emit</code>触发双向传递消息。</p>
+</blockquote>
+<ul>
+<li><p>主应用使用</p>
+<pre><code class="js">// 如果使用wujie
+import &#123; bus &#125; from &quot;wujie&quot;;
+
+// 如果使用wujie-vue
+import WujieVue from &quot;wujie-vue&quot;;
+const &#123; bus &#125; = WujieVue;
+
+// 如果使用wujie-react
+import WujieReact from &quot;wujie-react&quot;;
+const &#123; bus &#125; = WujieReact;
+
+// 主应用监听事件
+bus.$on(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
+// 主应用发送事件
+bus.$emit(&quot;事件名字&quot;, arg1, arg2, ...);
+// 主应用取消事件监听
+bus.$off(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
+</code></pre>
+<p>例子：</p>
+<pre><code class="js">bus.$on(&quot;vue3&quot;, (data: any) =&gt; &#123;
+  console.log(date, &quot;我是主应用&quot;);
+&#125;);
+</code></pre>
+</li>
+<li><p>子应用使用</p>
+<pre><code class="js">// 子应用监听事件
+window.$wujie?.bus.$on(&quot;事件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
+// 子应用发送事件
+window.$wujie?.bus.$emit(&quot;事件名字&quot;, arg1, arg2, ...);
+// 子应用取消事件监听
+window.$wujie?.bus.$off(&quot;件名字&quot;, function (arg1, arg2, ...) &#123;&#125;);
+</code></pre>
+<p>例子：</p>
+<pre><code class="js">const send = () =&gt; &#123;
+  window.$wujie.bus.$emit(&quot;vue3&quot;, &quot;我是子应用&quot;);
+&#125;;
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-10T16:00:00.000Z" itemprop="datePublished">2024-12-11</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-micro-frontends/wujie/Wujie简介"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/11/micro-frontends/wujie/Wujie%E7%AE%80%E4%BB%8B/">Wujie 简介</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由腾讯开发的微前端框架，帮助开发者将复杂的前端项目拆分为多个微前端应用，实现分治开发、独立部署、统一集成的目标。</p>
+<p>拥有以下几个特点（官网）：</p>
+<h1 id="极速"><a href="#极速" class="headerlink" title="极速"></a>极速</h1><p>页面切换时速度快，无白屏。（主要是通过开启预加载实现）</p>
+<h2 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h2><p>预加载指的是在应用空闲的时候<code>requestIdleCallback</code>将所需要的静态资源提前从网络中加载到内存中。</p>
+<blockquote>
+<p>主流的 PC 屏幕刷新率（FPS）大多在 60Hz，即 1 秒钟对屏幕进行 60 次刷新，平均每次刷新耗时大概是 16.6ms。</p>
+</blockquote>
+<p><code>requestidlecallback</code>触发的时机有两种：</p>
+<ul>
+<li><p>在一帧的输入渲染合成完成后才会有空闲时间触发<code>requestidlecallback</code>;</p>
+<blockquote>
+<p>一帧内所做的事情如下：</p>
+<ul>
+<li>输入事件处理：浏览器会处理用户的输入事件，如鼠标点击、键盘输入等，并将这些事件放入事件队列中；</li>
+<li>JavaScript 执行：浏览器会从事件队列中取出事件并执行对应的 JavaScript 代码，如事件处理函数、定时器等；</li>
+<li>执行 requestAnimationFrame；</li>
+<li>执行 dom 的回流与重绘；</li>
+<li>计算更新图层的绘制指令（浏览器会将布局信息转换成绘制指令，并使用 GPU 进行绘制渲染，生成对应的位图）；</li>
+<li>绘制指令合并主线程（浏览器会将多个位图进行合成，生成最终的页面图像），如果有空余时间会执行 <code>requestidlecallback</code>。</li>
+</ul>
+<p>在这个过程中，浏览器会尽可能地优化渲染流程，以提高页面的渲染性能和用户体验。实际上就是在 16.6ms 之内完成输入渲染合成，空闲的时间才会留给 <code>requestidlecallback</code>。</p>
+</blockquote>
+</li>
+<li><p>没有任务执行浏览器会有 50ms 空闲时间，这个时间段也会执行 <code>requestidlecallback</code>。</p>
+<blockquote>
+<p>例如直接在控制台输出。</p>
+</blockquote>
+</li>
+</ul>
+<pre><code class="js">requestidlecallback(function (deadline) &#123;
+  console.log(deadline.timeRemaining());
+&#125;);
+</code></pre>
+<p>由于子应用提前渲染可能会导致阻塞主应用的线程，所以无界提供了类似于<code>react-fiber</code>方式来防止阻塞线程：</p>
+<p>react16： <code>postMessage + requestAnimationFrame</code>来实现类似<code>requestidlecallback()</code>的功能；</p>
+<blockquote>
+<ul>
+<li>使用<code>postMessage + requestAnimationFrame</code>是因为 react 开发人员经过测试发现<code>requestidlecallback()</code>可能会超过 16ms，超过 16ms 绘制就会看起来很卡，所以 react16 是用<code>postMessage + requestAnimationFrame</code>实现的。</li>
+<li>使用<code>postMessage </code>来代替<code>setTimeOut()</code>是因为后者即使为 0</li>
+</ul>
+</blockquote>
+<p>react18 ：使用<code>MessageChannel</code>实现<code>requestidlecallback()</code>。</p>
+<h1 id="强大"><a href="#强大" class="headerlink" title="强大"></a>强大</h1><p>支持子应用保活、内嵌、去中心化通信、多应用激活。</p>
+<h2 id="子应用保活"><a href="#子应用保活" class="headerlink" title="子应用保活"></a>子应用保活</h2><h1 id="简单"><a href="#简单" class="headerlink" title="简单"></a>简单</h1><p>框架封装，保持普通组件使用体验一致。</p>
+<h1 id="原生隔离"><a href="#原生隔离" class="headerlink" title="原生隔离"></a>原生隔离</h1><p>基于 WebComponent 和 iframe，原生物理隔离。</p>
+<h2 id="WebComponent"><a href="#WebComponent" class="headerlink" title="WebComponent"></a>WebComponent</h2><pre><code class="tsx">window.onload = () =&gt; &#123;
+  class Wujie extends HTMLElement &#123;
+    constructor() &#123;
+      super();
+      // shadowdom 样式隔离
+      let dom = this.attachShadow(&#123; mode: &quot;open&quot; &#125;);
+      let template = document.querySelector(&quot;#wujie&quot;) as HTMLTemplateElement;
+
+      dom.appendChild(template.content.cloneNode(true));
+
+      console.log(this.getAttr(&quot;name&quot;), this.getAttr(&quot;url&quot;));
+    &#125;
+    private getAttr(attr: string) &#123;
+      return this.getAttribute(attr);
+    &#125;
+
+    // webComponents的生命周期
+    connectedCallback() &#123;
+      console.log(&quot;类似于vue的mounted&quot;);
+    &#125;
+    disconnectedCallback() &#123;
+      console.log(&quot;类似于vue的destory&quot;);
+    &#125;
+    attributeChangedCallback(name: any, oldVal: any, newVal: any) &#123;
+      console.log(&quot;类似于vue的watch&quot;);
+    &#125;
+  &#125;
+  // 使用原生js挂载一个组件
+  window.customElements.define(&quot;wu-jie&quot;, Wujie);
+&#125;;
+</code></pre>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;wu-jie name=&quot;fdsf&quot; url=&quot;dsafas&quot;&gt;&lt;/wu-jie&gt;
+    &lt;div&gt;我是外层的div&lt;/div&gt;
+
+    &lt;template id=&quot;wujie&quot;&gt;
+      &lt;style&gt;
+        div &#123;
+          background: red;
+        &#125;
+      &lt;/style&gt;
+      &lt;div&gt;我是template里面的div&lt;/div&gt;
+    &lt;/template&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h2><p>将 js 单独存放在 iframe 中。</p>
+<h1 id="原生性能"><a href="#原生性能" class="headerlink" title="原生性能"></a>原生性能</h1><p>避免 with 语句运行代码，整体的运行性能接近原生。</p>
+<h1 id="开箱即用"><a href="#开箱即用" class="headerlink" title="开箱即用"></a>开箱即用</h1><p>主、子应用无需做任何适配，开箱即用。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ul>
+<li>隔离 js 使用一个空的 iframe 进行隔离。</li>
+<li>子应用 axios 需要自行适配。</li>
+<li>iframe 沙箱的 src 设置了主应用的 host，初始化 iframe 的时候需要等待 iframe 的 location.orign 从’about:blank’初始化为主应用的 host，这个采用的计时器去等待的不是很优雅。</li>
+</ul>
+<blockquote>
+<p>底层原理：使用 shadowDom 隔离 css，js 使用空的 iframe 隔离，通讯使用的是 proxy。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-10T16:00:00.000Z" itemprop="datePublished">2024-12-11</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-JS/event"
 class="article article-type-post"
 >
@@ -530,395 +1440,10 @@ function merge(left, right) &#123;
 
     
   
-    
-      <article
-id="post-Algorithm/index"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/30/Algorithm/index/">tips</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><ul>
-<li>快速查找某个区间内相加（减）、相乘（除）、异或等运算结果，有结合律和交换律的一些运算。</li>
-<li>计算子数组的个数一般会用 map 来记录某个值出现的次数。</li>
-</ul>
-<h2 id="两数相加之后判断能否被一个数整除"><a href="#两数相加之后判断能否被一个数整除" class="headerlink" title="两数相加之后判断能否被一个数整除"></a>两数相加之后判断能否被一个数整除</h2><p>相加后判断能否被 24 整除。<br>原理：利用 hash 表记录之前遍历的数的模数，然后对比当前所需要的模数是否在 hash 表中出现过，如果出现过，则说明存在两个数相加后能被 24 整除。</p>
-<pre><code class="js">// 哈希表记录
-const hours = [12, 12, 30, 24, 24];
-const cnt = new Map();
-let ans = 0;
-for (const h of hours) &#123;
-  const cur = (24 - (h % 24)) % 24; // 寻找凑对后能被整除的凑对数的模数
-  if (cnt.has(cur)) &#123;
-    ans += cnt.get(cur);
-  &#125;
-  cnt.set(h % 24, (cnt.get(h % 24) || 0) + 1);
-&#125;
-return ans;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-29T16:00:00.000Z" itemprop="datePublished">2024-10-30</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/chunk_strategy"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/19/buildTools/Vite/chunk_strategy/">分包策略-性能优化</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>由于浏览器的缓存策略，在请求静态资源时只要静态资源的名称不变就不会重新请求。所以使用 vite 打包后的文件带有哈希值，只要有一点代码的变动文件的哈希值就会变换，以此来保证每次请求获取的都是最新代码。</p>
-<p>但是有很多包是不需要经常更新的（第三方资源包，例如 lodash 等），每次重新请求对浏览器来说就是浪费资源，我们可以将这部分的包单独进行打包处理。</p>
-<h2 id="output-manualChunks"><a href="#output-manualChunks" class="headerlink" title="output.manualChunks"></a>output.manualChunks</h2><p>利用 rollup 本身的配置来实现。当该选项值为函数形式时，每个被解析的模块都会经过该函数处理。如果函数返回字符串，那么该模块及其所有依赖将被添加到以返回字符串命名的自定义 chunk 中。</p>
-<pre><code class="js">export default defineConfig(&#123;
-  // ...
-  build: &#123;
-    rollupOptions: &#123;
-      output: &#123;
-        manualChunks: (id) =&gt; &#123;
-          console.log(&quot;id----&quot;, id); // id 对象所有需要打包的文件路径
-          // 路径包含 node_modules 的包，一般为第三方包，不会变动的
-          if (id.includes(&quot;node_modules&quot;)) &#123;
-            return &quot;vendor&quot;; // 会分出一个前缀为 vender的包
-          &#125;
-        &#125;,
-      &#125;,
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-18T16:00:00.000Z" itemprop="datePublished">2024-10-19</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-CSS/useful"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/16/CSS/useful/">一些有用的 css 属性</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="columns"><a href="#columns" class="headerlink" title="columns"></a>columns</h2><p>将一个元素拆分成多列，并设置每列的宽度。</p>
-<pre><code class="css">.content &#123;
-  columns: 200px 3; /* 每列的宽度为 200px，共 3 列 */
-  column-gap: 12px;
-&#125;
-</code></pre>
-<h2 id="break-inside"><a href="#break-inside" class="headerlink" title="break-inside"></a>break-inside</h2><p>在浏览器中，列表项将不会被拆分到不同的列中。每个列表项将作为一个整体出现在同一列中。</p>
-<pre><code class="css">.menu-list &#123;
-  break-inside: avoid;
-&#125;
-</code></pre>
-<h2 id="使用伪元素通过-border-绘制一条直线"><a href="#使用伪元素通过-border-绘制一条直线" class="headerlink" title="使用伪元素通过 border 绘制一条直线"></a>使用伪元素通过 border 绘制一条直线</h2><p>使用伪元素中的 <code>content</code> 在元素前&#x2F;后添加直线时如果手动添加并不能使其自动填满父元素的剩余空间。<br>所以可以使用 border 配合 flex 来实现更好的效果：</p>
-<pre><code class="html">&lt;div class=&quot;title&quot;&gt;首页&lt;/div&gt;
-</code></pre>
-<pre><code class="css">.title &#123;
-  width: 100%;
-  display: inline-flex; /* 设置该元素为行内flex元素 */
-  padding-left: 4px;
-&#125;
-.title::after &#123;
-  content: &quot;&quot;;
-  flex: 1 1 0%; /* 使用flex填满剩余空间 */
-  border-top: 1px solid #ebebeb; /* 设置border作为分割线 */
-  margin: 16px;
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-15T16:00:00.000Z" itemprop="datePublished">2024-10-16</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/css_postcss"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/16/buildTools/Vite/css_postcss/">css 浏览器兼容</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>css 在不同的浏览器兼容性是不同的，有些特殊的样式在不同的浏览器前需要加上特殊性的前缀，比如：</p>
-<pre><code class="css">// 只有chrome和safari支持，且需要添加webkit前缀
--webkit-margin-before
--webkit-margin-after
-</code></pre>
-<h1 id="postcss"><a href="#postcss" class="headerlink" title="postcss"></a>postcss</h1><p>postcss 是一个用 JavaScript 工具和插件转换 CSS 代码的工具，postcss 自身没有什么功能，只是一个平台，可以下载各种插件，从而实现一些功能！</p>
-<ul>
-<li>Autoprefixer：自动获取浏览器的流行度和能够支持的属性，并根据这些数据帮你自动为 CSS 规则添加前缀。</li>
-<li>PostCSS Preset Env：将最新的 CSS 语法转换成大多数浏览器都能兼容的语法。</li>
-<li>CSS module：解决 css 命名冲突。</li>
-</ul>
-<h2 id="vite-中配置-postcss"><a href="#vite-中配置-postcss" class="headerlink" title="vite 中配置 postcss"></a>vite 中配置 postcss</h2><p>在 vite 中配置主要使用<code>postcss-preset-env</code>插件，它支持 css 变量和一些未来 css 语法以及自动补全(autoprefixer)。</p>
-<ul>
-<li><p>安装插件：</p>
-<pre><code class="bash">npm i postcss-preset-env -D
-</code></pre>
-</li>
-<li><p>在 vite.config.js 中配置：</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-const postcssPresetEnv = require(&quot;postcss-preset-env&quot;);
-export default defineConfig(&#123;
-  css: &#123;
-    // modules
-    // devSourcemap
-    // ...
-    postcss: &#123;
-      plugins: [postcssPresetEnv()],
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-15T16:00:00.000Z" itemprop="datePublished">2024-10-16</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/css"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/css/">vite 中使用 css</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>vite 直接就支持 css 文件，不需要别的操作。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当 vite 在读取到 main.js 中引用的 index.css 时：</p>
-<ol>
-<li><p>首先使用 node 的 fs 模块获取 css 文件的内容。<br><strong>浏览器行为：</strong><br>在浏览器获取 css 文件时，vite 会将其原本的 css 内容替换为 js 脚本，并让浏览器以执行 js 文件的形式来执行 css 后缀的文件。该脚本的内容执行内容如下：</p>
-<blockquote>
-<p>细节：获取到内容后，会见文件在本地的绝对路径作为 id 和内容一起传给 vite 处理 css 的函数 ——— updateStyle(id, content)，该函数会创建一个 <code>style</code> 标签，并将 type 设置为 ‘text&#x2F;css’，将其插入到 <code>head</code> 中（后面的内容）。</p>
-</blockquote>
-</li>
-<li><p>创建一个 <code>style</code> 标签，将 css 文件中的内容直接复制到里面。</p>
-</li>
-<li><p>将 <code>style</code> 标签插入到 <code>head</code> 中。</p>
-</li>
-</ol>
-<h2 id="CSS-Module"><a href="#CSS-Module" class="headerlink" title="CSS Module"></a>CSS Module</h2><p>问题：如果两个 css 文件定义了同一个类名，样式会被覆盖。<br>解决：使用 CSS Module（postcss），将每一个 class 名变为独一无二的，不会与其他选择器重名。</p>
-<p>将 css 文件的后缀改为 <code>.module.css</code> 即可。vite 会利用 postcss 自动将后缀名为 <code>.module.css</code> 的文件转换为 CSS Module，在类名前添加上独一无二的 hash 值。</p>
-<p>使用：</p>
-<pre><code class="js">import index from &#39;./css/test2.module.css&#39;
-...
-div.className = index.test
-</code></pre>
-<blockquote>
-<p>引入的值可以是认为原始 css 类名 和修改后独一无二的 css 类名 的映射表。</p>
-</blockquote>
-<h2 id="配置-CSS-Module"><a href="#配置-CSS-Module" class="headerlink" title="配置 CSS Module"></a>配置 CSS Module</h2><p>可以通过 vite.config.js 配置 CSS Module，其实也是将参数传递给 postcss。</p>
-<pre><code class="ts">export default defineConfig(&#123;
-  // css module
-  css: &#123;
-    // （postcss）
-    modules: &#123;
-      scopeBehaviour: &quot;local&quot;, // 是否开启模块化 local(*) | global
-      localsConvention: &quot;camelCaseOnly&quot;, // 返回键值对格式 camelCaseOnly(*) | camelCase | dashes | dashesOnly | null
-      // 修改生成的 hash 名称
-      // generateScopedName: &#39;[name]-[local]-[hash:base64:5]&#39;, // string
-
-      // hashPrefix: &#39;prefix-&#39;, // 生成的 hash 名前缀 ？
-      globalModulePaths: [&quot;src/module/cssNoUseModule/*.*.css&quot;], // 不想使用css module的路径 RegExp[]
-    &#125;,
-  &#125;,
-&#125;);
-</code></pre>
-<h2 id="CSS-sourcemap"><a href="#CSS-sourcemap" class="headerlink" title="CSS sourcemap"></a>CSS sourcemap</h2><p>默认情况下，我们在开发环境调试定位元素时，指向的是 <code>head</code> 里的 <code>style</code> 标签。在<strong>开发环境下</strong>，vite 可以配置 css 的 sourcemap 属性<code>devSourcemap</code>，可以让我们找到处理后 css 类所对应的源文件。</p>
-<pre><code class="js">export default defineConfig(&#123;
-  css: &#123;
-    // modules: &#123;
-    //   // ...
-    // &#125;,
-    // preprocessorOptions: &#123;
-    //   // ...
-    // &#125;
-    devSourcemap: true,
-  &#125;,
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/3/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/ferhannah-blog/page/5/">5</a><a class="page-number" href="/ferhannah-blog/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/5/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/3/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/ferhannah-blog/page/5/">5</a><a class="page-number" href="/ferhannah-blog/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/5/">Next</a>
     </nav>
   
 </div>
@@ -962,23 +1487,23 @@ div.className = index.test
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/">SSR 和 CSR</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>

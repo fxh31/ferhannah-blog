@@ -154,6 +154,494 @@
   
     
       <article
+id="post-buildTools/Vite/dependency_pre_bundling"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/dependency_pre_bundling/">Vite 的依赖预构建</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="快速识别引入第三方包"><a href="#快速识别引入第三方包" class="headerlink" title="快速识别引入第三方包"></a>快速识别引入第三方包</h2><p>浏览器原生识别相对路径或者绝对路径，类似<code>import _ from &quot;lodash&quot;</code>的方式浏览器是无法识别的。</p>
+<blockquote>
+<p>如果浏览器帮我们识别引入，会导致浏览器需要加载非常巨大的依赖文件，会让其速度非常慢！</p>
+</blockquote>
+<p>vite 的功能就是识别第三方包，只需要使用 vite 启动即可（默认去找根目录下的 index.html）。</p>
+<h2 id="依赖预加载"><a href="#依赖预加载" class="headerlink" title="依赖预加载"></a>依赖预加载</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>vite 能够识别非绝对路径或者相对路径的引用，是因为它进行了<strong>路径补全</strong>。</p>
+<p>vite 会对 lodash 进行预处理，并把它放在了 node_modules&#x2F;.vite&#x2F;deps 目录下。</p>
+<blockquote>
+<p>是 vite 在考虑另外一个问题（模块规范兼容性问题）的时候顺便把这个问题解决了！</p>
+</blockquote>
+<h3 id="依赖预构建"><a href="#依赖预构建" class="headerlink" title="依赖预构建"></a>依赖预构建</h3><p>浏览器只认识 esmodule 的包，但是在早期的很多包是以 commonjs 规范导出的，所以需要工具来处理这些包。</p>
+<p>vite 处理这些包步骤：</p>
+<ol>
+<li>找到项目中的依赖包，比如 lodash；</li>
+<li>利用 esbuild（对 js 语法进行处理的一个库）将其他规范的代码转换成 esmodule 规范的代码，将其放在 node_modules&#x2F;.vite&#x2F;deps 目录下；</li>
+<li>将将 esmodule 规范的各个模块进行统一集成导出。</li>
+</ol>
+<p><strong>解决问题</strong>：</p>
+<ul>
+<li>统一包为 esmodule 规范，浏览器可以识别。</li>
+<li>对路径的处理上可以直接使用 <strong>.vite&#x2F;deps</strong>，方便路径重写。</li>
+<li>优化了网络多包传输的性能问题。</li>
+</ul>
+<h4 id="关闭依赖预构建"><a href="#关闭依赖预构建" class="headerlink" title="关闭依赖预构建"></a>关闭依赖预构建</h4><p>在 vite.config.js 中添加如下配置：</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+
+export default defineConfig(&#123;
+  optimizeDeps: &#123;
+    exclude: [&quot;lodash-es&quot;],
+  &#125;,
+&#125;);
+</code></pre>
+<p>关闭依赖依赖预构建后，访问地址直接在 node_modules 中，浏览器会请求很多依赖文件，这也是原生 esmodule 规范不敢支持直接加载 node_modules 的原因之一。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/env_config_integration"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <blockquote>
+<p>vite 是运行在 node 环境中的，但是 vite.config.js 却支持 esm 形式的代码，这是因为 vite 在读取 vite.config.js 时，会率先通过 node 解析文件语法， 在加载文件之前进行预处理（如果发现你是 esmodule 规范会直接将你的 esmodule 规范进行替换变成 commonjs 规范）。</p>
+</blockquote>
+<h2 id="指定配置文件"><a href="#指定配置文件" class="headerlink" title="指定配置文件"></a>指定配置文件</h2><p>可以通过<code>--config</code>在 vite 运行的时候指定配置文件入口：</p>
+<pre><code class="bash">vite --config vite.config.js
+</code></pre>
+<h2 id="配置文件语法提示"><a href="#配置文件语法提示" class="headerlink" title="配置文件语法提示"></a>配置文件语法提示</h2><ul>
+<li><p>defineConfig 工具函数<br>适用于 vscode。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;&#125;);
+</code></pre>
+</li>
+<li><p>jsdoc 注释</p>
+<blockquote>
+<p>Vite 本身附带 TypeScript 类型，所以你可以通过 IDE 和 jsdoc 的配合来实现智能提示</p>
+</blockquote>
+<pre><code class="js">/** @type &#123;import(&#39;vite&#39;).UserConfig&#125; */
+export default &#123;
+  // ...
+&#125;;
+</code></pre>
+<blockquote>
+<p>好像不起作用？</p>
+</blockquote>
+</li>
+<li><p>TS 配置文件</p>
+<pre><code class="ts">import type &#123; UserConfig &#125; from &quot;vite&quot;;
+export default &#123;
+  // ...
+&#125; satisfies UserConfig;
+</code></pre>
+</li>
+</ul>
+<h2 id="多环境配置文件集成"><a href="#多环境配置文件集成" class="headerlink" title="多环境配置文件集成"></a>多环境配置文件集成</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+
+import viteBaseConfig from &quot;./vite.base.config&quot;;
+import viteDevConfig from &quot;./vite.dev.config&quot;;
+import viteProdConfig from &quot;./vite.prod.config&quot;;
+
+export default defineConfig((&#123; command, mode, isSsrBuild &#125;) =&gt; &#123;
+  if (command === &quot;serve&quot;) &#123;
+    return &#123;
+      ...viteBaseConfig,
+      ...viteDevConfig,
+    &#125;;
+  &#125; else &#123;
+    return &#123;
+      ...viteBaseConfig,
+      ...viteProdConfig,
+    &#125;;
+  &#125;
+&#125;);
+</code></pre>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><pre><code class="js">const envResolver = &#123;
+  serve: () =&gt; &#123;
+    console.log(&quot;开发环境&quot;);
+    return Object.assign(&#123;&#125;, viteBaseConfig, viteDevConfig);
+  &#125;,
+  build: () =&gt; &#123;
+    console.log(&quot;生产环境&quot;);
+    return Object.assign(&#123;&#125;, viteBaseConfig, viteProdConfig);
+  &#125;,
+&#125;;
+export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
+  return envResolver[command]();
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/env_variables"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/env_variables/">环境变量</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>根据当前的代码环境变化的变量就叫做环境变量。</strong>我们可以设置生产环境和开发环境的 base_url，来请求不同环境的接口。</p>
+<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h3 id="node-js-——-process-env"><a href="#node-js-——-process-env" class="headerlink" title="node.js —— process.env"></a>node.js —— process.env</h3><blockquote>
+<p><code>process.env</code>是 Nodejs 提供的 API，其返回一个对象，包含了当前 Shell 的所有环境变量。</p>
+</blockquote>
+<p>vite.config.js 运行在 node 环境中，所以可以识别<code>process.env</code>变量，而<code>process.env.NODE_ENV</code>就是当前 Node 运行环境变量。</p>
+<h3 id="浏览器环境-——-import-meta-env"><a href="#浏览器环境-——-import-meta-env" class="headerlink" title="浏览器环境 —— import.meta.env"></a>浏览器环境 —— import.meta.env</h3><p>在浏览器环境中，Vite 在一个特殊的<code>import.meta.env</code> 对象上暴露环境变量。</p>
+<blockquote>
+<p>这些变量在 vite.config.js 中无法访问到的。</p>
+</blockquote>
+<h2 id="自定义环境变量"><a href="#自定义环境变量" class="headerlink" title="自定义环境变量"></a>自定义环境变量</h2><h3 id="dotenv"><a href="#dotenv" class="headerlink" title="dotenv"></a>dotenv</h3><p>vite 中内置了 dotenv，dotenv 会从环境目录下自动读取.env 文件：</p>
+<blockquote>
+<p>.env：默认所有环境都会加载<br>.env.[mode]：只在指定模式下加载</p>
+</blockquote>
+<p>加载的环境变量也会通过 <code>import.meta.env</code> 以<strong>字符串形式</strong>暴露给客户端源码。为了防止意外地将一些环境变量泄漏到客户端，只有<strong>以 VITE_ 为前缀的变量</strong>才会暴露给经过 vite 处理的代码。</p>
+<blockquote>
+<p>注：所以在其中不用写<code>&quot;&quot;</code>也行。</p>
+</blockquote>
+<p>在指定模式下运行时，.env 在 .env.[mode] 中的同名变量会被 .env.[mode] 覆盖，而其他变量则会被进行合并。</p>
+<h3 id="指定运行模式（运行加载的自定义环境变量文件）"><a href="#指定运行模式（运行加载的自定义环境变量文件）" class="headerlink" title="指定运行模式（运行加载的自定义环境变量文件）"></a>指定运行模式（运行加载的自定义环境变量文件）</h3><p>运行命令时以 –mode 参数指定运行模式，如：</p>
+<pre><code class="json">&quot;scripts&quot;: &#123;
+  &quot;dev&quot;: &quot;vite&quot;, // 默认开发模式 development
+  &quot;build&quot;: &quot;vite build&quot;, // build 默认为生产模式
+  &quot;test&quot;: &quot;vite --mode test&quot;
+&#125;,
+</code></pre>
+<p>指定的<code>--mode xxx</code>会去寻找对应的.env.xxx 文件，并在浏览器中将<code>import.meta.env</code>设置为 xxx 模式。如果没有找到这个文件，则只加载<code>.env</code>中的环境变量。</p>
+<blockquote>
+<p>注意：自定义模式（test）和设置的.env.xxx（.env.test）只在 vite 经过处理的浏览器端生效，Nodejs 是不会承认它的，也就是说只能在使用<code>import.meta.env</code>时才能读取到自定义环境变量，而 process.env.NODE_ENV 中没有，并且通过<code>loadEnv()</code>方法也只能获取到开发环境和生产环境。（测试了一下即使在浏览器中 MOED&#x3D;test，但是<code>process.env.NODE_ENV</code>还是 development）</p>
+</blockquote>
+<h3 id="更改-env-文件的默认入口地址"><a href="#更改-env-文件的默认入口地址" class="headerlink" title="更改.env 文件的默认入口地址"></a>更改.env 文件的默认入口地址</h3><p>一般来说 .env 文件都是建立在根目录下的，但如果环境文件太多，都散落在根目录下会让目录变得混乱。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  envDir: &quot;env&quot;,
+&#125;);
+</code></pre>
+<blockquote>
+<p>这样所有的文件都可以放在根目录下的 env 文件夹下。</p>
+</blockquote>
+<h3 id="更改环境变量的-VITE-前缀"><a href="#更改环境变量的-VITE-前缀" class="headerlink" title="更改环境变量的 VITE_前缀"></a>更改环境变量的 VITE_前缀</h3><p>以 envPrefix 开头的环境变量会通过 import.meta.env 暴露在你的客户端源码中。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  envPrefix: &quot;FER&quot;,
+&#125;);
+</code></pre>
+<h3 id="获取所有的环境变量"><a href="#获取所有的环境变量" class="headerlink" title="获取所有的环境变量"></a>获取所有的环境变量</h3><p>vite.config.js 中的环境变量获取默认以设置的 envPrefix 为开头，可以使用 Vite 内置的 API 方法<code>loadEnv()</code>获取所有的环境变量：</p>
+<pre><code class="js">const env1 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;&quot;); // 将所有的配置文件放在 env 文件夹下，这样能获取到 node 环境中(env)的所有变量
+const env2 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;); // 默认获取到以 VITE\_ 开头的环境变量
+const env3 = loadEnv(process.env.NODE_ENV, process.cwd() + &quot;\\env&quot;, &quot;FER_&quot;); // 获取到以 FER\_ 开头的环境变量
+</code></pre>
+<ul>
+<li><code>&quot;&quot;</code>：表示需要获取的环境变量的前缀，默认为 <code>VITE_</code>开头。</li>
+<li>对于不同的 NODE_ENV，只会获取对应模式（只有 production 和 development）的环境变量。</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/static_asset"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/static_asset/">静态资源</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>json 文件、图片、打包后的文件（dist）都是常见的静态资源，静态资源都是一开始就被载入的；而动态资源则通过后续在页面中发起请求后获取的。</p>
+<h2 id="静态资源文件夹"><a href="#静态资源文件夹" class="headerlink" title="静态资源文件夹"></a>静态资源文件夹</h2><p>vite 默认静态资源存放于为位于项目根目录下的 public 文件夹，该目录中的资源在开发时能直接通过 &#x2F; 根路径访问到，并且打包时会被完整复制到目标目录的根目录下。</p>
+<h2 id="静态资源处理"><a href="#静态资源处理" class="headerlink" title="静态资源处理"></a>静态资源处理</h2><h3 id="vite-引入静态资源文件"><a href="#vite-引入静态资源文件" class="headerlink" title="vite 引入静态资源文件"></a>vite 引入静态资源文件</h3><p>vite 针对不同的静态资源，在导入 js 文件中时：</p>
+<ul>
+<li>css 文件：直接引入生效；</li>
+<li>js 文件：引入可输出为内部导出函数；</li>
+<li>图片、媒体和字体文件类型：引入可以默认输出其文件所在的 url 地址；</li>
+<li>json 文件：引入可以默认输出为对象；<blockquote>
+<p>vite 将其预处理为对象的键值对形式。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="将资源引入为-url"><a href="#将资源引入为-url" class="headerlink" title="将资源引入为 url"></a>将资源引入为 url</h3><p>一般来说图片、媒体和字体文件类型的文件会自动引入为 url，而 js 或其他文件则不会（引入为内部导出函数和对象），如果想让它们引入为 url 则可以使用 <code>assetsInclude</code> 选项，来添加内部静态资源路径问题。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;
+  assetsInclude: [&quot;./src/plugin.ts&quot;, &quot;**/*.gltf&quot;],
+&#125;);
+</code></pre>
+<blockquote>
+<p>在 vite 的内建支持的资源类型列表中已经包括了很多引入 url 地址使用的资源文件，所以其目的（<code>assetsInclude</code> ）主要是针对于那些没在里面的文件但是又需要通过 url 引入。（只是在下的猜测）</p>
+</blockquote>
+<p><strong>内建支持的资源类型列：</strong></p>
+<ul>
+<li>images：’apng’,’bmp’,’png’,’jpe?g’,’jfif’,’pjpeg’,’pjp’,’gif’,’svg’,’ico’,’webp’,’avif’</li>
+<li>media：’mp4’,’webm’,’ogg’,’mp3’,’wav’,’flac’,’aac’,’opus’,’mov’,’m4a’,’vtt’</li>
+<li>fonts：’woff2?’,’eot’,’ttf’,’otf’</li>
+<li>other：’webmanifest’,’pdf’,’txt’</li>
+</ul>
+<h3 id="强制将资源引入为-url"><a href="#强制将资源引入为-url" class="headerlink" title="强制将资源引入为 url"></a>强制将资源引入为 url</h3><p>未被包含在内部列表或 assetsInclude 中的资源，可以使用 <code>?url</code> 后缀显式导入为一个 URL。</p>
+<pre><code class="js">import testCss from &quot;./assets/test.css?url &quot;;
+console.log(&quot;css-path&quot;, testCss);
+</code></pre>
+<blockquote>
+<p>vite 版本 5.3.1：主要是针对 css，可恶 css 的油盐不进，直接引入和放在 assetsInclude 中都不行。</p>
+</blockquote>
+<h3 id="将资源引入为源文件"><a href="#将资源引入为源文件" class="headerlink" title="将资源引入为源文件"></a>将资源引入为源文件</h3><p>资源可以使用 <code>?raw</code> 后缀声明作为字符串（源文件）引入。</p>
+<pre><code class="js">import testCss from &quot;./assets/test.css?raw &quot;;
+import testPng from &quot;./assets/box.png?raw&quot;;
+import testJson from &quot;./assets/test.json?raw&quot;;
+
+console.log(&quot;json-raw&quot;, testJson);
+console.log(&quot;png-raw&quot;, testPng);
+console.log(&quot;css-raw&quot;, testCss);
+</code></pre>
+<p>css、js、json 都将其内容以文本形式输出。jpg、mp4 文件以流的形式输出。svg 以 html 文本（svg 标签）输出。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/iframe"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/20/HTML/iframe/">iframe</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <pre><code class="html">&lt;iframe
+  src=&quot;https://www.example.com&quot;
+  width=&quot;100%&quot;
+  height=&quot;500&quot;
+  frameborder=&quot;0&quot;
+  allowfullscreen
+  sandbox
+&gt;
+  &lt;!-- 当浏览器不支持 iframe 时，显示链接（但一般都支持） --&gt;
+  &lt;p&gt;&lt;a href=&quot;https://www.example.com&quot;&gt;点击打开嵌入页面&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;
+</code></pre>
+<h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><ul>
+<li>allowfullscreen：允许嵌入的网页全屏显示，需要全屏 API 的支持（JS）。</li>
+<li>frameborder：是否绘制边框，0 为不绘制，1 为绘制（默认值）。建议尽量少用这个属性，而是在 CSS 里面设置样式。</li>
+<li>src：嵌入的网页的 URL。</li>
+<li>width：显示区域的宽度。</li>
+<li>height：显示区域的高度。</li>
+<li>importance：浏览器下载嵌入的网页的优先级，可以设置三个值。high 表示高优先级，low 表示低优先级，auto 表示由浏览器自行决定。</li>
+<li>name：内嵌窗口的名称，可以用于<a>、<form>、<base>的 target 属性。</li>
+<li>referrerpolicy：请求嵌入网页时，HTTP 请求的 Referer 字段的设置。参见<a>标签的介绍。</li>
+<li>sandbox：设置嵌入的网页的权限，详见下文。</li>
+</ul>
+<h2 id="sandbox"><a href="#sandbox" class="headerlink" title="sandbox"></a>sandbox</h2><p>为了限制<code>&lt;iframe&gt;</code>的风险，HTML 提供了 <code>sandbox</code> 属性，允许设置嵌入的网页的权限。（提供了一个隔离层-沙箱）</p>
+<p>sandbox 为 bool 时，表示打开所有限制。但其中具体限制也可以逐一打开：</p>
+<ul>
+<li>allow-forms：允许提交表单。</li>
+<li>allow-modals：允许提示框，即允许执行 window.alert()等会产生弹出提示框的 JavaScript 方法。</li>
+<li>allow-popups：允许嵌入的网页使用 window.open()方法弹出窗口。</li>
+<li>allow-popups-to-escape-sandbox：允许弹出窗口不受沙箱的限制。</li>
+<li>allow-orientation-lock：允许嵌入的网页用脚本锁定屏幕的方向，即横屏或竖屏。</li>
+<li>allow-pointer-lock：允许嵌入的网页使用 Pointer Lock API，锁定鼠标的移动。</li>
+<li>allow-presentation：允许嵌入的网页使用 Presentation API。</li>
+<li>allow-same-origin：不打开该项限制，将使得所有加载的网页都视为跨域。</li>
+<li>allow-scripts：允许嵌入的网页运行脚本（但不创建弹出窗口）。</li>
+<li>allow-storage-access-by-user-activation：允许在用户激动的情况下，嵌入的网页通过 Storage Access API 访问父窗口的储存。</li>
+<li>allow-top-navigation：允许嵌入的网页对顶级窗口进行导航。</li>
+<li>allow-top-navigation-by-user-activation：允许嵌入的网页对顶级窗口进行导航，但必须由用户激活。</li>
+<li>allow-downloads-without-user-activation：允许在没有用户激活的情况下，嵌入的网页启动下载。</li>
+</ul>
+<blockquote>
+<p>注意：不要同时设置 allow-scripts 和 allow-same-origin 属性，这将使得嵌入的网页可以改变或删除 sandbox 属性</p>
+</blockquote>
+<h2 id="loading"><a href="#loading" class="headerlink" title="loading"></a>loading</h2><p><code>&lt;iframe&gt;</code>指定的网页会立即加载，但我们也可以让其滚动进入视口以后再加载以节约带宽，这时就可以使用 loading 属性。</p>
+<p>loading 属性可以触发<code>&lt;iframe&gt;</code>网页的懒加载。该属性可以取以下三个值。</p>
+<ul>
+<li>auto：浏览器的默认行为，与不使用 loading 属性效果相同。</li>
+<li>lazy：<code>&lt;iframe&gt;</code>的懒加载，即将滚动进入视口时开始加载。</li>
+<li>eager：立即加载资源，无论在页面上的位置如何。</li>
+</ul>
+<pre><code class="html">&lt;iframe src=&quot;https://example.com&quot; loading=&quot;lazy&quot;&gt;&lt;/iframe&gt;
+</code></pre>
+<blockquote>
+<p>注意：如果<code>&lt;iframe&gt;</code>是隐藏的，则 loading 属性无效，将会立即加载。<br><code>&lt;iframe&gt;</code>的宽度和高度为 4 像素或更小。<br>样式设为 display: none 或 visibility: hidden。<br>使用定位坐标为负 X 或负 Y，将<code>&lt;iframe&gt;</code>放置在屏幕外。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-19T16:00:00.000Z" itemprop="datePublished">2024-09-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Node-process"
 class="article article-type-post"
 >
@@ -244,117 +732,6 @@ export const foo = &quot;es module export value&quot;;
 const mod = require(&quot;./es-module.mjs&quot;);
 console.log(mod); // error
 </code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Node模块（module）的导出导入"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/09/04/Node/Node%E6%A8%A1%E5%9D%97%EF%BC%88module%EF%BC%89%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5/">Node模块（module）的导出导入</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <pre><code class="js">const requestHandler = () =&gt; &#123;&#125;;
-</code></pre>
-<h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><ul>
-<li><p>整体模块导出</p>
-<pre><code class="js">module.exports = requestHandler;
-</code></pre>
-<blockquote>
-<p>该导出方式的导出函数会作为整个文件的导出结果，不支持重命名。</p>
-</blockquote>
-</li>
-<li><p>对象表示导出</p>
-<pre><code class="js">module.exports = &#123;
-  handler: requestHandler,
-  someText: &quot;导出的一些字符串&quot;,
-&#125;;
-</code></pre>
-<blockquote>
-<p>该导出方式可以一次性导出多个变量，支持重命名。</p>
-</blockquote>
-</li>
-<li><p>简写默认导出</p>
-<pre><code class="js">exports = &#123;
-  someText: &quot;导出的一些字符串&quot;,
-&#125;;
-</code></pre>
-</li>
-</ul>
-<blockquote>
-<p><strong>注意</strong>：<strong>默认导出的内容不会出现在全局对象<code>exports</code>上</strong>，只有命名导出的内容才会出现。</p>
-</blockquote>
-<h3 id="命名导出"><a href="#命名导出" class="headerlink" title="命名导出"></a>命名导出</h3><ul>
-<li><p>属性表示导出</p>
-<pre><code class="js">module.exports.handler = requestHandler;
-module.exports.someText = &quot;导出的一些字符串&quot;;
-</code></pre>
-<blockquote>
-<p>该导出方式可以一条一条导出，支持重命名。</p>
-</blockquote>
-</li>
-<li><p>属性表示导出（快捷方式）</p>
-<pre><code class="js">exports.handler = requestHandler;
-exports.someText = &quot;导出的一些字符串&quot;;
-</code></pre>
-</li>
-</ul>
-<blockquote>
-<p><strong>注意</strong>：命名导出（<code>exports.xxx</code>）和默认导出（<code>exports</code>）不可以同时使用。<strong>如果一个模块中同时使用了命名导出和默认导出，则命名导出将被忽略，只有默认导出的内容会被导出。</strong></p>
-</blockquote>
-<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>使用<code>require</code>导入我们导出函数或属性的文件：</p>
-<pre><code class="js">const routes = require(&quot;./routes&quot;);
-</code></pre>
-<ul>
-<li><p>对于整体模块导出的导入</p>
-<pre><code class="js">// routes就是requestHandler
-console.log(routes);
-</code></pre>
-</li>
-<li><p>对于其他导出的导入</p>
-<pre><code class="js">// 需要用.来对应
-console.log(routes.handler);
-console.log(routes.someText);
-</code></pre>
-</li>
-</ul>
 
         
     </div>
@@ -556,6 +933,117 @@ console.log(__dirname);
   
     
       <article
+id="post-Node/Node模块（module）的导出导入"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2023/09/04/Node/Node%E6%A8%A1%E5%9D%97%EF%BC%88module%EF%BC%89%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5/">Node模块（module）的导出导入</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <pre><code class="js">const requestHandler = () =&gt; &#123;&#125;;
+</code></pre>
+<h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><ul>
+<li><p>整体模块导出</p>
+<pre><code class="js">module.exports = requestHandler;
+</code></pre>
+<blockquote>
+<p>该导出方式的导出函数会作为整个文件的导出结果，不支持重命名。</p>
+</blockquote>
+</li>
+<li><p>对象表示导出</p>
+<pre><code class="js">module.exports = &#123;
+  handler: requestHandler,
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一次性导出多个变量，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>简写默认导出</p>
+<pre><code class="js">exports = &#123;
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：<strong>默认导出的内容不会出现在全局对象<code>exports</code>上</strong>，只有命名导出的内容才会出现。</p>
+</blockquote>
+<h3 id="命名导出"><a href="#命名导出" class="headerlink" title="命名导出"></a>命名导出</h3><ul>
+<li><p>属性表示导出</p>
+<pre><code class="js">module.exports.handler = requestHandler;
+module.exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一条一条导出，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>属性表示导出（快捷方式）</p>
+<pre><code class="js">exports.handler = requestHandler;
+exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：命名导出（<code>exports.xxx</code>）和默认导出（<code>exports</code>）不可以同时使用。<strong>如果一个模块中同时使用了命名导出和默认导出，则命名导出将被忽略，只有默认导出的内容会被导出。</strong></p>
+</blockquote>
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>使用<code>require</code>导入我们导出函数或属性的文件：</p>
+<pre><code class="js">const routes = require(&quot;./routes&quot;);
+</code></pre>
+<ul>
+<li><p>对于整体模块导出的导入</p>
+<pre><code class="js">// routes就是requestHandler
+console.log(routes);
+</code></pre>
+</li>
+<li><p>对于其他导出的导入</p>
+<pre><code class="js">// 需要用.来对应
+console.log(routes.handler);
+console.log(routes.someText);
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Node.js常用包"
 class="article article-type-post"
 >
@@ -665,956 +1153,10 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Node/数据验证（Validate）"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/09/Node/%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88Validate%EF%BC%89/">数据验证（Validate）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="为什么要验证"><a href="#为什么要验证" class="headerlink" title="为什么要验证"></a>为什么要验证</h2><p>在用户使用表单发送数据到后端、后端将数据写入数据库的过程中，如果用户输入了一些无效的数据，可能会影响整个代码的逻辑。（避免提交数据不合法）</p>
-<h2 id="如何进行验证"><a href="#如何进行验证" class="headerlink" title="如何进行验证"></a>如何进行验证</h2><p>我们可以在不同的地方对数据进行验证：</p>
-<ul>
-<li><p><strong>在客户端进行验证（可选）</strong>：在发送任何请求到服务端之前，通过 JS 监听输入事件，然后在用户进行表单输入时检查，在页面上进行反馈显示。这可以<strong>提高用户的体验</strong>。</p>
-<blockquote>
-<p>在客户端验证是可选的，它并不安全。因为客户端使用的 JS 是在浏览器中运行的，用户可以看到、更改或禁用 JS 代码，不利于保护安全数据发送到服务器。</p>
-</blockquote>
-</li>
-<li><p><strong>在服务端进行验证（必须）</strong>：将任何数据存储在数据库之前进行验证，保证存储数据的正确性。并且有些验证功能需要查询数据库，在服务器端进行验证能做的事要多一些。</p>
-<blockquote>
-<p>用户无法看到、更改或禁用代码，因为这些都发生在服务器上，而不是浏览器中。</p>
-</blockquote>
-</li>
-<li><p><strong>数据库内置验证（可选）</strong>：大多数数据库引擎都有一个内置验证，但是如果在服务端进行了良好的验证，基本上不需要。</p>
-</li>
-</ul>
-<h1 id="在-Node（Express）中进行数据验证"><a href="#在-Node（Express）中进行数据验证" class="headerlink" title="在 Node（Express）中进行数据验证"></a>在 Node（Express）中进行数据验证</h1><h2 id="安装验证器"><a href="#安装验证器" class="headerlink" title="安装验证器"></a>安装验证器</h2><p>在 Node（Express）中，我们可以安装第三方验证器<code>express-validator</code>来辅助我们进行数据的验证：</p>
-<pre><code class="bash">npm install --save express-validator
-</code></pre>
-<h2 id="进行验证"><a href="#进行验证" class="headerlink" title="进行验证"></a>进行验证</h2><p>引入<code>express-validator/check</code>中的<code>check()</code>，<code>check()</code>接收两个参数，第一个参数为作为检查对象的 name；第二个参数是触发校验错误的信息：</p>
-<pre><code class="js">const &#123; check &#125; = require(&#39;express-validator/check&#39;);
-
-const app = express();
-
-app.use(&#39;/signup&#39;, check(&#39;email&#39;).isEmail(), authController.postSignup)&#39;); // 通过isEmail()检查渲染页面中name为email的输入选项是否为有效的Email格式
-</code></pre>
-<h3 id="自定义验证"><a href="#自定义验证" class="headerlink" title="自定义验证"></a>自定义验证</h3><p>除了直接使用已有的内置验证器函数，我们也使用<code>custom()</code>自定义验证器。</p>
-<p><code>custom()</code>接收一个回调函数，其中回调函数中第一个参数为需要验证的值；第二个参数为一个对象，我们可以从中提取一些信息（如请求、位置、路径）：</p>
-<pre><code class="js">app.use(
-  &quot;/signup&quot;,
-  check(&quot;email&quot;)
-    .isEmail()
-    .withMessage(&quot;Please enter a valid email.&quot;)
-    .custom((value, &#123; req &#125;) =&gt; &#123;
-      // 自定义验证逻辑
-      if (value === &quot;test@test.com&quot;) &#123;
-        throw new Error(&quot;This email address if forbidden.&quot;); // 抛出错误异常消息
-      &#125;
-      return true;
-    &#125;),
-  authController.postSignup
-);
-</code></pre>
-<ul>
-<li><p><strong>验证再次确认密码</strong></p>
-<p>我们可以用数组，同时注册验证多字段：</p>
-<pre><code class="js">app.use(
-  &quot;/signup&quot;,
-  [
-    check(&quot;email&quot;)
-      .isEmail()
-      .withMessage(&quot;Please enter a valid email.&quot;)
-      .custom((value, &#123; req &#125;) =&gt; &#123;
-        if (value === &quot;test@test.com&quot;) &#123;
-          throw new Error(&quot;This email address if forbidden.&quot;);
-        &#125;
-        return true;
-      &#125;),
-    body(
-      &quot;password&quot;,
-      &quot;Please enter a password with only numbers and text and at least 5 characters.&quot;
-    )
-      .isLength(&#123; min: 5 &#125;)
-      .isAlphanumeric(),
-    body(&quot;confirmPassword&quot;).custom((value, &#123; req &#125;) =&gt; &#123;
-      if (value !== req.body.password) &#123;
-        // req.body.password获取输入请求的密码
-        throw new Error(&quot;Password have to match!&quot;);
-      &#125;
-      return true;
-    &#125;),
-  ],
-  authController.postSignup
-);
-</code></pre>
-</li>
-</ul>
-<h3 id="指定验证"><a href="#指定验证" class="headerlink" title="指定验证"></a>指定验证</h3><p>在引入<code>check()</code>时，我们可以指定引入传入请求时的一些信息（例如 body、param、query、cookie、header 等），用法和<code>check()</code>相同：</p>
-<pre><code class="js">const &#123; check, body &#125; = require(&#39;express-validator/check&#39;)
-...
-app.use(
-  &#39;/signup&#39;,
-  [
-    check(&#39;email&#39;)
-      .isEmail()
-      .withMessage(&#39;Please enter a valid email.&#39;)
-      .custom((value, &#123;req&#125;) =&gt; &#123;
-        if (value === &#39;test@test.com&#39;) &#123;
-          throw new Error(&#39;This email address if forbidden.&#39;)
-        &#125;
-        return true;
-      &#125;),
-    body(
-      &#39;password&#39;,
-      &#39;Please enter a password with only numbers and text and at least 5 characters.&#39;
-      )
-      .isLength(&#123;min: 5&#125;)
-      .isAlphanumeric()
-  ],
-  authController.postSignup
-);
-</code></pre>
-<blockquote>
-<p>isLength({min: 5})：最小长度为 5</p>
-<p>isAlphanumeric()：允许数字和普通字符</p>
-</blockquote>
-<h2 id="验证结果"><a href="#验证结果" class="headerlink" title="验证结果"></a>验证结果</h2><p>引入<code>express-validator/check</code>中的<code>validationResult()</code>，<code>validationResult()</code>中包含了所有验证的结果：</p>
-<pre><code class="js">const &#123; validationResult &#125; = require(&quot;express-validator/check&quot;);
-
-exports.postSignup = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
-  const errors = validationResult(req); // 存储使用验证中间件的请求里的验证结果
-  if (!errors.isEmpty()) &#123;
-    // 检测errors中是否有错误信息
-    console.log(errors.array()); // 打印错误信息数组
-    return res.status(422).render(&quot;auth/signup&quot;, &#123;
-      // 返回422状态码，重新返回注册页面
-      path: &quot;/signup&quot;,
-      pageTitle: &quot;Signup&quot;,
-      errorMessage: errors.array()[0].msg, // 错误信息数组里的每一项的msg为错误信息
-    &#125;);
-  &#125;
-&#125;;
-</code></pre>
-<h2 id="自定义错误信息"><a href="#自定义错误信息" class="headerlink" title="自定义错误信息"></a>自定义错误信息</h2><p>可以在注册中间件函数时添加<code>withMessage()</code>来自定义错误信息：</p>
-<pre><code class="js">app.use(
-  &quot;/signup&quot;,
-  check(&quot;email&quot;).isEmail().withMessage(&quot;Please enter a valid email.&quot;),
-  authController.postSignup
-);
-</code></pre>
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="express-validator-内置验证器函数"><a href="#express-validator-内置验证器函数" class="headerlink" title="express-validator 内置验证器函数"></a>express-validator 内置验证器函数</h3><ul>
-<li><p>isEmail()：输入是否为 Email 格式。</p>
-</li>
-<li><p>isURL()：输入是否为一个 url 网址形式。</p>
-</li>
-<li><p>isFloat()：输入保留一位小数。</p>
-</li>
-<li><p>isLength({})：是否限制输入长度。接收一个对象，对象内设置最长或最短字符数量。</p>
-</li>
-<li><p>withMessage()：定义错误信息。</p>
-</li>
-<li><p>custom()：自定义验证函数。</p>
-</li>
-<li><p>isAlphanumeric()：是否数字和普通字符。</p>
-</li>
-<li><p>isString()：是否是字符串形式。</p>
-</li>
-<li><p>normalizeEmail()：规范化 Email 格式。</p>
-</li>
-<li><p>trim()：删除多余空格。</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-08T16:00:00.000Z" itemprop="datePublished">2023-03-09</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/other/">other</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Mongoose"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/07/Node/Mongoose/">Mongoose</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Mongoose 是一个<strong>ODM（对象文档映射库—Object-Document Mapping Library）</strong>。</p>
-<blockquote>
-<p>Mongoose 为模型提供了一种直接的，基于 scheme 结构去定义你的数据模型，然后通过实例化模型来生成一条数据文档；而在数据模型上可以使用各种内置的方法。</p>
-<p>例如：</p>
-<pre><code class="js">db.collection(&quot;users&quot;).insertOne(&#123;
-  name: &quot;Jon&quot;,
-  age: 28,
-  password: &quot;hsdjkffds&quot;,
-&#125;);
-</code></pre>
-<p>——&gt;</p>
-<pre><code class="js">const user = User.create(&#123; name: &quot;Jon&quot;, age: 28, password: &quot;hsdjkffds&quot; &#125;);
-</code></pre>
-</blockquote>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">npm install --save mongoose
-</code></pre>
-<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>app.js</p>
-<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
-...
-mongoose
-  .connect(
-    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
-  ) // 连接MongoDB数据库
-  .then(result =&gt; &#123;
-    app.listen(3000);
-  &#125;)
-  .catch(err =&gt; &#123;
-    console.log(err);
-  &#125;);
-</code></pre>
-<h3 id="创建和定义模型的-Schema"><a href="#创建和定义模型的-Schema" class="headerlink" title="创建和定义模型的 Schema"></a>创建和定义模型的 Schema</h3><p>以键值对的方式来定义模型：</p>
-<p>models&#x2F;product.js</p>
-<pre><code class="js">const mongoose = require(&quot;mongoose&quot;);
-const Schema = mongoose.Schema;
-
-const productSchema = new Schema(&#123;
-  // @1
-  title: &#123;
-    type: String, // 类型
-    required: true, // 是否必须
-  &#125;,
-  price: &#123;
-    type: Number,
-    required: true,
-  &#125;,
-  description: &#123;
-    type: String,
-    required: true,
-  &#125;,
-  imageUrl: &#123;
-    type: String,
-    required: true,
-  &#125;,
-&#125;);
-
-module.exports = mongoose.model(&quot;Product&quot;, productSchema); // 将导出的模块作为mongoose的model，方便日后连接 @2
-</code></pre>
-<blockquote>
-<p>@1：虽然 MongoDB 是没有特定的 schema 限制的，但通常我们在使用时知道某种数据存在某种结构（比如知道 name 数据用 String 类型）；因此 mongoose 需要我们提供这样的结构，让我们只关注于数据本身，即使这样做会放弃一些数据的灵活性。</p>
-<p>@2：第一个参数为自定义的集合名字（<strong>Mongoose 会将这个名字的开头转为小写，并在后面加上 s 作为集合的名字</strong>），第二个参数为需要导出的模块。</p>
-</blockquote>
-<h3 id="自定义-Schema-的方法"><a href="#自定义-Schema-的方法" class="headerlink" title="自定义 Schema 的方法"></a>自定义 Schema 的方法</h3><p>我们可以向定义的 Schema 中添加方法，让每个通过这个 Schema 模型创建出来的实例（数据&#x2F;文档）都可以使用。</p>
-<pre><code class="js">const productSchema = new Schema(&#123;
-  ...
-&#125;);
-productSchema.methods.addToCart = function(product) &#123;
-  ...
-&#125; // 向productSchema中添加addToCart方法
-</code></pre>
-<h3 id="向集合中新增一条数据（文档）"><a href="#向集合中新增一条数据（文档）" class="headerlink" title="向集合中新增一条数据（文档）"></a>向集合中新增一条数据（文档）</h3><p>集合名字在导出时通过<code>mongoose.model</code>已经定义好了，当我们通过创建模型的实例时会添加到对应的集合中，然后通过<code>save()</code>来保存一条数据：</p>
-<p>controllers&#x2F;admin.js</p>
-<pre><code class="js">const Product = require(&quot;../models/product&quot;);
-
-exports.postAddProduct = (req, res, next) =&gt; &#123;
-  const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
-  const price = req.body.price;
-  const description = req.body.description;
-  const product = new Product(&#123;
-    // 创建模型实例并写入数据
-    title: title,
-    price: price,
-    description: description,
-    imageUrl: imageUrl,
-  &#125;);
-  product
-    .save() // 保存一条数据
-    .then((result) =&gt; &#123;
-      console.log(&quot;Created Product&quot;);
-      res.redirect(&quot;/admin/products&quot;);
-    &#125;)
-    .catch((err) =&gt; &#123;
-      console.log(err);
-    &#125;);
-&#125;;
-</code></pre>
-<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><h4 id="查询所有数据"><a href="#查询所有数据" class="headerlink" title="查询所有数据"></a>查询所有数据</h4><p>使用<code>find()</code>查询所有的数据：</p>
-<pre><code class="js">const Product = require(&quot;../models/product&quot;);
-
-exports.getProducts = (req, res, next) =&gt; &#123;
-  Product.find() // 查询所有数据
-    .then((products) =&gt; &#123;
-      res.render(&quot;shop/product-list&quot;, &#123;
-        prods: products,
-        pageTitle: &quot;All Products&quot;,
-        path: &quot;/products&quot;,
-      &#125;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-<h4 id="查询条件数据"><a href="#查询条件数据" class="headerlink" title="查询条件数据"></a>查询条件数据</h4><ul>
-<li><p>**findById()**——根据 id 查询数据</p>
-<pre><code class="js">exports.getProduct = (req, res, next) =&gt; &#123;
-  const prodId = req.params.productId;
-  Product.findById(prodId) // 根据id（_id）查询数据
-    .then((product) =&gt; &#123;
-      res.render(&quot;shop/product-detail&quot;, &#123;
-        product: product,
-        pageTitle: product.title,
-        path: &quot;/products&quot;,
-      &#125;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-</li>
-</ul>
-<h3 id="更新数据"><a href="#更新数据" class="headerlink" title="更新数据"></a>更新数据</h3><p>更新数据只需要找到对应数据修改后，再使用<code>save()</code>。</p>
-<pre><code class="js">exports.postEditProduct = (req, res, next) =&gt; &#123;
-  const prodId = req.body.productId;
-  const updatedTitle = req.body.title;
-  const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
-  const updatedDesc = req.body.description;
-
-  Product.findById(prodId) // 根据id找到对应数据
-    .then((product) =&gt; &#123;
-      // 对数据进行修改
-      product.title = updatedTitle;
-      product.price = updatedPrice;
-      product.description = updatedDesc;
-      product.imageUrl = updatedImageUrl;
-      return product.save(); // 保存新修改的数据
-    &#125;)
-    .then((result) =&gt; &#123;
-      console.log(&quot;UPDATED PRODUCT!&quot;);
-      res.redirect(&quot;/admin/products&quot;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><h4 id="根据-id-删除数据"><a href="#根据-id-删除数据" class="headerlink" title="根据 id 删除数据"></a>根据 id 删除数据</h4><p>可以使用 Mongoose 内置的<code>findByIdAndRemove</code>来删除对应数据。</p>
-<pre><code class="js">exports.postDeleteProduct = (req, res, next) =&gt; &#123;
-  const prodId = req.body.productId;
-  Product.findByIdAndRemove(prodId) // 删除数据
-    .then(() =&gt; &#123;
-      console.log(&quot;DESTROYED PRODUCT&quot;);
-      res.redirect(&quot;/admin/products&quot;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-<h2 id="嵌入式文档"><a href="#嵌入式文档" class="headerlink" title="嵌入式文档"></a>嵌入式文档</h2><p>在 MongoDB 中，集合和集合之间一般是没有关联的，但可以使用嵌入式文档，将复制的关联 id 产生联系。</p>
-<h3 id="创建关系"><a href="#创建关系" class="headerlink" title="创建关系"></a>创建关系</h3><p>如果想让一个集合和另一个集合有关系，可以使用<code>ref</code>来嵌入关系。</p>
-<p>models&#x2F;product.js</p>
-<pre><code class="js">const mongoose = require(&#39;mongoose&#39;);
-const Schema = mongoose.Schema;
-
-const productSchema = new Schema(&#123;
-  ...
-  userId: &#123;
-    type: Schema.Types.ObjectId,
-    ref: &#39;User&#39;, // 设置关联
-    required: true
-  &#125;
-&#125;);
-
-module.exports = mongoose.model(&#39;Product&#39;, productSchema);
-</code></pre>
-<p>models&#x2F;admin.js</p>
-<pre><code class="js">const mongoose = require(&#39;mongoose&#39;);
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema(&#123;
-  ...
-  cart: &#123;
-    items: [
-      &#123;
-        productId: &#123; type: Schema.Types.ObjectId, ref: &#39;Product&#39;, required: true &#125;, // 设置关联
-        quantity: &#123; type: Number, required: true &#125;
-      &#125;
-    ]
-  &#125;
-&#125;);
-
-module.exports = mongoose.model(&#39;User&#39;, userSchema);
-</code></pre>
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><pre><code class="js">const Product = require(&#39;..&#39;);
-const product = new Product(&#123;...&#125;);
-</code></pre>
-<h3 id="save"><a href="#save" class="headerlink" title="save()"></a>save()</h3><p>向集合中保存&#x2F;新增一条数据。</p>
-<pre><code class="js">product.save();
-</code></pre>
-<h3 id="find"><a href="#find" class="headerlink" title="find()"></a>find()</h3><p>查询所有数据。返回一个 Promise。</p>
-<pre><code class="js">Product.find();
-</code></pre>
-<h3 id="findOne"><a href="#findOne" class="headerlink" title="findOne()"></a>findOne()</h3><p>查询所有数据但只返回一条数据（文档）。返回一个 Promise。</p>
-<pre><code class="js">Product.findOne();
-</code></pre>
-<h3 id="findById"><a href="#findById" class="headerlink" title="findById()"></a>findById()</h3><p>根据 id（_id）查询数据。返回一个 Promise。</p>
-<pre><code class="js">Product.findById(prodId);
-</code></pre>
-<h3 id="findByIdAndRemove"><a href="#findByIdAndRemove" class="headerlink" title="findByIdAndRemove()"></a>findByIdAndRemove()</h3><p>根据 id（_id）删除数据。</p>
-<pre><code class="js">Product.findByIdAndRemove(prodId);
-</code></pre>
-<h3 id="deleteOne"><a href="#deleteOne" class="headerlink" title="deleteOne()"></a>deleteOne()</h3><p>根据指定信息删除一条数据。</p>
-<pre><code class="js">Product.deleteOne(&#123; _id: prodId, userId: req.user._id &#125;);
-</code></pre>
-<h3 id="populate"><a href="#populate" class="headerlink" title="populate()"></a>populate()</h3><p>填充字段，将文档中的指定路径自动替换为来自其他集合的文档的过程。返回一个 Promise。</p>
-<pre><code class="js">Product.find().populate();
-</code></pre>
-<h3 id="select"><a href="#select" class="headerlink" title="select()"></a>select()</h3><p>筛选字段，将数据中与之匹配的筛选出来。</p>
-<pre><code class="js">Product.find().select();
-</code></pre>
-<blockquote>
-<p>以字符串空格的方式筛选不同字段：</p>
-<pre><code class="js">Product.find().select(&quot;title price _id&quot;);
-</code></pre>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-06T16:00:00.000Z" itemprop="datePublished">2023-03-07</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/核心模块"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/07/Node/%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97/">核心模块</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p>帮助我们启动服务器或执行发送请求等其他任务。</p>
-<pre><code class="js">const http = require(&quot;http&quot;);
-</code></pre>
-<blockquote>
-<p>导入模块，它会自动在全局模块（这是在 node.js 中自带的模块）中寻找。</p>
-</blockquote>
-<h3 id="createServer"><a href="#createServer" class="headerlink" title="createServer()"></a>createServer()</h3><p><strong>创建服务器并返回 server 对象。接收一个函数作为参数，每当有请求时就会执行这个函数。</strong>函数有两个默认参数——请求的信息，和响应的信息：</p>
-<pre><code class="js">const server = http.createServer((req, res) =&gt; &#123;
-  // req：包含请求的详细信息
-  console.log(req.url); // 发起请求的地址（http://localhost:3000/后的地址）
-  console.log(req.method); // 请求方法（GET/POST等）
-  console.log(req.headers); // 请求头信息
-
-  // res：服务端响应回去的对象
-  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;); // 设置响应头（响应的文本为HTML）
-  // 写入文本信息（此处为HTML）
-  res.write(&quot;&lt;html&gt;&quot;);
-  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
-  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
-  res.write(&quot;&lt;/html&gt;&quot;);
-
-  res.end(); // 结束编写，发送响应给浏览器（此后的写入无效）
-&#125;);
-server.listen(3000);
-</code></pre>
-<blockquote>
-<p>注意：<code>res.write()</code>也可以使用模板字符串直接写入。</p>
-</blockquote>
-<p>我们可以通过这个返回的 server 对象来对 server 进行操作：</p>
-<ul>
-<li><p>**listen()**：确保 node.js 不会立刻退出我们的代码，而是通过<code>listen()</code>保留它的进程。<code>listen()</code>有几个参数：</p>
-<p>第一个参数：需要监听的端口号；</p>
-<blockquote>
-<p>一般在生产环境中不需要填写，默认端口为 80；如果本地开发则可能需要不同的端口。</p>
-</blockquote>
-<pre><code class="js">server.listen(3000);
-</code></pre>
-<blockquote>
-<p>现在启动 node.js 执行文件后，node.js 可以监听到访问本地 3000 地址后的请求，然后执行<code>createServer()</code>的里的函数。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="https"><a href="#https" class="headerlink" title="https"></a>https</h2><p>帮助我们启动一个 SSL 加密的服务器。</p>
-<h2 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h2><p>帮助我们操作文件，对文件进行读写操作。</p>
-<pre><code class="js">const fs = require(&quot;fs&quot;);
-</code></pre>
-<h3 id="writeFile"><a href="#writeFile" class="headerlink" title="writeFile()"></a>writeFile()</h3><p><strong>写入一个文件</strong>，接收三个参数：</p>
-<ul>
-<li>第一个参数：完整文件名</li>
-<li>第二个参数：文件内容</li>
-<li>第三个参数：回调函数，接收一个 error 对象，如果执行出现错误可以在这里得到</li>
-</ul>
-<pre><code class="js">fs.writeFile(&quot;message.txt&quot;, &quot;ds&quot;);
-</code></pre>
-<h3 id="writeFileSync"><a href="#writeFileSync" class="headerlink" title="writeFileSync()"></a>writeFileSync()</h3><p><strong>同步写入文件</strong>，在写入文件完成后才能执行下一步。用法与<code>writeFile()</code>相同。</p>
-<h3 id="readFile"><a href="#readFile" class="headerlink" title="readFile()"></a>readFile()</h3><p><strong>读取指定路径的文件</strong>，接收两个参数：</p>
-<ul>
-<li>第一个参数：文件路径</li>
-<li>第二个参数：回调函数，接收一个读取错误时的对象（error 对象）和文件内容</li>
-</ul>
-<pre><code class="js">fs.readFile(path, (err, fileContent) =&gt; &#123;&#125;);
-</code></pre>
-<h2 id="path"><a href="#path" class="headerlink" title="path"></a>path</h2><p>帮助我们构建文件路径，让文件的路径能够在任何操作系统（Windows&#x2F;Mac&#x2F;Linux）上运行。</p>
-<pre><code class="js">const path = require(&quot;path&quot;);
-</code></pre>
-<h3 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h3><p>使用特定于平台的分隔符作为定界符将所有给定的 <strong><code>path</code> 片段</strong>连接在一起，然后规范化生成的路径。</p>
-<pre><code class="js">path.join(&quot;/foo&quot;, &quot;bar&quot;, &quot;baz/asdf&quot;, &quot;quux&quot;);
-// 返回：\foo\bar\baz\asdf\quux
-
-path.join(__dirname, &quot;..&quot;, &quot;views&quot;, &quot;shop.html&quot;);
-// __dirname: 当前文件夹的父目录
-// &#39;../&#39;: 上级目录
-</code></pre>
-<blockquote>
-<ul>
-<li>返回路径在不同的环境下可能有所不同；</li>
-<li>如果有任何路径片段不是字符串，则抛出 TypeError。</li>
-</ul>
-</blockquote>
-<h3 id="dirname"><a href="#dirname" class="headerlink" title="dirname()"></a>dirname()</h3><p>返回 <code>path</code> 的目录名，类似于 Unix <code>dirname</code> 命令。 尾随的目录分隔符被忽略。</p>
-<pre><code class="js">path.dirname(&quot;/foo/bar/baz/asdf/quux&quot;);
-// 返回: &#39;/foo/bar/baz/asdf&#39;
-</code></pre>
-<blockquote>
-<p>如果有任何路径片段不是字符串，则抛出 TypeError。</p>
-</blockquote>
-<ul>
-<li><p><strong>使用辅助函数来构建路径</strong></p>
-<p>util&#x2F;path.js</p>
-<pre><code class="js">const path = require(&quot;path&quot;);
-
-// process.mainModule(require.main).filename 为我们提供了文件路径，该文件负责我们应用程序的运行，而这个文件名就是通过我们放在dirname里文件路径获取到的
-module.exports = path.dirname(require.main.filename);
-</code></pre>
-<pre><code class="js">const rootDir = require(&quot;../util/path&quot;);
-
-res.sendFile(path.join(rootDir, &quot;views&quot;, &quot;shop.html&quot;));
-</code></pre>
-<blockquote>
-<p>这样我们就不需要编写根目录了。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="os"><a href="#os" class="headerlink" title="os"></a>os</h2><p>帮助我们了解操作系统相关信息。</p>
-<h2 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h2><p>帮助我们将数据进行加密。</p>
-<pre><code class="js">const crypto = require(&quot;crypto&quot;);
-</code></pre>
-<h3 id="randomBytes"><a href="#randomBytes" class="headerlink" title="randomBytes()"></a>randomBytes()</h3><p>生成随机字符，接收两个参数：</p>
-<ul>
-<li>第一个参数：随机字符的数量</li>
-<li>第二个参数：回调函数，内部传递一个出错时的 error 对象和存储字符的 buffer</li>
-</ul>
-<pre><code class="js">crypto.randomBytes(32, (err, buffer) =&gt; &#123;
-  if (err) &#123;
-    console.log(err);
-    return res.redirect(&quot;/reset&quot;);
-  &#125;
-  const token = buffer.toString(&quot;hex&quot;); // 从缓冲区中生成一个token @1
-&#125;);
-</code></pre>
-<blockquote>
-<p>@1：buffer 中存储字符是十六进制，需要通过<code>toString(&#39;hex&#39;)</code>将十六进制的值转化为 ASCII。</p>
-</blockquote>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><ul>
-<li>引入 http 模块，创建一个服务器监听 3000 端口；</li>
-<li>在服务器中判断 3000 端口的路由地址：如果是根路由，则写入一段 HTML 代码（一个表单，里面含有输入框和提交按钮，表单的提交地址为<code>/message</code>，提交方法为<code>POST</code>）后返回响应给浏览器；；</li>
-</ul>
-<pre><code class="js">const http = require(&quot;http&quot;);
-const fs = require(&quot;fs&quot;);
-
-const server = http.createServer((req, res) =&gt; &#123;
-  const url = req.url;
-  if (url === &quot;/&quot;) &#123;
-    // 如果url地址是/
-    res.write(&quot;&lt;html&gt;&quot;);
-    res.write(&quot;&lt;head&gt;&lt;title&gt;Enter Message&lt;/title&gt;&lt;/head&gt;&quot;);
-    res.write(
-      &#39;&lt;body&gt;&lt;form action=&quot;/message method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;message&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Send&lt;/button&gt;&lt;/form&gt;&lt;/body&gt;&#39;
-    );
-    res.write(&quot;&lt;/html&gt;&quot;);
-    return res.end(); // 返回退出代码，如果没有return则不会执行外层后面的res各个操作，就不能获取下面的Hello,Node.js页面
-  &#125;
-
-  if (url === &quot;/message&quot; &amp;&amp; method === &quot;POST&quot;) &#123;
-    const body = [];
-
-    // 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个参数块
-    req.on(&quot;data&quot;, (chunk) =&gt; &#123;
-      body.push(chunk); // 将块推入到body中
-    &#125;);
-    req.on(&quot;end&quot;, () =&gt; &#123;
-      const parseBody = Buffer.concat(body).toString(); // 创建一个缓冲区连接到body上
-      const message = parseBody.split(&quot;=&quot;)[1];
-      fs.writeFileSync(&quot;message.txt&quot;, message);
-    &#125;);
-
-    res.statusCode = 302;
-    res.setHeader(&quot;Location&quot;, &quot;/&quot;);
-    // res.writeHead(302, &#123;
-    //     &#39;Location&#39;: &#39;/&#39;
-    // &#125;)
-    return res.end();
-  &#125;
-
-  res.setHeader(&quot;Content-Type&quot;, &quot;text/html&quot;);
-  res.write(&quot;&lt;html&gt;&quot;);
-  res.write(&quot;&lt;head&gt;&lt;title&gt;First page&lt;/title&gt;&lt;/head&gt;&quot;);
-  res.write(&quot;&lt;body&gt;&lt;h1&gt;Hello,Node.js&lt;/h1&gt;&lt;/body&gt;&quot;);
-  res.write(&quot;&lt;/html&gt;&quot;);
-  res.end();
-&#125;);
-
-server.listen(3000);
-</code></pre>
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="res"><a href="#res" class="headerlink" title="res"></a>res</h3><p>响应对象可调用的常用方法：</p>
-<ul>
-<li><p><strong>setHeader</strong>：设置<strong>响应标头</strong>的单个属性，以键值对的方式修改，<strong>可调用多次</strong>；</p>
-<pre><code class="js">res.setHeader(&quot;Location&quot;, &quot;/&quot;); // 设置地址跳转到/
-</code></pre>
-</li>
-<li><p><strong>writeHead</strong>：设置响应头多个属性（包括<strong>状态码、状态信息和响应标头</strong>），<strong>只调用一次，可进行链式调用</strong>；</p>
-<pre><code class="js">res.writeHead(statusCode, [reasonPhrase], [headers]);
-
-res.writeHead(200, &#123;
-  &quot;Content-Type&quot;: &quot;text/plain&quot;,
-  Location: &quot;/&quot;,
-&#125;);
-</code></pre>
-<ul>
-<li>statusCode：状态码；</li>
-</ul>
-<ul>
-<li><p>reasonPhrase（可选）：状态信息；</p>
-</li>
-<li><p>headers：响应标头；</p>
-<blockquote>
-<p>注意：<strong>两个参数的最后一个参数是 headers 响应标头</strong>！三个参数只是方便 reasonPhrase。</p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>注意：<code>setHeader</code>和<code>writeHead</code>都有的时候，<code>setHeader</code>的内容合会并到<code>writeHead</code>，合并有冲突时以<code>writeHead</code>的内容为准（<code>writeHead</code>优先级高）。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="req"><a href="#req" class="headerlink" title="req"></a>req</h3><p>请求数据的常用方法：</p>
-<ul>
-<li><p><strong>on</strong>：事件监听。接收两个参数，一个是监听的事件，一个是触发的函数：</p>
-<pre><code class="js">// 监听data事件，当新的块（chunk）被读取时就会触发data事件，执行回调函数。函数接收一个默认参数，块（chunk）
-req.on(&quot;data&quot;, (chunk) =&gt; &#123;&#125;);
-
-// 在完成读取传入的数据或请求后结束监听
-req.on(&quot;end&quot;, () =&gt; &#123;&#125;);
-</code></pre>
-<blockquote>
-<p>当遇到<code>req.on()</code>时，Node.js 会自动在内部添加一个新的事件监听器来管理所有的监听器，相当于一个注册表在注册了这些事件但没有执行它，然后跳过继续执行下一条。（注册未来某个时间运行但不一定现在运行的代码函数）</p>
-</blockquote>
-</li>
-<li></li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-06T16:00:00.000Z" itemprop="datePublished">2023-03-07</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/CSRF"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/06/Node/CSRF/">CSRF</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>CSRF（Cross-Site Request Forgery）：跨域请求伪造。</strong></p>
-<h2 id="CSRF-Attacks"><a href="#CSRF-Attacks" class="headerlink" title="CSRF Attacks"></a>CSRF Attacks</h2><p>一种特殊的攻击方式，通过伪造一个网站，来欺骗用户发送敏感信息，然后根据收集的敏感信息伪装用户向真正的网站发送一些不利请求信息。</p>
-<h2 id="防止-CSRF-Attacks"><a href="#防止-CSRF-Attacks" class="headerlink" title="防止 CSRF Attacks"></a>防止 CSRF Attacks</h2><blockquote>
-<p>确保人们只能在你的视图界面使用你的 session（使用你的应用程序呈现的视图），这样在任何虚假伪造的页面上都不能使用你的 session（即使它看上去很像你的页面）。为了达到这一点，我们可以使用 CSRF Token。</p>
-</blockquote>
-<h3 id="使用-CSRF-Token"><a href="#使用-CSRF-Token" class="headerlink" title="使用 CSRF Token"></a>使用 CSRF Token</h3><h4 id="安装和引入"><a href="#安装和引入" class="headerlink" title="安装和引入"></a><strong>安装和引入</strong></h4><p>安装 csurf 包，它允许我们生成<code>CSRF Token</code>嵌入到表单中。在视图和服务器上都包含这个 token，每当我们发起请求时，这个包将检查传入的请求是否具有有效的 token。</p>
-<blockquote>
-<p>此包依赖 express 和 express-session。</p>
-</blockquote>
-<pre><code class="bash">npm install --save csurf
-</code></pre>
-<blockquote>
-<p>场景：虚假网站使用用户的 session 模拟用户向真正的后端发送请求，但是<code>CSRF Token</code>是随机的 hash 值，它只有一个值有效，而且只有在服务器上运行的包（csurf）才知道这个 token 值是否有效。所以虚拟网站发送请求会丢失 token。</p>
-</blockquote>
-<p>app.js</p>
-<pre><code class="js">const app = express();
-const csrf = require(&quot;csurf&quot;); // 引入csurf包
-
-const csrfProtection = csrf(); // 定义csrf的执行函数
-
-app.use(csrfProtection); // 注册中间件
-</code></pre>
-<p>对于任何非 GET 的请求，csurf 包会在视图（request body）中寻找一个<code>CSRF Token</code>，所以我们需要先生成它：</p>
-<h4 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a><strong>生成 token</strong></h4><pre><code class="js">exports.getIndex = (req, res, next) =&gt; &#123;
-  Product.find()
-    .then((products) =&gt; &#123;
-      res.render(&quot;shop/index&quot;, &#123;
-        prods: products,
-        pageTitle: &quot;Shop&quot;,
-        path: &quot;/&quot;,
-        isAuthenticated: req.session.isLoggedIn,
-        csrfToken: req.csrfToken(), // 创建一个token并存储到csrfToken
-      &#125;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-<blockquote>
-<p>也可以将生成 token 注册成一个中间件，让<strong>每个页面的非 GET 请求都能执行</strong>：</p>
-<p>app.js</p>
-<pre><code class="js">...
-app.use((req, res, next) =&gt; &#123;
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
-  next();
-&#125;);
-</code></pre>
-<p>这样需要在每个发送非 GET 请求的表单上加上：</p>
-<pre><code class="ejs">&lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;&lt;%= csrfToken %&gt;&quot;&gt;
-</code></pre>
-</blockquote>
-<h4 id="页面通过请求发送-token-并隐藏-token"><a href="#页面通过请求发送-token-并隐藏-token" class="headerlink" title="页面通过请求发送 token 并隐藏 token"></a><strong>页面通过请求发送 token 并隐藏 token</strong></h4><p>我使用 ejs 在页面用户进行操作时发送请求，在请求中携带 token，通过<code>type=&quot;hidden&quot;</code>来隐藏 token：</p>
-<pre><code class="ejs">&lt;form action=&quot;/logout&quot; method=&quot;post&quot;&gt;
-    &lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;&lt;%= csrfToken %&gt;&quot;&gt;
-    &lt;button type=&quot;submit&quot;&gt;Logout&lt;/button&gt;
-&lt;/form&gt;
-</code></pre>
-<blockquote>
-<p>将 input 的 name 设置为<code>_csrf</code>，csurf 包会自动寻找这个参数。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-05T16:00:00.000Z" itemprop="datePublished">2023-03-06</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/connect-flash"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/06/Node/connect-flash/">connect-flash</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>跨请求存储数据，需要一个 session。但如果不想将错误信息永久存储在 session 中，而是想在错误信息中添加一些别的信息，将其快速发送到 session 中。一旦我们使用了这个在 session 中的错误信息，这个错误信息将会从 session 中删除，这样对于后面的请求，session 中将不会存在这个错误信息。</p>
-</blockquote>
-<p>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空。我们将消息入到 flash 中，跳转目标页中显示该消息。它常和<code>redirect</code>一起使用，用于一次性消息提示。</p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><pre><code class="bash">npm install --save connect-flash
-</code></pre>
-<h2 id="引入注册"><a href="#引入注册" class="headerlink" title="引入注册"></a>引入注册</h2><p>app.js</p>
-<pre><code class="js">const flash = require(&#39;connect-flash&#39;);
-
-const app = express();
-app.use(flash());
-...
-</code></pre>
-<h2 id="将信息存入-flash-中"><a href="#将信息存入-flash-中" class="headerlink" title="将信息存入 flash 中"></a>将信息存入 flash 中</h2><p>通过<code>req.flash(&#39;name&#39;, &#39;value&#39;)</code>来向 falsh 中存入一条信息：</p>
-<pre><code class="js">exports.postLogin = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  User.findOne(&#123; email: email &#125;)
-    .then((user) =&gt; &#123;
-      if (!user) &#123;
-        req.flash(&quot;error&quot;, &quot;Invalid email or password&quot;);
-        return res.redirect(&quot;/login&quot;);
-      &#125;
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-<h2 id="获取-falsh-中的信息"><a href="#获取-falsh-中的信息" class="headerlink" title="获取 falsh 中的信息"></a>获取 falsh 中的信息</h2><p>通过<code>req.flash(&#39;name&#39;)</code>来获取设置的信息，并将它发送到页面：</p>
-<pre><code class="js">exports.getLogin = (req, res, next) =&gt; &#123;
-  let message = req.flash(&quot;error&quot;); // 获取flash中存入的信息
-  if (message.length &gt; 0) &#123;
-    message = message[0];
-  &#125; else &#123;
-    message = null;
-  &#125;
-  res.render(&quot;auth/login&quot;, &#123;
-    path: &quot;/login&quot;,
-    pageTitle: &quot;Login&quot;,
-    errorMessage: message, // 发送到页面中
-  &#125;);
-&#125;;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-05T16:00:00.000Z" itemprop="datePublished">2023-03-06</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/7/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/6/">6</a><a class="page-number" href="/ferhannah-blog/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/9/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/7/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/6/">6</a><a class="page-number" href="/ferhannah-blog/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/9/">Next</a>
     </nav>
   
 </div>
@@ -1658,23 +1200,23 @@ app.use(flash());
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/">SSR 和 CSR</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>

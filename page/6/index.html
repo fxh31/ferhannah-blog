@@ -154,7 +154,7 @@
   
     
       <article
-id="post-network/AJAX"
+id="post-HTML/innerText和textContent"
 class="article article-type-post"
 >
 
@@ -165,40 +165,23 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/AJAX/">AJAX</a>
+        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>异步的 JS 和 XML，是一种用于网页进行异步交换数据的技术，它可以在不刷新整个页面的情况下向服务器异步发起请求获取数据，从而实现动态更新页面（异步更新页面）。它减少了响应实现和带宽的消耗，提高了用户的交互体验。但是它不利于 SEO。（因为 SEO 在进行爬虫抓取的时候没有办法去抓取 AJAX 里的内容以及发送的 url），如果要做 SEO 可以使用服务端渲染技术（SSR）</p>
-<blockquote>
-<p>没有 AJAX 时需要手动刷新页面。</p>
-</blockquote>
-<h3 id="SEO"><a href="#SEO" class="headerlink" title="SEO"></a>SEO</h3><p>搜索引擎优化。</p>
-<h2 id="AJAX-实现"><a href="#AJAX-实现" class="headerlink" title="AJAX 实现"></a>AJAX 实现</h2><ul>
-<li>创建一个 XMLHttpRequest 的实例对象；</li>
-<li>使用 open 方法定义请求的方式、url 地址、是否异步（默认异步）；</li>
-<li>如果是 post 请求需要设置请求头 setRequestHeader；</li>
-<li>如果需要向后端传递信息，可以使用 send 方法传递；<blockquote>
-<p>get 请求一般不用 xhr.send(null)，有也是作为 query 在 url 地址中传递；</p>
+        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
+<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
+<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
+<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
+<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
 </blockquote>
 </li>
-<li>通过在 onreadystatechange 函数中监听 readyState 的值，来接收后端返回的数据，这个函数在整个 AJAX 初始到连接到结束都会执行；<blockquote>
-<p>0: 未初始化 —— XMLHttpRequest 对象已经创建，但还没有调用 open 方法；<br>1：已开启 —— open 方法被调用，send 方法没被调用；<br>2：已发送 —— send 方法已调用，请求已经发给服务器了；<br>3：正在接收 —— 服务器正在处理请求并返回数据；<br>4：完成 —— 服务器已经完成了数据传输；<br>status 200： 服务器返回状态码。</p>
-</blockquote>
-</li>
-<li>或者直接使用 addEventListener 去监听 load 事件，该事件只会在 readyState&#x3D;4 的时候执行。</li>
-<li>也可以使用 addEventListener 去监听一个 progress，来获取一个进度；</li>
-<li>也可以设置超时时间 timeout，然后使用 addEventListener 去监听一个 timeout；</li>
-<li>也可也中断请求；</li>
+<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
 </ul>
-<h3 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h3><ul>
-<li>1xx：信息性状态码。比如 102 服务器已经收到并正在处理该请求；</li>
-<li>2xx：请求成功响应。</li>
-<li>3xx：重定向消息。304 服务端告诉客户端数据没有变换，可以使用缓存。</li>
-<li>4xx：客户端响应错误。400 参数错误，401 可能是 token 掉了，403 没有权限。</li>
-<li>5xx：服务端错误。</li>
+<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
+<li>innerHTML 是 Element 对象的属性；</li>
+<li>innerHTML 返回完整的 DOM 元素；</li>
 </ul>
-<h3 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h3><p>JSON 是一种数据格式，常用于前后端数据传输。它体积小，传输快，易于用户阅读和编写，也可也被各种编程语言轻松解析。</p>
 
         
     </div>
@@ -218,13 +201,101 @@ class="article article-type-post"
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
         </div>
     
     
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li></ul>
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Algorithm/binary"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/Algorithm/binary/">二进制的一些小技巧</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
+<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
+<p>汉明距离是使用在数据传输差错控制编码里。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
+<li>用于清除 num 最右边的 1；</li>
+</ul>
+<blockquote>
+<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
+</blockquote>
+<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
+<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
+</ul>
+<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
+<li>用于将 num 的二进制表示向右移动一位；</li>
+</ul>
+<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
+<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
+<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
+<ul>
+<li>用于比较一个二进制数的高位是否为 1。</li>
+</ul>
+<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
+
+let x = num;
+const ans = [];
+while (x &gt; 0) &#123;
+  ans.push(lowbit(x));
+  x -= lowbit(x);
+&#125;
+
+function lowbit(x) &#123;
+  return x &amp; -x;
+&#125;
+</code></pre>
+<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
+<blockquote>
+<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
+    
     
     </div>
 </footer>
@@ -273,6 +344,340 @@ class="article article-type-post"
         <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/copyObject"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/JS/copyObject/">js 拷贝数组（对象）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
+<li>slice()</li>
+<li>扩展运算符 […]</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/setTimout"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/JS/setTimout/">setTimeout</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
+<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
+<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
+<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<p>要解决这个问题可以使用：</p>
+<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
+<pre><code class="js">setTimeout(function () &#123;
+  console.log(this);
+  myArray.myMethod();
+&#125;, 1.0 * 1000);
+</code></pre>
+<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
+</code></pre>
+<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
+<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
+<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
+<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
+<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
+</blockquote>
+</li>
+<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
+<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
+<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
+</ul>
+<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/es6"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/JS/es6/">ES6 特性</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="let-和-const"><a href="#let-和-const" class="headerlink" title="let 和 const"></a>let 和 const</h2><h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><pre><code class="js">const obj = &#123; a: 1, b: 2 &#125;;
+const &#123; a, b &#125; = obj;
+console.log(a, b); // 1, 2
+
+const arr = [1, 2, 3];
+const [x, y, z] = arr;
+console.log(x, y, z); // 1, 2, 3
+</code></pre>
+<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><pre><code class="js">function foo(a, b = 2, c = 3) &#123;&#125;
+</code></pre>
+<h2 id="剩余（rest）参数"><a href="#剩余（rest）参数" class="headerlink" title="剩余（rest）参数"></a>剩余（rest）参数</h2><pre><code class="js">function sum(...nums) &#123;
+  return nums.reduce((a, b) =&gt; a + b);
+&#125;
+sum(1, 2, 3, 4, 5);
+</code></pre>
+<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h2><pre><code class="js">const arr1 = [1, 2, 3];
+const arr2 = [...arr, 4, 5];
+
+const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; ...obj, c: 3 &#125;;
+</code></pre>
+<h2 id="扩展对象字面量"><a href="#扩展对象字面量" class="headerlink" title="扩展对象字面量"></a>扩展对象字面量</h2><h2 id="对象属性简写"><a href="#对象属性简写" class="headerlink" title="对象属性简写"></a>对象属性简写</h2><pre><code class="js">const name = &quot;zhangsan&quot;;
+const age = 18;
+const preson = &#123; name, age &#125;;
+</code></pre>
+<h2 id="对象方法简写"><a href="#对象方法简写" class="headerlink" title="对象方法简写"></a>对象方法简写</h2><pre><code class="js">const person = &#123;
+  name: &quot;zhangsan&quot;,
+  greet() &#123;
+    console.log(&quot;Hello！&quot;);
+  &#125;,
+&#125;;
+</code></pre>
+<h2 id="for…of-循环"><a href="#for…of-循环" class="headerlink" title="for…of 循环"></a>for…of 循环</h2><h2 id="模块化（import-export）"><a href="#模块化（import-export）" class="headerlink" title="模块化（import&#x2F;export）"></a>模块化（import&#x2F;export）</h2><pre><code class="js">// foo.js
+export const foo = () =&gt; &#123;&#125;;
+
+// main.js
+import &#123; foo &#125; from &quot;./foo&quot;;
+</code></pre>
+<h2 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h2><pre><code class="js">// foo.js
+export default () =&gt; &#123;&#125;;
+
+// main.js
+import foo from &quot;./foo&quot;;
+foo();
+</code></pre>
+<h2 id="类（class）"><a href="#类（class）" class="headerlink" title="类（class）"></a>类（class）</h2><pre><code class="js">class Person &#123;
+  constructor(name) &#123;
+    this.name = name;
+  &#125;
+  say() &#123;&#125;
+&#125;
+
+class Student extends Person &#123;
+  say() &#123;
+    console.log(`I&#39;m a student, $&#123;this.name&#125;`);
+  &#125;
+&#125;
+const s = new Student(&quot;zhangsan&quot;);
+s.say();
+</code></pre>
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><h2 id="生成器和迭代器"><a href="#生成器和迭代器" class="headerlink" title="生成器和迭代器"></a>生成器和迭代器</h2><h2 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h2><h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><pre><code class="js">class MathUtil &#123;
+  static add(a, b) &#123;
+    return a + b;
+  &#125;
+&#125;
+console.log(MathUtil.add(1, 2));
+</code></pre>
+<h2 id="字符串新方法"><a href="#字符串新方法" class="headerlink" title="字符串新方法"></a>字符串新方法</h2><ul>
+<li>startsWith</li>
+<li>endsWith</li>
+<li>includes</li>
+</ul>
+<h2 id="数组新方法"><a href="#数组新方法" class="headerlink" title="数组新方法"></a>数组新方法</h2><ul>
+<li>find</li>
+<li>findIndex</li>
+</ul>
+<h2 id="对象合并"><a href="#对象合并" class="headerlink" title="对象合并"></a>对象合并</h2><pre><code class="js">const obj1 = &#123; a: 1, b: 2 &#125;;
+const obj2 = &#123; b: 3, c: 5 &#125;;
+const obj3 = &#123; ...obj1, ...obj2 &#125;;
+</code></pre>
+<h2 id="空值合并运算符"><a href="#空值合并运算符" class="headerlink" title="空值合并运算符"></a>空值合并运算符</h2><pre><code class="js">const foo = null ?? &quot;default&quot;;
+const bar = 0 ?? 42;
+console.log(bar); // 0
+</code></pre>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p>Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。</p>
+<pre><code class="js">const target = &#123;
+  message: &quot;hello world&quot;,
+&#125;;
+const handler = &#123;
+  get: (obj, prop) =&gt; &#123;
+    return prop in obj ? obj[prop] : &quot;not fount prop&quot;;
+  &#125;,
+  set: (obj, prop, value) =&gt; &#123;
+    return value;
+  &#125;,
+&#125;;
+const proxy = new Proxy(target, handler);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/Cross-domain"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
+<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
+<blockquote>
+<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
+</blockquote>
+<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
+<blockquote>
+<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
+</blockquote>
+<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
+<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
+        </div>
     
     </div>
 </footer>
@@ -335,68 +740,6 @@ class="article article-type-post"
     
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/Cross-domain"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
-<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
-<blockquote>
-<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
-</blockquote>
-<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
-<blockquote>
-<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
-</blockquote>
-<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
-<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
         </div>
     
     </div>
@@ -526,279 +869,6 @@ https
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
         </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/SSE"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
-<blockquote>
-<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
-</blockquote>
-<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
-<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
-<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
-<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
-<ul>
-<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
-<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
-</ul>
-</li>
-<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
-<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
-<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
-<li>onerror()：建立连接失败触发的函数；</li>
-<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
-<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/TCP"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/TCP/">TCP</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><img src="/ferhannah-blog/./images/tcpip.png" alt="tcp/ip"></p>
-<h2 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h2><ul>
-<li>seq：sequence number，序列号（通过各种算法 isn 随机生成的）；</li>
-<li>ack：acknowledgement number，确认号（ack &#x3D; seq + 1）；</li>
-<li>ACK：acknowledgement，确认序列号有效；</li>
-<li>SYN：synchronous，发起新连接；</li>
-<li>FIN：finish，完成；</li>
-</ul>
-<p>第一次握手：<br>客户端向服务端发起建立新连接（SYN），并且发送序列号（seq）；</p>
-<blockquote>
-<p>序列号用于确保发送消息的顺序不乱。</p>
-</blockquote>
-<p>第二次握手：<br>服务端接收到客户端的序列号（seq），判断该序列号的确认号是否正确（ack），如果正确就标记一个 ACK，然后向客户端发起建立新连接（SYN），并且带上服务端自己的序列号（seq）；</p>
-<p>第三次握手：<br>客户端接收到之后会判断服务端的 seq 是否正确，如果正确的话也会标记一个 ACK</p>
-<blockquote>
-<p>客户端的 seq &#x3D; 第一次握手客户端的 seq + 1<br>ack &#x3D; 服务端 seq + 1</p>
-</blockquote>
-<h3 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h3><p>四次挥手可以由客户端或者服务端发起。此处以客户端主动发起为例子。</p>
-<p>第一次挥手：<br>客户端向服务端发送连接完成状态（FIN），并添加上客户端的 seq；此时客户端从 established 状态变为 fin_wait_1 等待状态；</p>
-<p>第二次挥手：<br>服务端收到客户端的信息后需要去验证 seq，判断 ack 是否正确，如果正确就标记一个 ACK 返回给客户端；<br>此时客户端会进入 fin_wait_2 阶段，在这个阶段内，如果有未完成或未处理的任务，会将所有任务处理完成，处理完之后服务端才会发起第三次挥手，最终来结束状态；</p>
-<p>第三次挥手：<br>服务端发起 FIN + ACK（ack）+ 服务端 seq；<br>此时客户端进入超时等待状态 time_wait。</p>
-<blockquote>
-<p>该状态的存在是为了确保第四次挥手的 ACK 标记不丢失，确保连接能正常断开，保证 TCP 的可靠性。如果 ACK 标记丢失了，服务端会再次发起断开连接请求（FIN），传递 ACK（再执行一次第三次挥手）。</p>
-</blockquote>
-<p>第四次挥手：<br>客户端超时等待完成后回向服务端发起 ACK （ack）+ seq，并彻底关闭连接。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/URL"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/URL/">浏览器中输入 url 到底发生了什么</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>首先解释 url 是什么。</p>
-<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
-<p>有了域名就可以进行一个 DNS 查询</p>
-<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
-<p>所以用户再输入 url 后，会去查找 dns。</p>
-<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
-<li>首先去浏览器的 dns 缓存 中查找；</li>
-<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
-<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
-<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
-</blockquote>
-</li>
-<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
-</ol>
-<ul>
-<li>首先查找本地 dns 服务器；</li>
-<li>如果没有找到，会向根域名服务器查找（.）；</li>
-<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
-<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
-</ul>
-<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
-<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
-<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
-<ul>
-<li>请求头 Content-Type 设置 application&#x2F;json；</li>
-<li>用户自定义了请求头；</li>
-</ul>
-</blockquote>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
-<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
-<blockquote>
-<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
-</blockquote>
-<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
-<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
-<blockquote>
-<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
-</blockquote>
-<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
-<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
-<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
-<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
-</li>
-<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
-<blockquote>
-<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
-</blockquote>
-</li>
-<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
-</li>
-</ul>
-<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
-<p>能够引起回流的操作：</p>
-<ul>
-<li>页面首次渲染</li>
-<li>浏览器窗口大小发生变换</li>
-<li>元素尺寸或位置发生改变</li>
-<li>元素内容发生改变</li>
-<li>元素字体大小变换</li>
-<li>添加或删除可见的 dom 元素</li>
-<li>激活 css 伪类（:hover）</li>
-<li>查询某些属性或调用某些方法<blockquote>
-<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
-<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
-<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
-<p>涉及编译原理一些内容。</p>
-</blockquote>
-<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
-<blockquote>
-<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
-</blockquote>
-<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
     
     </div>
 </footer>
@@ -960,90 +1030,10 @@ app.listen(3000, () =&gt; &#123;
 
     
   
-    
-      <article
-id="post-network/TCP实现HTTP服务"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/">TCP 实现 HTTP 服务</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
-<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
-
-const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
-
-const header = [
-  &quot;HTTP/1.1 200 OK&quot;,
-  &quot;Content-Type: text/html&quot;,
-  `Content-Length: $&#123;html.length&#125;`,
-  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
-  `\r\n`,
-  html,
-];
-
-const server = net.createServer((socket) =&gt; &#123;
-  socket.on(&quot;data&quot;, (data) =&gt; &#123;
-    console.log(data.toString());
-    if (/GET/.test(data.toString())) &#123;
-      socket.write(headers.join(&quot;\r\n&quot;));
-      socket.end();
-    &#125;
-  &#125;);
-&#125;);
-
-// 监听 TCP 服务
-server.listen(8080, () =&gt; &#123;
-  console.log(&quot;server is running&quot;, server.address());
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/5/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/4/">4</a><a class="page-number" href="/ferhannah-blog/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/ferhannah-blog/page/7/">7</a><a class="page-number" href="/ferhannah-blog/page/8/">8</a><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/7/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/5/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/4/">4</a><a class="page-number" href="/ferhannah-blog/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/ferhannah-blog/page/7/">7</a><a class="page-number" href="/ferhannah-blog/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/7/">Next</a>
     </nav>
   
 </div>
@@ -1087,23 +1077,23 @@ server.listen(8080, () =&gt; &#123;
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/">SSR 和 CSR</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>

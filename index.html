@@ -154,6 +154,494 @@
   
     
       <article
+id="post-Node/Advanced/child_process"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs 核心 API，可用于<strong>处理 cpu 密集型应用</strong>。</p>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><ul>
+<li><strong>exec</strong>：<strong>异步方法</strong>。一般会有一个回调函数，返回 buffer。<blockquote>
+<p>可用于<strong>执行 shell 命令</strong>，或跟<strong>软件进行交互</strong>。</p>
+</blockquote>
+</li>
+<li><strong>execSync</strong>：<strong>同步的方法</strong>。</li>
+</ul>
+<h2 id="exec-execSync"><a href="#exec-execSync" class="headerlink" title="exec&#x2F;execSync"></a>exec&#x2F;execSync</h2><p><strong>执行指定命令</strong>。</p>
+<pre><code class="js">exec(&#39;node-v&#39;, (err, stdout, stderr) =&gt; &#123;
+  if (err)&#123;
+    retunr err
+  &#125;
+&#125;)
+
+execSync(&#39;mkdir test&#39;) // 执行命令
+execSync(&#39;start chrome http://www.baidu.com&#39;) // 软件交互
+</code></pre>
+<ul>
+<li><strong>适用于执行较小的 shell 命令；</strong></li>
+<li>想要立即拿到结果的 shell 可以用 execSync；</li>
+<li><strong>字节上限 200kb，超出则报错</strong>；</li>
+</ul>
+<h2 id="spawn-spawnSync"><a href="#spawn-spawnSync" class="headerlink" title="spawn&#x2F;spawnSync"></a>spawn&#x2F;spawnSync</h2><p><strong>执行指定命令</strong>。</p>
+<pre><code class="js">const netInfo = execSync(&quot;netstat&quot;);
+console.log(netInfo); // 卡住，数量太大
+
+const &#123; stdout &#125; = spawn(&quot;netstat&quot;, [&quot;-a&quot;]);
+stdout.on(&quot;data&quot;, (msg) =&gt; &#123;
+  console.log(msg.toString());
+&#125;);
+stdout.on(&quot;close&quot;, (msg) =&gt; &#123;
+  console.log(&quot;end&quot;);
+&#125;);
+</code></pre>
+<ul>
+<li><strong>没有字节上限，返回的是流</strong>；</li>
+<li><strong>实时返回</strong>；</li>
+<li><strong>有结束事件</strong>；</li>
+</ul>
+<p>_更多配置项_：</p>
+<pre><code class="js">const &#123; stdout &#125; = spawn(&quot;netstat&quot;, [&quot;-a&quot;], &#123;
+  cwd: &quot;&quot;, // string 子进程的当前工作目录
+  env: &quot;&quot;, // object 环境变量键值对
+  encodingL: &quot;&quot;, // string 默认为&#39;utf8&#39;.
+  shell: &quot;&quot;, // string 用于执行命令的 she11, 在 UNIX 上默认为&#39;/bin/sh&#39;,在 windows 上默认为 process.env.ComSpec。
+  timeout: &quot;&quot;, // 超时时间，默认为 0
+  maxBuffer: &quot;&quot;, //stdout 或 stderr 允许的最大字节数。默认为 288*1024.。如果超过限制，则子进程会被终止
+  killSignal: &quot;&quot;, // string|integer 默认为&#39;SIGTERM&#39;
+  uid: &quot;&quot;, // 设置该进程的用户标识。
+  gid: &quot;&quot;, // 设置该进程的组标识。
+&#125;);
+</code></pre>
+<h2 id="execFile-execFileSync"><a href="#execFile-execFileSync" class="headerlink" title="execFile&#x2F;execFileSync"></a>execFile&#x2F;execFileSync</h2><p><strong>执行可执行文件</strong>。</p>
+<p>bat.sh（mac、linux）</p>
+<p>bat.cmd（windows）</p>
+<pre><code class="bash">// bat.cmd
+echo &#39;start&#39;
+mkdir test
+cd ./test
+echo console.log(&#39;test bar&#39;) &gt;test.js
+echo &#39;end&#39;
+</code></pre>
+<pre><code class="js">execFile(path.resolve(__dirname, &quot;./bat.cmd&quot;), null, (err, stdout) =&gt; &#123;&#125;);
+</code></pre>
+<h2 id="底层实现顺序"><a href="#底层实现顺序" class="headerlink" title="底层实现顺序"></a>底层实现顺序</h2><p><strong>exec -&gt; execFile -&gt; spawn</strong></p>
+<h2 id="fork"><a href="#fork" class="headerlink" title="fork"></a>fork</h2><p>只接受 js 模块，为 <strong>js 创建子进程</strong>。</p>
+<blockquote>
+<p>注意：web worker 是浏览器的，而 fork 是 node 的。</p>
+</blockquote>
+<pre><code class="js">const childProcess = fork(&quot;./child.js&quot;);
+childProcess.sent(&quot;hello，我是主进程&quot;);
+
+// child.js
+process.on(&quot;message&quot;, (msg) =&gt; &#123;
+  console.log(&quot;收到消息了&quot;, msg);
+&#125;);
+</code></pre>
+<p><strong>原理</strong>：底层<strong>通过 IPC 去通讯</strong>，IPC 又基于 libuv 实现，libuv 会根据不同的操作系统调用不同的命令实现。（windows：named pipe | posix: unix domain socket）</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/events"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs 核心 API，常用于<strong>异步事件驱动</strong>。<strong>采用发布订阅模式</strong>。</p>
+<blockquote>
+<p><strong>发布订阅模式</strong>：_当有新的消息时，发布者会将其发布到一个调度中心，而调度中心会将这个消息发送给所有订阅这个消息的订阅者_。</p>
+</blockquote>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><blockquote>
+<p>用法跟大多数 emit&#x2F;on 差不多。（event bus、mitt 等）</p>
+</blockquote>
+<pre><code class="js">const eventEmitter = require(&quot;events&quot;);
+
+const bus = new eventEmitter();
+// 事件默认只能监听（on） 10 个，但是可以手动设置
+bus.setMaxListeners(20);
+console.log(bus.getMaxListeners();)
+
+const fn = (name) =&gt; &#123;
+  console.log(name);
+&#125;;
+// 订阅一个事件
+bus.on(&quot;test&quot;, fn);
+
+// 只触发一次
+bus.once(&quot;test&quot;, fn);
+
+// 取消订阅（需传入相同的函数 fn）
+bus.off(&quot;test&quot;, fn);
+
+// 发布一个事件
+bus.emit(&quot;test&quot;, &quot;fxh&quot;);
+</code></pre>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="process"><a href="#process" class="headerlink" title="process"></a>process</h2><p><strong>在 node 初始化的时候调用了 <code>setupProcessObject()</code>，这个函数内部会读取 process 原型对象（getPrototypeOf），然后将 eventEmitter 的原型嫁接到这个原型对象上（setPrototypeOf），所以 process 也可以使用 on、emit 等。</strong></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/os"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs os 模块可以跟操作系统进行交互。</p>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p><strong>获取当前操作系统平台。</strong></p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+
+console.log(os.platform()); // win32（win32、windows、darwin（mac）、linux）
+//
+</code></pre>
+<h2 id="release"><a href="#release" class="headerlink" title="release"></a>release</h2><p><strong>获取当前操作系统版本号。</strong></p>
+<h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p><strong>获取当前操作系统名称。</strong></p>
+<blockquote>
+<p>比 platform 要获取的信息多一些。</p>
+</blockquote>
+<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p><strong>获取当前操作系统版本。</strong></p>
+<h2 id="homedir"><a href="#homedir" class="headerlink" title="homedir"></a>homedir</h2><p><strong>获取当前用户目录。</strong></p>
+<blockquote>
+<p><strong>原理</strong>：window：<code>echo %userprofile%</code><br>mac：<code>$HOME</code></p>
+</blockquote>
+<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>获取<strong>CPU 架构</strong>。</p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+
+console.log(os.arch()); // x64（arm、arm64、ia32、mips、mipsel、ppc、ppc64、s390、s390x、x64）
+//
+</code></pre>
+<h2 id="cups"><a href="#cups" class="headerlink" title="cups"></a>cups</h2><p>获取操作系统线程 cpu 信息。</p>
+<blockquote>
+<p><strong>原理</strong>：读取操作系统 cpu 的数量。（任务管理器可查）</p>
+</blockquote>
+<h2 id="networkInterfaces"><a href="#networkInterfaces" class="headerlink" title="networkInterfaces"></a>networkInterfaces</h2><p><strong>获取网络状态信息</strong>。（ip 地址、子网掩码、ip 版本、mac 地址、ip 地址段）</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="构建工具热更新后自动打开浏览器（open：true）"><a href="#构建工具热更新后自动打开浏览器（open：true）" class="headerlink" title="构建工具热更新后自动打开浏览器（open：true）"></a>构建工具热更新后自动打开浏览器（open：true）</h2><p><strong>原理</strong>：使用 os 判断不同的操作系统，分别调用对应的 shell 命令。</p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+const &#123; exec &#125; = require(&quot;child_process&quot;); // exec：执行 shell 命令
+
+const platform = os.platform();
+
+const open = (url) =&gt; &#123;
+  if (platform === &quot;darwin&quot;) &#123;
+    exec(`open $&#123;url&#125;`); // mac
+  &#125; else if (platform === &quot;win32&quot;) &#123;
+    exec(`start $&#123;url&#125;`); // windows
+  &#125; else if (platform === &quot;linux&quot;) &#123;
+    exec(`xdg-open $&#123;url&#125;`); // linux
+  &#125;
+&#125;;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/path"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>path 在不同的操作系统是有差异的。</p>
+<h2 id="posix（unix，likeunix，linux，macOs，windows-wsl）"><a href="#posix（unix，likeunix，linux，macOs，windows-wsl）" class="headerlink" title="posix（unix，likeunix，linux，macOs，windows wsl）"></a>posix（unix，likeunix，linux，macOs，windows wsl）</h2><p>可移植操作系统接口，这是一套标准，为了保证不同遵循它的操作系统的可移植性。</p>
+<blockquote>
+<p>例如：启动一个进程调用 fork 函数，大家都调用这个。</p>
+</blockquote>
+<ul>
+<li>路径分隔符使用正斜杠（<code>/</code>）。</li>
+</ul>
+<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>不遵守 posix。</p>
+<ul>
+<li>路径分隔符使用反斜杠（<code>\</code>）。</li>
+</ul>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><blockquote>
+<p><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；<br><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</p>
+</blockquote>
+<h2 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h2><p>返回指定路径的<strong>最后一个（文件&#x2F;文件夹）名</strong>。</p>
+<pre><code class="js">const path = require(&quot;node:path&quot;);
+
+console.1og(path.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
+console.1og(path.basename(&#39;\\foo\\bar\\baz\\asdf\\xm.html&#39;)) // xm.html
+console.1og(path.posix.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ×
+console.1og(path.win32.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
+</code></pre>
+<blockquote>
+<p>注意：winddows 兼容正反斜杆写法，posix 不兼容。</p>
+</blockquote>
+<h2 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h2><p>返回<strong>指定路径的目录</strong>（不含<strong>最后一个（文件&#x2F;文件夹）名</strong>。）。</p>
+<pre><code class="js">console.1og(path.dirname(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ../foo/bar/baz/asdf
+</code></pre>
+<h2 id="extname"><a href="#extname" class="headerlink" title="extname"></a>extname</h2><p>返回路径的<strong>扩展名。</strong>如果是文件夹则返回为空。</p>
+<h2 id="join"><a href="#join" class="headerlink" title="join"></a>join</h2><p><strong>拼接路径</strong>。支持操作符。</p>
+<blockquote>
+<p><code>../</code>。栈</p>
+</blockquote>
+<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><p><strong>解析路径，返回绝对路径。</strong></p>
+<blockquote>
+<p>注意：多个路径返回最后一个。（_根据拼接路径的数量和类型会有差异_）</p>
+</blockquote>
+<h2 id="parse（format）"><a href="#parse（format）" class="headerlink" title="parse（format）"></a>parse（format）</h2><p>解析路径，以对象形式。</p>
+<pre><code class="js">console.1og(path.parse(&#39;/home/file.txt&#39;))
+const res = &#123;
+  root: &#39;/&#39;,
+  dir: &#39;home&#39;,
+  base: &#39;file.txt&#39;,
+  ext: &#39;.txt&#39;,
+  name: &#39;file&#39;
+&#125;
+</code></pre>
+<h2 id="format（parse）"><a href="#format（parse）" class="headerlink" title="format（parse）"></a>format（parse）</h2><p>parse 逆向操作。</p>
+<h2 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h2><p>返回<strong>操作系统的路径分隔符</strong>。可用于<strong>实现跨平台</strong>。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/process"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>操作和控制当前进程的</strong> api，并且挂载到 globalThis 下，是全局 API。</p>
+<blockquote>
+<p>全局 API：不需要引入，直接调用。</p>
+</blockquote>
+<pre><code class="js">ObjectDefineProperty(globalThis, &quot;process&quot;, &#123;
+  __proto__: null,
+  get() &#123;
+    return _process;
+  &#125;,
+  set(value) &#123;
+    _process = value;
+  &#125;,
+  enumerable: false,
+  configurable: true,
+&#125;);
+</code></pre>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p>同 os。</p>
+<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>同 os。</p>
+<h2 id="argv"><a href="#argv" class="headerlink" title="argv"></a>argv</h2><p>返回一个<strong>数组</strong>：<br>0：运行工具地址<br>1：运行文件<br><strong>2：运行命令后的参数</strong></p>
+<h2 id="cwd"><a href="#cwd" class="headerlink" title="cwd"></a>cwd</h2><p><strong>获取工作目录</strong>（同<code>__dirname</code>。）。</p>
+<blockquote>
+<p>注意：在 esm 模式内不能使用<code>__dirname</code>，只能使用 cwd。</p>
+</blockquote>
+<h2 id="memoryUsage"><a href="#memoryUsage" class="headerlink" title="memoryUsage"></a>memoryUsage</h2><p>返回<strong>内存信息</strong>。</p>
+<pre><code class="js">const res = &#123;
+  rss: 31006720, // 常驻集大小 物理内存的存量
+  heapTotal: 6438912, // V8给我们分配的堆内存的总大小包括未使用的内存
+  heapUsed: 5679584, //已经使用的内存
+  external: 423221, //外部的内存++使用的
+  arrayBuffers: 17606, //二进制的总最
+&#125;;
+</code></pre>
+<h2 id="exit"><a href="#exit" class="headerlink" title="exit"></a>exit</h2><p><strong>退出进程。</strong>可被监听。</p>
+<pre><code class="js">process.exit();
+
+process.on(&quot;exit&quot;, () =&gt; &#123;&#125;);
+</code></pre>
+<h2 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h2><p><strong>杀死进程。</strong>需要获取进程的 <strong>pid</strong>。</p>
+<pre><code class="js">setTimeout(() =&gt; &#123;
+  process.kill(process.pid);
+&#125;, 2000);
+</code></pre>
+<h2 id="env"><a href="#env" class="headerlink" title="env"></a>env</h2><p><strong>获取操作系统的所有环境变量。</strong></p>
+<blockquote>
+<p>在系统配置 -&gt; 环境变量中可配。在<strong>当前进程中可修改，不影响操作系统全局</strong>。</p>
+</blockquote>
+<pre><code class="js">process.env.JAVA_HOME = &quot;ssss&quot;;
+</code></pre>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="cross-env"><a href="#cross-env" class="headerlink" title="cross-env"></a>cross-env</h2><p>用于设置环境变量的库。</p>
+<p><strong>原理：</strong>windows 调用<strong>SET 去设置环境变量</strong>；posix 使用 export 设置环境变量。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/SSRandCSR"
 class="article article-type-post"
 >
@@ -210,72 +698,6 @@ fs.writeFileSync(&quot;./index.html&quot;, root.serialize());
     <div class="article-more-info">
     <div class="article-date">
   <time datetime="2025-03-12T16:00:00.000Z" itemprop="datePublished">2025-03-13</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Advanced/npx"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
-<blockquote>
-<p>使用完安装包就删。</p>
-</blockquote>
-<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ul>
-<li>避免全局安装；</li>
-<li>总是使用你最新版本；</li>
-<li>可执行任意 npm package 包；</li>
-</ul>
-<h1 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h1><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
-<h1 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h1><ul>
-<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
-<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
-</code></pre>
-<blockquote>
-<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
-</blockquote>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
 </div>
     
         <div class="article-category">
@@ -364,6 +786,72 @@ class="article article-type-post"
   
     
       <article
+id="post-Node/Advanced/npx"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
+<blockquote>
+<p>使用完安装包就删。</p>
+</blockquote>
+<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ul>
+<li>避免全局安装；</li>
+<li>总是使用你最新版本；</li>
+<li>可执行任意 npm package 包；</li>
+</ul>
+<h1 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h1><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
+<h1 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h1><ul>
+<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
+<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
+</code></pre>
+<blockquote>
+<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
+</blockquote>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/index"
 class="article article-type-post"
 >
@@ -380,17 +868,29 @@ class="article article-type-post"
     <div class="article-entry post-inner-html">
         
         <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>Nodejs 是 JS 的运行时环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
+<li>Nodejs 是 JS 的<strong>运行时</strong>环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
 <li>Nodejs 使用异步 I&#x2F;O 和事件驱动设计理念，可以高效地处理大量并发请求，提供了非阻塞式 I&#x2F;O 接口和事件循环机制；<blockquote>
 <p>异步 I&#x2F;O 最终都是由 libuv 事件循环库去实现的。</p>
 </blockquote>
 </li>
-<li>Nodejs 依靠 libuv，适合处理一些 IO 密集型应用；<blockquote>
+<li>Nodejs 依靠 libuv，<strong>适合处理一些 IO 密集型应用</strong>；<blockquote>
 <p>由于 js 的单线程，很容易造成 cpu 占用率高，不适合 cpu 密集型应用（图像处理、音频处理等需要大量数据结构 + 算法）；如果非要写可以使用 c++ 插件或 Nodejs 提供的 cluster。</p>
 </blockquote>
 </li>
 </ul>
 <h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>常见的一些库和框架都需要依赖 nodejs 环境。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="定义全局变量"><a href="#定义全局变量" class="headerlink" title="定义全局变量"></a>定义全局变量</h2><p>Nodejs 可以使用<code>global.xx</code>去定义一个任何模块都能访问到的全局变量。</p>
+<p>但是 <strong>ES2020 新增了一个<code>globalThis</code><strong>可以</strong>兼容浏览器（window）和 Nodejs 的全局变量</strong>。<code>globalThis</code>会自己根据环境变换为 window 或 global，可实现跨平台访问全局变量。</p>
+<h2 id="内置-API"><a href="#内置-API" class="headerlink" title="内置 API"></a>内置 API</h2><ul>
+<li><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；</li>
+<li><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</li>
+<li>Buffer</li>
+<li>process</li>
+<li>fetch<blockquote>
+<p>node18+ 支持，和浏览器一样。</p>
+</blockquote>
+</li>
+</ul>
 
         
     </div>
@@ -586,912 +1086,10 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Node/npm/packages和modules"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="modules"><a href="#modules" class="headerlink" title="modules"></a>modules</h2><p>在 node 中模块（modules）采用的是 CommonJS 规范，该规范定义了：</p>
-<ul>
-<li>一个文件就是一个模块；</li>
-<li>每个模块都有单独的作用域；</li>
-<li>通过<code>module.exports</code>导出成员；</li>
-<li>我们可以通过<code>require</code>函数载入任何文件目录下的模块；</li>
-</ul>
-<blockquote>
-<p>注：更多详情见模块化编程一篇。</p>
-</blockquote>
-<p><img src="D:\typora\notes\photo\module-test.png" alt="image-20230828163817383"></p>
-<h2 id="packages"><a href="#packages" class="headerlink" title="packages"></a>packages</h2><p>一个 packages 是一个文件夹，该文件夹的根目录下必须包含一个<code>package.json</code>，有了这个 json 文件就可以将其发送到 npm 上。<strong>packages 一般是由多个模块组成的一个模块包。</strong></p>
-<p>如果需要通过<code>reqire()</code>加载到这个模块，它必须有：</p>
-<ul>
-<li><strong>一个定义模块功能的 js 文件；</strong></li>
-<li><strong><code>package.json</code>里拥有<code>mian</code>字段来指向入口文件</strong>；</li>
-</ul>
-<blockquote>
-<p><strong>注意</strong>：引用的 packages 应该<strong>在 node_modules 目录底下</strong>，这样才能被 node 识别到！！！</p>
-</blockquote>
-<p><img src="D:\typora\notes\photo\package-test.png" alt="image-20230828173317292"></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.980Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/npm/npm"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>过去常常使用<code>script标签</code>将外部资源库直接放在 HTML 中，这会暴露一个全局变量供我们使用，但是当项目很大的时候，这些变量很难被管理：</p>
-<ul>
-<li>在 HTML 中加载所有的 JS 文件，这会让其变得混乱；</li>
-<li>很多时候我们实际上会在计算机中直接下载一个库文件（例如 JQuery），但是每当新版本出来时，我们不得不手动下载并更新这些文件；</li>
-<li>在 npm 之前没有包含我们所需要的所有包的一个个存储库，这对于我们手动下载库并管理它们增加了很大的困难；</li>
-</ul>
-<h2 id="什么是-npm"><a href="#什么是-npm" class="headerlink" title="什么是 npm"></a>什么是 npm</h2><p>Node Package Manager。它既是我们计算机上的一个软件，也是一个 Node.js 包存储（管理）库，用于 Node 插件的管理（安装、卸载和管理依赖等）。</p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>npm 会随着 Node.js 安装而安装。</p>
-<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><blockquote>
-<p>本章会持续更新。</p>
-</blockquote>
-<h3 id="检查-npm-版本"><a href="#检查-npm-版本" class="headerlink" title="检查 npm 版本"></a><strong>检查 npm 版本</strong></h3><pre><code class="bash">npm -v
-</code></pre>
-<h3 id="初始化一个包管理文件（package-json）"><a href="#初始化一个包管理文件（package-json）" class="headerlink" title="初始化一个包管理文件（package.json）"></a><strong>初始化一个包管理文件（package.json）</strong></h3><p>这个文件存储了整个项目的配置。</p>
-<pre><code class="bash">npm init
-</code></pre>
-<blockquote>
-<p>它会让你填写一些基本信息。</p>
-</blockquote>
-<h3 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a><strong>安装包</strong></h3><pre><code class="bash">npm install 包名
-npm i 包名
-npm i 包名1 包名2
-npm i 包名@版本号
-</code></pre>
-<blockquote>
-<p>注意：如果不指定版本号，默认下载的是最新的版本。</p>
-</blockquote>
-<p><strong>安装 package.json 中所有的依赖包：</strong></p>
-<pre><code class="bash">npm i
-</code></pre>
-<p><strong>全局安装包：</strong></p>
-<p>这样在计算机上每一个项目都可以使用：</p>
-<pre><code class="bash">npm i 包名 -g
-</code></pre>
-<p>设置安装包的依赖：</p>
-<ul>
-<li><p><strong>生产环境依赖</strong>：</p>
-<p>该选项会将包下载到该项目（地址）下，<strong>这些包是我们项目中所需要的依赖</strong>（比如 UI 组件库，JS 部分工具包，框架等）：</p>
-<pre><code class="bash">npm install 包名 --save
-</code></pre>
-</li>
-<li><p><strong>开发环境依赖</strong>：</p>
-<p>该选项会将包下载到该项目（地址）下，<strong>一般是开发过程中需要借助它完成一些工作，但是项目内容并不需要它</strong>（比如打包工具 webpack 等）：</p>
-<pre><code class="bash">npm install 包名 --save-dev
-</code></pre>
-</li>
-</ul>
-<h3 id="卸载包"><a href="#卸载包" class="headerlink" title="卸载包"></a>卸载包</h3><pre><code class="bash">npm uninstall 包名
-</code></pre>
-<h3 id="查看当前-npm-镜像"><a href="#查看当前-npm-镜像" class="headerlink" title="查看当前 npm 镜像"></a>查看当前 npm 镜像</h3><pre><code class="bash">npm config get registry
-</code></pre>
-<h3 id="切换镜像"><a href="#切换镜像" class="headerlink" title="切换镜像"></a>切换镜像</h3><pre><code class="bash">npm config set registry https://registry.npmjs.org
-</code></pre>
-<blockquote>
-<p>上面是 npm 原镜像，还有：</p>
-<ul>
-<li><p>淘宝镜像：</p>
-<pre><code class="bash">npm config set registry https://registry.npm.taobao.org
-</code></pre>
-<blockquote>
-<p>23.8.21 淘宝镜像修改了：</p>
-<pre><code class="bash">https://registry.npmmirror.com
-</code></pre>
-</blockquote>
-</li>
-<li><p>hh 镜像：</p>
-<pre><code class="bash">npm config set registry http://nexus.lan:8081/repository/npm-public/
-</code></pre>
-</li>
-</ul>
-</blockquote>
-<h3 id="查看代理"><a href="#查看代理" class="headerlink" title="查看代理"></a>查看代理</h3><pre><code class="bash">npm config get proxy
-</code></pre>
-<h3 id="更多权限"><a href="#更多权限" class="headerlink" title="更多权限"></a>更多权限</h3><p>可以在 npm 语句前加上一个 sudo 来获取更高的权限，它会让你输入用户和密码（Linux）：</p>
-<pre><code class="bash">sudo npm i
-</code></pre>
-<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>将开发的代码进行打包，打包后的代码可以发布到 npm 公共仓库里供其他人使用，打包后的文件是以<code>.tgz</code>为后缀。</p>
-<pre><code class="bash">npm pack
-</code></pre>
-<blockquote>
-<p>默认打包后的文件名是以 package.json 里的 name 和 version（版本号）用<code>-</code>拼接而成。</p>
-</blockquote>
-<p><strong>指定打包名称</strong></p>
-<pre><code class="bash">npm pack . --name=mylibname
-</code></pre>
-<h3 id="登录-npm-账号"><a href="#登录-npm-账号" class="headerlink" title="登录 npm 账号"></a>登录 npm 账号</h3><pre><code class="bash">npm login
-</code></pre>
-<h3 id="登出-npm-账号"><a href="#登出-npm-账号" class="headerlink" title="登出 npm 账号"></a>登出 npm 账号</h3><pre><code class="bash">npm logout
-</code></pre>
-<h3 id="发布包到-npm-上"><a href="#发布包到-npm-上" class="headerlink" title="发布包到 npm 上"></a>发布包到 npm 上</h3><blockquote>
-<p>注意：执行该操作必须要先登录 npm 的账号！</p>
-</blockquote>
-<pre><code class="bash">npm publish
-</code></pre>
-<h1 id="package-json-配置信息"><a href="#package-json-配置信息" class="headerlink" title="package.json 配置信息"></a>package.json 配置信息</h1><p>package.json 是 npm 管理包的文件，使用<code>npm init</code>后自动创建的，里面配置了包的所有信息（名字、版本号、依赖项等）。下面是它具体配置信息：</p>
-<pre><code class="json">&#123;
-  &quot;name&quot;: &quot;element-plus&quot;, // 包名。如果要发布这个包，name是必填的，它是发布包的名字；如果不发布就不是必须的 （name）
-  &quot;version&quot;: &quot;1.0.0&quot;, // 版本号。如果要发布这个包，version是必填的（version）
-  &quot;description&quot;: &quot;A Component Library for Vue 3&quot;, // 包的描述（description）
-  &quot;keywords&quot;: [
-    // 包的关键字（keywords）
-    &quot;element-plus&quot;,
-    &quot;element&quot;,
-    &quot;component library&quot;,
-    &quot;ui framework&quot;,
-    &quot;ui&quot;,
-    &quot;vue&quot;
-  ],
-  &quot;homepage&quot;: &quot;https://element-plus.org/&quot;, // 该包项目的首页地址（可以是文档链接地址、项目官网等）
-  &quot;bugs&quot;: &#123;
-    // 项目提交问题地址（bugs）
-    &quot;url&quot;: &quot;https://github.com/element-plus/element-plus/issues&quot;
-  &#125;,
-  &quot;license&quot;: &quot;MIT&quot;, // 表示项目的开源许可证（license）
-  &quot;author&quot;: &quot;Barney Rubble &lt;b@rubble.com&gt; (http://barnyrubble.tumblr.com/)&quot;, // 跟包相关的人的信息 （people fields: author, contributors）
-  &quot;funding&quot;: &#123;
-    // 指定捐赠地址（如果对你有帮助的话可以请我喝咖啡。。）（funding）
-    &quot;type&quot;: &quot;individual&quot;,
-    &quot;url&quot;: &quot;http://example.com/donate&quot;
-  &#125;,
-  &quot;files&quot;: [
-    // 包作为依赖项（dependency）时（就是作为我们所下载的包）所需包含的文件（files）
-    &quot;LICENSE&quot;,
-    &quot;README.md&quot;,
-    &quot;index.js&quot;,
-    &quot;cjs/&quot;,
-    &quot;umd/&quot;,
-    &quot;jsx-runtime.js&quot;,
-    &quot;jsx-dev-runtime.js&quot;,
-    &quot;react.shared-subset.js&quot;
-  ],
-  &quot;main&quot;: &quot;lib/index.js&quot;, // 包的入口文件（main）
-  &quot;browser&quot;: &#123;
-    // 浏览器环境下指定入口文件（默认是在node的环境下）
-    &quot;my-module&quot;: &quot;./src/browser.js&quot;
-  &#125;,
-  &quot;bin&quot;: &quot;./path/to/program&quot;, // （bin）
-  &quot;man&quot;: &quot;./man/doc.1&quot;, // 指定单个文件或文件名数组，以供man查找。
-  &quot;directories&quot;: &#123;
-    // 指定项目的目录结构（可选，默认为CommonJS的结构）
-    &quot;lib&quot;: &quot;src/lib&quot;, // 指定项目的库文件目录
-    &quot;bin&quot;: &quot;src/bin&quot;, // 指定项目的可执行文件目录
-    &quot;man&quot;: &quot;src/man&quot;, // 指定项目的手册文件目录
-    &quot;doc&quot;: &quot;src/doc&quot; // 指定项目的文档文件目录
-  &#125;,
-  &quot;repository&quot;: &#123;
-    // 代码所在的位置，通常在github上
-    &quot;type&quot;: &quot;git&quot;,
-    &quot;url&quot;: &quot;git+https://github.com/element-plus/element-plus.git&quot;
-  &#125;,
-  &quot;scripts&quot;: &#123;
-    // 定义在包不同的生命周期下的脚本命令（scripts）
-    &quot;start&quot;: &quot;node app.js&quot;,
-    &quot;start-server&quot;: &quot;node app.js&quot;
-  &#125;,
-  &quot;config&quot;: &#123;
-    // 用于设置script字段里的脚本运行时的参数（config）
-    &quot;port&quot;: &quot;8080&quot;
-  &#125;,
-  &quot;dependencies&quot;: &#123;
-    // 生产环境依赖包（dependencies）
-    &quot;lodash&quot;: &quot;^4.17.21&quot;
-  &#125;,
-  &quot;devDependencies&quot;: &#123;&#125;, // 开发环境依赖包 （devDependencies）
-  &quot;peerDependencies&quot;: &#123;
-    // 指定包的对等依赖（peerDependencies）
-    &quot;soy-milk&quot;: &quot;1.2&quot;
-  &#125;,
-  &quot;peerDependenciesMeta&quot;: &#123;
-    // 对对等依赖的配置
-    &quot;soy-milk&quot;: &#123;
-      &quot;optional&quot;: true // 对等依赖可选（该项目下没有安装该包不会发出警告）
-    &#125;
-  &#125;,
-  &quot;bundleDependencies&quot;: [
-    // 指定指定哪些依赖项应该被捆绑到包中（bundleDependencies）
-    &quot;renderized&quot;,
-    &quot;super-streams&quot;
-  ],
-  &quot;optionalDependencies&quot;: &#123;
-    // 指定可选依赖项（optionalDependencies）
-    &quot;@element-plus/icons-vue&quot;: &quot;^2.0.6&quot;
-  &#125;,
-  &quot;overrides&quot;: &#123;
-    // 覆盖版本依赖
-    &quot;foo&quot;: &quot;1.0.0&quot;
-  &#125;,
-  &quot;engines&quot;: &#123;
-    // 指定包所依赖的运行时环境或引擎（一般为node和npm）
-    &quot;node&quot;: &quot;&gt;=0.10.3 &lt;15&quot;,
-    &quot;npm&quot;: &quot;&gt;=6.0.0&quot;
-  &#125;,
-  &quot;os&quot;: [&quot;linux&quot;, &quot;!win32&quot;], // 指定包所依赖的操作系统
-  &quot;cpu&quot;: [&quot;!arm&quot;, &quot;x64&quot;], // 指定包所依赖的cpu（可以使用!来表示非）
-  &quot;private&quot;: false, // 设置包的私有性，如果将其设置为true，npm会拒接这个包的publish
-  &quot;publishConfig&quot;: &#123;
-    // 设置包发布的配置属性，只有在进行npm publish时才会生效，不会影响其他npm命令的行为
-    &quot;registry&quot;: &quot;https://registry.npmjs.org/&quot;, // 指定发布到的npm仓库的URL（默认为npm官方仓库）
-    &quot;access&quot;: &quot;public&quot;, // 指定发布的包的访问级别（默认为public，如果设置为&quot;restricted&quot;，则只有特定的用户或团队才能访问该包）
-    &quot;tag&quot;: &quot;latest&quot; // 指定发布的包的标签。可以设置为&quot;latest&quot;（最新版本，默认值）或其他自定义标签
-  &#125;,
-  &quot;workspaces&quot;: [
-    // 定义工作区（workspaces）
-    &quot;./packages/*&quot;
-  ]
-&#125;
-</code></pre>
-<ul>
-<li><p><strong>name</strong>：name 字段遵循以下规则：</p>
-<ul>
-<li>不多于 214 个字符；</li>
-<li>作用域包的名称可以以点或下划线开头。没有作用域是不允许这样做的；</li>
-<li>不可以使用大写字母，不要使用”js“或”node“来命名；</li>
-<li>不能包含任何非 url 安全的字符，因为该名称最终成为 URL、命令行参数和文件夹名称的一部分；</li>
-</ul>
-</li>
-<li><p><strong>version</strong>：当包发生变化时（再次发布包时），版本号也要随之发生变化；且它必须遵循<code>node-semver</code>的版本命名规范（<code>x.y.z</code>）。</p>
-<blockquote>
-<p>semver：Semantic Versioning，语义化版本号。</p>
-</blockquote>
-<ul>
-<li><code>X</code> 为主版本号（<code>major</code>）： 通常在涉及重大功能更新，产生了破坏性变更时会更新此版本号；</li>
-<li><code>Y</code> 为次版本号（<code>Minor</code>）：在引入了新功能，但并未产生破坏性变更，依然向下兼容时更新此版本号；</li>
-<li><code>Z</code> 为修订号（<code>Patch</code>）：在修复了一些问题，但未产生破坏性变更时会更新此版本号；</li>
-</ul>
-<blockquote>
-<p>name 和 version 是用于确定一个唯一包的标识。</p>
-</blockquote>
-</li>
-<li><p><strong>description</strong> ：字符串类型，在搜索的时候可以看到该包的描述，并且该描述也可以作为搜索的关键词。</p>
-</li>
-<li><p><strong>keywords</strong>：字符串数组类型，作为搜索该包的关键词。</p>
-</li>
-<li><p><strong>bugs</strong>：可以是一个字符串，也可以是一个对象类型。该地址一般是 github 上的 issues 地址或者邮箱地址。</p>
-<pre><code class="json">&#123;
-  &quot;url&quot;: &quot;https://github.com/owner/project/issues&quot;,
-  &quot;email&quot;: &quot;project@hostname.com&quot;
-&#125;
-</code></pre>
-</li>
-<li><p><strong>license</strong>：开源许可证，让其他开发者知道如何允许使用这个包，以及操纵这个包的具体限制。如果不想开源，可以配置：</p>
-<pre><code class="json">&#123;
-  &quot;license&quot;: &quot;UNLICENSED&quot;,
-  &quot;private&quot;: true
-&#125;
-</code></pre>
-</li>
-<li><p><strong>people fields：</strong>包的作者或贡献者（维护者）的信息，可以是一个字符串，也可以是一个由 people 组成的数组，该数组每项格式可以有以下两种：</p>
-<pre><code class="json">&#123;
-  &quot;name&quot;: &quot;Barney Rubble&quot;,
-  &quot;email&quot;: &quot;b@rubble.com&quot;,
-  &quot;url&quot;: &quot;http://barnyrubble.tumblr.com/&quot;
-&#125;
-</code></pre>
-<pre><code class="json">&#123;
-  &quot;author&quot;: &quot;Barney Rubble &lt;b@rubble.com&gt; (http://barnyrubble.tumblr.com/)&quot;
-&#125;
-</code></pre>
-</li>
-<li><p><strong>funding</strong>：可以是对象，字符串，数组（数组项为对象和字符串都可以）。</p>
-</li>
-<li><p><strong>files</strong>：匹配文件的字符串数组，可以用来指定哪些文件需要发布到 npm 上以此来控制 npm 包的大小，如果指定的是文件夹，则对应文件夹下的所有文件都会被发布。匹配文件的字符串规则和<code>.gitignore</code>是一样的，也可以在项目的根目录下创建一个<code>.npmignore</code>文件，<code>.npmignore</code>的优先级高于<code>.gitignore</code>。</p>
-<blockquote>
-<p>注意：如果不配置该选项，则默认值为<code>[*]</code>，也就是会包含所有的文件。</p>
-</blockquote>
-</li>
-<li><p><strong>main</strong>：其他开发者引用该包是最先进入的文件。它是一个相对于包文件夹根目录的模块，并且一般来说只会存在一个。</p>
-<blockquote>
-<p>注意：如果不配置该选项，则默认为<code>index.js</code>为包的入口根文件。</p>
-</blockquote>
-</li>
-<li><p><strong>bin</strong>：让包可以作为命令行工具使用。上述配置如下：</p>
-<pre><code class="json">&quot;bin&quot;: &#123;
-  &quot;element-plus&quot;: &quot;./path/to/program&quot;
-&#125;
-</code></pre>
-</li>
-<li><p><strong>scripts</strong>：在 package.json 中有很多内置的生命周期事件（key），或者我们自定义的命令，在这些事件下我们可以执行任意脚本。</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;prestart&quot;: &quot;npm install&quot;, // 在脚本启动前自动执行这个命令 @1
-  &quot;start&quot;: &quot;node app.js&quot;, // 启动脚本时执行
-  &quot;install&quot; : &quot;scripts/install.js&quot;, // 下载时执行
-  &quot;postinstall&quot;: &quot;npm run build&quot;, // 安装依赖项后自动执行
-  &quot;build&quot;: &quot;webpack&quot;,
-  &quot;uninstall&quot; : &quot;scripts/uninstall.js&quot;, // 卸载时执行
-  &quot;start-server&quot;: &quot;node app.js&quot;, // @2
-  &quot;dev&quot;: &quot;nodemon index.js&quot; // @2
-&#125;
-</code></pre>
-<p>@1：使用<code>start</code>脚本名称简化运行命令，让他人也能轻松运行入口代码文件：</p>
-<blockquote>
-<pre><code class="bash">npm start
-</code></pre>
-</blockquote>
-<p>@2：对于自定义的执行命令脚本名称，需要使用<code>run</code>来执行：</p>
-<blockquote>
-<pre><code class="bash">npm run start-server
-npm run dev
-</code></pre>
-</blockquote>
-<blockquote>
-<p>更多生命周期讲解请见官网。</p>
-</blockquote>
-</li>
-<li><p><strong>config</strong>：用于配置<code>scripts</code>字段里脚本运行的参数，例如配置端口号（port）：</p>
-<pre><code class="json">&quot;config&quot;: &#123;
-  &quot;port&quot;: &quot;8080&quot;
-&#125;
-</code></pre>
-<p>执行脚本时，这个参数会变成<code>npm_package_config_port</code>存储到我们的环境变量中，我们可以通过：</p>
-<pre><code class="js">console.log(process.env.npm_package_config_port); // 8080
-</code></pre>
-<p>访问到我们设置的端口号（port）。</p>
-</li>
-<li><p><strong>dependencies</strong>：运行所需要用的依赖，在该目录下的依赖会在生产环境中。一般是使用<code>npm install &lt;packagename&gt;</code>或<code>npm install &lt;packagename&gt; --save</code>下载以来后自动插入里面的依赖，但是也可以手动在其中添加依赖，然后再通过<code>npm install</code>下载这些依赖。其中依赖的版本范围可以是如下几种：</p>
-<ul>
-<li><p><strong>版本字符串</strong></p>
-<p>版本字符串必须遵守 semver。</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;lodash&quot;: &quot;^4.17.21&quot;,
-  &quot;@types/lodash&quot;: &quot;^4.14.182&quot;, // @3
-  &quot;elf&quot;: &quot;~1.2.3&quot;,
-  &quot;foo&quot;: &quot;1.0.0 - 2.9999.9999&quot;,
-&#125;,
-</code></pre>
-<blockquote>
-<p>@3：npm 包都有一个名字，如果该名字被占用了别人就不能使用了，但是如果后续需要提供与该包名有关的包则可以使用<code>@</code>。npm 官方提供了一个作用域的概念，使用<code>@</code>来表示一个作用域，该作用域遵循包名的通常规则（即 <code>url</code> 安全字符），这样就可以在我们自己的作用域中添加包名了。（一般是用来补 ts 声明哈哈）</p>
-</blockquote>
-</li>
-<li><p><strong>tarball URLs</strong></p>
-<p>使用 tarball URL 指向的一个压缩文件包地址，tarball URL 的格式通常是一个以<code>.tar.gz</code>或<code>.tar.bz2</code>结尾的链接，指向一个可访问的<code>.tar</code>文件。</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;asd&quot;: &quot;http://asdf.com/asdf.tar.gz&quot;,
-&#125;,
-</code></pre>
-</li>
-<li><p><strong>Git URLs</strong></p>
-<p>使用 git urls 直接从 git 仓库上拉取包。格式如下：</p>
-<pre><code class="bash">&lt;protocol&gt;://[&lt;user&gt;[:&lt;password&gt;]@]&lt;hostname&gt;[:&lt;port&gt;][:][/]&lt;path&gt;[#&lt;commit-ish&gt; | #semver:&lt;semver&gt;]
-</code></pre>
-<p>例如：</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;asd1&quot;: &quot;git+ssh://git@github.com:npm/cli.git#v1.0.27&quot;,
-  &quot;asd2&quot;: &quot;git+ssh://git@github.com:npm/cli#semver:^5.0&quot;,
-  &quot;asd3&quot;: &quot;git+https://isaacs@github.com/npm/cli.git&quot;,
-  &quot;asd4&quot;: &quot;git://github.com/npm/cli.git#v1.0.27&quot;,
-&#125;,
-</code></pre>
-</li>
-<li><p><strong>GitHub URLs</strong></p>
-<p>可以直接指向 github 项目目录地址。</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;express&quot;: &quot;expressjs/express&quot;,
-&#125;,
-</code></pre>
-</li>
-<li><p><strong>Local Paths</strong></p>
-<p>支持本地依赖地址。（一般用于测试本地依赖，要发布到 npm 上的包不应该使用该方法）</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;local-module&quot;: &quot;file:../local-module-plugin/local-module-0.0.0.tgz&quot;
-&#125;,
-</code></pre>
-<blockquote>
-<p>当前根目录的上级目录下的<code>local-module-plugin</code>文件夹下的<code>local-module-0.0.0.tgz</code>包，该包由依赖项目<code>npm pack</code>生成而来。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li><p><strong>devDependencies</strong>：开发阶段时需要的依赖包，例如一些打包工具，类型检查工具等（webpack、eslint），在生产环境不会出现这个依赖包。一般使用<code>npm install &lt;packagename&gt; --save-dev</code>或者<code>npm install &lt;packagename&gt; -D</code>安装。</p>
-</li>
-<li><p><strong>peerDependencies</strong>：确保包与特定版本的对等包兼容，并避免在运行时出现不兼容或错误的情况。</p>
-<p>当当前包依赖于其他包时，通常会在 dependencies 字段中声明这些依赖关系。但是，有时该包可能需要与特定版本的其他包进行交互，而不是简单地依赖于它们。这时，可以使用 peerDependencies 字段来指定这些对等依赖。</p>
-<pre><code class="json">&quot;peerDependencies&quot;: &#123;
-  &quot;package-name&quot;: &quot;version-range&quot;
-&#125;
-</code></pre>
-<blockquote>
-<p><code>package-name</code>是该包所依赖的对等包的名称，<code>version-range</code>是对等包的版本范围。</p>
-<p>包被安装时，npm 会检查对等依赖关系，并确保对等包的正确版本已经安装。如果对等包的版本不符合要求，npm 会发出警告提示。</p>
-<p><strong>注意</strong>：peerDependencies 字段只是声明对等依赖关系，并不会自动安装对等软件包。用户在使用这个包时，需要手动安装对等包。因此，在文档或说明中明确指出对等依赖关系，并提供安装指南是很重要的。</p>
-</blockquote>
-</li>
-<li><p><strong>bundleDependencies</strong>：发布一个软件包时，通常会将其上传到包管理器（npm）供其他人使用。默认情况下，npm 会自动下载和安装软件包的所有依赖项（package.json）。然而，有时我们项将某些依赖项捆绑到包中，以便用户在安装您的软件包时不需要下载这些依赖项。</p>
-<blockquote>
-<p><strong>注意</strong>：这会增加包的大小。</p>
-</blockquote>
-</li>
-<li><p><strong>optionalDependencies</strong>：提供更大的灵活性和兼容性，允许包在某些依赖项无法满足或无法安装的情况下仍然正常运行。这对于与其他包进行集成或依赖于特定平台功能的软件包特别有用。</p>
-<blockquote>
-<p><strong>注意</strong>：optionalDependencies 字段只是声明可选依赖关系，并不会自动安装对等软件包。用户在使用这个包时，需要手动安装对等包。因此，在文档或说明中明确指出可选依赖关系，并提供安装指南是很重要的。</p>
-</blockquote>
-</li>
-<li><p><strong>workspaces</strong>：允许我们在一个 package.json 中的工作区中管理多个相关的子包。它是一个文件匹配字符串的数组。例如：在<code>./packages</code>文件夹下的所有文件都将视作和当前 package.json 在一个工作空间下。</p>
-<pre><code class="json">&quot;workspaces&quot;: [
-    &quot;./packages/*&quot;
-]
-</code></pre>
-<blockquote>
-<p>工作区功能可以帮助简化多包项目的管理和开发过程，提高效率。它适用于需要同时管理多个相关包的项目，例如 monorepo 或微服务架构。</p>
-</blockquote>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.978Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Express/在Node（Express）中上传或下载文件"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>在前端页面上传文件表单时，设置一个文件上传器（将输入文本类型设置为<code>file</code>）：</p>
-<pre><code class="html">&lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
-</code></pre>
-<h2 id="Multer"><a href="#Multer" class="headerlink" title="Multer"></a>Multer</h2><blockquote>
-<p>纯文本可以使用<code>body-parser</code>：</p>
-<pre><code class="js">const bodyParser = require(&quot;body-parser&quot;);
-app.use(bodyParser.urlencoded(&#123; extended: false &#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
-</code></pre>
-</blockquote>
-<p>由于文件不是纯文本，而是二进制数据，我们需要下载一个文件请求解析中间件——<code>multer</code>来识别上传的文件：</p>
-<pre><code class="bash">npm install --save multer
-</code></pre>
-<p><strong><code>multer</code>能解析文件请求数据，能够处理文件请求或文本和文件混合的请求数据。</strong></p>
-<h3 id="发送文件数据"><a href="#发送文件数据" class="headerlink" title="发送文件数据"></a><strong>发送文件数据</strong></h3><ul>
-<li><p><strong>需要在客户端发送表单数据的时候添加<code>enctype</code>来选择发送解析的数据类型</strong>：</p>
-<pre><code class="html">&lt;form action=&quot;/profile&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
-  &lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
-&lt;/form&gt;
-</code></pre>
-<blockquote>
-<p>multipart&#x2F;form-data：请求不包含纯文本，而是包含文本和二进制的混合数据。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="获取发送的文件数据"><a href="#获取发送的文件数据" class="headerlink" title="获取发送的文件数据"></a><strong>获取发送的文件数据</strong></h3><ul>
-<li><p><strong>引入<code>multer</code>，将其注册为中间件</strong>：</p>
-<pre><code class="js">const express = require(&quot;express&quot;);
-const multer = require(&quot;multer&quot;);
-
-const app = express();
-
-app.use(multer().single(&quot;image&quot;)); // 获取一个文件，文件名为name中的名字 @1
-</code></pre>
-<blockquote>
-<p>@1：multer 必须作为一个执行函数注册，它可以调用其他的方法来设置获取文件的形式（如单个文件或多个文件）。</p>
-</blockquote>
-</li>
-<li><p><strong>获取上传的文件数据</strong>：</p>
-<pre><code class="js">app.post(&quot;/add-product&quot;, postAddProduct);
-</code></pre>
-<pre><code class="js">exports.postAddProduct = (req, res, next) =&gt; &#123;
-  const imageUrl = req.file; // req.file中获取文件数据信息 @2
-&#125;;
-</code></pre>
-<blockquote>
-<p>@2：它会返回一个 buffer 的混合数据流，我们可以设置它为一个图片结构（图片名为没有文件扩展名的随机的哈希名称，添加扩展名可以恢复图片）：</p>
-<pre><code class="js">app.use(multer(&#123; dest: &quot;images&quot; &#125;).single(&quot;image&quot;));
-</code></pre>
-</blockquote>
-</li>
-</ul>
-<h3 id="存储文件数据"><a href="#存储文件数据" class="headerlink" title="存储文件数据"></a>存储文件数据</h3><ul>
-<li><p><strong>设置存储引擎：</strong></p>
-<p><code>diskStorage()</code>是 multer 的存储引擎，它可以通过传递一个 JS 对象来配置，他需要两个 key：</p>
-<ul>
-<li>destination：存储位置（存储文件路径）；</li>
-<li>filename：存储名字</li>
-</ul>
-<pre><code class="js">const fileStorage = multer.diskStorage(&#123;
-  destination: (req, file, cb) =&gt; &#123;
-    cb(null, &quot;images&quot;);
-  &#125;,
-  filename: (req, file, cb) =&gt; &#123;
-    cb(null, file.filename + &quot;-&quot; + file.originalname);
-  &#125;,
-&#125;);
-
-app.use(multer(&#123; storage: fileStorage &#125;).single(&quot;image&quot;));
-</code></pre>
-<p>这样文件就会以指定的名字存储到指定的路径文件中。</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.966Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Express/使用Node（Express）发送邮件"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Node（Express）能创建一个服务端（器），但是创建一个邮件服务器是很困难的，处理邮件与处理传入的请求和响应完全不同。我们基本上没有办法创建自己的邮件服务器，所以一般使用<strong>第三方的邮件服务器</strong>。</p>
-<p><strong>第三方邮件服务器</strong>：MailChimp、SendGrid 等</p>
-<h2 id="下载-Nodemailer"><a href="#下载-Nodemailer" class="headerlink" title="下载 Nodemailer"></a>下载 Nodemailer</h2><p>需要利用 nodemailer 发送邮件：</p>
-<pre><code class="bash">npm install --save nodemailer
-</code></pre>
-<h2 id="使用-SendGrid-作为第三方邮件服务器"><a href="#使用-SendGrid-作为第三方邮件服务器" class="headerlink" title="使用 SendGrid 作为第三方邮件服务器"></a>使用 SendGrid 作为第三方邮件服务器</h2><p>使用 SendGrid 作为第三方邮件服务器<strong>还</strong>需要安装<code>nodemailer-sendgrid-transport</code>来与之交互：</p>
-<pre><code class="bash">npm install --save nodemailer-sendgrid-transport
-</code></pre>
-<blockquote>
-<p>注意：注册 SendGrid 账号和开启后续服务均需要挂 VPN，连接外网。</p>
-</blockquote>
-<h3 id="初始化传输器"><a href="#初始化传输器" class="headerlink" title="初始化传输器"></a>初始化传输器</h3><p>app.js</p>
-<pre><code class="js">const nodemailer = require(&quot;nodemailer&quot;); // 引入nodemailer
-const sendgridTransport = require(&quot;nodemailer-sendgrid-transport&quot;); // 引入nodemailer-sendgrid-transport
-
-const transporter = nodemailer.createTransport(
-  sendgridTransport(&#123;
-    auth: &#123;
-      api_user: &quot;fxh&quot;, // SendGrid用户名
-      api_key: &quot;dsafdsfdsf&quot;, // SendGrid获取的密钥
-    &#125;,
-  &#125;)
-); // 设置node传输邮件的方式，并通过sendgridTransport执行（这样可以用nodemailer配置SendGrid）
-</code></pre>
-<h3 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h3><p>通过<code>sendMail()</code>发送邮件，它返回一个 Promise：</p>
-<pre><code class="js">transporter.sendMail(&#123;
-  to: userEmail, // 邮件发送的地址（用户的邮件地址）
-  from: &quot;shop@node-cm.com&quot;, // 发出邮件的地址
-  subject: &quot;Signup succeeded&quot;, // 邮件主题
-  html: &quot;&lt;h1&gt;You successfully signed up!&lt;/h1&gt;&quot;, // 邮件内容
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.965Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Express/Node（Express）与数据库"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="Node（Express）连接数据库"><a href="#Node（Express）连接数据库" class="headerlink" title="Node（Express）连接数据库"></a>Node（Express）连接数据库</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p><strong>关系型数据库</strong>。</p>
-<h3 id="使用-mysql-的-connection-连接数据库"><a href="#使用-mysql-的-connection-连接数据库" class="headerlink" title="使用 mysql 的 connection 连接数据库"></a><strong>使用 mysql 的 connection 连接数据库</strong></h3><blockquote>
-<p>准备工作跟下一章节相同。</p>
-</blockquote>
-<p>我们可以使用它来进行查询，查询完成之后会关闭连接。</p>
-<blockquote>
-<p>这种方法较为底层，且<strong>每次操作数据库都需要新建数据库连接</strong>，若数据库操作需求多，对服务器消耗较大，因此，可以使用第二种连接方式。</p>
-</blockquote>
-<pre><code class="js">const mysql = require(&quot;mysql&quot;);
-const connection = mysql.createConnection(&#123;
-  host: &quot;localhost&quot;,
-  user: &quot;me&quot;,
-  password: &quot;secret&quot;,
-  database: &quot;my_db&quot;,
-&#125;);
-
-connection.connect();
-
-connection.query(&quot;SELECT 1 + 1 AS solution&quot;, function (err, rows, fields) &#123;
-  if (err) throw err;
-
-  console.log(&quot;The solution is: &quot;, rows[0].solution);
-&#125;);
-
-connection.end();
-</code></pre>
-<h3 id="使用-mysql-建立数据库连接池连接数据库"><a href="#使用-mysql-建立数据库连接池连接数据库" class="headerlink" title="使用 mysql 建立数据库连接池连接数据库"></a><strong>使用 mysql 建立数据库连接池连接数据库</strong></h3><h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><ul>
-<li><p>需要下载 MySQL 数据库在电脑上；</p>
-</li>
-<li><p>项目中下载 mysql2 来辅助连接 MySQL 数据库：</p>
-<pre><code class="bash">npm install --save mysql2
-</code></pre>
-<blockquote>
-<p>mysql2 就是 mysql 的升级版。</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>以连接池的方式连接数据库：</p>
-<p>database.js</p>
-<pre><code class="js">const mysql = require(&quot;mysql2&quot;); // 导入mysql2模块
-
-// 创建一个连接池 @1
-const pool = mysql.createPool(&#123;
-  host: &quot;localhost&quot;, // 连接的服务器的IP地址
-  user: &quot;root&quot;, // 数据库用户
-  database: &quot;node-complete&quot;, // 连接的具体数据库
-  password: &quot;159638&quot;, // 安装时填写的密码
-&#125;);
-
-// 导出连接池
-module.exports = pool.promise(); // @2
-</code></pre>
-<blockquote>
-<p>@1：连接池方式——每当我们运行一个查询语句时能随时访问它，然后从管理的多个连接池中获取一个新连接，这样就可以同时运行多个查询，因为每个查询都需要自己的连接，并且一次查询完成后连接会交还到连接池中用于新的查询，最后在应用程序关闭时完成连接池。</p>
-<p>@2：以 Promise 的方式导出，我们在其他地方使用的时候可以处理异步任务。</p>
-</blockquote>
-<h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a><strong>获取数据</strong></h4><p>我们要获取数据库表中的数据，需要<strong>使用<code>execute()</code>结合一条数据库语句</strong>来实现对数据库中表的操作：</p>
-<p>app.js</p>
-<pre><code class="js">const db = require(&#39;./util/database&#39;);
-...
-// 查询数据库中的products表
-db.execute(&#39;SELECT * FROM products&#39;)
-    .then(([rows, fieldData]) =&gt; &#123;
-        console.log(rows); // 存储了数据库表中的数据
-        console.log(fieldData); // 存储数据库表的一些元字段
-    &#125;)
-    .catch(err =&gt; console.log(err));
-
-// 增加一条数据
-db.execute(
-    &#39;INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)&#39;,
-    [this.title, this.price, this.imageUrl, this.description] // 增加数据字段（与库中的表相对应）
-).then(() =&gt; &#123;&#125;).catch(err =&gt; console.log(err));
-</code></pre>
-<h3 id="使用-sequelize-连接数据库"><a href="#使用-sequelize-连接数据库" class="headerlink" title="使用 sequelize 连接数据库"></a><strong>使用 sequelize 连接数据库</strong></h3><p>详情见 sequelize 一章。</p>
-<h2 id="MongDB"><a href="#MongDB" class="headerlink" title="MongDB"></a>MongDB</h2><p><strong>非关系型数据库。</strong>MongoDB 是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似<em>json</em>的 bson<em>格式</em>，因此可以存储比较复杂的数据类型。</p>
-<p><strong>特点：</strong></p>
-<ul>
-<li>能存储大量的数据；</li>
-<li>支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，查询速度块；</li>
-<li>而且还支持对数据建立索引；</li>
-</ul>
-<h3 id="使用-mongodb-连接数据库"><a href="#使用-mongodb-连接数据库" class="headerlink" title="使用 mongodb 连接数据库"></a><strong>使用 mongodb 连接数据库</strong></h3><h4 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><p>下载 mongodb：</p>
-<pre><code class="bash">npm instal --save mongodb
-</code></pre>
-<blockquote>
-<p>准备一个 MongoDB 数据库连接地址，我使用的是云数据库 MongoDB Atlas。</p>
-</blockquote>
-<h4 id="连接数据库-1"><a href="#连接数据库-1" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>database.js</p>
-<pre><code class="js">const mongodb = require(&quot;mongodb&quot;); // 引入mongodb
-const MongoClient = mongodb.MongoClient; // 新建一个MongoClient用于连接数据库
-
-const mongoConnect = (callback) =&gt; &#123;
-  MongoClient.connect(
-    // 连接数据库地址
-    &quot;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/?retryWrites=true&amp;w=majority&quot;
-  ) // @1
-    .then((client) =&gt; &#123;
-      console.log(&quot;Connected!&quot;);
-      callback(client);
-    &#125;)
-    .catch((err) =&gt; &#123;
-      console.log(err);
-    &#125;);
-&#125;;
-
-module.exports = mongoConnect;
-</code></pre>
-<blockquote>
-<p>@1：该 url 是云数据库的地址，其中包含了云数据库存储的用户名和密码。</p>
-</blockquote>
-<p>app.js</p>
-<pre><code class="js">const mongoConnect = require(&#39;./util/database&#39;);
-const app = express();
-...
-mongoConnect(client =&gt; &#123;
-  console.log(client);
-  app.listen(3000);
-&#125;);
-</code></pre>
-<blockquote>
-<p>更多详细信息见 MongoDB 一章。</p>
-</blockquote>
-<h3 id="使用-mongoose-连接数据库"><a href="#使用-mongoose-连接数据库" class="headerlink" title="使用 mongoose 连接数据库"></a>使用 mongoose 连接数据库</h3><h4 id="准备工作-2"><a href="#准备工作-2" class="headerlink" title="准备工作"></a>准备工作</h4><p>下载 mongoose：</p>
-<pre><code class="bash">npm install --save mongoose
-</code></pre>
-<h4 id="连接数据库-2"><a href="#连接数据库-2" class="headerlink" title="连接数据库"></a>连接数据库</h4><p>app.js</p>
-<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
-...
-mongoose
-  .connect(
-    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
-  ) // 连接MongoDB数据库
-  .then(result =&gt; &#123;
-    app.listen(3000);
-  &#125;)
-  .catch(err =&gt; &#123;
-    console.log(err);
-  &#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.963Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
-        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
+        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
     </nav>
   
 </div>
@@ -1535,23 +1133,23 @@ mongoose
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/13/Node/Advanced/SSRandCSR/">SSR 和 CSR</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>
