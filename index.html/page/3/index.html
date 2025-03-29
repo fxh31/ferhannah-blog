@@ -20,7 +20,7 @@
     <meta property="og:description" content=""/>
     <meta property="og:locale" content="cn" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/page/3/index.html" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/index.html/page/3/index.html" />
     <meta property="og:site_name" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
     <script type="application/ld+json">
@@ -151,6 +151,62 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="index">
+  
+    
+      <article
+id="post-hello-world"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/hello-world/">Hello World</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:03:55.763Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
   
     
       <article
@@ -683,7 +739,7 @@ Promise.try(test).then((res) =&gt; &#123;
   
     
       <article
-id="post-Python/index"
+id="post-Python/class"
 class="article article-type-post"
 >
 
@@ -694,18 +750,25 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h1><ul>
-<li>打完包之后在 dist 目录下执行：</li>
+        <h1 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h1><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
+<ul>
+<li>append(x)：在右侧添加一个元素。</li>
+<li>appendleft(x)：在左侧添加一个元素。</li>
+<li>pop()：移除并返回一个右侧元素。</li>
+<li>popleft()：移除并返回一个左侧元素。</li>
+<li>extend(iterable)：在右侧添加多个元素。</li>
+<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
+<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
+<li>clear()：清空所有元素。</li>
 </ul>
-<pre><code class="shell">python -m http.server
+<pre><code class="python">queue = deque()
+queue.append(1)
+queue.popleft(2)
 </code></pre>
-<blockquote>
-<p>注意：也可以在后面添加启动的端口号。</p>
-</blockquote>
 
         
     </div>
@@ -738,7 +801,7 @@ class="article article-type-post"
   
     
       <article
-id="post-Python/class"
+id="post-Python/index"
 class="article article-type-post"
 >
 
@@ -749,25 +812,18 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h1><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
-<ul>
-<li>append(x)：在右侧添加一个元素。</li>
-<li>appendleft(x)：在左侧添加一个元素。</li>
-<li>pop()：移除并返回一个右侧元素。</li>
-<li>popleft()：移除并返回一个左侧元素。</li>
-<li>extend(iterable)：在右侧添加多个元素。</li>
-<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
-<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
-<li>clear()：清空所有元素。</li>
+        <h1 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h1><ul>
+<li>打完包之后在 dist 目录下执行：</li>
 </ul>
-<pre><code class="python">queue = deque()
-queue.append(1)
-queue.popleft(2)
+<pre><code class="shell">python -m http.server
 </code></pre>
+<blockquote>
+<p>注意：也可以在后面添加启动的端口号。</p>
+</blockquote>
 
         
     </div>
@@ -991,64 +1047,10 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Algorithm/monotoneStack"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>已知单调栈使用场景：</p>
-<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
-<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
-<ul>
-<li>一般栈中存储的是数组索引下标；</li>
-<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/2/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><a class="page-number" href="/ferhannah-blog/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/ferhannah-blog/page/4/">4</a><a class="page-number" href="/ferhannah-blog/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/4/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/index.html/page/2/">Prev</a><a class="page-number" href="/ferhannah-blog/index.html/">1</a><a class="page-number" href="/ferhannah-blog/index.html/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/ferhannah-blog/index.html/page/4/">4</a><a class="page-number" href="/ferhannah-blog/index.html/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/index.html/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/index.html/page/4/">Next</a>
     </nav>
   
 </div>
@@ -1092,6 +1094,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/29/index/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
@@ -1105,10 +1111,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>

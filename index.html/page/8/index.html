@@ -20,7 +20,7 @@
     <meta property="og:description" content=""/>
     <meta property="og:locale" content="cn" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/page/8/index.html" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/index.html/page/8/index.html" />
     <meta property="og:site_name" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
     <script type="application/ld+json">
@@ -151,6 +151,75 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="index">
+  
+    
+      <article
+id="post-network/networkState"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/networkState/">前端网络状态</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="前端网络状态"><a href="#前端网络状态" class="headerlink" title="前端网络状态"></a>前端网络状态</h1><h2 id="前端判断网络是否离线"><a href="#前端判断网络是否离线" class="headerlink" title="前端判断网络是否离线"></a>前端判断网络是否离线</h2><ul>
+<li>navigator.onLine</li>
+</ul>
+<p>true：在线；false：离线</p>
+<ul>
+<li>在 window 监听 online&#x2F;offine 事件：</li>
+</ul>
+<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+window.addEventListener(&quot;offline&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+</code></pre>
+<h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
+<ul>
+<li>downlink：当前网络连接的估计下行速度</li>
+<li>downlinkMax：设备网络连接的最大下行速度</li>
+<li>effectiveType：当前网络连接的估计速度，类型(如 slow-2g、2g、39、4g 等)</li>
+<li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
+<li>saveData：是否处于数据节省模式</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
   
     
       <article
@@ -1042,121 +1111,10 @@ console.log(routes.someText);
 
     
   
-    
-      <article
-id="post-Node/Node.js常用包"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/09/01/Node/Node.js%E5%B8%B8%E7%94%A8%E5%8C%85/">Node.js常用包</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="开发环境包"><a href="#开发环境包" class="headerlink" title="开发环境包"></a>开发环境包</h2><ul>
-<li><p><strong>nodemon</strong>：当我们修改项目文件时，自动重启 node 执行该文件；</p>
-<blockquote>
-<p>没有它我们每次修改文件之后都要重新执行<code>node app.js</code>。</p>
-</blockquote>
-<p>使用：在 package.json 中的运行项目命令中添加<code>nodemon app.js</code>，然后执行<code>npm start</code>（或其他启动运行项目的命令）。</p>
-<pre><code class="json">&#123;
-    ...
-    &quot;scripts&quot;: &#123;
-        &quot;start&quot;: &quot;nodemon app.js&quot;
-    &#125;
-    ...
-&#125;
-</code></pre>
-<blockquote>
-<p>注意：nodemon 如果不是在全局安装的就不能直接在命令行输入<code>nodemon app.js</code>，而是写入 start 中，用 npm（已全局安装）来启动。</p>
-</blockquote>
-</li>
-<li><p><strong>serve</strong> ：在本地启动 serve 运行文件；（一般针对 HTML）</p>
-<pre><code class="bash">npm i -g serve
-</code></pre>
-<ul>
-<li><p>启动当前文件：</p>
-<pre><code class="bash">server .
-</code></pre>
-</li>
-<li><p>配置 package.json 后启动打包后的文件（dist）：</p>
-<pre><code class="json">&quot;serve&quot;: &quot;serve ./dist&quot;
-</code></pre>
-<pre><code class="bash">npm run serve
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p><strong>browser-sync</strong>：浏览器自动同步文件工具；</p>
-<pre><code class="bash">npm install -g browser-sync
-</code></pre>
-<blockquote>
-<p>完全可以使用插件 Live server 达到相同的效果。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="生产环境包"><a href="#生产环境包" class="headerlink" title="生产环境包"></a>生产环境包</h2><ul>
-<li><p><strong>express</strong>：Node.js 框架；</p>
-</li>
-<li><p><strong>mysql2</strong>：连接数据库的工具包；</p>
-</li>
-<li><p><strong>ejs</strong>：EJS 模板引擎；</p>
-</li>
-<li><p><strong>pug</strong>：Pug 模板引擎；</p>
-</li>
-<li><p><strong>express-handlebars</strong>：Handlebars 模板引擎；</p>
-</li>
-<li><p><strong>sequelize</strong>：对象关系映射库，简化操作 SQL 数据库；</p>
-</li>
-<li><p><strong>mongoose</strong>：对象文档映射库，简化操作 MongoDB 数据库；</p>
-</li>
-<li><p><strong>express-session</strong>：Express 使用 session 的包；</p>
-</li>
-<li><p><strong>bcryptjs</strong>：加密数据的包（加密密码，不能直接从数据库中查看到密码）；</p>
-</li>
-<li><p><strong>connect-flash：</strong>flash 是在 session 中用于储存信息的特殊区域，在其中存储的值使用过一次便被清空（联合 redirect 一起使用，确保消息只在目标页面可用）；</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-08-31T16:00:00.000Z" itemprop="datePublished">2023-09-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/7/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/6/">6</a><a class="page-number" href="/ferhannah-blog/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/9/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/index.html/page/7/">Prev</a><a class="page-number" href="/ferhannah-blog/index.html/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/index.html/page/6/">6</a><a class="page-number" href="/ferhannah-blog/index.html/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/ferhannah-blog/index.html/page/9/">9</a><a class="page-number" href="/ferhannah-blog/index.html/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/index.html/page/9/">Next</a>
     </nav>
   
 </div>
@@ -1200,6 +1158,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/03/29/index/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
@@ -1213,10 +1175,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>
