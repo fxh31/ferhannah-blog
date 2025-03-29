@@ -154,206 +154,6 @@
   
     
       <article
-id="post-HTML/innerText和textContent"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
-<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
-<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
-<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
-<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
-</blockquote>
-</li>
-<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
-</ul>
-<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
-<li>innerHTML 是 Element 对象的属性；</li>
-<li>innerHTML 返回完整的 DOM 元素；</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/binary"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/binary/">二进制的一些小技巧</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
-<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
-<p>汉明距离是使用在数据传输差错控制编码里。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
-<li>用于清除 num 最右边的 1；</li>
-</ul>
-<blockquote>
-<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
-</blockquote>
-<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
-<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
-</ul>
-<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
-<li>用于将 num 的二进制表示向右移动一位；</li>
-</ul>
-<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
-<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
-<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
-<ul>
-<li>用于比较一个二进制数的高位是否为 1。</li>
-</ul>
-<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
-
-let x = num;
-const ans = [];
-while (x &gt; 0) &#123;
-  ans.push(lowbit(x));
-  x -= lowbit(x);
-&#125;
-
-function lowbit(x) &#123;
-  return x &amp; -x;
-&#125;
-</code></pre>
-<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
-<blockquote>
-<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/slidedWindow"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-JS/copyObject"
 class="article article-type-post"
 >
@@ -373,82 +173,6 @@ class="article article-type-post"
 <li>slice()</li>
 <li>扩展运算符 […]</li>
 </ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/setTimout"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/JS/setTimout/">setTimeout</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
-<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
-<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
-<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
-</code></pre>
-</blockquote>
-</li>
-</ul>
-<p>要解决这个问题可以使用：</p>
-<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
-<pre><code class="js">setTimeout(function () &#123;
-  console.log(this);
-  myArray.myMethod();
-&#125;, 1.0 * 1000);
-</code></pre>
-<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
-</code></pre>
-<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
-<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
-<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
-<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
-<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
-</blockquote>
-</li>
-<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
-<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
-<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
-</ul>
-<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
 
         
     </div>
@@ -616,6 +340,325 @@ const proxy = new Proxy(target, handler);
         <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/Node和Element"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
+<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/dataset"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/HTML/dataset/">dataset</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>html 中使用<code>data-</code>来定义自定义属性，这是因为：</p>
+<ul>
+<li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
+<li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
+<li>可以使用 dataset 将所有的自定义属性获取到；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/innerText和textContent"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
+<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
+<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
+<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
+<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
+</blockquote>
+</li>
+<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
+</ul>
+<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
+<li>innerHTML 是 Element 对象的属性；</li>
+<li>innerHTML 返回完整的 DOM 元素；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/setTimout"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/JS/setTimout/">setTimeout</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
+<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
+<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
+<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<p>要解决这个问题可以使用：</p>
+<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
+<pre><code class="js">setTimeout(function () &#123;
+  console.log(this);
+  myArray.myMethod();
+&#125;, 1.0 * 1000);
+</code></pre>
+<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
+</code></pre>
+<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
+<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
+<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
+<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
+<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
+</blockquote>
+</li>
+<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
+<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
+<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
+</ul>
+<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/AJAX"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/AJAX/">AJAX</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>异步的 JS 和 XML，是一种用于网页进行异步交换数据的技术，它可以在不刷新整个页面的情况下向服务器异步发起请求获取数据，从而实现动态更新页面（异步更新页面）。它减少了响应实现和带宽的消耗，提高了用户的交互体验。但是它不利于 SEO。（因为 SEO 在进行爬虫抓取的时候没有办法去抓取 AJAX 里的内容以及发送的 url），如果要做 SEO 可以使用服务端渲染技术（SSR）</p>
+<blockquote>
+<p>没有 AJAX 时需要手动刷新页面。</p>
+</blockquote>
+<h3 id="SEO"><a href="#SEO" class="headerlink" title="SEO"></a>SEO</h3><p>搜索引擎优化。</p>
+<h2 id="AJAX-实现"><a href="#AJAX-实现" class="headerlink" title="AJAX 实现"></a>AJAX 实现</h2><ul>
+<li>创建一个 XMLHttpRequest 的实例对象；</li>
+<li>使用 open 方法定义请求的方式、url 地址、是否异步（默认异步）；</li>
+<li>如果是 post 请求需要设置请求头 setRequestHeader；</li>
+<li>如果需要向后端传递信息，可以使用 send 方法传递；<blockquote>
+<p>get 请求一般不用 xhr.send(null)，有也是作为 query 在 url 地址中传递；</p>
+</blockquote>
+</li>
+<li>通过在 onreadystatechange 函数中监听 readyState 的值，来接收后端返回的数据，这个函数在整个 AJAX 初始到连接到结束都会执行；<blockquote>
+<p>0: 未初始化 —— XMLHttpRequest 对象已经创建，但还没有调用 open 方法；<br>1：已开启 —— open 方法被调用，send 方法没被调用；<br>2：已发送 —— send 方法已调用，请求已经发给服务器了；<br>3：正在接收 —— 服务器正在处理请求并返回数据；<br>4：完成 —— 服务器已经完成了数据传输；<br>status 200： 服务器返回状态码。</p>
+</blockquote>
+</li>
+<li>或者直接使用 addEventListener 去监听 load 事件，该事件只会在 readyState&#x3D;4 的时候执行。</li>
+<li>也可以使用 addEventListener 去监听一个 progress，来获取一个进度；</li>
+<li>也可以设置超时时间 timeout，然后使用 addEventListener 去监听一个 timeout；</li>
+<li>也可也中断请求；</li>
+</ul>
+<h3 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h3><ul>
+<li>1xx：信息性状态码。比如 102 服务器已经收到并正在处理该请求；</li>
+<li>2xx：请求成功响应。</li>
+<li>3xx：重定向消息。304 服务端告诉客户端数据没有变换，可以使用缓存。</li>
+<li>4xx：客户端响应错误。400 参数错误，401 可能是 token 掉了，403 没有权限。</li>
+<li>5xx：服务端错误。</li>
+</ul>
+<h3 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h3><p>JSON 是一种数据格式，常用于前后端数据传输。它体积小，传输快，易于用户阅读和编写，也可也被各种编程语言轻松解析。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li></ul>
+        </div>
     
     </div>
 </footer>
@@ -877,159 +920,6 @@ https
 
     
   
-    
-      <article
-id="post-network/JWT"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/JWT/">JWT</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>json web token。实现身份验证或授权，也就是鉴权。（常用于用户登录后需要存储用户信息）</p>
-<blockquote>
-<p>有点类似 cookie 和 session。</p>
-</blockquote>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>在服务端生成一个加密的令牌（token），将用户的信息封装到这个令牌中；前端每一次发送请求时去携带这个 token，服务端就可以将这个 token 进行解码，读取用户的信息，这样就达到了一个身份验证和鉴权。</p>
-<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><p>JWT 由 . 分割为三个部分：</p>
-<ul>
-<li>头部（Header）：一般由令牌的类型和使用的签名算法组成（一般不用去管），是一个 json 对象。</li>
-<li>负载（Payload）：包含需要传输的信息（用户身份、权限、令牌发布者等），也是一个 json 对象，使用 Base64 进行编码。</li>
-<li>验证签名（Verify Signature）：通过指定算法对 Header 和 Payload 生成数字签名。</li>
-</ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="后端（express）"><a href="#后端（express）" class="headerlink" title="后端（express）"></a>后端（express）</h3><ul>
-<li>安装所需依赖</li>
-</ul>
-<pre><code class="bash">pnpm i express cors jsonwebtoken
-</code></pre>
-<blockquote>
-<p>cors：用于解决跨域。</p>
-</blockquote>
-<pre><code class="js">import express from &quot;express&quot;;
-import jwt from &quot;jsonwebtoken&quot;;
-import cors from &quot;cors&quot;;
-
-let Key = &quot;SVCSD&quot;; // 加验私钥，一般藏在环境变量里
-const app = express();
-app.use(express.json()); // 中间件支持json
-app.use(express.urlencoded(&#123; extended: false &#125;));
-app.use(cors()); // 中间件解决跨域
-
-let user = &#123;
-  name: &quot;admin&quot;,
-  password: &quot;123456&quot;,
-  id: 1,
-&#125;;
-
-// 1.登录返回前端token用于授权
-app.post(&quot;/api/login&quot;, (req, res) =&gt; &#123;
-  if (req.body.name == user.name &amp;&amp; req.body.password == user.password) &#123;
-    res.json(&#123;
-      message: &quot;登录成功&quot;,
-      token: jwt.sign(&#123; id: user.id &#125;, Key, &#123; expiresIn: &quot;1h&quot; &#125;), // payload，私钥，token配置对象（如 token 过期时间）
-    &#125;);
-  &#125; else &#123;
-    res.status(403).json(&#123; message: &quot;用户名或密码错误&quot; &#125;);
-  &#125;
-&#125;);
-
-// 2.列表接口，只有授权状态才能访问，不然就会403
-app.post(&quot;/api/list&quot;, (req, res) =&gt; &#123;
-  let token = req.headers.authorization; // 前端 token 存放在请求头的 authorization 里，规范
-  jwt.verify(token, Key, (err, decode) =&gt; &#123;
-    // 使用 jwt 去验证 token 是否正确
-    if (err) &#123;
-      // token 没有权限按规范返回403
-      res.status(403).json(&#123; message: &quot;无权限&quot; &#125;);
-    &#125; else &#123;
-      res.json(&#123;
-        list: [
-          &#123; id: 1, title: &quot;标题1&quot; &#125;,
-          &#123; id: 2, title: &quot;标题2&quot; &#125;,
-        ],
-      &#125;);
-    &#125;
-  &#125;);
-&#125;);
-
-app.listen(3000, () =&gt; &#123;
-  console.log(&quot;server started&quot;);
-&#125;);
-</code></pre>
-<h3 id="前端（fetch）"><a href="#前端（fetch）" class="headerlink" title="前端（fetch）"></a>前端（fetch）</h3><pre><code class="js">btn.onclick = () =&gt; &#123;
-  fetch(&quot;http://localhost:3000/api/login&quot;, &#123;
-    method: &quot;POST&quot;,
-    headers: &#123;
-      &quot;Content-Type&quot;: &quot;application/json&quot;,
-    &#125;,
-    body: JSON.stringify(&#123;
-      name: name.value,
-      password: password.value,
-    &#125;),
-  &#125;)
-    .then((res) =&gt; res.json())
-    .then((res) =&gt; &#123;
-      cnosole.log(res);
-      localStorage.setItem(&quot;token&quot;, res.token);
-    &#125;);
-&#125;;
-</code></pre>
-<pre><code class="js">fetch(&quot;http://localhost:3000/api/list&quot;, &#123;
-  headers: &#123;
-    Authorization: localStorage.getItem(&quot;token&quot;),
-    // &quot;Authorization&quot;: `Bearer $&#123;localStorage.getItem(&quot;token&quot;)&#125;`
-  &#125;,
-&#125;)
-  .then((res) =&gt; res.json())
-  .then((res) =&gt; &#123;
-    cnosole.log(res);
-  &#125;);
-</code></pre>
-<blockquote>
-<p>注意：Bearer 字段不是一定要加的，它是一个规范，只要看见 token 前面加了这个东西，就说明它使用了 OAuth 2.0 规范(jwt 也使用了该规范)。加了后端也需要去处理这个 Bearer</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1089,11 +979,11 @@ app.listen(3000, () =&gt; &#123;
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>

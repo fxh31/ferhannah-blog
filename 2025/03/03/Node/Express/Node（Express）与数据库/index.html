@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm8u1wrh00050bwvs3juo1ofs" class="article article-type-post" itemscope
+    <article id="post-cm8u2h7b2006czgvsec8sexoy" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -207,8 +207,8 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <h1 id="Node（Express）连接数据库"><a href="#Node（Express）连接数据库" class="headerlink" title="Node（Express）连接数据库"></a>Node（Express）连接数据库</h1><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p><strong>关系型数据库</strong>。</p>
-<h3 id="使用-mysql-的-connection-连接数据库"><a href="#使用-mysql-的-connection-连接数据库" class="headerlink" title="使用 mysql 的 connection 连接数据库"></a><strong>使用 mysql 的 connection 连接数据库</strong></h3><blockquote>
+            <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p><strong>关系型数据库</strong>。</p>
+<h2 id="使用-mysql-的-connection-连接数据库"><a href="#使用-mysql-的-connection-连接数据库" class="headerlink" title="使用 mysql 的 connection 连接数据库"></a><strong>使用 mysql 的 connection 连接数据库</strong></h2><blockquote>
 <p>准备工作跟下一章节相同。</p>
 </blockquote>
 <p>我们可以使用它来进行查询，查询完成之后会关闭连接。</p>
@@ -233,7 +233,7 @@ connection.query(&quot;SELECT 1 + 1 AS solution&quot;, function (err, rows, fiel
 
 connection.end();
 </code></pre>
-<h3 id="使用-mysql-建立数据库连接池连接数据库"><a href="#使用-mysql-建立数据库连接池连接数据库" class="headerlink" title="使用 mysql 建立数据库连接池连接数据库"></a><strong>使用 mysql 建立数据库连接池连接数据库</strong></h3><h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><ul>
+<h2 id="使用-mysql-建立数据库连接池连接数据库"><a href="#使用-mysql-建立数据库连接池连接数据库" class="headerlink" title="使用 mysql 建立数据库连接池连接数据库"></a><strong>使用 mysql 建立数据库连接池连接数据库</strong></h2><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h2><ul>
 <li><p>需要下载 MySQL 数据库在电脑上；</p>
 </li>
 <li><p>项目中下载 mysql2 来辅助连接 MySQL 数据库：</p>
@@ -244,7 +244,7 @@ connection.end();
 </blockquote>
 </li>
 </ul>
-<h4 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>以连接池的方式连接数据库：</p>
+<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h2><p>以连接池的方式连接数据库：</p>
 <p>database.js</p>
 <pre><code class="js">const mysql = require(&quot;mysql2&quot;); // 导入mysql2模块
 
@@ -263,7 +263,7 @@ module.exports = pool.promise(); // @2
 <p>@1：连接池方式——每当我们运行一个查询语句时能随时访问它，然后从管理的多个连接池中获取一个新连接，这样就可以同时运行多个查询，因为每个查询都需要自己的连接，并且一次查询完成后连接会交还到连接池中用于新的查询，最后在应用程序关闭时完成连接池。</p>
 <p>@2：以 Promise 的方式导出，我们在其他地方使用的时候可以处理异步任务。</p>
 </blockquote>
-<h4 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a><strong>获取数据</strong></h4><p>我们要获取数据库表中的数据，需要<strong>使用<code>execute()</code>结合一条数据库语句</strong>来实现对数据库中表的操作：</p>
+<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a><strong>获取数据</strong></h2><p>我们要获取数据库表中的数据，需要<strong>使用<code>execute()</code>结合一条数据库语句</strong>来实现对数据库中表的操作：</p>
 <p>app.js</p>
 <pre><code class="js">const db = require(&#39;./util/database&#39;);
 ...
@@ -281,21 +281,21 @@ db.execute(
     [this.title, this.price, this.imageUrl, this.description] // 增加数据字段（与库中的表相对应）
 ).then(() =&gt; &#123;&#125;).catch(err =&gt; console.log(err));
 </code></pre>
-<h3 id="使用-sequelize-连接数据库"><a href="#使用-sequelize-连接数据库" class="headerlink" title="使用 sequelize 连接数据库"></a><strong>使用 sequelize 连接数据库</strong></h3><p>详情见 sequelize 一章。</p>
-<h2 id="MongDB"><a href="#MongDB" class="headerlink" title="MongDB"></a>MongDB</h2><p><strong>非关系型数据库。</strong>MongoDB 是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似<em>json</em>的 bson<em>格式</em>，因此可以存储比较复杂的数据类型。</p>
+<h2 id="使用-sequelize-连接数据库"><a href="#使用-sequelize-连接数据库" class="headerlink" title="使用 sequelize 连接数据库"></a><strong>使用 sequelize 连接数据库</strong></h2><p>详情见 sequelize 一章。</p>
+<h1 id="MongDB"><a href="#MongDB" class="headerlink" title="MongDB"></a>MongDB</h1><p><strong>非关系型数据库。</strong>MongoDB 是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似<em>json</em>的 bson<em>格式</em>，因此可以存储比较复杂的数据类型。</p>
 <p><strong>特点：</strong></p>
 <ul>
 <li>能存储大量的数据；</li>
 <li>支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，查询速度块；</li>
 <li>而且还支持对数据建立索引；</li>
 </ul>
-<h3 id="使用-mongodb-连接数据库"><a href="#使用-mongodb-连接数据库" class="headerlink" title="使用 mongodb 连接数据库"></a><strong>使用 mongodb 连接数据库</strong></h3><h4 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h4><p>下载 mongodb：</p>
+<h2 id="使用-mongodb-连接数据库"><a href="#使用-mongodb-连接数据库" class="headerlink" title="使用 mongodb 连接数据库"></a><strong>使用 mongodb 连接数据库</strong></h2><h2 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h2><p>下载 mongodb：</p>
 <pre><code class="bash">npm instal --save mongodb
 </code></pre>
 <blockquote>
 <p>准备一个 MongoDB 数据库连接地址，我使用的是云数据库 MongoDB Atlas。</p>
 </blockquote>
-<h4 id="连接数据库-1"><a href="#连接数据库-1" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h4><p>database.js</p>
+<h2 id="连接数据库-1"><a href="#连接数据库-1" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h2><p>database.js</p>
 <pre><code class="js">const mongodb = require(&quot;mongodb&quot;); // 引入mongodb
 const MongoClient = mongodb.MongoClient; // 新建一个MongoClient用于连接数据库
 
@@ -330,10 +330,10 @@ mongoConnect(client =&gt; &#123;
 <blockquote>
 <p>更多详细信息见 MongoDB 一章。</p>
 </blockquote>
-<h3 id="使用-mongoose-连接数据库"><a href="#使用-mongoose-连接数据库" class="headerlink" title="使用 mongoose 连接数据库"></a>使用 mongoose 连接数据库</h3><h4 id="准备工作-2"><a href="#准备工作-2" class="headerlink" title="准备工作"></a>准备工作</h4><p>下载 mongoose：</p>
+<h2 id="使用-mongoose-连接数据库"><a href="#使用-mongoose-连接数据库" class="headerlink" title="使用 mongoose 连接数据库"></a>使用 mongoose 连接数据库</h2><h2 id="准备工作-2"><a href="#准备工作-2" class="headerlink" title="准备工作"></a>准备工作</h2><p>下载 mongoose：</p>
 <pre><code class="bash">npm install --save mongoose
 </code></pre>
-<h4 id="连接数据库-2"><a href="#连接数据库-2" class="headerlink" title="连接数据库"></a>连接数据库</h4><p>app.js</p>
+<h2 id="连接数据库-2"><a href="#连接数据库-2" class="headerlink" title="连接数据库"></a>连接数据库</h2><p>app.js</p>
 <pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
 ...
 mongoose
@@ -377,7 +377,7 @@ mongoose
   
     <a href="/ferhannah-blog/2025/03/03/Node/Express/Express/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">Express.js模块化路由（Router）</div>
+      <div class="article-nav-title">Express</div>
     </a>
   
 </nav>
@@ -474,11 +474,11 @@ mongoose
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>
