@@ -991,7 +991,7 @@ function lowbit(x) &#123;
   
     
       <article
-id="post-Algorithm/slidedWindow"
+id="post-CSS/cssModule"
 class="article article-type-post"
 >
 
@@ -1002,11 +1002,96 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
+        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
+        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
+<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
+<blockquote>
+<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
+</blockquote>
+<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
+<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
+<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
+<li>显示局部作用域：<code>:local(.className)</code></li>
+<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
+</ul>
+<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
+<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+
+.title &#123;
+  composes: className;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
+<pre><code class="css">.className &#123;
+  background-color: blue;
+&#125;
+</code></pre>
+<pre><code class="css">.title &#123;
+  composes: className from &quot;./another.css&quot;;
+  color: red;
+&#125;
+</code></pre>
+<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
+<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
+</code></pre>
+<ul>
+<li>例如在 webpack 中引入 postcss-loader</li>
+</ul>
+<pre><code class="js">var path = require(&quot;path&quot;);
+var webpack = require(&quot;webpack&quot;);
+var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
+var values = require(&quot;postcss-modules-values&quot;);
+
+module.exports = &#123;
+  entry: [&quot;./src/index&quot;],
+  output: &#123;
+    filename: &quot;bundle.js&quot;,
+    path: path.join(__dirname, &quot;public&quot;),
+    publicPath: &quot;/public/&quot;,
+  &#125;,
+  module: &#123;
+    loaders: [
+      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
+      &#123;
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          &quot;style-loader&quot;,
+          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
+        ),
+      &#125;,
+    ],
+  &#125;,
+  postcss: [values],
+  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
+&#125;;
+</code></pre>
+<ul>
+<li>设置变量</li>
+</ul>
+<p>colors.css</p>
+<pre><code class="css">@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+</code></pre>
+<ul>
+<li>引入 css 文件中</li>
+</ul>
+<pre><code class="css">/* import your colors... */
+@value colors: &quot;./colors.css&quot;;
+@value blue, red, green from colors;
+
+.button &#123;
+  color: blue;
+  display: inline-block;
+&#125;
+</code></pre>
 
         
     </div>
@@ -1026,7 +1111,7 @@ class="article article-type-post"
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
         </div>
     
     
@@ -1100,7 +1185,7 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>

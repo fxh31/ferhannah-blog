@@ -497,97 +497,6 @@ const res = &#123;
   
     
       <article
-id="post-Node/Advanced/os"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Nodejs os 模块可以跟操作系统进行交互。</p>
-<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p><strong>获取当前操作系统平台。</strong></p>
-<pre><code class="js">const os = require(&quot;node:os&quot;);
-
-console.log(os.platform()); // win32（win32、windows、darwin（mac）、linux）
-//
-</code></pre>
-<h2 id="release"><a href="#release" class="headerlink" title="release"></a>release</h2><p><strong>获取当前操作系统版本号。</strong></p>
-<h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p><strong>获取当前操作系统名称。</strong></p>
-<blockquote>
-<p>比 platform 要获取的信息多一些。</p>
-</blockquote>
-<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p><strong>获取当前操作系统版本。</strong></p>
-<h2 id="homedir"><a href="#homedir" class="headerlink" title="homedir"></a>homedir</h2><p><strong>获取当前用户目录。</strong></p>
-<blockquote>
-<p><strong>原理</strong>：window：<code>echo %userprofile%</code><br>mac：<code>$HOME</code></p>
-</blockquote>
-<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>获取<strong>CPU 架构</strong>。</p>
-<pre><code class="js">const os = require(&quot;node:os&quot;);
-
-console.log(os.arch()); // x64（arm、arm64、ia32、mips、mipsel、ppc、ppc64、s390、s390x、x64）
-//
-</code></pre>
-<h2 id="cups"><a href="#cups" class="headerlink" title="cups"></a>cups</h2><p>获取操作系统线程 cpu 信息。</p>
-<blockquote>
-<p><strong>原理</strong>：读取操作系统 cpu 的数量。（任务管理器可查）</p>
-</blockquote>
-<h2 id="networkInterfaces"><a href="#networkInterfaces" class="headerlink" title="networkInterfaces"></a>networkInterfaces</h2><p><strong>获取网络状态信息</strong>。（ip 地址、子网掩码、ip 版本、mac 地址、ip 地址段）</p>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="构建工具热更新后自动打开浏览器（open：true）"><a href="#构建工具热更新后自动打开浏览器（open：true）" class="headerlink" title="构建工具热更新后自动打开浏览器（open：true）"></a>构建工具热更新后自动打开浏览器（open：true）</h2><p><strong>原理</strong>：使用 os 判断不同的操作系统，分别调用对应的 shell 命令。</p>
-<pre><code class="js">const os = require(&quot;node:os&quot;);
-const &#123; exec &#125; = require(&quot;child_process&quot;); // exec：执行 shell 命令
-
-const platform = os.platform();
-
-const open = (url) =&gt; &#123;
-  if (platform === &quot;darwin&quot;) &#123;
-    exec(`open $&#123;url&#125;`); // mac
-  &#125; else if (platform === &quot;win32&quot;) &#123;
-    exec(`start $&#123;url&#125;`); // windows
-  &#125; else if (platform === &quot;linux&quot;) &#123;
-    exec(`xdg-open $&#123;url&#125;`); // linux
-  &#125;
-&#125;;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Advanced/process"
 class="article article-type-post"
 >
@@ -653,6 +562,97 @@ process.on(&quot;exit&quot;, () =&gt; &#123;&#125;);
 </code></pre>
 <h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="cross-env"><a href="#cross-env" class="headerlink" title="cross-env"></a>cross-env</h2><p>用于设置环境变量的库。</p>
 <p><strong>原理：</strong>windows 调用<strong>SET 去设置环境变量</strong>；posix 使用 export 设置环境变量。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/os"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs os 模块可以跟操作系统进行交互。</p>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p><strong>获取当前操作系统平台。</strong></p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+
+console.log(os.platform()); // win32（win32、windows、darwin（mac）、linux）
+//
+</code></pre>
+<h2 id="release"><a href="#release" class="headerlink" title="release"></a>release</h2><p><strong>获取当前操作系统版本号。</strong></p>
+<h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p><strong>获取当前操作系统名称。</strong></p>
+<blockquote>
+<p>比 platform 要获取的信息多一些。</p>
+</blockquote>
+<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p><strong>获取当前操作系统版本。</strong></p>
+<h2 id="homedir"><a href="#homedir" class="headerlink" title="homedir"></a>homedir</h2><p><strong>获取当前用户目录。</strong></p>
+<blockquote>
+<p><strong>原理</strong>：window：<code>echo %userprofile%</code><br>mac：<code>$HOME</code></p>
+</blockquote>
+<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>获取<strong>CPU 架构</strong>。</p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+
+console.log(os.arch()); // x64（arm、arm64、ia32、mips、mipsel、ppc、ppc64、s390、s390x、x64）
+//
+</code></pre>
+<h2 id="cups"><a href="#cups" class="headerlink" title="cups"></a>cups</h2><p>获取操作系统线程 cpu 信息。</p>
+<blockquote>
+<p><strong>原理</strong>：读取操作系统 cpu 的数量。（任务管理器可查）</p>
+</blockquote>
+<h2 id="networkInterfaces"><a href="#networkInterfaces" class="headerlink" title="networkInterfaces"></a>networkInterfaces</h2><p><strong>获取网络状态信息</strong>。（ip 地址、子网掩码、ip 版本、mac 地址、ip 地址段）</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="构建工具热更新后自动打开浏览器（open：true）"><a href="#构建工具热更新后自动打开浏览器（open：true）" class="headerlink" title="构建工具热更新后自动打开浏览器（open：true）"></a>构建工具热更新后自动打开浏览器（open：true）</h2><p><strong>原理</strong>：使用 os 判断不同的操作系统，分别调用对应的 shell 命令。</p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+const &#123; exec &#125; = require(&quot;child_process&quot;); // exec：执行 shell 命令
+
+const platform = os.platform();
+
+const open = (url) =&gt; &#123;
+  if (platform === &quot;darwin&quot;) &#123;
+    exec(`open $&#123;url&#125;`); // mac
+  &#125; else if (platform === &quot;win32&quot;) &#123;
+    exec(`start $&#123;url&#125;`); // windows
+  &#125; else if (platform === &quot;linux&quot;) &#123;
+    exec(`xdg-open $&#123;url&#125;`); // linux
+  &#125;
+&#125;;
+</code></pre>
 
         
     </div>
@@ -1027,7 +1027,7 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>

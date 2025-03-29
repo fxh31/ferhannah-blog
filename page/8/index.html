@@ -347,120 +347,6 @@ export default defineConfig(&#123;
   
     
       <article
-id="post-buildTools/Vite/env_config_integration"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <blockquote>
-<p>vite 是运行在 node 环境中的，但是 vite.config.js 却支持 esm 形式的代码，这是因为 vite 在读取 vite.config.js 时，会率先通过 node 解析文件语法， 在加载文件之前进行预处理（如果发现你是 esmodule 规范会直接将你的 esmodule 规范进行替换变成 commonjs 规范）。</p>
-</blockquote>
-<h2 id="指定配置文件"><a href="#指定配置文件" class="headerlink" title="指定配置文件"></a>指定配置文件</h2><p>可以通过<code>--config</code>在 vite 运行的时候指定配置文件入口：</p>
-<pre><code class="bash">vite --config vite.config.js
-</code></pre>
-<h2 id="配置文件语法提示"><a href="#配置文件语法提示" class="headerlink" title="配置文件语法提示"></a>配置文件语法提示</h2><ul>
-<li><p>defineConfig 工具函数<br>适用于 vscode。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;&#125;);
-</code></pre>
-</li>
-<li><p>jsdoc 注释</p>
-<blockquote>
-<p>Vite 本身附带 TypeScript 类型，所以你可以通过 IDE 和 jsdoc 的配合来实现智能提示</p>
-</blockquote>
-<pre><code class="js">/** @type &#123;import(&#39;vite&#39;).UserConfig&#125; */
-export default &#123;
-  // ...
-&#125;;
-</code></pre>
-<blockquote>
-<p>好像不起作用？</p>
-</blockquote>
-</li>
-<li><p>TS 配置文件</p>
-<pre><code class="ts">import type &#123; UserConfig &#125; from &quot;vite&quot;;
-export default &#123;
-  // ...
-&#125; satisfies UserConfig;
-</code></pre>
-</li>
-</ul>
-<h2 id="多环境配置文件集成"><a href="#多环境配置文件集成" class="headerlink" title="多环境配置文件集成"></a>多环境配置文件集成</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-
-import viteBaseConfig from &quot;./vite.base.config&quot;;
-import viteDevConfig from &quot;./vite.dev.config&quot;;
-import viteProdConfig from &quot;./vite.prod.config&quot;;
-
-export default defineConfig((&#123; command, mode, isSsrBuild &#125;) =&gt; &#123;
-  if (command === &quot;serve&quot;) &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteDevConfig,
-    &#125;;
-  &#125; else &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteProdConfig,
-    &#125;;
-  &#125;
-&#125;);
-</code></pre>
-<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><pre><code class="js">const envResolver = &#123;
-  serve: () =&gt; &#123;
-    console.log(&quot;开发环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteDevConfig);
-  &#125;,
-  build: () =&gt; &#123;
-    console.log(&quot;生产环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteProdConfig);
-  &#125;,
-&#125;;
-export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
-  return envResolver[command]();
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-buildTools/Vite/env_variables"
 class="article article-type-post"
 >
@@ -621,6 +507,120 @@ console.log(&quot;png-raw&quot;, testPng);
 console.log(&quot;css-raw&quot;, testCss);
 </code></pre>
 <p>css、js、json 都将其内容以文本形式输出。jpg、mp4 文件以流的形式输出。svg 以 html 文本（svg 标签）输出。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-buildTools/Vite/env_config_integration"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/env_config_integration/">不同环境的 vite 配置文件集成</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <blockquote>
+<p>vite 是运行在 node 环境中的，但是 vite.config.js 却支持 esm 形式的代码，这是因为 vite 在读取 vite.config.js 时，会率先通过 node 解析文件语法， 在加载文件之前进行预处理（如果发现你是 esmodule 规范会直接将你的 esmodule 规范进行替换变成 commonjs 规范）。</p>
+</blockquote>
+<h2 id="指定配置文件"><a href="#指定配置文件" class="headerlink" title="指定配置文件"></a>指定配置文件</h2><p>可以通过<code>--config</code>在 vite 运行的时候指定配置文件入口：</p>
+<pre><code class="bash">vite --config vite.config.js
+</code></pre>
+<h2 id="配置文件语法提示"><a href="#配置文件语法提示" class="headerlink" title="配置文件语法提示"></a>配置文件语法提示</h2><ul>
+<li><p>defineConfig 工具函数<br>适用于 vscode。</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+export default defineConfig(&#123;&#125;);
+</code></pre>
+</li>
+<li><p>jsdoc 注释</p>
+<blockquote>
+<p>Vite 本身附带 TypeScript 类型，所以你可以通过 IDE 和 jsdoc 的配合来实现智能提示</p>
+</blockquote>
+<pre><code class="js">/** @type &#123;import(&#39;vite&#39;).UserConfig&#125; */
+export default &#123;
+  // ...
+&#125;;
+</code></pre>
+<blockquote>
+<p>好像不起作用？</p>
+</blockquote>
+</li>
+<li><p>TS 配置文件</p>
+<pre><code class="ts">import type &#123; UserConfig &#125; from &quot;vite&quot;;
+export default &#123;
+  // ...
+&#125; satisfies UserConfig;
+</code></pre>
+</li>
+</ul>
+<h2 id="多环境配置文件集成"><a href="#多环境配置文件集成" class="headerlink" title="多环境配置文件集成"></a>多环境配置文件集成</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+
+import viteBaseConfig from &quot;./vite.base.config&quot;;
+import viteDevConfig from &quot;./vite.dev.config&quot;;
+import viteProdConfig from &quot;./vite.prod.config&quot;;
+
+export default defineConfig((&#123; command, mode, isSsrBuild &#125;) =&gt; &#123;
+  if (command === &quot;serve&quot;) &#123;
+    return &#123;
+      ...viteBaseConfig,
+      ...viteDevConfig,
+    &#125;;
+  &#125; else &#123;
+    return &#123;
+      ...viteBaseConfig,
+      ...viteProdConfig,
+    &#125;;
+  &#125;
+&#125;);
+</code></pre>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><pre><code class="js">const envResolver = &#123;
+  serve: () =&gt; &#123;
+    console.log(&quot;开发环境&quot;);
+    return Object.assign(&#123;&#125;, viteBaseConfig, viteDevConfig);
+  &#125;,
+  build: () =&gt; &#123;
+    console.log(&quot;生产环境&quot;);
+    return Object.assign(&#123;&#125;, viteBaseConfig, viteProdConfig);
+  &#125;,
+&#125;;
+export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
+  return envResolver[command]();
+&#125;);
+</code></pre>
 
         
     </div>
@@ -1218,7 +1218,7 @@ console.log(routes.someText);
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>
