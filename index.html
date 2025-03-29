@@ -20,7 +20,7 @@
     <meta property="og:description" content=""/>
     <meta property="og:locale" content="cn" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/index.html/index.html" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/index.html" />
     <meta property="og:site_name" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
     <script type="application/ld+json">
@@ -491,103 +491,6 @@ const open = (url) =&gt; &#123;
   
     
       <article
-id="post-Node/Advanced/process"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>操作和控制当前进程的</strong> api，并且挂载到 globalThis 下，是全局 API。</p>
-<blockquote>
-<p>全局 API：不需要引入，直接调用。</p>
-</blockquote>
-<pre><code class="js">ObjectDefineProperty(globalThis, &quot;process&quot;, &#123;
-  __proto__: null,
-  get() &#123;
-    return _process;
-  &#125;,
-  set(value) &#123;
-    _process = value;
-  &#125;,
-  enumerable: false,
-  configurable: true,
-&#125;);
-</code></pre>
-<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p>同 os。</p>
-<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>同 os。</p>
-<h2 id="argv"><a href="#argv" class="headerlink" title="argv"></a>argv</h2><p>返回一个<strong>数组</strong>：<br>0：运行工具地址<br>1：运行文件<br><strong>2：运行命令后的参数</strong></p>
-<h2 id="cwd"><a href="#cwd" class="headerlink" title="cwd"></a>cwd</h2><p><strong>获取工作目录</strong>（同<code>__dirname</code>。）。</p>
-<blockquote>
-<p>注意：在 esm 模式内不能使用<code>__dirname</code>，只能使用 cwd。</p>
-</blockquote>
-<h2 id="memoryUsage"><a href="#memoryUsage" class="headerlink" title="memoryUsage"></a>memoryUsage</h2><p>返回<strong>内存信息</strong>。</p>
-<pre><code class="js">const res = &#123;
-  rss: 31006720, // 常驻集大小 物理内存的存量
-  heapTotal: 6438912, // V8给我们分配的堆内存的总大小包括未使用的内存
-  heapUsed: 5679584, //已经使用的内存
-  external: 423221, //外部的内存++使用的
-  arrayBuffers: 17606, //二进制的总最
-&#125;;
-</code></pre>
-<h2 id="exit"><a href="#exit" class="headerlink" title="exit"></a>exit</h2><p><strong>退出进程。</strong>可被监听。</p>
-<pre><code class="js">process.exit();
-
-process.on(&quot;exit&quot;, () =&gt; &#123;&#125;);
-</code></pre>
-<h2 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h2><p><strong>杀死进程。</strong>需要获取进程的 <strong>pid</strong>。</p>
-<pre><code class="js">setTimeout(() =&gt; &#123;
-  process.kill(process.pid);
-&#125;, 2000);
-</code></pre>
-<h2 id="env"><a href="#env" class="headerlink" title="env"></a>env</h2><p><strong>获取操作系统的所有环境变量。</strong></p>
-<blockquote>
-<p>在系统配置 -&gt; 环境变量中可配。在<strong>当前进程中可修改，不影响操作系统全局</strong>。</p>
-</blockquote>
-<pre><code class="js">process.env.JAVA_HOME = &quot;ssss&quot;;
-</code></pre>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="cross-env"><a href="#cross-env" class="headerlink" title="cross-env"></a>cross-env</h2><p>用于设置环境变量的库。</p>
-<p><strong>原理：</strong>windows 调用<strong>SET 去设置环境变量</strong>；posix 使用 export 设置环境变量。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Advanced/path"
 class="article article-type-post"
 >
@@ -653,6 +556,103 @@ const res = &#123;
 </code></pre>
 <h2 id="format（parse）"><a href="#format（parse）" class="headerlink" title="format（parse）"></a>format（parse）</h2><p>parse 逆向操作。</p>
 <h2 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h2><p>返回<strong>操作系统的路径分隔符</strong>。可用于<strong>实现跨平台</strong>。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/process"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>操作和控制当前进程的</strong> api，并且挂载到 globalThis 下，是全局 API。</p>
+<blockquote>
+<p>全局 API：不需要引入，直接调用。</p>
+</blockquote>
+<pre><code class="js">ObjectDefineProperty(globalThis, &quot;process&quot;, &#123;
+  __proto__: null,
+  get() &#123;
+    return _process;
+  &#125;,
+  set(value) &#123;
+    _process = value;
+  &#125;,
+  enumerable: false,
+  configurable: true,
+&#125;);
+</code></pre>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p>同 os。</p>
+<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>同 os。</p>
+<h2 id="argv"><a href="#argv" class="headerlink" title="argv"></a>argv</h2><p>返回一个<strong>数组</strong>：<br>0：运行工具地址<br>1：运行文件<br><strong>2：运行命令后的参数</strong></p>
+<h2 id="cwd"><a href="#cwd" class="headerlink" title="cwd"></a>cwd</h2><p><strong>获取工作目录</strong>（同<code>__dirname</code>。）。</p>
+<blockquote>
+<p>注意：在 esm 模式内不能使用<code>__dirname</code>，只能使用 cwd。</p>
+</blockquote>
+<h2 id="memoryUsage"><a href="#memoryUsage" class="headerlink" title="memoryUsage"></a>memoryUsage</h2><p>返回<strong>内存信息</strong>。</p>
+<pre><code class="js">const res = &#123;
+  rss: 31006720, // 常驻集大小 物理内存的存量
+  heapTotal: 6438912, // V8给我们分配的堆内存的总大小包括未使用的内存
+  heapUsed: 5679584, //已经使用的内存
+  external: 423221, //外部的内存++使用的
+  arrayBuffers: 17606, //二进制的总最
+&#125;;
+</code></pre>
+<h2 id="exit"><a href="#exit" class="headerlink" title="exit"></a>exit</h2><p><strong>退出进程。</strong>可被监听。</p>
+<pre><code class="js">process.exit();
+
+process.on(&quot;exit&quot;, () =&gt; &#123;&#125;);
+</code></pre>
+<h2 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h2><p><strong>杀死进程。</strong>需要获取进程的 <strong>pid</strong>。</p>
+<pre><code class="js">setTimeout(() =&gt; &#123;
+  process.kill(process.pid);
+&#125;, 2000);
+</code></pre>
+<h2 id="env"><a href="#env" class="headerlink" title="env"></a>env</h2><p><strong>获取操作系统的所有环境变量。</strong></p>
+<blockquote>
+<p>在系统配置 -&gt; 环境变量中可配。在<strong>当前进程中可修改，不影响操作系统全局</strong>。</p>
+</blockquote>
+<pre><code class="js">process.env.JAVA_HOME = &quot;ssss&quot;;
+</code></pre>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="cross-env"><a href="#cross-env" class="headerlink" title="cross-env"></a>cross-env</h2><p>用于设置环境变量的库。</p>
+<p><strong>原理：</strong>windows 调用<strong>SET 去设置环境变量</strong>；posix 使用 export 设置环境变量。</p>
 
         
     </div>
@@ -895,7 +895,7 @@ class="article article-type-post"
   
     
       <article
-id="post-Node/Advanced/npm"
+id="post-Node/Advanced/index"
 class="article article-type-post"
 >
 
@@ -906,128 +906,34 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
+        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>Node Pacakge Manager。Nodejs 的包管理工具。</p>
-<blockquote>
-<p>类似于：PHP-Composer，Java-Maven，Python-pip，Rust-Cargo。</p>
-</blockquote>
-<h1 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h1><pre><code class="json">&#123;
-  &quot;name&quot;: &quot;ferhannah-cli&quot;,
-  &quot;version&quot;: &quot;1.0.1&quot;, // 主版本号(大版本架构更新).次版本号(功能更新).bug修复
-  &quot;description&quot;: &quot;ferhannah-cli 脚手架工具&quot;,
-  // 模块化相关--
-  &quot;main&quot;: &quot;index.js&quot;, // 用户用的时候找的路径
-  &quot;type&quot;: &quot;module&quot;,
-  &quot;module&quot;: &quot;&quot;,
-  &quot;browser&quot;: &quot;&quot;,
-  //---
-  &quot;scripts&quot;: &#123;
-    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
-    &quot;build&quot;: &quot;rollup -c rollup.config.js&quot;,
-    &quot;build-ts&quot;: &quot;rollup --config rollup.config.ts --configPlugin typescript&quot;
-  &#125;,
-  &quot;keywords&quot;: [&quot;Vite&quot;, &quot;Vue3&quot;, &quot;React&quot;, &quot;CLI&quot;, &quot;Ant Design&quot;, &quot;Element Plus&quot;],
-  &quot;bin&quot;: &#123;
-    // 配置可执行文件
-    &quot;ferhannah&quot;: &quot;./bin/index.js&quot;
-  &#125;,
-  &quot;devDependencies&quot;: &#123;&#125;, // 开发时依赖
-  &quot;dependencies&quot;: &#123;&#125;, // 生产环境依赖
-  &quot;peerDependencies&quot;: &#123;&#125;, // 对等依赖，一般是插件人员和npm包开发人员使用；如果需要安装开发的插件必须下载其依赖的插件（对等插件）
-  // npm 仓库配置信息--
-  &quot;repository&quot;: &#123;
-    &quot;type&quot;: &quot;git&quot;,
-    &quot;url&quot;: &quot;&quot;
-  &#125;,
-  &quot;files&quot;: [], // 发布后能看到的文件
-  &quot;homepage&quot;: &quot;&quot;,
-  &quot;author&quot;: &quot;fxh&quot;,
-  &quot;license&quot;: &quot;ISC&quot;
-  //--
-&#125;
-</code></pre>
-<h1 id="npm-install-原理"><a href="#npm-install-原理" class="headerlink" title="npm install 原理"></a>npm install 原理</h1><blockquote>
-<p>npm install 发生了什么？</p>
-</blockquote>
-<p>安装的依赖会存放在根目录的 node_modules 下，默认<strong>采用扁平化</strong>的方式安装。在遍历依赖书时<strong>使用广度优先算法逐层处理每个依赖包中的依赖，直到所有的依赖都被处理完毕</strong>。在处理依赖时，npm 会检查该依赖的版本号是否符合依赖树中其他依赖版本要求，如果不合适则会尝试安装合适的版本。</p>
-<blockquote>
-<p>如果发现需要相同依赖的不同版本，则会在需要该依赖的包下又新建一个 node_modules，再将依赖装进去。</p>
-</blockquote>
-<ul>
-<li>先检查 npm config；</li>
-<li>在当前目录下寻找<code>.npmrc</code>文件（项目级别），如果找到；</li>
-<li>再找当前用户的<code>.npmrc</code>文件（用户级别）</li>
-<li>再找全局的<code>.npmrc</code>文件（全局：AppData）</li>
-<li>npm 内置的<code>.npmrc</code>文件（nodejs）</li>
-<li>检查是否有 <code>package-lock.json</code> 文件。<ul>
-<li>有：则比较<code>package.json</code>和<code>package-lock.json</code>内的依赖版本是否一致。<ul>
-<li>不一致：会根据<code>package.json</code>下载并更新<code>package-lock.json</code>。<blockquote>
-<p>针对 npm 高版本，现在基本上都是。</p>
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>Nodejs 是 JS 的<strong>运行时</strong>环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
+<li>Nodejs 使用异步 I&#x2F;O 和事件驱动设计理念，可以高效地处理大量并发请求，提供了非阻塞式 I&#x2F;O 接口和事件循环机制；<blockquote>
+<p>异步 I&#x2F;O 最终都是由 libuv 事件循环库去实现的。</p>
 </blockquote>
 </li>
-<li>一致：检查缓存（之前是否安装过）；<ul>
-<li>有：直接解压到 node_modules。</li>
-<li>没有：去 npm 官网&#x2F;镜像下载资源包，检查完整性，添加到缓存，更新<code>package-lock.json</code>文件；</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>没有：获取包信息，构建依赖树和扁平化依赖，然后检查缓存；<ul>
-<li>有：直接解压到 node_modules。</li>
-<li>没有：去 npm 官网&#x2F;镜像下载资源包，检查完整性，添加到缓存，更新<code>package-lock.json</code>文件；</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="package-lock-json"><a href="#package-lock-json" class="headerlink" title="package-lock.json"></a>package-lock.json</h2><p>可以<strong>锁定版本，记录依赖树的详细信息</strong>。</p>
-<ul>
-<li>version：包版本号；</li>
-<li>resolved：包的下载地址；</li>
-<li>integrity：验证包的完整性的哈希值（摘要）；</li>
-<li>dev：当前包是一个开发依赖包；</li>
-<li>bin：包中可执行文件的路径和名称；</li>
-<li>engines：包所依赖的 Nodejs 版本范围；</li>
-</ul>
-<p>它还帮我们<strong>做了缓存</strong>，<strong>通过 name + version + integrity 生成一个唯一的 key</strong>，这个 key 用于<strong>映射 npm 缓存文件</strong>（一般在 npm-catch 下），如果生成的 key 能与 integrity <strong>对上，就会从映射文件中取出缓存的二进制包并解压出来使用</strong>。</p>
-<h1 id="npm-run-原理"><a href="#npm-run-原理" class="headerlink" title="npm run 原理"></a>npm run 原理</h1><blockquote>
-<p>npm run 发生了什么？（也就是指定 node 命令时）</p>
+<li>Nodejs 依靠 libuv，<strong>适合处理一些 IO 密集型应用</strong>；<blockquote>
+<p>由于 js 的单线程，很容易造成 cpu 占用率高，不适合 cpu 密集型应用（图像处理、音频处理等需要大量数据结构 + 算法）；如果非要写可以使用 c++ 插件或 Nodejs 提供的 cluster。</p>
 </blockquote>
-<p>nodejs 的所有命令都在 node_modules&#x2F;.bin 下的可执行文件中。nodejs 支持跨平台、跨系统：</p>
-<ul>
-<li><code>.sh</code>：Unix、Linux 以及 MacOS 使用；</li>
-<li><code>.cmd</code>：cmd 执行文件（windows）；</li>
-<li><code>.ps1</code>：powershell 执行文件（windows）；</li>
+</li>
 </ul>
-<blockquote>
-<p>命令是在 package.json 中的 bin 内配置的。</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>常见的一些库和框架都需要依赖 nodejs 环境。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="定义全局变量"><a href="#定义全局变量" class="headerlink" title="定义全局变量"></a>定义全局变量</h2><p>Nodejs 可以使用<code>global.xx</code>去定义一个任何模块都能访问到的全局变量。</p>
+<p>但是 <strong>ES2020 新增了一个<code>globalThis</code><strong>可以</strong>兼容浏览器（window）和 Nodejs 的全局变量</strong>。<code>globalThis</code>会自己根据环境变换为 window 或 global，可实现跨平台访问全局变量。</p>
+<h2 id="内置-API"><a href="#内置-API" class="headerlink" title="内置 API"></a>内置 API</h2><ul>
+<li><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；</li>
+<li><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</li>
+<li>Buffer</li>
+<li>process</li>
+<li>fetch<blockquote>
+<p>node18+ 支持，和浏览器一样。</p>
 </blockquote>
-<ul>
-<li>会在当前项目找 node_modules&#x2F;.bin 中是否有该命令环境；</li>
-<li>再去全局的 node_modules 下找；</li>
-<li>再去环境变量中找；</li>
-<li>都找不到报错；</li>
+</li>
 </ul>
-<h1 id="npm-生命周期"><a href="#npm-生命周期" class="headerlink" title="npm 生命周期"></a>npm 生命周期</h1><p>在执行 dev 之前和之后都有对应的生命周期使用，执行 dev 会自动调用 predev 和 postdev：</p>
-<pre><code class="json">&#123;
-  &quot;scripts&quot;: &#123;
-    &quot;predev&quot;: &quot;node prev.js&quot;,
-    &quot;dev&quot;: &quot;node index.js&quot;,
-    &quot;postdev&quot;: &quot;node post.js&quot;
-  &#125;
-&#125;
-</code></pre>
-<p>应用场景：</p>
-<ul>
-<li>predev：打包之前清除 dist 目录；</li>
-<li>postdev：CI 脚本，发布之后自动将代码提交；</li>
-</ul>
-<blockquote>
-<p>注意：dev 命令可以换成其他任何自定义命令，周期命令的配置也一样。</p>
-</blockquote>
 
         
     </div>
@@ -1061,7 +967,7 @@ class="article article-type-post"
 
   
     <nav class="pagination">
-        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/index.html/page/2/">2</a><a class="page-number" href="/ferhannah-blog/index.html/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/index.html/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/index.html/page/2/">Next</a>
+        <span class="page-number current">1</span><a class="page-number" href="/ferhannah-blog/page/2/">2</a><a class="page-number" href="/ferhannah-blog/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/2/">Next</a>
     </nav>
   
 </div>
@@ -1121,7 +1027,7 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>

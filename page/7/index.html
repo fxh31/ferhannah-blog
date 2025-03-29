@@ -20,7 +20,7 @@
     <meta property="og:description" content=""/>
     <meta property="og:locale" content="cn" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/index.html/page/7/index.html" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/page/7/index.html" />
     <meta property="og:site_name" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
     <script type="application/ld+json">
@@ -282,6 +282,80 @@ https
   
     
       <article
+id="post-network/SSE"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
+<blockquote>
+<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
+</blockquote>
+<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
+<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
+<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
+<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
+<ul>
+<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
+<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
+</ul>
+</li>
+<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
+<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
+<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
+<li>onerror()：建立连接失败触发的函数；</li>
+<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
+<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-network/JWT"
 class="article article-type-post"
 >
@@ -425,203 +499,6 @@ app.listen(3000, () =&gt; &#123;
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li></ul>
         </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/SSE"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
-<blockquote>
-<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
-</blockquote>
-<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
-<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
-<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
-<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
-<ul>
-<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
-<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
-</ul>
-</li>
-<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
-<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
-<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
-<li>onerror()：建立连接失败触发的函数；</li>
-<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
-<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/URL"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/URL/">浏览器中输入 url 到底发生了什么</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>首先解释 url 是什么。</p>
-<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
-<p>有了域名就可以进行一个 DNS 查询</p>
-<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
-<p>所以用户再输入 url 后，会去查找 dns。</p>
-<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
-<li>首先去浏览器的 dns 缓存 中查找；</li>
-<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
-<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
-<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
-</blockquote>
-</li>
-<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
-</ol>
-<ul>
-<li>首先查找本地 dns 服务器；</li>
-<li>如果没有找到，会向根域名服务器查找（.）；</li>
-<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
-<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
-</ul>
-<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
-<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
-<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
-<ul>
-<li>请求头 Content-Type 设置 application&#x2F;json；</li>
-<li>用户自定义了请求头；</li>
-</ul>
-</blockquote>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
-<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
-<blockquote>
-<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
-</blockquote>
-<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
-<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
-<blockquote>
-<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
-</blockquote>
-<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
-<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
-<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
-<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
-</li>
-<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
-<blockquote>
-<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
-</blockquote>
-</li>
-<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
-</li>
-</ul>
-<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
-<p>能够引起回流的操作：</p>
-<ul>
-<li>页面首次渲染</li>
-<li>浏览器窗口大小发生变换</li>
-<li>元素尺寸或位置发生改变</li>
-<li>元素内容发生改变</li>
-<li>元素字体大小变换</li>
-<li>添加或删除可见的 dom 元素</li>
-<li>激活 css 伪类（:hover）</li>
-<li>查询某些属性或调用某些方法<blockquote>
-<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
-<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
-<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
-<p>涉及编译原理一些内容。</p>
-</blockquote>
-<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
-<blockquote>
-<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
-</blockquote>
-<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
     
     </div>
 </footer>
@@ -778,6 +655,129 @@ server.listen(8080, () =&gt; &#123;
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li></ul>
         </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/URL"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/URL/">浏览器中输入 url 到底发生了什么</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>首先解释 url 是什么。</p>
+<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
+<p>有了域名就可以进行一个 DNS 查询</p>
+<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
+<p>所以用户再输入 url 后，会去查找 dns。</p>
+<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
+<li>首先去浏览器的 dns 缓存 中查找；</li>
+<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
+<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
+<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
+</blockquote>
+</li>
+<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
+</ol>
+<ul>
+<li>首先查找本地 dns 服务器；</li>
+<li>如果没有找到，会向根域名服务器查找（.）；</li>
+<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
+<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
+</ul>
+<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
+<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
+<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
+<ul>
+<li>请求头 Content-Type 设置 application&#x2F;json；</li>
+<li>用户自定义了请求头；</li>
+</ul>
+</blockquote>
+<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
+<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
+<blockquote>
+<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
+</blockquote>
+<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
+<blockquote>
+<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
+</blockquote>
+<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
+<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
+<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
+<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
+</li>
+<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
+<blockquote>
+<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
+</blockquote>
+</li>
+<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
+</li>
+</ul>
+<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
+<p>能够引起回流的操作：</p>
+<ul>
+<li>页面首次渲染</li>
+<li>浏览器窗口大小发生变换</li>
+<li>元素尺寸或位置发生改变</li>
+<li>元素内容发生改变</li>
+<li>元素字体大小变换</li>
+<li>添加或删除可见的 dom 元素</li>
+<li>激活 css 伪类（:hover）</li>
+<li>查询某些属性或调用某些方法<blockquote>
+<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
+<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
+<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
+<p>涉及编译原理一些内容。</p>
+</blockquote>
+<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
+<blockquote>
+<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
+</blockquote>
+<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
     
     </div>
 </footer>
@@ -1066,7 +1066,7 @@ class="article article-type-post"
   
     
       <article
-id="post-network/outline"
+id="post-network/networkState"
 class="article article-type-post"
 >
 
@@ -1077,76 +1077,32 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/outline/">计算机网络</a>
+        <a href="/ferhannah-blog/2024/09/22/network/networkState/">前端网络状态</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="OSI-七层模型"><a href="#OSI-七层模型" class="headerlink" title="OSI 七层模型"></a>OSI 七层模型</h2><p>该模型为参考模型</p>
-<h2 id="TCP-IP-五（四）层模型"><a href="#TCP-IP-五（四）层模型" class="headerlink" title="TCP&#x2F;IP 五（四）层模型"></a>TCP&#x2F;IP 五（四）层模型</h2><p>该模型为参考模型的实施。</p>
-<h2 id="物理层（比特流）"><a href="#物理层（比特流）" class="headerlink" title="物理层（比特流）"></a>物理层（比特流）</h2><p>直接和物理介质打交道的。物理层的设备有网卡，网线，集线器，中继器，调制解调器。</p>
-<h3 id="物理层的通信（信道）"><a href="#物理层的通信（信道）" class="headerlink" title="物理层的通信（信道）"></a>物理层的通信（信道）</h3><h4 id="有线信道"><a href="#有线信道" class="headerlink" title="有线信道"></a>有线信道</h4><ul>
-<li>明线：明线是指平行架设在电线杆上的架空线路。（已逐渐被电缆所替代）<ul>
-<li>优点：传输损耗低；</li>
-<li>缺点：易受天气和环境的影响，对外界噪声干扰比较敏感；</li>
+        <h1 id="前端网络状态"><a href="#前端网络状态" class="headerlink" title="前端网络状态"></a>前端网络状态</h1><h2 id="前端判断网络是否离线"><a href="#前端判断网络是否离线" class="headerlink" title="前端判断网络是否离线"></a>前端判断网络是否离线</h2><ul>
+<li>navigator.onLine</li>
 </ul>
-</li>
-<li>对称电缆：由多对双绞线组成的线缆。</li>
-<li>同轴电缆：一共有四层，从内到外分别是中心导体、绝缘体、外层导体（带屏蔽）和外皮。同轴电缆能以低损耗的方式传输模拟信号和数字信号，适用于各种应用（如电视广播系统、长途电话传输系统、计算机系统之间短距离跳线以及局域网互联）。</li>
-<li>光纤：光导纤维是由玻璃或塑料制成的纤维，利用光在这些纤维中以全反射原理传输的光传导工具。</li>
-</ul>
-<h4 id="无线信道"><a href="#无线信道" class="headerlink" title="无线信道"></a>无线信道</h4><ul>
-<li>无线电波：以辐射无线电波为传输方式无线信道主要有地波传输，天波传输和视距传输。例如:卫星通讯，电台广播。（常说的 wifi）</li>
-</ul>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p><strong>在物理层根据传输方式的不同（电、光、无线电波等方式），会获取他们对应的传输信号，再将其转化为 010101 的电信号，单位为比特（bit），所以物理层传输的是比特流</strong>。</p>
-<blockquote>
-<p>比如电压根据伏度不同转换 01 数字不同。</p>
-</blockquote>
-<h2 id="数据链路层（数据帧）"><a href="#数据链路层（数据帧）" class="headerlink" title="数据链路层（数据帧）"></a>数据链路层（数据帧）</h2><blockquote>
-<p>在物理层已经可以拿到 01010 的比特流了，但是不知道给谁发过去，谁来接收，接收后用来干什么，所以数据链路层需要将比特流组装成一个数据帧（主要是使用 MAC 地址来组帧）。</p>
-</blockquote>
-<p>建立逻辑连接、进行硬件地址寻址、差错校验等功能。将比特组合成字节进而组合成帧，用 MAC 地址访问介质。</p>
-<blockquote>
-<p>MAC 地址：每个网卡的唯一标识。windows 寻找物理地址（MAC 地址）：ipconfig&#x2F;all</p>
-</blockquote>
-<p><strong>有了 MAC 地址和数据帧，就可以进行传播。MAC 地址保证了消息的发送者和接收者，并且知道了数据的内容进行分组。数据链路层以广播的方式在局域网内传播，该局域网内所有的计算机都能接收到消息</strong>。</p>
-<blockquote>
-<p>交互方式可以使用交换机等。</p>
-</blockquote>
-<h2 id="网络层（数据包）"><a href="#网络层（数据包）" class="headerlink" title="网络层（数据包）"></a>网络层（数据包）</h2><p>网络层控制数据链路层与传输层之间的信息转发，建立、维持和终止网络的连接。数据链路层的数据在网络层被转换为数据包，然后通过路径选择、分段组合、顺序、进出路由等控制，将信息从一个网络设备传递到另一个网络设备中。<br>它主要做了两件事：</p>
+<p>true：在线；false：离线</p>
 <ul>
-<li>寻址：对网络层而言使用 IP 地址来唯一标识互联网上的设备，网络层依靠 IP 地址进行相互通信。<blockquote>
-<p>在数据链路层中已经获得了 MAC 地址，但是 Mac 地址众多，查找起来很麻烦。所以会有一个网络地址——IP</p>
-</blockquote>
-</li>
-<li>路由：不同网路之间通信的需要借助的设备。<blockquote>
-<p>在同一个网络中的内部通信并不需要网络层设备，仅仅靠数据链路层就可以完成相互通信，对于不同的网络之间相互通信则必须借助路由器等三层设备。</p>
-</blockquote>
-</li>
+<li>在 window 监听 online&#x2F;offine 事件：</li>
 </ul>
-<p>使用互联网的用户在同一个网段中时会产生广播风暴，在该网段中的所有用户都会无差别的进行数据的传播或接收，所以要将用户划分，让他们在不同的网段中，在自己的小网段中进行广播。</p>
-<blockquote>
-<p>互联网就是将无数的子网络构成一个巨大的网络。<em>子网络是网络划分的概念，而子网段是指划分出的具体 IP 地址范围。子网络是在逻辑上划分网络，而子网段是在物理上划分网络。</em></p>
-</blockquote>
-<p>为了能区分不同的网段，在网络层引入了一个网络地址——IP，也称网址。网络地址帮助我们确定计算机所在的子网络，MAC 地址则将数据包送到该子网络中的目标网卡。<br>而这一层有一个规范网络地址的协议，就叫做 IP 协议，遵守这个协议的地址就被称为 IP 地址。</p>
-<blockquote>
-<p>有 IPV4 和 IPV6，IPv4 地址长度为 32 位，通常用点分十进制表示（例如，192.168.1.1）;IPv6 地址长度为 128 位，通常用冒号分隔的十六进制表示（例如，2001:0db8:85a3:0000:0000:8a2e:0370:7334）。</p>
-</blockquote>
-<h2 id="传输层（数据段）"><a href="#传输层（数据段）" class="headerlink" title="传输层（数据段）"></a>传输层（数据段）</h2><p>主要是定义端口号，控流和校验。</p>
-<h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><p>面向连接，三次握手四次挥手，是可靠的传输协议。但是速度会降低。</p>
-<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><p>具有较好的实时性，效率高于 TCP，但是是不可靠的。由于其速度快，常用于直播。</p>
-<h2 id="会话层（报文）"><a href="#会话层（报文）" class="headerlink" title="会话层（报文）"></a>会话层（报文）</h2><p>在发送方和接收方之间进行通信时创建、维持、之后终止或断开连接的地方。</p>
-<h2 id="表示层（报文）"><a href="#表示层（报文）" class="headerlink" title="表示层（报文）"></a>表示层（报文）</h2><p>表示层主要做了几件重要的事情：安全，压缩，也是程序在网络中的一个翻译官。</p>
+<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+window.addEventListener(&quot;offline&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+</code></pre>
+<h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
 <ul>
-<li>安全：发送方数据发送之前进行加密，在接受者的表示层进行解密。</li>
-<li>翻译：图片。音频等文件格式进行解码和编码。<blockquote>
-<p>ASCII 图片是人类能读懂的计算机需要转换成计算机能读懂的编码。</p>
-</blockquote>
-</li>
+<li>downlink：当前网络连接的估计下行速度</li>
+<li>downlinkMax：设备网络连接的最大下行速度</li>
+<li>effectiveType：当前网络连接的估计速度，类型(如 slow-2g、2g、39、4g 等)</li>
+<li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
+<li>saveData：是否处于数据节省模式</li>
 </ul>
-<h2 id="应用层（报文）"><a href="#应用层（报文）" class="headerlink" title="应用层（报文）"></a>应用层（报文）</h2><p>使用最多的一层。例如 ajax 调用接口发送 http 请求，域名系统 DNS，邮件协议 SMTP，webSocket 长连接，SSH 协议等。</p>
-<blockquote>
-<p>报文，比如 f12 的 network 里的数据就叫报文，包括请求头、响应体之内的。</p>
-</blockquote>
 
         
     </div>
@@ -1180,7 +1136,7 @@ class="article article-type-post"
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/index.html/page/6/">Prev</a><a class="page-number" href="/ferhannah-blog/index.html/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/index.html/page/5/">5</a><a class="page-number" href="/ferhannah-blog/index.html/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/ferhannah-blog/index.html/page/8/">8</a><a class="page-number" href="/ferhannah-blog/index.html/page/9/">9</a><a class="page-number" href="/ferhannah-blog/index.html/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/index.html/page/8/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/6/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/5/">5</a><a class="page-number" href="/ferhannah-blog/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/ferhannah-blog/page/8/">8</a><a class="page-number" href="/ferhannah-blog/page/9/">9</a><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/8/">Next</a>
     </nav>
   
 </div>
@@ -1240,7 +1196,7 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>
