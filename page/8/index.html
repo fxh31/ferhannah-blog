@@ -154,6 +154,86 @@
   
     
       <article
+id="post-buildTools/Vite/dependency_pre_bundling"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/dependency_pre_bundling/">Vite 的依赖预构建</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="快速识别引入第三方包"><a href="#快速识别引入第三方包" class="headerlink" title="快速识别引入第三方包"></a>快速识别引入第三方包</h2><p>浏览器原生识别相对路径或者绝对路径，类似<code>import _ from &quot;lodash&quot;</code>的方式浏览器是无法识别的。</p>
+<blockquote>
+<p>如果浏览器帮我们识别引入，会导致浏览器需要加载非常巨大的依赖文件，会让其速度非常慢！</p>
+</blockquote>
+<p>vite 的功能就是识别第三方包，只需要使用 vite 启动即可（默认去找根目录下的 index.html）。</p>
+<h2 id="依赖预加载"><a href="#依赖预加载" class="headerlink" title="依赖预加载"></a>依赖预加载</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>vite 能够识别非绝对路径或者相对路径的引用，是因为它进行了<strong>路径补全</strong>。</p>
+<p>vite 会对 lodash 进行预处理，并把它放在了 node_modules&#x2F;.vite&#x2F;deps 目录下。</p>
+<blockquote>
+<p>是 vite 在考虑另外一个问题（模块规范兼容性问题）的时候顺便把这个问题解决了！</p>
+</blockquote>
+<h3 id="依赖预构建"><a href="#依赖预构建" class="headerlink" title="依赖预构建"></a>依赖预构建</h3><p>浏览器只认识 esmodule 的包，但是在早期的很多包是以 commonjs 规范导出的，所以需要工具来处理这些包。</p>
+<p>vite 处理这些包步骤：</p>
+<ol>
+<li>找到项目中的依赖包，比如 lodash；</li>
+<li>利用 esbuild（对 js 语法进行处理的一个库）将其他规范的代码转换成 esmodule 规范的代码，将其放在 node_modules&#x2F;.vite&#x2F;deps 目录下；</li>
+<li>将将 esmodule 规范的各个模块进行统一集成导出。</li>
+</ol>
+<p><strong>解决问题</strong>：</p>
+<ul>
+<li>统一包为 esmodule 规范，浏览器可以识别。</li>
+<li>对路径的处理上可以直接使用 <strong>.vite&#x2F;deps</strong>，方便路径重写。</li>
+<li>优化了网络多包传输的性能问题。</li>
+</ul>
+<h4 id="关闭依赖预构建"><a href="#关闭依赖预构建" class="headerlink" title="关闭依赖预构建"></a>关闭依赖预构建</h4><p>在 vite.config.js 中添加如下配置：</p>
+<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
+
+export default defineConfig(&#123;
+  optimizeDeps: &#123;
+    exclude: [&quot;lodash-es&quot;],
+  &#125;,
+&#125;);
+</code></pre>
+<p>关闭依赖依赖预构建后，访问地址直接在 node_modules 中，浏览器会请求很多依赖文件，这也是原生 esmodule 规范不敢支持直接加载 node_modules 的原因之一。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-buildTools/Vite/env_config_integration"
 class="article article-type-post"
 >
@@ -236,86 +316,6 @@ export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
   return envResolver[command]();
 &#125;);
 </code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-buildTools/Vite/dependency_pre_bundling"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/dependency_pre_bundling/">Vite 的依赖预构建</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="快速识别引入第三方包"><a href="#快速识别引入第三方包" class="headerlink" title="快速识别引入第三方包"></a>快速识别引入第三方包</h2><p>浏览器原生识别相对路径或者绝对路径，类似<code>import _ from &quot;lodash&quot;</code>的方式浏览器是无法识别的。</p>
-<blockquote>
-<p>如果浏览器帮我们识别引入，会导致浏览器需要加载非常巨大的依赖文件，会让其速度非常慢！</p>
-</blockquote>
-<p>vite 的功能就是识别第三方包，只需要使用 vite 启动即可（默认去找根目录下的 index.html）。</p>
-<h2 id="依赖预加载"><a href="#依赖预加载" class="headerlink" title="依赖预加载"></a>依赖预加载</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>vite 能够识别非绝对路径或者相对路径的引用，是因为它进行了<strong>路径补全</strong>。</p>
-<p>vite 会对 lodash 进行预处理，并把它放在了 node_modules&#x2F;.vite&#x2F;deps 目录下。</p>
-<blockquote>
-<p>是 vite 在考虑另外一个问题（模块规范兼容性问题）的时候顺便把这个问题解决了！</p>
-</blockquote>
-<h3 id="依赖预构建"><a href="#依赖预构建" class="headerlink" title="依赖预构建"></a>依赖预构建</h3><p>浏览器只认识 esmodule 的包，但是在早期的很多包是以 commonjs 规范导出的，所以需要工具来处理这些包。</p>
-<p>vite 处理这些包步骤：</p>
-<ol>
-<li>找到项目中的依赖包，比如 lodash；</li>
-<li>利用 esbuild（对 js 语法进行处理的一个库）将其他规范的代码转换成 esmodule 规范的代码，将其放在 node_modules&#x2F;.vite&#x2F;deps 目录下；</li>
-<li>将将 esmodule 规范的各个模块进行统一集成导出。</li>
-</ol>
-<p><strong>解决问题</strong>：</p>
-<ul>
-<li>统一包为 esmodule 规范，浏览器可以识别。</li>
-<li>对路径的处理上可以直接使用 <strong>.vite&#x2F;deps</strong>，方便路径重写。</li>
-<li>优化了网络多包传输的性能问题。</li>
-</ul>
-<h4 id="关闭依赖预构建"><a href="#关闭依赖预构建" class="headerlink" title="关闭依赖预构建"></a>关闭依赖预构建</h4><p>在 vite.config.js 中添加如下配置：</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-
-export default defineConfig(&#123;
-  optimizeDeps: &#123;
-    exclude: [&quot;lodash-es&quot;],
-  &#125;,
-&#125;);
-</code></pre>
-<p>关闭依赖依赖预构建后，访问地址直接在 node_modules 中，浏览器会请求很多依赖文件，这也是原生 esmodule 规范不敢支持直接加载 node_modules 的原因之一。</p>
 
         
     </div>
@@ -764,117 +764,6 @@ console.log(mod); // error
   
     
       <article
-id="post-Node/Node模块（module）的导出导入"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/09/04/Node/Node%E6%A8%A1%E5%9D%97%EF%BC%88module%EF%BC%89%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5/">Node模块（module）的导出导入</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <pre><code class="js">const requestHandler = () =&gt; &#123;&#125;;
-</code></pre>
-<h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><ul>
-<li><p>整体模块导出</p>
-<pre><code class="js">module.exports = requestHandler;
-</code></pre>
-<blockquote>
-<p>该导出方式的导出函数会作为整个文件的导出结果，不支持重命名。</p>
-</blockquote>
-</li>
-<li><p>对象表示导出</p>
-<pre><code class="js">module.exports = &#123;
-  handler: requestHandler,
-  someText: &quot;导出的一些字符串&quot;,
-&#125;;
-</code></pre>
-<blockquote>
-<p>该导出方式可以一次性导出多个变量，支持重命名。</p>
-</blockquote>
-</li>
-<li><p>简写默认导出</p>
-<pre><code class="js">exports = &#123;
-  someText: &quot;导出的一些字符串&quot;,
-&#125;;
-</code></pre>
-</li>
-</ul>
-<blockquote>
-<p><strong>注意</strong>：<strong>默认导出的内容不会出现在全局对象<code>exports</code>上</strong>，只有命名导出的内容才会出现。</p>
-</blockquote>
-<h3 id="命名导出"><a href="#命名导出" class="headerlink" title="命名导出"></a>命名导出</h3><ul>
-<li><p>属性表示导出</p>
-<pre><code class="js">module.exports.handler = requestHandler;
-module.exports.someText = &quot;导出的一些字符串&quot;;
-</code></pre>
-<blockquote>
-<p>该导出方式可以一条一条导出，支持重命名。</p>
-</blockquote>
-</li>
-<li><p>属性表示导出（快捷方式）</p>
-<pre><code class="js">exports.handler = requestHandler;
-exports.someText = &quot;导出的一些字符串&quot;;
-</code></pre>
-</li>
-</ul>
-<blockquote>
-<p><strong>注意</strong>：命名导出（<code>exports.xxx</code>）和默认导出（<code>exports</code>）不可以同时使用。<strong>如果一个模块中同时使用了命名导出和默认导出，则命名导出将被忽略，只有默认导出的内容会被导出。</strong></p>
-</blockquote>
-<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>使用<code>require</code>导入我们导出函数或属性的文件：</p>
-<pre><code class="js">const routes = require(&quot;./routes&quot;);
-</code></pre>
-<ul>
-<li><p>对于整体模块导出的导入</p>
-<pre><code class="js">// routes就是requestHandler
-console.log(routes);
-</code></pre>
-</li>
-<li><p>对于其他导出的导入</p>
-<pre><code class="js">// 需要用.来对应
-console.log(routes.handler);
-console.log(routes.someText);
-</code></pre>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Node中使用ES Modules规范"
 class="article article-type-post"
 >
@@ -1012,6 +901,117 @@ console.log(__dirname);
 <blockquote>
 <p>注：在 Node.js 中加载 CommonJS 模块里的原代码，这几个成员其实也是把当前这几个的模块包装成函数或者是形参，它实际上也是伪全局对象。（在外侧包裹一个函数，从而实现私有模块作用域）</p>
 </blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Node模块（module）的导出导入"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2023/09/04/Node/Node%E6%A8%A1%E5%9D%97%EF%BC%88module%EF%BC%89%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5/">Node模块（module）的导出导入</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <pre><code class="js">const requestHandler = () =&gt; &#123;&#125;;
+</code></pre>
+<h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><ul>
+<li><p>整体模块导出</p>
+<pre><code class="js">module.exports = requestHandler;
+</code></pre>
+<blockquote>
+<p>该导出方式的导出函数会作为整个文件的导出结果，不支持重命名。</p>
+</blockquote>
+</li>
+<li><p>对象表示导出</p>
+<pre><code class="js">module.exports = &#123;
+  handler: requestHandler,
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一次性导出多个变量，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>简写默认导出</p>
+<pre><code class="js">exports = &#123;
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：<strong>默认导出的内容不会出现在全局对象<code>exports</code>上</strong>，只有命名导出的内容才会出现。</p>
+</blockquote>
+<h3 id="命名导出"><a href="#命名导出" class="headerlink" title="命名导出"></a>命名导出</h3><ul>
+<li><p>属性表示导出</p>
+<pre><code class="js">module.exports.handler = requestHandler;
+module.exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一条一条导出，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>属性表示导出（快捷方式）</p>
+<pre><code class="js">exports.handler = requestHandler;
+exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：命名导出（<code>exports.xxx</code>）和默认导出（<code>exports</code>）不可以同时使用。<strong>如果一个模块中同时使用了命名导出和默认导出，则命名导出将被忽略，只有默认导出的内容会被导出。</strong></p>
+</blockquote>
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>使用<code>require</code>导入我们导出函数或属性的文件：</p>
+<pre><code class="js">const routes = require(&quot;./routes&quot;);
+</code></pre>
+<ul>
+<li><p>对于整体模块导出的导入</p>
+<pre><code class="js">// routes就是requestHandler
+console.log(routes);
+</code></pre>
+</li>
+<li><p>对于其他导出的导入</p>
+<pre><code class="js">// 需要用.来对应
+console.log(routes.handler);
+console.log(routes.someText);
+</code></pre>
+</li>
+</ul>
 
         
     </div>
@@ -1204,15 +1204,15 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>

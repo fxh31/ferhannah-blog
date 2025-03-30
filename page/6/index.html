@@ -154,7 +154,7 @@
   
     
       <article
-id="post-HTML/Node和Element"
+id="post-Algorithm/slidedWindow"
 class="article article-type-post"
 >
 
@@ -165,12 +165,11 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
+        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
-<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
+        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
 
         
     </div>
@@ -190,7 +189,7 @@ class="article article-type-post"
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
         </div>
     
     
@@ -256,7 +255,7 @@ class="article article-type-post"
   
     
       <article
-id="post-JS/copyObject"
+id="post-HTML/innerText和textContent"
 class="article article-type-post"
 >
 
@@ -267,13 +266,22 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/JS/copyObject/">js 拷贝数组（对象）</a>
+        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
-<li>slice()</li>
-<li>扩展运算符 […]</li>
+        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
+<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
+<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
+<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
+<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
+</blockquote>
+</li>
+<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
+</ul>
+<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
+<li>innerHTML 是 Element 对象的属性；</li>
+<li>innerHTML 返回完整的 DOM 元素；</li>
 </ul>
 
         
@@ -294,7 +302,7 @@ class="article article-type-post"
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
         </div>
     
     
@@ -452,7 +460,7 @@ const proxy = new Proxy(target, handler);
   
     
       <article
-id="post-HTML/innerText和textContent"
+id="post-JS/copyObject"
 class="article article-type-post"
 >
 
@@ -463,22 +471,13 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
+        <a href="/ferhannah-blog/2024/09/22/JS/copyObject/">js 拷贝数组（对象）</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
-<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
-<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
-<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
-<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
-</blockquote>
-</li>
-<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
-</ul>
-<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
-<li>innerHTML 是 Element 对象的属性；</li>
-<li>innerHTML 返回完整的 DOM 元素；</li>
+        <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
+<li>slice()</li>
+<li>扩展运算符 […]</li>
 </ul>
 
         
@@ -499,7 +498,7 @@ class="article article-type-post"
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
     
@@ -578,68 +577,6 @@ class="article article-type-post"
         <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/Cross-domain"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
-<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
-<blockquote>
-<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
-</blockquote>
-<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
-<blockquote>
-<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
-</blockquote>
-<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
-<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
-        </div>
     
     </div>
 </footer>
@@ -783,6 +720,68 @@ class="article article-type-post"
     
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/Cross-domain"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
+<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
+<blockquote>
+<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
+</blockquote>
+<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
+<blockquote>
+<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
+</blockquote>
+<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
+<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
         </div>
     
     </div>
@@ -971,15 +970,15 @@ https
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>

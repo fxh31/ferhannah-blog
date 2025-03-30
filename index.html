@@ -280,103 +280,6 @@ process.on(&quot;message&quot;, (msg) =&gt; &#123;
   
     
       <article
-id="post-Node/Advanced/path"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>path 在不同的操作系统是有差异的。</p>
-<h2 id="posix（unix，likeunix，linux，macOs，windows-wsl）"><a href="#posix（unix，likeunix，linux，macOs，windows-wsl）" class="headerlink" title="posix（unix，likeunix，linux，macOs，windows wsl）"></a>posix（unix，likeunix，linux，macOs，windows wsl）</h2><p>可移植操作系统接口，这是一套标准，为了保证不同遵循它的操作系统的可移植性。</p>
-<blockquote>
-<p>例如：启动一个进程调用 fork 函数，大家都调用这个。</p>
-</blockquote>
-<ul>
-<li>路径分隔符使用正斜杠（<code>/</code>）。</li>
-</ul>
-<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>不遵守 posix。</p>
-<ul>
-<li>路径分隔符使用反斜杠（<code>\</code>）。</li>
-</ul>
-<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><blockquote>
-<p><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；<br><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</p>
-</blockquote>
-<h2 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h2><p>返回指定路径的<strong>最后一个（文件&#x2F;文件夹）名</strong>。</p>
-<pre><code class="js">const path = require(&quot;node:path&quot;);
-
-console.1og(path.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
-console.1og(path.basename(&#39;\\foo\\bar\\baz\\asdf\\xm.html&#39;)) // xm.html
-console.1og(path.posix.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ×
-console.1og(path.win32.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
-</code></pre>
-<blockquote>
-<p>注意：winddows 兼容正反斜杆写法，posix 不兼容。</p>
-</blockquote>
-<h2 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h2><p>返回<strong>指定路径的目录</strong>（不含<strong>最后一个（文件&#x2F;文件夹）名</strong>。）。</p>
-<pre><code class="js">console.1og(path.dirname(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ../foo/bar/baz/asdf
-</code></pre>
-<h2 id="extname"><a href="#extname" class="headerlink" title="extname"></a>extname</h2><p>返回路径的<strong>扩展名。</strong>如果是文件夹则返回为空。</p>
-<h2 id="join"><a href="#join" class="headerlink" title="join"></a>join</h2><p><strong>拼接路径</strong>。支持操作符。</p>
-<blockquote>
-<p><code>../</code>。栈</p>
-</blockquote>
-<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><p><strong>解析路径，返回绝对路径。</strong></p>
-<blockquote>
-<p>注意：多个路径返回最后一个。（_根据拼接路径的数量和类型会有差异_）</p>
-</blockquote>
-<h2 id="parse（format）"><a href="#parse（format）" class="headerlink" title="parse（format）"></a>parse（format）</h2><p>解析路径，以对象形式。</p>
-<pre><code class="js">console.1og(path.parse(&#39;/home/file.txt&#39;))
-const res = &#123;
-  root: &#39;/&#39;,
-  dir: &#39;home&#39;,
-  base: &#39;file.txt&#39;,
-  ext: &#39;.txt&#39;,
-  name: &#39;file&#39;
-&#125;
-</code></pre>
-<h2 id="format（parse）"><a href="#format（parse）" class="headerlink" title="format（parse）"></a>format（parse）</h2><p>parse 逆向操作。</p>
-<h2 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h2><p>返回<strong>操作系统的路径分隔符</strong>。可用于<strong>实现跨平台</strong>。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Advanced/events"
 class="article article-type-post"
 >
@@ -513,6 +416,103 @@ const open = (url) =&gt; &#123;
   &#125;
 &#125;;
 </code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/path"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>path 在不同的操作系统是有差异的。</p>
+<h2 id="posix（unix，likeunix，linux，macOs，windows-wsl）"><a href="#posix（unix，likeunix，linux，macOs，windows-wsl）" class="headerlink" title="posix（unix，likeunix，linux，macOs，windows wsl）"></a>posix（unix，likeunix，linux，macOs，windows wsl）</h2><p>可移植操作系统接口，这是一套标准，为了保证不同遵循它的操作系统的可移植性。</p>
+<blockquote>
+<p>例如：启动一个进程调用 fork 函数，大家都调用这个。</p>
+</blockquote>
+<ul>
+<li>路径分隔符使用正斜杠（<code>/</code>）。</li>
+</ul>
+<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>不遵守 posix。</p>
+<ul>
+<li>路径分隔符使用反斜杠（<code>\</code>）。</li>
+</ul>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><blockquote>
+<p><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；<br><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</p>
+</blockquote>
+<h2 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h2><p>返回指定路径的<strong>最后一个（文件&#x2F;文件夹）名</strong>。</p>
+<pre><code class="js">const path = require(&quot;node:path&quot;);
+
+console.1og(path.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
+console.1og(path.basename(&#39;\\foo\\bar\\baz\\asdf\\xm.html&#39;)) // xm.html
+console.1og(path.posix.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ×
+console.1og(path.win32.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
+</code></pre>
+<blockquote>
+<p>注意：winddows 兼容正反斜杆写法，posix 不兼容。</p>
+</blockquote>
+<h2 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h2><p>返回<strong>指定路径的目录</strong>（不含<strong>最后一个（文件&#x2F;文件夹）名</strong>。）。</p>
+<pre><code class="js">console.1og(path.dirname(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ../foo/bar/baz/asdf
+</code></pre>
+<h2 id="extname"><a href="#extname" class="headerlink" title="extname"></a>extname</h2><p>返回路径的<strong>扩展名。</strong>如果是文件夹则返回为空。</p>
+<h2 id="join"><a href="#join" class="headerlink" title="join"></a>join</h2><p><strong>拼接路径</strong>。支持操作符。</p>
+<blockquote>
+<p><code>../</code>。栈</p>
+</blockquote>
+<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><p><strong>解析路径，返回绝对路径。</strong></p>
+<blockquote>
+<p>注意：多个路径返回最后一个。（_根据拼接路径的数量和类型会有差异_）</p>
+</blockquote>
+<h2 id="parse（format）"><a href="#parse（format）" class="headerlink" title="parse（format）"></a>parse（format）</h2><p>解析路径，以对象形式。</p>
+<pre><code class="js">console.1og(path.parse(&#39;/home/file.txt&#39;))
+const res = &#123;
+  root: &#39;/&#39;,
+  dir: &#39;home&#39;,
+  base: &#39;file.txt&#39;,
+  ext: &#39;.txt&#39;,
+  name: &#39;file&#39;
+&#125;
+</code></pre>
+<h2 id="format（parse）"><a href="#format（parse）" class="headerlink" title="format（parse）"></a>format（parse）</h2><p>parse 逆向操作。</p>
+<h2 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h2><p>返回<strong>操作系统的路径分隔符</strong>。可用于<strong>实现跨平台</strong>。</p>
 
         
     </div>
@@ -1137,15 +1137,15 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
