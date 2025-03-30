@@ -1100,6 +1100,134 @@ app.use(flash());
   
     
       <article
+id="post-Node/Bcrypt"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2023/03/03/Node/Bcrypt/">Bcrypt</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>一个跨平台的加密工具。</p>
+<h2 id="在-Node-上使用"><a href="#在-Node-上使用" class="headerlink" title="在 Node 上使用"></a>在 Node 上使用</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><pre><code class="bash">npm install --save bcryptjs
+</code></pre>
+<h3 id="加密数据"><a href="#加密数据" class="headerlink" title="加密数据"></a>加密数据</h3><p>使用<code>bcrypt.hash()</code>加密数据，该方法接收两个参数：</p>
+<ul>
+<li><p>第一个参数：需要加密的数据</p>
+</li>
+<li><p>第二个参数：表示 hash 加密的轮数</p>
+<blockquote>
+<p>安全度越高，花费的时间就越长。<strong>12</strong>被认为是较高安全度的。</p>
+</blockquote>
+</li>
+</ul>
+<p>返回一个 Promise，内部传递一个加密后的数据：</p>
+<pre><code class="js">const bcrypt = require(&quot;bcryptjs&quot;); // 引入bcryptjs
+
+const password = &quot;sdfdsfdsafdsf&quot;;
+
+// 注册
+exports.postSignup = (req, res, next) =&gt; &#123;
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+  User.findOne(&#123; email: email &#125;)
+    .then((userDoc) =&gt; &#123;
+      if (userDoc) &#123;
+        return res.redirect(&quot;/signup&quot;);
+      &#125;
+      return bcrypt
+        .hash(password, 12) // 使用hash加密密码
+        .then((hashedPassword) =&gt; &#123;
+          // 加密后的数据
+          const user = new User(&#123;
+            email: email,
+            password: hashedPassword, // 用加密后的密码替换原密码传给数据库
+            cart: &#123; items: [] &#125;,
+          &#125;);
+          return user.save();
+        &#125;)
+        .then((result) =&gt; &#123;
+          res.redirect(&quot;/login&quot;);
+        &#125;);
+    &#125;)
+    .catch((err) =&gt; &#123;
+      console.log(err);
+    &#125;);
+&#125;;
+</code></pre>
+<h3 id="对比数据"><a href="#对比数据" class="headerlink" title="对比数据"></a>对比数据</h3><p>由于数据经过 bcrypt 通过某种算法加密后，我们无法得知原信息是否与需要验证的信息相匹配，所以要通过 bcrypt 内部的来对比。可以使用<code>bcrypt.compare()</code>来进行对比，该方法接收两个参数：</p>
+<ul>
+<li>第一个参数：未经加密的数据</li>
+<li>第二个参数：经过 hash 加密后的数据</li>
+</ul>
+<p>返回一个 Promise，内部传递一个 boolean 表示是否匹配：</p>
+<pre><code class="js">// 登录
+exports.postLogin = (req, res, next) =&gt; &#123;
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne(&#123; email: email &#125;)
+    .then((user) =&gt; &#123;
+      if (!user) &#123;
+        return res.redirect(&quot;/login&quot;);
+      &#125;
+      bcrypt
+        .compare(password, user.password) // 将浏览器（用户）输入的密码和数据库中存储的hash密码进行匹配
+        .then((doMatch) =&gt; &#123;
+          // 是否匹配
+          if (doMatch) &#123;
+            req.session.isLoggedIn = true;
+            req.session.user = user;
+            return req.session.save((err) =&gt; &#123;
+              console.log(err);
+              res.redirect(&quot;/&quot;);
+            &#125;);
+          &#125;
+          res.redirect(&quot;/login&quot;);
+        &#125;);
+    &#125;)
+    .catch((err) =&gt; console.log(err));
+&#125;;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2023-03-02T16:00:00.000Z" itemprop="datePublished">2023-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Cookie和Session"
 class="article article-type-post"
 >
@@ -1733,134 +1861,6 @@ class="article article-type-post"
   
     
       <article
-id="post-Node/Bcrypt"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/03/Node/Bcrypt/">Bcrypt</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>一个跨平台的加密工具。</p>
-<h2 id="在-Node-上使用"><a href="#在-Node-上使用" class="headerlink" title="在 Node 上使用"></a>在 Node 上使用</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><pre><code class="bash">npm install --save bcryptjs
-</code></pre>
-<h3 id="加密数据"><a href="#加密数据" class="headerlink" title="加密数据"></a>加密数据</h3><p>使用<code>bcrypt.hash()</code>加密数据，该方法接收两个参数：</p>
-<ul>
-<li><p>第一个参数：需要加密的数据</p>
-</li>
-<li><p>第二个参数：表示 hash 加密的轮数</p>
-<blockquote>
-<p>安全度越高，花费的时间就越长。<strong>12</strong>被认为是较高安全度的。</p>
-</blockquote>
-</li>
-</ul>
-<p>返回一个 Promise，内部传递一个加密后的数据：</p>
-<pre><code class="js">const bcrypt = require(&quot;bcryptjs&quot;); // 引入bcryptjs
-
-const password = &quot;sdfdsfdsafdsf&quot;;
-
-// 注册
-exports.postSignup = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
-  User.findOne(&#123; email: email &#125;)
-    .then((userDoc) =&gt; &#123;
-      if (userDoc) &#123;
-        return res.redirect(&quot;/signup&quot;);
-      &#125;
-      return bcrypt
-        .hash(password, 12) // 使用hash加密密码
-        .then((hashedPassword) =&gt; &#123;
-          // 加密后的数据
-          const user = new User(&#123;
-            email: email,
-            password: hashedPassword, // 用加密后的密码替换原密码传给数据库
-            cart: &#123; items: [] &#125;,
-          &#125;);
-          return user.save();
-        &#125;)
-        .then((result) =&gt; &#123;
-          res.redirect(&quot;/login&quot;);
-        &#125;);
-    &#125;)
-    .catch((err) =&gt; &#123;
-      console.log(err);
-    &#125;);
-&#125;;
-</code></pre>
-<h3 id="对比数据"><a href="#对比数据" class="headerlink" title="对比数据"></a>对比数据</h3><p>由于数据经过 bcrypt 通过某种算法加密后，我们无法得知原信息是否与需要验证的信息相匹配，所以要通过 bcrypt 内部的来对比。可以使用<code>bcrypt.compare()</code>来进行对比，该方法接收两个参数：</p>
-<ul>
-<li>第一个参数：未经加密的数据</li>
-<li>第二个参数：经过 hash 加密后的数据</li>
-</ul>
-<p>返回一个 Promise，内部传递一个 boolean 表示是否匹配：</p>
-<pre><code class="js">// 登录
-exports.postLogin = (req, res, next) =&gt; &#123;
-  const email = req.body.email;
-  const password = req.body.password;
-  User.findOne(&#123; email: email &#125;)
-    .then((user) =&gt; &#123;
-      if (!user) &#123;
-        return res.redirect(&quot;/login&quot;);
-      &#125;
-      bcrypt
-        .compare(password, user.password) // 将浏览器（用户）输入的密码和数据库中存储的hash密码进行匹配
-        .then((doMatch) =&gt; &#123;
-          // 是否匹配
-          if (doMatch) &#123;
-            req.session.isLoggedIn = true;
-            req.session.user = user;
-            return req.session.save((err) =&gt; &#123;
-              console.log(err);
-              res.redirect(&quot;/&quot;);
-            &#125;);
-          &#125;
-          res.redirect(&quot;/login&quot;);
-        &#125;);
-    &#125;)
-    .catch((err) =&gt; console.log(err));
-&#125;;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-02T16:00:00.000Z" itemprop="datePublished">2023-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/MVC"
 class="article article-type-post"
 >
@@ -1957,19 +1957,19 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>
