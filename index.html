@@ -88,7 +88,7 @@
                     <div id="typed-strings" style="display:none">
                         <p>Fxh&#39;s blog</p>
                     </div>
-                    <a class="header-type-title" id="typed" href="/ferhannah-blog"></a>
+                    <a class="header-type-title" id="typed" href="/ferhannah-blog/333"></a>
                 
     
                 
@@ -197,83 +197,6 @@ class="article article-type-post"
   
     
       <article
-id="post-Node/Advanced/events"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Nodejs 核心 API，常用于<strong>异步事件驱动</strong>。<strong>采用发布订阅模式</strong>。</p>
-<blockquote>
-<p><strong>发布订阅模式</strong>：_当有新的消息时，发布者会将其发布到一个调度中心，而调度中心会将这个消息发送给所有订阅这个消息的订阅者_。</p>
-</blockquote>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><blockquote>
-<p>用法跟大多数 emit&#x2F;on 差不多。（event bus、mitt 等）</p>
-</blockquote>
-<pre><code class="js">const eventEmitter = require(&quot;events&quot;);
-
-const bus = new eventEmitter();
-// 事件默认只能监听（on） 10 个，但是可以手动设置
-bus.setMaxListeners(20);
-console.log(bus.getMaxListeners();)
-
-const fn = (name) =&gt; &#123;
-  console.log(name);
-&#125;;
-// 订阅一个事件
-bus.on(&quot;test&quot;, fn);
-
-// 只触发一次
-bus.once(&quot;test&quot;, fn);
-
-// 取消订阅（需传入相同的函数 fn）
-bus.off(&quot;test&quot;, fn);
-
-// 发布一个事件
-bus.emit(&quot;test&quot;, &quot;fxh&quot;);
-</code></pre>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="process"><a href="#process" class="headerlink" title="process"></a>process</h2><p><strong>在 node 初始化的时候调用了 <code>setupProcessObject()</code>，这个函数内部会读取 process 原型对象（getPrototypeOf），然后将 eventEmitter 的原型嫁接到这个原型对象上（setPrototypeOf），所以 process 也可以使用 on、emit 等。</strong></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Advanced/child_process"
 class="article article-type-post"
 >
@@ -368,6 +291,83 @@ process.on(&quot;message&quot;, (msg) =&gt; &#123;
 &#125;);
 </code></pre>
 <p><strong>原理</strong>：底层<strong>通过 IPC 去通讯</strong>，IPC 又基于 libuv 实现，libuv 会根据不同的操作系统调用不同的命令实现。（windows：named pipe | posix: unix domain socket）</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Node/Advanced/events"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs 核心 API，常用于<strong>异步事件驱动</strong>。<strong>采用发布订阅模式</strong>。</p>
+<blockquote>
+<p><strong>发布订阅模式</strong>：_当有新的消息时，发布者会将其发布到一个调度中心，而调度中心会将这个消息发送给所有订阅这个消息的订阅者_。</p>
+</blockquote>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><blockquote>
+<p>用法跟大多数 emit&#x2F;on 差不多。（event bus、mitt 等）</p>
+</blockquote>
+<pre><code class="js">const eventEmitter = require(&quot;events&quot;);
+
+const bus = new eventEmitter();
+// 事件默认只能监听（on） 10 个，但是可以手动设置
+bus.setMaxListeners(20);
+console.log(bus.getMaxListeners();)
+
+const fn = (name) =&gt; &#123;
+  console.log(name);
+&#125;;
+// 订阅一个事件
+bus.on(&quot;test&quot;, fn);
+
+// 只触发一次
+bus.once(&quot;test&quot;, fn);
+
+// 取消订阅（需传入相同的函数 fn）
+bus.off(&quot;test&quot;, fn);
+
+// 发布一个事件
+bus.emit(&quot;test&quot;, &quot;fxh&quot;);
+</code></pre>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="process"><a href="#process" class="headerlink" title="process"></a>process</h2><p><strong>在 node 初始化的时候调用了 <code>setupProcessObject()</code>，这个函数内部会读取 process 原型对象（getPrototypeOf），然后将 eventEmitter 的原型嫁接到这个原型对象上（setPrototypeOf），所以 process 也可以使用 on、emit 等。</strong></p>
 
         
     </div>
@@ -1015,11 +1015,11 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
           <li>
