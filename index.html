@@ -357,97 +357,6 @@ bus.emit(&quot;test&quot;, &quot;fxh&quot;);
   
     
       <article
-id="post-Node/Advanced/os"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Nodejs os 模块可以跟操作系统进行交互。</p>
-<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p><strong>获取当前操作系统平台。</strong></p>
-<pre><code class="js">const os = require(&quot;node:os&quot;);
-
-console.log(os.platform()); // win32（win32、windows、darwin（mac）、linux）
-//
-</code></pre>
-<h2 id="release"><a href="#release" class="headerlink" title="release"></a>release</h2><p><strong>获取当前操作系统版本号。</strong></p>
-<h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p><strong>获取当前操作系统名称。</strong></p>
-<blockquote>
-<p>比 platform 要获取的信息多一些。</p>
-</blockquote>
-<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p><strong>获取当前操作系统版本。</strong></p>
-<h2 id="homedir"><a href="#homedir" class="headerlink" title="homedir"></a>homedir</h2><p><strong>获取当前用户目录。</strong></p>
-<blockquote>
-<p><strong>原理</strong>：window：<code>echo %userprofile%</code><br>mac：<code>$HOME</code></p>
-</blockquote>
-<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>获取<strong>CPU 架构</strong>。</p>
-<pre><code class="js">const os = require(&quot;node:os&quot;);
-
-console.log(os.arch()); // x64（arm、arm64、ia32、mips、mipsel、ppc、ppc64、s390、s390x、x64）
-//
-</code></pre>
-<h2 id="cups"><a href="#cups" class="headerlink" title="cups"></a>cups</h2><p>获取操作系统线程 cpu 信息。</p>
-<blockquote>
-<p><strong>原理</strong>：读取操作系统 cpu 的数量。（任务管理器可查）</p>
-</blockquote>
-<h2 id="networkInterfaces"><a href="#networkInterfaces" class="headerlink" title="networkInterfaces"></a>networkInterfaces</h2><p><strong>获取网络状态信息</strong>。（ip 地址、子网掩码、ip 版本、mac 地址、ip 地址段）</p>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="构建工具热更新后自动打开浏览器（open：true）"><a href="#构建工具热更新后自动打开浏览器（open：true）" class="headerlink" title="构建工具热更新后自动打开浏览器（open：true）"></a>构建工具热更新后自动打开浏览器（open：true）</h2><p><strong>原理</strong>：使用 os 判断不同的操作系统，分别调用对应的 shell 命令。</p>
-<pre><code class="js">const os = require(&quot;node:os&quot;);
-const &#123; exec &#125; = require(&quot;child_process&quot;); // exec：执行 shell 命令
-
-const platform = os.platform();
-
-const open = (url) =&gt; &#123;
-  if (platform === &quot;darwin&quot;) &#123;
-    exec(`open $&#123;url&#125;`); // mac
-  &#125; else if (platform === &quot;win32&quot;) &#123;
-    exec(`start $&#123;url&#125;`); // windows
-  &#125; else if (platform === &quot;linux&quot;) &#123;
-    exec(`xdg-open $&#123;url&#125;`); // linux
-  &#125;
-&#125;;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Advanced/path"
 class="article article-type-post"
 >
@@ -642,6 +551,97 @@ process.on(&quot;exit&quot;, () =&gt; &#123;&#125;);
   
     
       <article
+id="post-Node/Advanced/os"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs os 模块可以跟操作系统进行交互。</p>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><h2 id="platform"><a href="#platform" class="headerlink" title="platform"></a>platform</h2><p><strong>获取当前操作系统平台。</strong></p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+
+console.log(os.platform()); // win32（win32、windows、darwin（mac）、linux）
+//
+</code></pre>
+<h2 id="release"><a href="#release" class="headerlink" title="release"></a>release</h2><p><strong>获取当前操作系统版本号。</strong></p>
+<h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p><strong>获取当前操作系统名称。</strong></p>
+<blockquote>
+<p>比 platform 要获取的信息多一些。</p>
+</blockquote>
+<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p><strong>获取当前操作系统版本。</strong></p>
+<h2 id="homedir"><a href="#homedir" class="headerlink" title="homedir"></a>homedir</h2><p><strong>获取当前用户目录。</strong></p>
+<blockquote>
+<p><strong>原理</strong>：window：<code>echo %userprofile%</code><br>mac：<code>$HOME</code></p>
+</blockquote>
+<h2 id="arch"><a href="#arch" class="headerlink" title="arch"></a>arch</h2><p>获取<strong>CPU 架构</strong>。</p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+
+console.log(os.arch()); // x64（arm、arm64、ia32、mips、mipsel、ppc、ppc64、s390、s390x、x64）
+//
+</code></pre>
+<h2 id="cups"><a href="#cups" class="headerlink" title="cups"></a>cups</h2><p>获取操作系统线程 cpu 信息。</p>
+<blockquote>
+<p><strong>原理</strong>：读取操作系统 cpu 的数量。（任务管理器可查）</p>
+</blockquote>
+<h2 id="networkInterfaces"><a href="#networkInterfaces" class="headerlink" title="networkInterfaces"></a>networkInterfaces</h2><p><strong>获取网络状态信息</strong>。（ip 地址、子网掩码、ip 版本、mac 地址、ip 地址段）</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="构建工具热更新后自动打开浏览器（open：true）"><a href="#构建工具热更新后自动打开浏览器（open：true）" class="headerlink" title="构建工具热更新后自动打开浏览器（open：true）"></a>构建工具热更新后自动打开浏览器（open：true）</h2><p><strong>原理</strong>：使用 os 判断不同的操作系统，分别调用对应的 shell 命令。</p>
+<pre><code class="js">const os = require(&quot;node:os&quot;);
+const &#123; exec &#125; = require(&quot;child_process&quot;); // exec：执行 shell 命令
+
+const platform = os.platform();
+
+const open = (url) =&gt; &#123;
+  if (platform === &quot;darwin&quot;) &#123;
+    exec(`open $&#123;url&#125;`); // mac
+  &#125; else if (platform === &quot;win32&quot;) &#123;
+    exec(`start $&#123;url&#125;`); // windows
+  &#125; else if (platform === &quot;linux&quot;) &#123;
+    exec(`xdg-open $&#123;url&#125;`); // linux
+  &#125;
+&#125;;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/SSRandCSR"
 class="article article-type-post"
 >
@@ -714,6 +714,72 @@ fs.writeFileSync(&quot;./index.html&quot;, root.serialize());
   
     
       <article
+id="post-Node/Advanced/npx"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
+<blockquote>
+<p>使用完安装包就删。</p>
+</blockquote>
+<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ul>
+<li>避免全局安装；</li>
+<li>总是使用你最新版本；</li>
+<li>可执行任意 npm package 包；</li>
+</ul>
+<h1 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h1><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
+<h1 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h1><ul>
+<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
+<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
+</code></pre>
+<blockquote>
+<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
+</blockquote>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/module"
 class="article article-type-post"
 >
@@ -754,72 +820,6 @@ class="article article-type-post"
 <li>调用 script 去执行这个匿名函数，并查看里面是否有动态引入的 import，有的话就引入对应模块，最后返回一个执行结果；</li>
 <li>在拼接文件时，会传递五个参数，执行完匿名函数后会有去组装这五个参数（export、require、module、filename、dirname），再使用 ReflectApply 透传给匿名函数，最后返回结果。</li>
 </ol>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Advanced/npx"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
-<blockquote>
-<p>使用完安装包就删。</p>
-</blockquote>
-<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ul>
-<li>避免全局安装；</li>
-<li>总是使用你最新版本；</li>
-<li>可执行任意 npm package 包；</li>
-</ul>
-<h1 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h1><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
-<h1 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h1><ul>
-<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
-<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
-</code></pre>
-<blockquote>
-<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
-</blockquote>
-</li>
-</ul>
 
         
     </div>
@@ -1141,15 +1141,15 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
       </ul>

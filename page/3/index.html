@@ -88,7 +88,7 @@
                     <div id="typed-strings" style="display:none">
                         <p>Fxh&#39;s blog</p>
                     </div>
-                    <a class="header-type-title" id="typed" href="/"></a>
+                    <a class="header-type-title" id="typed" href="/ferhannah-blog/"></a>
                 
     
                 
@@ -683,7 +683,7 @@ Promise.try(test).then((res) =&gt; &#123;
   
     
       <article
-id="post-Python/index"
+id="post-Python/class"
 class="article article-type-post"
 >
 
@@ -694,18 +694,25 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h1><ul>
-<li>打完包之后在 dist 目录下执行：</li>
+        <h1 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h1><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
+<ul>
+<li>append(x)：在右侧添加一个元素。</li>
+<li>appendleft(x)：在左侧添加一个元素。</li>
+<li>pop()：移除并返回一个右侧元素。</li>
+<li>popleft()：移除并返回一个左侧元素。</li>
+<li>extend(iterable)：在右侧添加多个元素。</li>
+<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
+<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
+<li>clear()：清空所有元素。</li>
 </ul>
-<pre><code class="shell">python -m http.server
+<pre><code class="python">queue = deque()
+queue.append(1)
+queue.popleft(2)
 </code></pre>
-<blockquote>
-<p>注意：也可以在后面添加启动的端口号。</p>
-</blockquote>
 
         
     </div>
@@ -738,7 +745,7 @@ class="article article-type-post"
   
     
       <article
-id="post-Python/class"
+id="post-Python/index"
 class="article article-type-post"
 >
 
@@ -749,25 +756,18 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/index/">tips</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h1><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
-<ul>
-<li>append(x)：在右侧添加一个元素。</li>
-<li>appendleft(x)：在左侧添加一个元素。</li>
-<li>pop()：移除并返回一个右侧元素。</li>
-<li>popleft()：移除并返回一个左侧元素。</li>
-<li>extend(iterable)：在右侧添加多个元素。</li>
-<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
-<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
-<li>clear()：清空所有元素。</li>
+        <h1 id="本地启动服务测试前端打好的包"><a href="#本地启动服务测试前端打好的包" class="headerlink" title="本地启动服务测试前端打好的包"></a>本地启动服务测试前端打好的包</h1><ul>
+<li>打完包之后在 dist 目录下执行：</li>
 </ul>
-<pre><code class="python">queue = deque()
-queue.append(1)
-queue.popleft(2)
+<pre><code class="shell">python -m http.server
 </code></pre>
+<blockquote>
+<p>注意：也可以在后面添加启动的端口号。</p>
+</blockquote>
 
         
     </div>
@@ -1100,15 +1100,15 @@ class="article article-type-post"
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
       </ul>
