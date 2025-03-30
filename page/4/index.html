@@ -208,6 +208,119 @@ class="article article-type-post"
   
     
       <article
+id="post-JS/this"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/24/JS/this/">js 中 this 指向（绑定）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
+<blockquote>
+<p>this 指向（绑定）与函数调用的位置有关。</p>
+</blockquote>
+<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
+<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
+<ul>
+<li>直接在全局调用 this；</li>
+<li>在全局直接执行函数，函数中直接调用 this；</li>
+</ul>
+<blockquote>
+<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
+</blockquote>
+<blockquote>
+<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
+</blockquote>
+<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
+<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
+<li>直接使用<code>window.x</code>；</li>
+<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
+</ul>
+<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
+<p>匿名函数和具名函数则不受其影响。</p>
+</blockquote>
+</li>
+<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
+</ul>
+<pre><code class="js">const obj = &#123;
+  a: 10,
+  b: function () &#123;
+    console.log(this);
+  &#125;,
+&#125;;
+const copy_obj = obj.b;
+copy_obj(); // undefined / window
+
+obj.b(); // &#123;a: 10, b: ƒ&#125;
+</code></pre>
+<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
+<blockquote>
+<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
+</blockquote>
+<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
+<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
+<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
+<blockquote>
+<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
+</blockquote>
+<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
+<blockquote>
+<p>todo… which parttern</p>
+</blockquote>
+<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
+<ul>
+<li>call()：一个一个传参；</li>
+<li>apply()：传递一个数组；</li>
+<li>bind()：直接返回一个新函数；</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
+<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
+<li>es6 之前的 self 同 this 机制；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-JS/requestAnimationFrame"
 class="article article-type-post"
 >
@@ -299,119 +412,6 @@ loop(total, index);
 <p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
 </blockquote>
 <h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/this"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/12/24/JS/this/">js 中 this 指向（绑定）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p><strong>函数在运行时会自动生成一个内部对象（执行上下文），而 this 指向的就是这个对象（执行上下文），所以 this 的指向也是动态的。</strong></p>
-<blockquote>
-<p>this 指向（绑定）与函数调用的位置有关。</p>
-</blockquote>
-<p>箭头函数是没有 this 的，其永远指向全局（window&#x2F;undefined）。其实质是代码在编译的时候就已经定义好了。</p>
-<h2 id="默认绑定"><a href="#默认绑定" class="headerlink" title="默认绑定"></a>默认绑定</h2><p>在<strong>非严格模式</strong>下，全局环境中 <strong>this 绑定是 window 对象</strong>，这也被称为默认绑定。</p>
-<ul>
-<li>直接在全局调用 this；</li>
-<li>在全局直接执行函数，函数中直接调用 this；</li>
-</ul>
-<blockquote>
-<p><strong>注意： esm 默认开始严格模式</strong>，去掉<code>type=&quot;module</code>就可以了。</p>
-</blockquote>
-<blockquote>
-<p>注意在对象中某个属性的值是一个引用函数时，应该使用回调函数或者匿名函数将这个引用的函数包裹起来，避免在执行上下文的时候直接调用，而不是通过这个对象的属性访问之后才调用的。</p>
-</blockquote>
-<h3 id="全局（window）添加属性"><a href="#全局（window）添加属性" class="headerlink" title="全局（window）添加属性"></a>全局（window）添加属性</h3><ul>
-<li>在<strong>全局作用域</strong>下使用 var 声明变量；</li>
-<li>直接使用<code>window.x</code>；</li>
-<li>在默认绑定的情况下直接使用 this（非严格模式）；</li>
-</ul>
-<h2 id="隐式绑定"><a href="#隐式绑定" class="headerlink" title="隐式绑定"></a>隐式绑定</h2><p>作为<strong>某个对象的方法（上下文对象）调用</strong>，this <strong>绑定的是这个对象（上下文对象）</strong>，这写也被称为隐式绑定。</p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>如果该函数（方法）是<strong>箭头函数</strong>，<strong>无论有几层嵌套对象，this 会进行默认绑定</strong>（window&#x2F;undefined）。<blockquote>
-<p>匿名函数和具名函数则不受其影响。</p>
-</blockquote>
-</li>
-<li>如果将该对象的函数赋值给了另一个变量，在全局中直接调用该变量对应的函数，也是相当于默认绑定。<strong>这也被称为绑定丢失现象</strong>。</li>
-</ul>
-<pre><code class="js">const obj = &#123;
-  a: 10,
-  b: function () &#123;
-    console.log(this);
-  &#125;,
-&#125;;
-const copy_obj = obj.b;
-copy_obj(); // undefined / window
-
-obj.b(); // &#123;a: 10, b: ƒ&#125;
-</code></pre>
-<h2 id="new-绑定"><a href="#new-绑定" class="headerlink" title="new 绑定"></a>new 绑定</h2><p>通过 new 关键字调用的函数会生成一个实例对象，<strong>this 绑定的就是这个实例对象</strong>。</p>
-<blockquote>
-<p>注意：如果在这个构造函数中<strong>返回了一个引用数据类型</strong>（对象、数组、函数），this 指向的就是这个引用数据类型。</p>
-</blockquote>
-<p>实例对象可以使用构造函数中<code>this</code>绑定的值，因为<code>this</code>绑定的就是整个实例对象。如果在实例对象（this）上找不到所访问的属性，就会去它的原型对象上找，遍历整条原型链条直到找到这个值或者 null 为止（null 返回 undefined）。</p>
-<h3 id="对象原型"><a href="#对象原型" class="headerlink" title="对象原型"></a>对象原型</h3><p>js 中每一个函数都有一个<strong>原型对象（prototype）</strong>，通过 new 关键字（构造函数）生成的<strong>实例对象都可以访问这个原型对象上的属性和方法</strong>。</p>
-<p><strong>实例对象</strong>可以通过<code>__proto__</code>属性访问这个<strong>原型对象</strong>；<br><strong>原型对象</strong>可通通过<code>constructor</code>属性访问这个实例对象的<strong>构造函数</strong>；</p>
-<blockquote>
-<p>原型对象也有它的原型对象，直到获取到 Object 的原型的原型（null）为止，就这样组成了一条原型链。</p>
-</blockquote>
-<h3 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h3><p>使用 this 和原型对象可以实现类似继承的效果。</p>
-<blockquote>
-<p>todo… which parttern</p>
-</blockquote>
-<h2 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h2><p>使用<code>call()</code>、<code>apply()</code>、<code>bind()</code>时，<strong>this 绑定的是指定对象</strong>。</p>
-<ul>
-<li>call()：一个一个传参；</li>
-<li>apply()：传递一个数组；</li>
-<li>bind()：直接返回一个新函数；</li>
-</ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
-<li>可以使用<code>Object.create(null)</code>创建一个没有 this 绑定的对象；</li>
-<li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
-<li>es6 之前的 self 同 this 机制；</li>
-</ul>
 
         
     </div>

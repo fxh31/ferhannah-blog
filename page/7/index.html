@@ -154,134 +154,6 @@
   
     
       <article
-id="post-network/HTTPS"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/HTTPS/">HTTP 和 HTTPS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
-<li>使用明文传输（不加密），内容可能会被盗用；</li>
-<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
-<li>无法验证报文的完整性，报文可能会被篡改；</li>
-</ul>
-<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
-<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
-<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
-<blockquote>
-<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
-</blockquote>
-<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
-<blockquote>
-<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
-</blockquote>
-<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
-<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
-<blockquote>
-<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
-<blockquote>
-<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
-</blockquote>
-<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
-<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
-</blockquote>
-<ul>
-<li>安装 openSSL 生成私钥；<blockquote>
-<p>Mac 自带，Windows 需要去官网下载。</p>
-</blockquote>
-</li>
-</ul>
-<p>需要用到以下文件来完成证书相关操作：</p>
-<ol>
-<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
-<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
-<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
-</ol>
-<ul>
-<li>创建私钥</li>
-</ul>
-<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
-</code></pre>
-<ul>
-<li>生成 pem 签名文件</li>
-</ul>
-<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
-</code></pre>
-<blockquote>
-<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
-</blockquote>
-<ul>
-<li>生成数字证书</li>
-</ul>
-<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
-import fs from &quot;node:fs&quot;;
-
-//http 端口号 80 https端口号 443
-https
-  .createserver(
-    &#123;
-      key: fs.readFilesync(&quot;private-key.pem&quot;),
-      cert: fs.readFilesync(&quot;certificate.pem&quot;),
-      //密码短语
-      passphrase: &quot;123456&quot;,
-    &#125;,
-    (req, res) =&gt; &#123;
-      res.writeHead(200);
-      res.end(&quot;success&quot;);
-    &#125;
-  )
-  .listen(443, () =&gt; &#123;
-    console.log(&quot;https server is running at https://localhost:433&quot;);
-  &#125;);
-</code></pre>
-<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-network/JWT"
 class="article article-type-post"
 >
@@ -435,6 +307,208 @@ app.listen(3000, () =&gt; &#123;
   
     
       <article
+id="post-network/HTTPS"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/HTTPS/">HTTP 和 HTTPS</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
+<li>使用明文传输（不加密），内容可能会被盗用；</li>
+<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
+<li>无法验证报文的完整性，报文可能会被篡改；</li>
+</ul>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
+<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
+<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
+<blockquote>
+<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
+</blockquote>
+<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
+<blockquote>
+<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
+</blockquote>
+<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
+<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
+<blockquote>
+<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
+<blockquote>
+<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
+<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
+</blockquote>
+<ul>
+<li>安装 openSSL 生成私钥；<blockquote>
+<p>Mac 自带，Windows 需要去官网下载。</p>
+</blockquote>
+</li>
+</ul>
+<p>需要用到以下文件来完成证书相关操作：</p>
+<ol>
+<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
+<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
+<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
+</ol>
+<ul>
+<li>创建私钥</li>
+</ul>
+<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
+</code></pre>
+<ul>
+<li>生成 pem 签名文件</li>
+</ul>
+<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
+</code></pre>
+<blockquote>
+<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
+</blockquote>
+<ul>
+<li>生成数字证书</li>
+</ul>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
+import fs from &quot;node:fs&quot;;
+
+//http 端口号 80 https端口号 443
+https
+  .createserver(
+    &#123;
+      key: fs.readFilesync(&quot;private-key.pem&quot;),
+      cert: fs.readFilesync(&quot;certificate.pem&quot;),
+      //密码短语
+      passphrase: &quot;123456&quot;,
+    &#125;,
+    (req, res) =&gt; &#123;
+      res.writeHead(200);
+      res.end(&quot;success&quot;);
+    &#125;
+  )
+  .listen(443, () =&gt; &#123;
+    console.log(&quot;https server is running at https://localhost:433&quot;);
+  &#125;);
+</code></pre>
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/SSE"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
+<blockquote>
+<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
+</blockquote>
+<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
+<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
+<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
+<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
+<ul>
+<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
+<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
+</ul>
+</li>
+<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
+<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
+<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
+<li>onerror()：建立连接失败触发的函数；</li>
+<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
+<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-network/TCP"
 class="article article-type-post"
 >
@@ -511,7 +585,7 @@ class="article article-type-post"
   
     
       <article
-id="post-network/SSE"
+id="post-network/TCP实现HTTP服务"
 class="article article-type-post"
 >
 
@@ -522,37 +596,39 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
+        <a href="/ferhannah-blog/2024/09/22/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/">TCP 实现 HTTP 服务</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
-<blockquote>
-<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
-</blockquote>
-<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
-<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
-<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
-<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
-<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
-<ul>
-<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
-<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
-</ul>
-</li>
-<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
-<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
-<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
-<li>onerror()：建立连接失败触发的函数；</li>
-<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
-<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
+        <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
+<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
+
+const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
+
+const header = [
+  &quot;HTTP/1.1 200 OK&quot;,
+  &quot;Content-Type: text/html&quot;,
+  `Content-Length: $&#123;html.length&#125;`,
+  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
+  `\r\n`,
+  html,
+];
+
+const server = net.createServer((socket) =&gt; &#123;
+  socket.on(&quot;data&quot;, (data) =&gt; &#123;
+    console.log(data.toString());
+    if (/GET/.test(data.toString())) &#123;
+      socket.write(headers.join(&quot;\r\n&quot;));
+      socket.end();
+    &#125;
+  &#125;);
+&#125;);
+
+// 监听 TCP 服务
+server.listen(8080, () =&gt; &#123;
+  console.log(&quot;server is running&quot;, server.address());
+&#125;);
+</code></pre>
 
         
     </div>
@@ -575,6 +651,10 @@ class="article article-type-post"
         <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
         </div>
     
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li></ul>
+        </div>
     
     </div>
 </footer>
@@ -675,6 +755,97 @@ heartInreaval = setInterval(heartCheck, 5000);
     
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/XSS"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/XSS/">XSS</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Cross-site scripting。跨站脚本攻击，利于 Web 网络安全的漏洞，注入恶意的 js 脚本进行攻击。一般分为三种：</p>
+<h1 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h1><h2 id="反射型-XSS"><a href="#反射型-XSS" class="headerlink" title="反射型 XSS"></a>反射型 XSS</h2><p>攻击者必须以某种方式诱导用户访问一个精心设计的 URL(恶意链接)，该连接中可能包含一个 script 标签，攻击者通过注入 js 来实施攻击，获取用户数据等。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>即时性。不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据；</li>
+</ul>
+<h2 id="存储型-XSS"><a href="#存储型-XSS" class="headerlink" title="存储型 XSS"></a>存储型 XSS</h2><p>存储型（HTML 注入型&#x2F;持久型）<strong>最严重的 XSS 攻击</strong>。将 js 脚本直接注入到数据库中，使得需要查看数据的用户都会被遭受攻击。主要发生在社区的评论区，留言板，HTML 电子邮件等，通过写入 script 标签，注入 js 脚本来实施攻击，如果前端和后端都没有进行 js 的过滤，该代码就会被注入进数据库中。</p>
+<h2 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h2><p>主要是利用 JS 和 HTML 的交互性质以及 DOM 对象实现的。客户端的脚本程序可以动态地检查和修改页面内容，而不依赖于服务器端的数据。<br>如果用户在客户端输入的数据包含了恶意的 JavaScript 脚本，而这些脚本没有经过适当的过滤和消毒，就会遭到攻击，如：</p>
+<ul>
+<li>loaction</li>
+<li>innerHTML（可以使用 textContent）</li>
+<li>document.write</li>
+<li>v-html</li>
+<li>eval</li>
+</ul>
+<h1 id="预防-XSS"><a href="#预防-XSS" class="headerlink" title="预防 XSS"></a>预防 XSS</h1><ul>
+<li>输入过滤：在 Web 应用程序中对用户输入的数据进行过滤和校验，确保只接收合法的数据；<blockquote>
+<p>使用 xss 的 npm 包，利用第三方工具来防止 xss 注入。</p>
+</blockquote>
+</li>
+<li>输出转译：在向 Web 页面中输出用户数据时，对其内容进行适当的编码和转义处理；</li>
+<li>设置 CSP（Content Security Policy）：通过设置响应报文头中的 CSP 策略，限制页面中可执行的脚本来源、样式表、图像、字体等，以此减少恶意代码执行的可能性。（前后端都可以设置）<ul>
+<li>前端：meta 标签里设置 http-equiv&#x3D;”Content-Security-Policy”</li>
+<li>后端：设置请求头<blockquote>
+<p>例如机制外部脚本执行，外部资源加载，禁止页面嵌入式 iframe。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="XSS-靶场"><a href="#XSS-靶场" class="headerlink" title="XSS 靶场"></a>XSS 靶场</h1><p>小练习。<a target="_blank" rel="noopener" href="https://xssaq.com/yx/level1.php">https://xssaq.com/yx/level1.php</a></p>
+<h1 id="XSS-漏洞扫描工具"><a href="#XSS-漏洞扫描工具" class="headerlink" title="XSS 漏洞扫描工具"></a>XSS 漏洞扫描工具</h1><ul>
+<li>wvs</li>
+<li>椰树</li>
+<li>safe3</li>
+<li>Xelenium</li>
+<li>w3af – Kali</li>
+<li>vega – Kali</li>
+<li>burp</li>
+<li>Kail 操作系统</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li></ul>
         </div>
     
     </div>
@@ -809,246 +980,6 @@ class="article article-type-post"
   
     
       <article
-id="post-network/TCP实现HTTP服务"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/TCP%E5%AE%9E%E7%8E%B0HTTP%E6%9C%8D%E5%8A%A1/">TCP 实现 HTTP 服务</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>在传输层使用 TCP 一层去模拟返回应用层 HTTP 的报文。</p>
-<h2 id="后端（node）"><a href="#后端（node）" class="headerlink" title="后端（node）"></a>后端（node）</h2><pre><code class="js">import net from &quot;net&quot;;
-
-const html: string = `&lt;h1&gt;BLG&lt;/h1&gt;`;
-
-const header = [
-  &quot;HTTP/1.1 200 OK&quot;,
-  &quot;Content-Type: text/html&quot;,
-  `Content-Length: $&#123;html.length&#125;`,
-  &quot;Date: Mon, 27 Jul 2009 12:28:53 GMT&quot;,
-  `\r\n`,
-  html,
-];
-
-const server = net.createServer((socket) =&gt; &#123;
-  socket.on(&quot;data&quot;, (data) =&gt; &#123;
-    console.log(data.toString());
-    if (/GET/.test(data.toString())) &#123;
-      socket.write(headers.join(&quot;\r\n&quot;));
-      socket.end();
-    &#125;
-  &#125;);
-&#125;);
-
-// 监听 TCP 服务
-server.listen(8080, () =&gt; &#123;
-  console.log(&quot;server is running&quot;, server.address());
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/XSS"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/XSS/">XSS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Cross-site scripting。跨站脚本攻击，利于 Web 网络安全的漏洞，注入恶意的 js 脚本进行攻击。一般分为三种：</p>
-<h1 id="XSS-类型"><a href="#XSS-类型" class="headerlink" title="XSS 类型"></a>XSS 类型</h1><h2 id="反射型-XSS"><a href="#反射型-XSS" class="headerlink" title="反射型 XSS"></a>反射型 XSS</h2><p>攻击者必须以某种方式诱导用户访问一个精心设计的 URL(恶意链接)，该连接中可能包含一个 script 标签，攻击者通过注入 js 来实施攻击，获取用户数据等。</p>
-<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
-<li>即时性。不经过服务器存储，直接通过 HTTP 的 GET 和 POST 请求就能完成一次攻击，拿到用户隐私数据；</li>
-</ul>
-<h2 id="存储型-XSS"><a href="#存储型-XSS" class="headerlink" title="存储型 XSS"></a>存储型 XSS</h2><p>存储型（HTML 注入型&#x2F;持久型）<strong>最严重的 XSS 攻击</strong>。将 js 脚本直接注入到数据库中，使得需要查看数据的用户都会被遭受攻击。主要发生在社区的评论区，留言板，HTML 电子邮件等，通过写入 script 标签，注入 js 脚本来实施攻击，如果前端和后端都没有进行 js 的过滤，该代码就会被注入进数据库中。</p>
-<h2 id="DOM-型-XSS"><a href="#DOM-型-XSS" class="headerlink" title="DOM 型 XSS"></a>DOM 型 XSS</h2><p>主要是利用 JS 和 HTML 的交互性质以及 DOM 对象实现的。客户端的脚本程序可以动态地检查和修改页面内容，而不依赖于服务器端的数据。<br>如果用户在客户端输入的数据包含了恶意的 JavaScript 脚本，而这些脚本没有经过适当的过滤和消毒，就会遭到攻击，如：</p>
-<ul>
-<li>loaction</li>
-<li>innerHTML（可以使用 textContent）</li>
-<li>document.write</li>
-<li>v-html</li>
-<li>eval</li>
-</ul>
-<h1 id="预防-XSS"><a href="#预防-XSS" class="headerlink" title="预防 XSS"></a>预防 XSS</h1><ul>
-<li>输入过滤：在 Web 应用程序中对用户输入的数据进行过滤和校验，确保只接收合法的数据；<blockquote>
-<p>使用 xss 的 npm 包，利用第三方工具来防止 xss 注入。</p>
-</blockquote>
-</li>
-<li>输出转译：在向 Web 页面中输出用户数据时，对其内容进行适当的编码和转义处理；</li>
-<li>设置 CSP（Content Security Policy）：通过设置响应报文头中的 CSP 策略，限制页面中可执行的脚本来源、样式表、图像、字体等，以此减少恶意代码执行的可能性。（前后端都可以设置）<ul>
-<li>前端：meta 标签里设置 http-equiv&#x3D;”Content-Security-Policy”</li>
-<li>后端：设置请求头<blockquote>
-<p>例如机制外部脚本执行，外部资源加载，禁止页面嵌入式 iframe。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="XSS-靶场"><a href="#XSS-靶场" class="headerlink" title="XSS 靶场"></a>XSS 靶场</h1><p>小练习。<a target="_blank" rel="noopener" href="https://xssaq.com/yx/level1.php">https://xssaq.com/yx/level1.php</a></p>
-<h1 id="XSS-漏洞扫描工具"><a href="#XSS-漏洞扫描工具" class="headerlink" title="XSS 漏洞扫描工具"></a>XSS 漏洞扫描工具</h1><ul>
-<li>wvs</li>
-<li>椰树</li>
-<li>safe3</li>
-<li>Xelenium</li>
-<li>w3af – Kali</li>
-<li>vega – Kali</li>
-<li>burp</li>
-<li>Kail 操作系统</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-        <div class="article-tag">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li></ul>
-        </div>
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-network/networkState"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/network/networkState/">前端网络状态</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="前端网络状态"><a href="#前端网络状态" class="headerlink" title="前端网络状态"></a>前端网络状态</h1><h2 id="前端判断网络是否离线"><a href="#前端判断网络是否离线" class="headerlink" title="前端判断网络是否离线"></a>前端判断网络是否离线</h2><ul>
-<li>navigator.onLine</li>
-</ul>
-<p>true：在线；false：离线</p>
-<ul>
-<li>在 window 监听 online&#x2F;offine 事件：</li>
-</ul>
-<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
-  console.log(&quot;online&quot;);
-&#125;);
-window.addEventListener(&quot;offline&quot;, function () &#123;
-  console.log(&quot;online&quot;);
-&#125;);
-</code></pre>
-<h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
-<ul>
-<li>downlink：当前网络连接的估计下行速度</li>
-<li>downlinkMax：设备网络连接的最大下行速度</li>
-<li>effectiveType：当前网络连接的估计速度，类型(如 slow-2g、2g、39、4g 等)</li>
-<li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
-<li>saveData：是否处于数据节省模式</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-network/navigator(sendBeacon)"
 class="article article-type-post"
 >
@@ -1125,6 +1056,75 @@ class="article article-type-post"
         <div class="article-tag">
         <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li></ul>
         </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/networkState"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/networkState/">前端网络状态</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="前端网络状态"><a href="#前端网络状态" class="headerlink" title="前端网络状态"></a>前端网络状态</h1><h2 id="前端判断网络是否离线"><a href="#前端判断网络是否离线" class="headerlink" title="前端判断网络是否离线"></a>前端判断网络是否离线</h2><ul>
+<li>navigator.onLine</li>
+</ul>
+<p>true：在线；false：离线</p>
+<ul>
+<li>在 window 监听 online&#x2F;offine 事件：</li>
+</ul>
+<pre><code class="js">window.addEventListener(&quot;online&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+window.addEventListener(&quot;offline&quot;, function () &#123;
+  console.log(&quot;online&quot;);
+&#125;);
+</code></pre>
+<h2 id="区分强网和弱网环境"><a href="#区分强网和弱网环境" class="headerlink" title="区分强网和弱网环境"></a>区分强网和弱网环境</h2><p>使用 navigator.connection，它会返回一个 NetworkInformation 的对象，该对象包含：</p>
+<ul>
+<li>downlink：当前网络连接的估计下行速度</li>
+<li>downlinkMax：设备网络连接的最大下行速度</li>
+<li>effectiveType：当前网络连接的估计速度，类型(如 slow-2g、2g、39、4g 等)</li>
+<li>rtt：当前网络连接的估计往返时间(单位为毫秒)</li>
+<li>saveData：是否处于数据节省模式</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
     
     </div>
 </footer>
