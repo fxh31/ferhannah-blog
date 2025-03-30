@@ -154,171 +154,6 @@
   
     
       <article
-id="post-Node/Advanced/npm"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Node Pacakge Manager。Nodejs 的包管理工具。</p>
-<blockquote>
-<p>类似于：PHP-Composer，Java-Maven，Python-pip，Rust-Cargo。</p>
-</blockquote>
-<h1 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h1><pre><code class="json">&#123;
-  &quot;name&quot;: &quot;ferhannah-cli&quot;,
-  &quot;version&quot;: &quot;1.0.1&quot;, // 主版本号(大版本架构更新).次版本号(功能更新).bug修复
-  &quot;description&quot;: &quot;ferhannah-cli 脚手架工具&quot;,
-  // 模块化相关--
-  &quot;main&quot;: &quot;index.js&quot;, // 用户用的时候找的路径
-  &quot;type&quot;: &quot;module&quot;,
-  &quot;module&quot;: &quot;&quot;,
-  &quot;browser&quot;: &quot;&quot;,
-  //---
-  &quot;scripts&quot;: &#123;
-    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
-    &quot;build&quot;: &quot;rollup -c rollup.config.js&quot;,
-    &quot;build-ts&quot;: &quot;rollup --config rollup.config.ts --configPlugin typescript&quot;
-  &#125;,
-  &quot;keywords&quot;: [&quot;Vite&quot;, &quot;Vue3&quot;, &quot;React&quot;, &quot;CLI&quot;, &quot;Ant Design&quot;, &quot;Element Plus&quot;],
-  &quot;bin&quot;: &#123;
-    // 配置可执行文件
-    &quot;ferhannah&quot;: &quot;./bin/index.js&quot;
-  &#125;,
-  &quot;devDependencies&quot;: &#123;&#125;, // 开发时依赖
-  &quot;dependencies&quot;: &#123;&#125;, // 生产环境依赖
-  &quot;peerDependencies&quot;: &#123;&#125;, // 对等依赖，一般是插件人员和npm包开发人员使用；如果需要安装开发的插件必须下载其依赖的插件（对等插件）
-  // npm 仓库配置信息--
-  &quot;repository&quot;: &#123;
-    &quot;type&quot;: &quot;git&quot;,
-    &quot;url&quot;: &quot;&quot;
-  &#125;,
-  &quot;files&quot;: [], // 发布后能看到的文件
-  &quot;homepage&quot;: &quot;&quot;,
-  &quot;author&quot;: &quot;fxh&quot;,
-  &quot;license&quot;: &quot;ISC&quot;
-  //--
-&#125;
-</code></pre>
-<h1 id="npm-install-原理"><a href="#npm-install-原理" class="headerlink" title="npm install 原理"></a>npm install 原理</h1><blockquote>
-<p>npm install 发生了什么？</p>
-</blockquote>
-<p>安装的依赖会存放在根目录的 node_modules 下，默认<strong>采用扁平化</strong>的方式安装。在遍历依赖书时<strong>使用广度优先算法逐层处理每个依赖包中的依赖，直到所有的依赖都被处理完毕</strong>。在处理依赖时，npm 会检查该依赖的版本号是否符合依赖树中其他依赖版本要求，如果不合适则会尝试安装合适的版本。</p>
-<blockquote>
-<p>如果发现需要相同依赖的不同版本，则会在需要该依赖的包下又新建一个 node_modules，再将依赖装进去。</p>
-</blockquote>
-<ul>
-<li>先检查 npm config；</li>
-<li>在当前目录下寻找<code>.npmrc</code>文件（项目级别），如果找到；</li>
-<li>再找当前用户的<code>.npmrc</code>文件（用户级别）</li>
-<li>再找全局的<code>.npmrc</code>文件（全局：AppData）</li>
-<li>npm 内置的<code>.npmrc</code>文件（nodejs）</li>
-<li>检查是否有 <code>package-lock.json</code> 文件。<ul>
-<li>有：则比较<code>package.json</code>和<code>package-lock.json</code>内的依赖版本是否一致。<ul>
-<li>不一致：会根据<code>package.json</code>下载并更新<code>package-lock.json</code>。<blockquote>
-<p>针对 npm 高版本，现在基本上都是。</p>
-</blockquote>
-</li>
-<li>一致：检查缓存（之前是否安装过）；<ul>
-<li>有：直接解压到 node_modules。</li>
-<li>没有：去 npm 官网&#x2F;镜像下载资源包，检查完整性，添加到缓存，更新<code>package-lock.json</code>文件；</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>没有：获取包信息，构建依赖树和扁平化依赖，然后检查缓存；<ul>
-<li>有：直接解压到 node_modules。</li>
-<li>没有：去 npm 官网&#x2F;镜像下载资源包，检查完整性，添加到缓存，更新<code>package-lock.json</code>文件；</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="package-lock-json"><a href="#package-lock-json" class="headerlink" title="package-lock.json"></a>package-lock.json</h2><p>可以<strong>锁定版本，记录依赖树的详细信息</strong>。</p>
-<ul>
-<li>version：包版本号；</li>
-<li>resolved：包的下载地址；</li>
-<li>integrity：验证包的完整性的哈希值（摘要）；</li>
-<li>dev：当前包是一个开发依赖包；</li>
-<li>bin：包中可执行文件的路径和名称；</li>
-<li>engines：包所依赖的 Nodejs 版本范围；</li>
-</ul>
-<p>它还帮我们<strong>做了缓存</strong>，<strong>通过 name + version + integrity 生成一个唯一的 key</strong>，这个 key 用于<strong>映射 npm 缓存文件</strong>（一般在 npm-catch 下），如果生成的 key 能与 integrity <strong>对上，就会从映射文件中取出缓存的二进制包并解压出来使用</strong>。</p>
-<h1 id="npm-run-原理"><a href="#npm-run-原理" class="headerlink" title="npm run 原理"></a>npm run 原理</h1><blockquote>
-<p>npm run 发生了什么？（也就是指定 node 命令时）</p>
-</blockquote>
-<p>nodejs 的所有命令都在 node_modules&#x2F;.bin 下的可执行文件中。nodejs 支持跨平台、跨系统：</p>
-<ul>
-<li><code>.sh</code>：Unix、Linux 以及 MacOS 使用；</li>
-<li><code>.cmd</code>：cmd 执行文件（windows）；</li>
-<li><code>.ps1</code>：powershell 执行文件（windows）；</li>
-</ul>
-<blockquote>
-<p>命令是在 package.json 中的 bin 内配置的。</p>
-</blockquote>
-<ul>
-<li>会在当前项目找 node_modules&#x2F;.bin 中是否有该命令环境；</li>
-<li>再去全局的 node_modules 下找；</li>
-<li>再去环境变量中找；</li>
-<li>都找不到报错；</li>
-</ul>
-<h1 id="npm-生命周期"><a href="#npm-生命周期" class="headerlink" title="npm 生命周期"></a>npm 生命周期</h1><p>在执行 dev 之前和之后都有对应的生命周期使用，执行 dev 会自动调用 predev 和 postdev：</p>
-<pre><code class="json">&#123;
-  &quot;scripts&quot;: &#123;
-    &quot;predev&quot;: &quot;node prev.js&quot;,
-    &quot;dev&quot;: &quot;node index.js&quot;,
-    &quot;postdev&quot;: &quot;node post.js&quot;
-  &#125;
-&#125;
-</code></pre>
-<p>应用场景：</p>
-<ul>
-<li>predev：打包之前清除 dist 目录；</li>
-<li>postdev：CI 脚本，发布之后自动将代码提交；</li>
-</ul>
-<blockquote>
-<p>注意：dev 命令可以换成其他任何自定义命令，周期命令的配置也一样。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-10T16:00:00.000Z" itemprop="datePublished">2025-03-11</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/npm/packages和modules"
 class="article article-type-post"
 >
@@ -1835,6 +1670,62 @@ class="article article-type-post"
 
     
   
+    
+      <article
+id="post-hello-world"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/27/hello-world/">Hello World</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:03:55.763Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
 
   
     <nav class="pagination">
@@ -1882,10 +1773,6 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/29/index/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
@@ -1899,6 +1786,10 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>

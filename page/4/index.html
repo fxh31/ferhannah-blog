@@ -154,7 +154,7 @@
   
     
       <article
-id="post-Algorithm/monotoneStack"
+id="post-JS/requestAnimationFrame"
 class="article article-type-post"
 >
 
@@ -165,17 +165,86 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
+        <a href="/ferhannah-blog/2024/12/24/JS/requestAnimationFrame/">requestAnimationFrame</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>已知单调栈使用场景：</p>
-<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
-<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
 <ul>
-<li>一般栈中存储的是数组索引下标；</li>
-<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
+<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
+<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
+</blockquote>
+</li>
+<li>隐藏的元素不会触发回调。<blockquote>
+<p>保证更少的 CPU、GPU 消耗。</p>
+</blockquote>
+</li>
+<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
 </ul>
+<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
+<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
+<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
+<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
+</ul>
+<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
+<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
+<pre><code class="js">const scrollToTop = () =&gt; &#123;
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  console.log(c);
+  if (c &gt; 0) &#123;
+    window.requestAnimationFrame(scrollToTop); // 平滑回滚
+    window.scrollTo(0, c - c / 8);
+    // window.scrollTo(0, c - c);
+  &#125;
+&#125;;
+</code></pre>
+<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
+  window.requestAnimationFrame(() =&gt; &#123;
+    console.log(&quot;scroll&quot;);
+  &#125;);
+&#125;);
+</code></pre>
+<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
+<blockquote>
+<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
+</blockquote>
+<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
+<pre><code class="js">//需要插入的容器
+const ul = document.getElementById(&quot;container&quot;);
+// 插入十万条数据
+const total = 100000;
+// 一次插入 20 条
+const once = 20;
+//总页数
+const page = total / once;
+//每条记录的索引
+const index = 0;
+//循环加载数据
+function loop(curTotal, curIndex) &#123;
+  if (curTotal &lt;= 0) &#123;
+    return false;
+  &#125;
+  //每页多少条
+  const pageCount = Math.min(curTotal, once);
+  function addData() &#123;
+    for (let i = 0; i &lt; pageCount; i++) &#123;
+      let li = document.createElement(&quot;li&quot;);
+      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
+      ul.appendChild(li);
+    &#125;
+    loop(curTotal - pageCount, curIndex + pageCount);
+  &#125;
+  window.requestAnimationFrame(addData);
+  // setTimeout(addData, 0);
+&#125;
+loop(total, index);
+</code></pre>
+<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
+<blockquote>
+<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
+</blockquote>
+<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
 
         
     </div>
@@ -195,7 +264,7 @@ class="article article-type-post"
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
         </div>
     
     
@@ -289,129 +358,6 @@ obj.b(); // &#123;a: 10, b: ƒ&#125;
 <li>箭头函数会继承外层函数调用的 this 绑定（window&#x2F;undefined）；</li>
 <li>es6 之前的 self 同 this 机制；</li>
 </ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-JS/requestAnimationFrame"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/12/24/JS/requestAnimationFrame/">requestAnimationFrame</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>浏览器每次刷新页面之前执行其中的回调函数，<strong>宏任务</strong>。返回一个整数编号，可用于传递给<code>cancelAnimationFrame</code>取消动画帧。</p>
-<ul>
-<li>requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率。<blockquote>
-<p>保证其回调函数在屏幕每一次的绘制间隔中执行一次，不会出现丢帧和动画卡顿的情况。</p>
-</blockquote>
-</li>
-<li>隐藏的元素不会触发回调。<blockquote>
-<p>保证更少的 CPU、GPU 消耗。</p>
-</blockquote>
-</li>
-<li>浏览器专门为动画提供的 API，浏览器在运行时会针对该 API 进行优化，如果页面不是激活状态下的话，动画会自动暂停，有效节省了 CPU 开销。</li>
-</ul>
-<h2 id="setTimeout-和-setInterval"><a href="#setTimeout-和-setInterval" class="headerlink" title="setTimeout 和 setInterval"></a>setTimeout 和 setInterval</h2><ul>
-<li>setTimeout 和 setInterval 定时器是不精准的，设置的间隔时间其实是在线程队列中等待的时间。由于 js 的单线程机制，在插入队列前有<strong>大量任务</strong>或者其中<strong>某个任务的执行时间过长</strong>，都会影响最终的执行时间。</li>
-<li>并且浏览器为了防止过多任务的堆积，对其最小间隔时间做了限制（4ms&#x2F;10ms），即使你设置 setTimeout(fn, 0)，回调函数也不会立即执行，而是至少在 4 毫秒后执行。</li>
-<li>setInterval 因为其重复执行，其误差值可能会越来越大。</li>
-</ul>
-<p><strong>小结</strong><br><strong>js 事件循环前序队列事件的阻塞、延迟，浏览器的资源调度策略（最小间隔）</strong>等问题都会影响 setTimeout 和 setInterval 的精度。</p>
-<h2 id="requestAnimationFrame"><a href="#requestAnimationFrame" class="headerlink" title="requestAnimationFrame"></a>requestAnimationFrame</h2><p>执行回调与系统的绘制帧率同步（保持最佳绘制效率），不会因为间隔时间过短导致过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅。让网页动画有一个统一的刷新机制，<strong>节约系统资源，提高系统性能，改善视觉体验</strong>。</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="页面滚动事件（-）"><a href="#页面滚动事件（-）" class="headerlink" title="页面滚动事件（*）"></a>页面滚动事件（*）</h3><p>平滑回滚到页面顶部（在 requestAnimationFrame 事件中每次回滚一小段，直到回到顶部）：</p>
-<pre><code class="js">const scrollToTop = () =&gt; &#123;
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-  console.log(c);
-  if (c &gt; 0) &#123;
-    window.requestAnimationFrame(scrollToTop); // 平滑回滚
-    window.scrollTo(0, c - c / 8);
-    // window.scrollTo(0, c - c);
-  &#125;
-&#125;;
-</code></pre>
-<pre><code class="js">document.addEventListener(&quot;scroll&quot;, () =&gt; &#123;
-  window.requestAnimationFrame(() =&gt; &#123;
-    console.log(&quot;scroll&quot;);
-  &#125;);
-&#125;);
-</code></pre>
-<h3 id="大量数据渲染"><a href="#大量数据渲染" class="headerlink" title="大量数据渲染"></a>大量数据渲染</h3><p>一般做法：使用定时器（setTimeout&#x2F;setInterval）控制循环 loop 函数，在 loop 函数中遍历添加限制长度的数据并添加到页面中。</p>
-<blockquote>
-<p>或者使用分页请求，前端设置 pageSize，每次点击不同的 pageCount 就重新请求一次。</p>
-</blockquote>
-<p><strong>优化</strong>：使用 requestAnimationFrame 代替 setTimeout。</p>
-<pre><code class="js">//需要插入的容器
-const ul = document.getElementById(&quot;container&quot;);
-// 插入十万条数据
-const total = 100000;
-// 一次插入 20 条
-const once = 20;
-//总页数
-const page = total / once;
-//每条记录的索引
-const index = 0;
-//循环加载数据
-function loop(curTotal, curIndex) &#123;
-  if (curTotal &lt;= 0) &#123;
-    return false;
-  &#125;
-  //每页多少条
-  const pageCount = Math.min(curTotal, once);
-  function addData() &#123;
-    for (let i = 0; i &lt; pageCount; i++) &#123;
-      let li = document.createElement(&quot;li&quot;);
-      li.innerText = curIndex + i + &quot; : &quot; + ~~(Math.random() * total);
-      ul.appendChild(li);
-    &#125;
-    loop(curTotal - pageCount, curIndex + pageCount);
-  &#125;
-  window.requestAnimationFrame(addData);
-  // setTimeout(addData, 0);
-&#125;
-loop(total, index);
-</code></pre>
-<h3 id="监控页面卡顿（监测性能）"><a href="#监控页面卡顿（监测性能）" class="headerlink" title="监控页面卡顿（监测性能）"></a>监控页面卡顿（监测性能）</h3><p>定义一些边界值来检测网页的帧率（fps），通过在 requestAnimationFrame 中执行一些代码，并计算执行时间来判断是否页面卡顿。（requestAnimationFrame 的绘制率是 60HZ，大多数人的视觉系统能够识别的最大帧率为 60 帧每秒）</p>
-<blockquote>
-<p>1s 中 60 帧，1 帧 16.7ms，如果超过 16.7ms，则表示页面卡顿。</p>
-</blockquote>
-<h3 id="水印（-）"><a href="#水印（-）" class="headerlink" title="水印（*）"></a>水印（*）</h3><p>使用 requestAnimationFrame 添加页面水印（背景图片）。</p>
 
         
     </div>
@@ -1372,6 +1318,128 @@ class="article article-type-post"
 
     
   
+    
+      <article
+id="post-Algorithm/sort"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/10/31/Algorithm/sort/">排序算法</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：</p>
+<ol>
+<li>找到一个基准值，将数组分成两个部分，左边的都比基准值小，右边的都比基准值大。<blockquote>
+<p>基准值一般选用第一个数，然后与最后一个数开始比较</p>
+</blockquote>
+</li>
+<li>左右两个部分又可以进行上述过程，直到左右两个部分都只有一个元素。</li>
+</ol>
+<blockquote>
+<p>可以看出将排序过程采用了分治思想，将问题分解成更小的子问题，然后递归求解，最后合并结果。</p>
+</blockquote>
+<pre><code class="js">function quickSort(arr, start = 0, end = arr.length - 1) &#123;
+  if (start &lt; end) &#123;
+    const base = arr[start]; // 基准值
+    let left = start,
+      right = end;
+    while (left &lt; right) &#123;
+      while (left &lt; right &amp;&amp; base &lt;= arr[right]) &#123;
+        right--;
+      &#125;
+      arr[left] = arr[right];
+      while (left &lt; right &amp;&amp; base &gt;= arr[left]) &#123;
+        left++;
+      &#125;
+      arr[right] = arr[left];
+    &#125;
+    arr[left] = base;
+    quickSort(arr, start, left - 1); // 分治
+    quickSort(arr, left + 1, end); // 分治
+  &#125;
+&#125;
+</code></pre>
+<p><strong>特性</strong></p>
+<ul>
+<li>不稳定</li>
+<li>原地排序</li>
+<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(logn)</li>
+</ul>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>基本思想：</p>
+<ol>
+<li>分：将组数分成两个子数组，直到不能再分。</li>
+<li>治：将两个子数组合并成一个有序数组。创建一个新数组，再分别为两个子数组设置标志位同向双指针移动比较，将较小的值放入新数组中。</li>
+</ol>
+<blockquote>
+<p>典型分治思想。</p>
+</blockquote>
+<pre><code class="js">function mergeSort(arr) &#123;
+  if (arr.length &lt;= 1) return arr;
+  const mid = arr.length &gt;&gt; 1;
+  const left = arr.slice(0, mid);
+  const right = arr.slice(mid);
+  return merge(mergeSort(left), mergeSort(right));
+&#125;
+
+function merge(left, right) &#123;
+  const result = [];
+  let l = 0,
+    r = 0;
+  while (l &lt; left.length &amp;&amp; r &lt; right.length) &#123;
+    if (left[l] &lt; right[r]) &#123;
+      result.push(left[l++]);
+    &#125; else &#123;
+      result.push(right[r++]);
+    &#125;
+  &#125;
+  result.push(...left.slice(l), ...right.slice(r));
+  return result;
+&#125;
+</code></pre>
+<p><strong>特性</strong></p>
+<ul>
+<li>稳定</li>
+<li>“治”时需要额外的数组空间，并且最终也返回这个数组（非原地排序）</li>
+<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(n)</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
 
   
     <nav class="pagination">
@@ -1419,10 +1487,6 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/29/index/">(no title)</a>
-          </li>
-        
-          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
@@ -1436,6 +1500,10 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>
