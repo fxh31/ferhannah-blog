@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm8vfib12004k2cvs5pfz425m" class="article article-type-post" itemscope
+    <article id="post-cm90013c3004vecvs4wkbcuaa" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -324,6 +324,24 @@
 </ul>
 <blockquote>
 <p>注意：dev 命令可以换成其他任何自定义命令，周期命令的配置也一样。</p>
+</blockquote>
+<h2 id="npm-私服"><a href="#npm-私服" class="headerlink" title="npm 私服"></a>npm 私服</h2><p><strong>优势：</strong></p>
+<ul>
+<li>可以离线使用；</li>
+<li>提高包的安全性，避免公共 npm 包出现漏洞；</li>
+<li>提高包的下载速度；</li>
+</ul>
+<h3 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h3><p><a target="_blank" rel="noopener" href="https://verdaccio.org/zh-cn/docs/installation/">https://verdaccio.org/zh-cn/docs/installation/</a></p>
+<pre><code class="bash">npm install -g verdaccio
+</code></pre>
+<h2 id="npm-ci"><a href="#npm-ci" class="headerlink" title="npm ci"></a>npm ci</h2><p>同 <code>npm install</code>，但是是一种更干净的安装：</p>
+<ul>
+<li>要求 package-lock.json 等锁依赖版本的文件必须存在，且版本必须和 package.json 中要求的版本对应，否则会报错；</li>
+<li>在安装之前先把 node_modules 文件夹（下文可能会称为 modules）删除；</li>
+<li>无法单个安装；</li>
+</ul>
+<blockquote>
+<p>场景：一般用于 docker 镜像构建时使用。</p>
 </blockquote>
 
         </div>
