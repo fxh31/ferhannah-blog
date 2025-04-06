@@ -154,6 +154,60 @@
   
     
       <article
+id="post-Algorithm/monotoneStack"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/12/24/Algorithm/monotoneStack/">单调栈</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>已知单调栈使用场景：</p>
+<h2 id="寻找距离最近的最大-小元素"><a href="#寻找距离最近的最大-小元素" class="headerlink" title="寻找距离最近的最大&#x2F;小元素"></a>寻找距离最近的最大&#x2F;小元素</h2><p>这种场景一般是<strong>从数组的尾部</strong>开始遍历，然后不停地<strong>更新栈中的元素</strong>，使得栈中的元素呈<strong>单调递减&#x2F;增</strong>的序列。</p>
+<h2 id="寻找最长元素段"><a href="#寻找最长元素段" class="headerlink" title="寻找最长元素段"></a>寻找最长元素段</h2><p>与普通单调栈场景不同，需要<strong>预先处理一段数据放入栈中</strong>，然后再<strong>从数组的尾部</strong>开始遍历，符合则<strong>将栈中数据弹出</strong>，比较下一个。</p>
+<ul>
+<li>一般栈中存储的是数组索引下标；</li>
+<li>遍历数组匹配栈顶元素时，一般只会做出栈操作，不会再入栈；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-12-23T16:00:00.000Z" itemprop="datePublished">2024-12-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-JS/requestAnimationFrame"
 class="article article-type-post"
 >
@@ -1318,128 +1372,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Algorithm/sort"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/31/Algorithm/sort/">排序算法</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：</p>
-<ol>
-<li>找到一个基准值，将数组分成两个部分，左边的都比基准值小，右边的都比基准值大。<blockquote>
-<p>基准值一般选用第一个数，然后与最后一个数开始比较</p>
-</blockquote>
-</li>
-<li>左右两个部分又可以进行上述过程，直到左右两个部分都只有一个元素。</li>
-</ol>
-<blockquote>
-<p>可以看出将排序过程采用了分治思想，将问题分解成更小的子问题，然后递归求解，最后合并结果。</p>
-</blockquote>
-<pre><code class="js">function quickSort(arr, start = 0, end = arr.length - 1) &#123;
-  if (start &lt; end) &#123;
-    const base = arr[start]; // 基准值
-    let left = start,
-      right = end;
-    while (left &lt; right) &#123;
-      while (left &lt; right &amp;&amp; base &lt;= arr[right]) &#123;
-        right--;
-      &#125;
-      arr[left] = arr[right];
-      while (left &lt; right &amp;&amp; base &gt;= arr[left]) &#123;
-        left++;
-      &#125;
-      arr[right] = arr[left];
-    &#125;
-    arr[left] = base;
-    quickSort(arr, start, left - 1); // 分治
-    quickSort(arr, left + 1, end); // 分治
-  &#125;
-&#125;
-</code></pre>
-<p><strong>特性</strong></p>
-<ul>
-<li>不稳定</li>
-<li>原地排序</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(logn)</li>
-</ul>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>基本思想：</p>
-<ol>
-<li>分：将组数分成两个子数组，直到不能再分。</li>
-<li>治：将两个子数组合并成一个有序数组。创建一个新数组，再分别为两个子数组设置标志位同向双指针移动比较，将较小的值放入新数组中。</li>
-</ol>
-<blockquote>
-<p>典型分治思想。</p>
-</blockquote>
-<pre><code class="js">function mergeSort(arr) &#123;
-  if (arr.length &lt;= 1) return arr;
-  const mid = arr.length &gt;&gt; 1;
-  const left = arr.slice(0, mid);
-  const right = arr.slice(mid);
-  return merge(mergeSort(left), mergeSort(right));
-&#125;
-
-function merge(left, right) &#123;
-  const result = [];
-  let l = 0,
-    r = 0;
-  while (l &lt; left.length &amp;&amp; r &lt; right.length) &#123;
-    if (left[l] &lt; right[r]) &#123;
-      result.push(left[l++]);
-    &#125; else &#123;
-      result.push(right[r++]);
-    &#125;
-  &#125;
-  result.push(...left.slice(l), ...right.slice(r));
-  return result;
-&#125;
-</code></pre>
-<p><strong>特性</strong></p>
-<ul>
-<li>稳定</li>
-<li>“治”时需要额外的数组空间，并且最终也返回这个数组（非原地排序）</li>
-<li>平均时间复杂度：O(nlogn)；平均空间复杂度：O(n)</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-30T16:00:00.000Z" itemprop="datePublished">2024-10-31</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1487,6 +1419,10 @@ function merge(left, right) &#123;
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
           </li>
         
@@ -1500,10 +1436,6 @@ function merge(left, right) &#123;
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/process/">process</a>
           </li>
         
       </ul>
