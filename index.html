@@ -154,6 +154,130 @@
   
     
       <article
+id="post-JS/eventLoop"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>JS 的代码分为同步任务和异步任务：</p>
+<p><strong>同步任务</strong>：在<strong>主线程上立即执行</strong>的任务，按照代码的顺序依次执行；<br><strong>异步任务</strong>：不进入主线程，<strong>进入任务队列</strong>。只有<strong>任务队列通知主线程执行某个异步任务，该异步任务才会进入主线程</strong>；</p>
+<p>异步任务又分为宏任务和微任务，<strong>任务队列</strong>又分为<strong>宏任务队列</strong>和<strong>微任务队列</strong>：</p>
+<p><strong>宏任务</strong>：主代码块（script）、setTimeout、setInterval、setImmediate、I&#x2F;O、UI rendering，requestAnimationFrame 等；<br><strong>微任务</strong>：Promise.then（async）、MutationObserver、process.nextTick、Object.observe 等；</p>
+<blockquote>
+<p><strong>注意</strong>：为方便总结，我将同步任务（主代码块 script）归结到宏任务中，这样就可以以宏任务开启事件循环。</p>
+</blockquote>
+<ul>
+<li>执行一个宏任务（初始是 script，而后是从任务队列中获取）；<blockquote>
+<p>script 的执行本身是一个宏任务，是事件循环的第一个任务。</p>
+</blockquote>
+</li>
+<li>执行过程中如果<strong>遇到微任务</strong>，就将它<strong>添加到微任务队列</strong>中，遇到<strong>宏任务</strong>就将其放入<strong>宏任务队列</strong>中；</li>
+<li>当前宏任务执行完毕后，立即依次执行当前微任务队列中所有的微任务；</li>
+<li>在执行微任务时，如果遇到了宏任务，会将其放入宏任务队列中，并继续执行微任务队列中的微任务；</li>
+<li>执行完微任务后，执行 UI 渲染，再执行下一个宏任务，重复以上过程。</li>
+</ul>
+<p>此为 js 的<strong>事件循环</strong>机制。以宏任务开始一个事件循环，当所有的微任务执行完毕后（包括执行时微任务时又加入的微任务），再去执行下一个宏任务。</p>
+<p>初始示例：</p>
+<ul>
+<li>主线程：（script：第一个宏任务，同步执行）</li>
+<li>宏任务：script（给主线程）</li>
+<li>微任务：null</li>
+</ul>
+<pre><code class="js">console.log(&quot;script-open&quot;);
+console.log(&quot;1&quot;);
+setTimeout(() =&gt; &#123;
+  console.log(&quot;9-macro&quot;);
+  Promise.resolve(&quot;10&quot;).then((res) =&gt; &#123;
+    console.log(res);
+  &#125;);
+&#125;, 0);
+new Promise((resolve, reject) =&gt; &#123;
+  console.log(&quot;2&quot;);
+  resolve(&quot;4&quot;);
+&#125;)
+  .then((res) =&gt; &#123;
+    console.log(res);
+    setTimeout(() =&gt; &#123;
+      console.log(&quot;11-macro&quot;);
+    &#125;, 0);
+    return Promise.resolve(&quot;7&quot;);
+  &#125;)
+  .then((res) =&gt; &#123;
+    console.log(res);
+
+    return Promise.resolve(&quot;8&quot;);
+  &#125;)
+  .then((res) =&gt; &#123;
+    console.log(res);
+  &#125;);
+
+new Promise((resolve, reject) =&gt; &#123;
+  console.log(&quot;3&quot;);
+  resolve(&quot;5&quot;);
+&#125;).then((res) =&gt; &#123;
+  console.log(res);
+&#125;);
+
+const el = document.querySelector(&quot;#app&quot;);
+const observer = new MutationObserver((mutationList, observer) =&gt; &#123;
+  console.log(&quot;6-observer&quot;, mutationList);
+&#125;);
+observer.observe(el, &#123; subtree: true, childList: true &#125;);
+
+// 1 2 3 4 5 6-observer 7 8 9-macro 10 11-macro
+</code></pre>
+<h1 id="Vue-与事件循环"><a href="#Vue-与事件循环" class="headerlink" title="Vue 与事件循环"></a>Vue 与事件循环</h1><p>Vue 中的一些语法和钩子函数与事件循环的关系。</p>
+<ul>
+<li>创建阶段（setup、create）：同步任务（script）；</li>
+<li>onMounted：第一个微任务；</li>
+<li>nextTick：下一轮事件循环（下一个 tick）的微任务队首；<blockquote>
+<p>例如：如果和 onMounted 在同一层，则在 onMounted 后的一个事件循环的队首。</p>
+</blockquote>
+</li>
+<li>watchEffect：同步任务（script）；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-04-14T14:31:11.569Z" itemprop="datePublished">2025-04-14</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-micro-frontends/index"
 class="article article-type-post"
 >
@@ -914,77 +1038,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Node/Advanced/index"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>Nodejs 是 JS 的<strong>运行时</strong>环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
-<li>Nodejs 使用异步 I&#x2F;O 和事件驱动设计理念，可以高效地处理大量并发请求，提供了非阻塞式 I&#x2F;O 接口和事件循环机制；<blockquote>
-<p>异步 I&#x2F;O 最终都是由 libuv 事件循环库去实现的。</p>
-</blockquote>
-</li>
-<li>Nodejs 依靠 libuv，<strong>适合处理一些 IO 密集型应用</strong>；<blockquote>
-<p>由于 js 的单线程，很容易造成 cpu 占用率高，不适合 cpu 密集型应用（图像处理、音频处理等需要大量数据结构 + 算法）；如果非要写可以使用 c++ 插件或 Nodejs 提供的 cluster。</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>常见的一些库和框架都需要依赖 nodejs 环境。</p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="定义全局变量"><a href="#定义全局变量" class="headerlink" title="定义全局变量"></a>定义全局变量</h2><p>Nodejs 可以使用<code>global.xx</code>去定义一个任何模块都能访问到的全局变量。</p>
-<p>但是 <strong>ES2020 新增了一个<code>globalThis</code><strong>可以</strong>兼容浏览器（window）和 Nodejs 的全局变量</strong>。<code>globalThis</code>会自己根据环境变换为 window 或 global，可实现跨平台访问全局变量。</p>
-<h2 id="内置-API"><a href="#内置-API" class="headerlink" title="内置 API"></a>内置 API</h2><ul>
-<li><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；</li>
-<li><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</li>
-<li>Buffer</li>
-<li>process</li>
-<li>fetch<blockquote>
-<p>node18+ 支持，和浏览器一样。</p>
-</blockquote>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-10T16:00:00.000Z" itemprop="datePublished">2025-03-11</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1032,6 +1085,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
           </li>
         
@@ -1045,10 +1102,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>

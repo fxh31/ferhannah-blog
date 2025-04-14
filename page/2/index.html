@@ -154,6 +154,77 @@
   
     
       <article
+id="post-Node/Advanced/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
+<li>Nodejs 是 JS 的<strong>运行时</strong>环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
+<li>Nodejs 使用异步 I&#x2F;O 和事件驱动设计理念，可以高效地处理大量并发请求，提供了非阻塞式 I&#x2F;O 接口和事件循环机制；<blockquote>
+<p>异步 I&#x2F;O 最终都是由 libuv 事件循环库去实现的。</p>
+</blockquote>
+</li>
+<li>Nodejs 依靠 libuv，<strong>适合处理一些 IO 密集型应用</strong>；<blockquote>
+<p>由于 js 的单线程，很容易造成 cpu 占用率高，不适合 cpu 密集型应用（图像处理、音频处理等需要大量数据结构 + 算法）；如果非要写可以使用 c++ 插件或 Nodejs 提供的 cluster。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>常见的一些库和框架都需要依赖 nodejs 环境。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="定义全局变量"><a href="#定义全局变量" class="headerlink" title="定义全局变量"></a>定义全局变量</h2><p>Nodejs 可以使用<code>global.xx</code>去定义一个任何模块都能访问到的全局变量。</p>
+<p>但是 <strong>ES2020 新增了一个<code>globalThis</code><strong>可以</strong>兼容浏览器（window）和 Nodejs 的全局变量</strong>。<code>globalThis</code>会自己根据环境变换为 window 或 global，可实现跨平台访问全局变量。</p>
+<h2 id="内置-API"><a href="#内置-API" class="headerlink" title="内置 API"></a>内置 API</h2><ul>
+<li><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；</li>
+<li><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</li>
+<li>Buffer</li>
+<li>process</li>
+<li>fetch<blockquote>
+<p>node18+ 支持，和浏览器一样。</p>
+</blockquote>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-10T16:00:00.000Z" itemprop="datePublished">2025-03-11</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/npm"
 class="article article-type-post"
 >
@@ -1615,244 +1686,6 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
 
     
   
-    
-      <article
-id="post-UniApp/Vue速通uniapp"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/01/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="迁移对比"><a href="#迁移对比" class="headerlink" title="迁移对比"></a>迁移对比</h1><p>uni-app 与 Vue 相对比。</p>
-<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><ul>
-<li>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置：<ul>
-<li>按下样式</li>
-<li>事件冒泡</li>
-<li>手指按住和松开状态时间</li>
-</ul>
-</li>
-</ul>
-<h2 id="html"><a href="#html" class="headerlink" title="html"></a>html</h2><p>uni-app 与 html 的标签对应。</p>
-<ul>
-<li>view：div</li>
-<li>text：span</li>
-<li>ul&#x2F;li：view v-for</li>
-<li>img：image</li>
-<li>a：navigator</li>
-<li>iframe：web-view</li>
-<li>select：picker</li>
-<li>table：uni-table</li>
-</ul>
-<blockquote>
-<p>其他没提到的大致相同。</p>
-</blockquote>
-<h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><ul>
-<li>一些在 <strong>css 需要设置定义的属性可直接通过对应容器和标签属性来开启</strong>：scroll-view</li>
-</ul>
-<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h2 id="视图容器"><a href="#视图容器" class="headerlink" title="视图容器"></a>视图容器</h2><ul>
-<li>view：div</li>
-<li>scroll-view：区域滚动。</li>
-<li>swiper：滑块区域。类似实现轮播图。</li>
-</ul>
-<h2 id="表单组件"><a href="#表单组件" class="headerlink" title="表单组件"></a>表单组件</h2><ul>
-<li>button：原生组件就跟用了组件库的效果差不多，还可以设置大小，样式。</li>
-<li>input：输入框，同 html 差不多，但是还可以指定设备弹出键盘。</li>
-<li>switch：开关。</li>
-</ul>
-<h2 id="路由（页面跳转）"><a href="#路由（页面跳转）" class="headerlink" title="路由（页面跳转）"></a>路由（页面跳转）</h2><ul>
-<li>navigator：可设置是否可以返回上一个页面（<code>open-type</code>）。</li>
-</ul>
-<h2 id="媒体组件"><a href="#媒体组件" class="headerlink" title="媒体组件"></a>媒体组件</h2><ul>
-<li>image：通过 <code>mode</code> 属性来设置图像相对容器的适应（缩放、裁剪等）。</li>
-</ul>
-<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><h2 id="页面级别"><a href="#页面级别" class="headerlink" title="页面级别"></a>页面级别</h2><ul>
-<li><p><strong>onLoad</strong>：页面进入后执行（只执行一次）。</p>
-<blockquote>
-<p>默认参数接收 url 参数，代替 vue-router。</p>
-</blockquote>
-</li>
-<li><p><strong>onShow</strong>（keep-alive）：进入页面时触发，离开页面再回来也能触发。</p>
-<blockquote>
-<p>广告植入（讨厌）。</p>
-</blockquote>
-</li>
-<li><p><strong>onReady</strong>（onMounted）（只执行一次）。</p>
-</li>
-<li><p><strong>onHide</strong>：离开页面时触发。</p>
-<blockquote>
-<p>清除生命周期钩子等。</p>
-</blockquote>
-</li>
-<li><p><strong>onUnload</strong>：需要配置 <code>open-type=reLaunch</code>。</p>
-<blockquote>
-<p>卸载页面是进行数据缓存的清理。</p>
-</blockquote>
-</li>
-<li><p>onPageScroll：监听页面滚动。</p>
-</li>
-<li><p>onPullDownRefresh：监听用户下拉动作。</p>
-<blockquote>
-<p>下拉刷新。</p>
-</blockquote>
-</li>
-<li><p>onReachBottom：页面滚动到底部的事件（不是 scroll-view 滚到底）。</p>
-<blockquote>
-<p>用于下拉到下一页数据。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="应用级别"><a href="#应用级别" class="headerlink" title="应用级别"></a>应用级别</h2><ul>
-<li><p><strong>onLaunch</strong>：第一次进入应用执行。</p>
-<blockquote>
-<p>验证本地缓存是否有登录信息。</p>
-</blockquote>
-</li>
-<li><p><strong>onShow</strong>：应用级别。（全局）</p>
-</li>
-<li><p><strong>onHide</strong>：应用级别。（全局）</p>
-</li>
-</ul>
-<h2 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h2><blockquote>
-<p>应用 -&gt; 页面</p>
-</blockquote>
-<p><strong>不包含组件</strong>：</p>
-<p><strong>onLoad -&gt; onShow -&gt;onReady</strong></p>
-<p><strong>包含组件</strong>：</p>
-<p><strong>onLoad -&gt; onShow -&gt; setup -&gt; beforeMount -&gt; onReady -&gt; mounted</strong></p>
-<blockquote>
-<p>onReady 和 mounted 文档是 onReady 在后面，但实际测试确实在前面执行？</p>
-</blockquote>
-<p><strong>uni-app 的生命周期虽然支持与 Vue 混用，但是最好还是只用一个。</strong></p>
-<h1 id="尺寸单位"><a href="#尺寸单位" class="headerlink" title="尺寸单位"></a>尺寸单位</h1><h2 id="rpx"><a href="#rpx" class="headerlink" title="rpx"></a>rpx</h2><p>微信小程序提出的一种用于响应式布局的单位，可以根据屏幕自适应的动态单位。（以 750 像素为基准）</p>
-<blockquote>
-<p>一般来说 UI 稿子等比缩放宽以 750 为基准。</p>
-</blockquote>
-<h1 id="pages-json"><a href="#pages-json" class="headerlink" title="pages.json"></a>pages.json</h1><p>该文件可以：</p>
-<ul>
-<li><strong>定义路由</strong>。对于每个路由页面也<strong>可也设置单独的窗口页面表现</strong>。pages</li>
-<li><strong>设置默认窗口页面表现</strong>（导航栏等）。globalStyle</li>
-<li>设置<strong>自动引入组件规则</strong>（默认开启）。easycom</li>
-<li>设置<strong>页面底部切换按钮栏</strong>。tabBar</li>
-<li>模拟直达页面场景（仅限开发，用于测试）。condition</li>
-</ul>
-<h1 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h1><p>进行一些应用的配置。</p>
-<ul>
-<li><p>如果想上传应用，或者进行真机调试，需要定义好 AppId。</p>
-<blockquote>
-<p>这个 AppId 需要进行小程序注册才可以获得</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><blockquote>
-<p>注意：针对不同的平台可能某些 API 或者事件等不可使用，具体需要查阅官方标准。</p>
-</blockquote>
-<ul>
-<li><p>有些标签的名字有变化：div（view）、span（text）</p>
-</li>
-<li><p>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置；</p>
-</li>
-<li><p>一些之前需要<strong>引用组件库或者手写的样式，直接被容器集成</strong>了；并且可以在<strong>容器上直接设置属性来设置</strong>，<strong>无需使用 js</strong>；</p>
-</li>
-<li><p>使用路由跳转时可设置 <code>open-type</code> 模式来控制跳转后上一个页面的行为（是否可以回跳）；</p>
-</li>
-<li><p>Vue 的<strong>一些语法和事件可以参照官方对照表</strong>将其一一对应起来；</p>
-</li>
-<li><p>uni-app <strong>有对应的 js&#x2F;vue 事件，也有自己原生的事件</strong>；</p>
-</li>
-<li><p>uni-app 中的<strong>组件不需要手动导入，只需要放在 components 文件夹</strong>下即可；</p>
-</li>
-<li><p>uni-app 中的生命周期除了继承 Vue 的组件生命周期，还有应用级别和页面级别的生命周期；</p>
-</li>
-<li><p>可以在 uni.scss 中<strong>定义一些全局的 css 变量</strong>；也可以指定<strong>小程序特有的环境变量（例如 env(safe-area-inset-bottom)）来设置其独有的样式属性</strong>。</p>
-<blockquote>
-<p>如果想定义局部的变量可以在 common 文件夹中定义好后，在 uni.scss 中使用<code>@import</code>导入，重启生效。</p>
-</blockquote>
-</li>
-<li><p>内置有 API 可以完成交互反馈（uni.showToast 等），类似于全局封装好的组件；</p>
-</li>
-<li><p>发送请求也可<strong>以使用 uni.request 完成，自身支持 Promise，不需要额外使用 axios 等网络请求库</strong>；</p>
-</li>
-<li><p>可直接配置跨域；</p>
-<blockquote>
-<p>微信小程序：在本地设置配置不检验 https，上线时在小程序的后台里配置服务器域名即可。</p>
-</blockquote>
-</li>
-<li><p>官方有扩展组件可直接安装使用（官方组件库）；</p>
-<blockquote>
-<p>安装好之后会出现在 uni_modules 底下。</p>
-</blockquote>
-</li>
-<li><p>对于不同端的适配，<strong>可以使用<code>#ifdef</code>、<code>#ifndef</code>和<code>#endif</code>来根据设备控制不同的 dom 元素渲染</strong>；</p>
-<blockquote>
-<p>例如对于小程序来说可以配置联系客服，就可以直接到达客服的微信；而对于 pc 端，可以展示电话号码。</p>
-</blockquote>
-</li>
-<li><p>改变小程序<strong>内置图标样式也需添加一个类名，再深度选择即可</strong>；</p>
-</li>
-<li><p>针对不同的设备，<strong>uni-app 会提供 api 来获取当前设备的信息，我们可以根据里面的设备型号做处</strong>理；</p>
-<blockquote>
-<p>uni.getSystemInfoSync、uni.getSystemInfo。</p>
-</blockquote>
-</li>
-<li><p>一些样式需要和<strong>胶囊按钮对齐</strong>，可以用 <strong>api 获取胶囊按钮的位置信息，做动态的自适应</strong>；</p>
-<blockquote>
-<p>uni.getMenuButtonBoundingClientRect。一般将其抽离出来在 utils 下的 system.ts 中。</p>
-</blockquote>
-</li>
-<li><p><strong>路由传参直接拼在 url</strong> 上，再在<strong>组件内的生命周期的默认参数中获取</strong>；</p>
-<blockquote>
-<p>navigator；load。</p>
-</blockquote>
-</li>
-<li><p>uni-app 中同样也可以将<strong>数据放入缓存</strong>中；</p>
-<blockquote>
-<p>uni.setStorage。</p>
-</blockquote>
-</li>
-<li><p>调用小程序 api 分享时，可以<strong>通过 url 传参到达指定的分享页面</strong>；</p>
-</li>
-<li><p>对于<strong>富文本的渲染</strong>，<strong>uni-app 有专门的插件，还可以渲染 dom 元素</strong>；</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-02-28T16:00:00.000Z" itemprop="datePublished">2025-03-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1900,6 +1733,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
           </li>
         
@@ -1913,10 +1750,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>

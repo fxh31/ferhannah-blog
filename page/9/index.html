@@ -154,6 +154,117 @@
   
     
       <article
+id="post-Node/Node模块（module）的导出导入"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2023/09/04/Node/Node%E6%A8%A1%E5%9D%97%EF%BC%88module%EF%BC%89%E7%9A%84%E5%AF%BC%E5%87%BA%E5%AF%BC%E5%85%A5/">Node模块（module）的导出导入</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <pre><code class="js">const requestHandler = () =&gt; &#123;&#125;;
+</code></pre>
+<h2 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h2><h3 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h3><ul>
+<li><p>整体模块导出</p>
+<pre><code class="js">module.exports = requestHandler;
+</code></pre>
+<blockquote>
+<p>该导出方式的导出函数会作为整个文件的导出结果，不支持重命名。</p>
+</blockquote>
+</li>
+<li><p>对象表示导出</p>
+<pre><code class="js">module.exports = &#123;
+  handler: requestHandler,
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一次性导出多个变量，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>简写默认导出</p>
+<pre><code class="js">exports = &#123;
+  someText: &quot;导出的一些字符串&quot;,
+&#125;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：<strong>默认导出的内容不会出现在全局对象<code>exports</code>上</strong>，只有命名导出的内容才会出现。</p>
+</blockquote>
+<h3 id="命名导出"><a href="#命名导出" class="headerlink" title="命名导出"></a>命名导出</h3><ul>
+<li><p>属性表示导出</p>
+<pre><code class="js">module.exports.handler = requestHandler;
+module.exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+<blockquote>
+<p>该导出方式可以一条一条导出，支持重命名。</p>
+</blockquote>
+</li>
+<li><p>属性表示导出（快捷方式）</p>
+<pre><code class="js">exports.handler = requestHandler;
+exports.someText = &quot;导出的一些字符串&quot;;
+</code></pre>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：命名导出（<code>exports.xxx</code>）和默认导出（<code>exports</code>）不可以同时使用。<strong>如果一个模块中同时使用了命名导出和默认导出，则命名导出将被忽略，只有默认导出的内容会被导出。</strong></p>
+</blockquote>
+<h2 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h2><p>使用<code>require</code>导入我们导出函数或属性的文件：</p>
+<pre><code class="js">const routes = require(&quot;./routes&quot;);
+</code></pre>
+<ul>
+<li><p>对于整体模块导出的导入</p>
+<pre><code class="js">// routes就是requestHandler
+console.log(routes);
+</code></pre>
+</li>
+<li><p>对于其他导出的导入</p>
+<pre><code class="js">// 需要用.来对应
+console.log(routes.handler);
+console.log(routes.someText);
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Node.js常用包"
 class="article article-type-post"
 >
@@ -1912,64 +2023,6 @@ addProduct(product, &#123;
 
     
   
-    
-      <article
-id="post-Node/身份认证（Authentication）"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ul>
-<li><p>用户发动登录请求（之前已经注册了用户信息）到服务端，服务端验证用户信息是否有效，数据库中是否存有该用户的信息（此时服务器会为用户创建一个识别用户的 session）。</p>
-<blockquote>
-<p>如果没有 session，即使用户发送的登录信息是有效的，用户下一个请求仍然会被注销登录，因为请求和请求之间是完全独立分开的，所以我们需要一个 session 来连接它们。</p>
-</blockquote>
-</li>
-<li><p>验证成功后服务器会返回一个状态码为 200 的响应，将对应存储的 seesion ID 返回给浏览器并使用 cookie 存储 。</p>
-</li>
-<li><p><strong>cookie 会伴随每个请求发送，服务器可以根据 cookie 中的 session ID 来找到对应的 session 数据</strong>（如是否登录等信息）。</p>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-02T16:00:00.000Z" itemprop="datePublished">2023-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -2017,6 +2070,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
           </li>
         
@@ -2030,10 +2087,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
           </li>
         
       </ul>
