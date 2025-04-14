@@ -154,6 +154,77 @@
   
     
       <article
+id="post-Node/Express/Express.js中间件的包"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <ul>
+<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
+<pre><code class="bash">npm install --save body-parser
+</code></pre>
+<blockquote>
+<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
+</blockquote>
+<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
+...
+app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
+</code></pre>
+</li>
+<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
+<blockquote>
+<p>此包依赖 express 和 express-session。</p>
+</blockquote>
+<pre><code class="bash">npm install --save csurf
+</code></pre>
+</li>
+<li><p>express-validator：Express 验证器</p>
+<pre><code class="bash">npm install --save express-validator
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-UniApp/Vue速通uniapp"
 class="article article-type-post"
 >
@@ -1168,65 +1239,6 @@ o2 = reversed(org) # reversed()
 
     
   
-    
-      <article
-id="post-Algorithm/binaryTree"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/05/Algorithm/binaryTree/">二叉树</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>根据不同的遍历顺序和对根节点的操作，可以分为<strong>前序遍历、中序遍历、后序遍历</strong>。其根本原理就是递归查询，直到找到叶子节点的子节点（null），然后返回 null。</p>
-<blockquote>
-<p>思考：树节点的遍历有点类似于 js 的捕获冒泡，捕获阶段对应从根节点遍历到叶子节点，冒泡阶段对应从叶子节点处理逻辑回到根节点，这也被称为<strong>递归</strong>。</p>
-</blockquote>
-<p>相关问题只要掌握好二叉树的遍历顺序，就能解决。</p>
-<h2 id="对二叉树进行操作"><a href="#对二叉树进行操作" class="headerlink" title="对二叉树进行操作"></a>对二叉树进行操作</h2><ol>
-<li>确定遍历方法；</li>
-<li>确定每一层节点的操作是什么；</li>
-</ol>
-<blockquote>
-<p>剩下的就交给递归。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-01-04T16:00:00.000Z" itemprop="datePublished">2025-01-05</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1274,6 +1286,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
           </li>
         
@@ -1287,10 +1303,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
       </ul>

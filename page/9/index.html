@@ -154,6 +154,175 @@
   
     
       <article
+id="post-Node/Node中使用ES Modules规范"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2023/09/04/Node/Node%E4%B8%AD%E4%BD%BF%E7%94%A8ES%20Modules%E8%A7%84%E8%8C%83/">Node中使用ES Modules规范</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>在 Node.js 中一般是使用的 Common.js 规范，但是从<code>Node.js 8.5</code>版本之后，Node.js 就已经开始去支持 ES Modules 了（实验性），从<code>Node.js 13.2.0</code>版本开始，<strong>Node.js 完全支持 ES Modules（ESM）</strong>，所以我们可以直接在 Node.js 中使用 ES Modules。</p>
+<h2 id="开启使用"><a href="#开启使用" class="headerlink" title="开启使用"></a>开启使用</h2><h3 id="更改文件后缀名使用"><a href="#更改文件后缀名使用" class="headerlink" title="更改文件后缀名使用"></a>更改文件后缀名使用</h3><p>将<code>js</code>文件的后缀改为<code>.mjs</code>即可在里面使用 ES Modules 规范。</p>
+<blockquote>
+<p>注：如果是实验特性，在执行 node 文件时则需要添加<code>--experimental-modules</code>。</p>
+</blockquote>
+<h3 id="开启-type-’module’使用"><a href="#开启-type-’module’使用" class="headerlink" title="开启 type&#x3D;’module’使用"></a>开启 type&#x3D;’module’使用</h3><blockquote>
+<p>该方法需要的版本为 Node 12+。</p>
+</blockquote>
+<p>在<code>package.json</code>里添加<code>&quot;type&quot;: &quot;module&quot;</code>来表明该项目使用的是 ES Modules 的语法，这时就不需要将扩展名改为<code>.mjs</code>了。</p>
+<pre><code class="json">&#123;
+  &quot;type&quot;: &quot;module&quot;
+&#125;
+</code></pre>
+<blockquote>
+<p>注意：如果在开启之后还想使用 CommonJS 模块的规范，需要<strong>将文件的后缀名改为<code>.cjs</code>。</strong></p>
+</blockquote>
+<h3 id="使用-Babel-兼容早期的-Node"><a href="#使用-Babel-兼容早期的-Node" class="headerlink" title="使用 Babel 兼容早期的 Node"></a>使用 Babel 兼容早期的 Node</h3><p>对于早期的 Node.js 版本，可以使用 Babel 来实现对 ES Modules 的兼容。</p>
+<blockquote>
+<p><strong>Babel</strong>：目前最主流的一款 JS 的编译器，它可以将当前一些使用了<strong>新特性的代码编译成当前环境支持的代码。</strong></p>
+</blockquote>
+<ul>
+<li><p><strong>添加 babel 所依赖的一些包：</strong></p>
+<pre><code class="bash">yarn add @babel/node @babel/core @babel/preset-env --dev
+</code></pre>
+</li>
+<li><p><strong>启动模块：</strong></p>
+<pre><code class="bash">yarn babel-node index.js --presets=@babel/preset-env
+</code></pre>
+<blockquote>
+<p>preset-env：其实就<strong>是插件的集合</strong>，在这个集合里包含了最新的 JS 标准中所有的新特性。</p>
+</blockquote>
+<p>如果觉得每次手动配置这个参数很麻烦，可以在配置文件<code>.babelrc</code>（JSON 格式文件）添加<code>presets</code>配置：</p>
+<pre><code class="json">&#123;
+  &quot;presets&quot;: [&quot;@babel/preset-env&quot;]
+&#125;
+</code></pre>
+<p>启动：</p>
+<pre><code class="bash">yarn babel-node index.js
+</code></pre>
+<p>由于 <strong>babel 是基于插件机制去实现的</strong>，核心模块并不会去转换我们的代码，<strong>具体转换每个代码的新特新是通过插件来实现的，一个插件来转换一个代码的特性。</strong></p>
+<p>但是，如果项目中只使用了某些特性，而其他不支持的特性没有使用，也可也<strong>单独下载转换特性的插件来提高</strong>效率：</p>
+<p>移除插件集合：</p>
+<pre><code class="bash">yarn remove @babel/preset-env
+</code></pre>
+<p>添加转换的插件：</p>
+<pre><code class="bash">yarn add @babel/plugin-transform-modules-commonjs --dev
+</code></pre>
+<blockquote>
+<p>还有别的一些转换特性的插件，例如：</p>
+<ul>
+<li>arrow-functions：用于转换 JS 的箭头函数；</li>
+<li>classes：用于转换 JS 的类；</li>
+<li>destructuring：用于转换解构；</li>
+<li>module-commonjs：用于转换 ES Module；</li>
+<li>…</li>
+</ul>
+</blockquote>
+<p>然后配置<code>.babelrc</code>里的 plugins：</p>
+<pre><code class="json">&#123;
+  &quot;plugins&quot;: [&quot;@babel/plugin-transform-modules-commonjs&quot;]
+&#125;
+</code></pre>
+<p>启动：</p>
+<pre><code class="bash">yarn babel-node index.js
+</code></pre>
+</li>
+</ul>
+<h2 id="载入模块"><a href="#载入模块" class="headerlink" title="载入模块"></a>载入模块</h2><p>可以通过 ES Modules 的方式载入模块。</p>
+<ul>
+<li><p><strong>载入原生模块</strong></p>
+<pre><code class="js">import fs from &quot;fs&quot;;
+fs.writeFileSync(&quot;./foo.txt&quot;, &quot;es module working&quot;);
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：系统内置模块的成员可以被<code>&#123;&#125;</code>提取出来，因为系统内置的模块官方都做了兼容，它会对系统内置的每一个模块的成员单独导出一次，然后再把他们作为一个对象整体做一个模块导出。</p>
+<pre><code class="js">import &#123; writeFileSync &#125; from &quot;fs&quot;;
+writeFileSync(&quot;./bar.txt&quot;, &quot;es module working&quot;);
+</code></pre>
+</blockquote>
+</li>
+<li><p><strong>载入第三方模块</strong></p>
+<blockquote>
+<p>前提是已经安装。</p>
+</blockquote>
+<pre><code class="js">import _ from &quot;lodash&quot;;
+console.log(_.camelCase(&quot;ES Module&quot;));
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：对于第三方模块，它们导出的是一个作为默认成员的对象，所以必须使用默认导入的方式去导入成员，不能使用单个命名导入。</p>
+<pre><code class="js">// import &#123; camelCase &#125; from &#39;lodash&#39; // 不可以使用，其本身语法也和对象解构无关
+</code></pre>
+</blockquote>
+</li>
+</ul>
+<h2 id="与使用-CommonJS-规范的对比"><a href="#与使用-CommonJS-规范的对比" class="headerlink" title="与使用 CommonJS 规范的对比"></a>与使用 CommonJS 规范的对比</h2><p>ES Modules 里不再提供以下全局成员变量（CommonJS 里会提供）。</p>
+<pre><code class="js">// commonjs.js
+// CommonJS 模块内的全局成员（Node环境下）
+
+console.log(require); // 加载模块函数
+console.log(module); // 模块对象
+console.log(exports); // 导出对象别名
+console.log(__filename); // 当前文件的绝对路径
+console.log(__dirname); // 当前文件所在目录
+</code></pre>
+<p>对于<code>require</code>、<code>module</code>和<code>exports</code>可以通过 ES Modules 中的<code>import</code>（<code>import()</code>）和<code>export</code>来代替它们导入模块，而对于<code>__filename</code>和<code>__dirname</code>可以通过<code>import.meta.url</code>和<code>dirname</code>方法代替：</p>
+<pre><code class="js">import &#123; fileURLToPath &#125; from &quot;url&quot;;
+import &#123; dirname &#125; from &quot;path&quot;;
+
+const __filename = fileURLToPath(import.meta.url); // 将拿到的文件url转换成路径
+console.log(__filename);
+const __dirname = dirname(__filename); // 完整的文件路径提取出来
+console.log(__dirname);
+</code></pre>
+<blockquote>
+<ul>
+<li><code>__filename</code>：表示当前模块文件的绝对路径，包括文件名。</li>
+<li><code>__dirname</code>：表示当前模块文件所在的目录的绝对路径，不包括文件名。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>注：在 Node.js 中加载 CommonJS 模块里的原代码，这几个成员其实也是把当前这几个的模块包装成函数或者是形参，它实际上也是伪全局对象。（在外侧包裹一个函数，从而实现私有模块作用域）</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2023-09-03T16:00:00.000Z" itemprop="datePublished">2023-09-04</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Node模块（module）的导出导入"
 class="article article-type-post"
 >
@@ -1676,353 +1845,6 @@ app.use(
 
     
   
-    
-      <article
-id="post-Node/Sequelize"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/03/Node/Sequelize/">Sequelize</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Sequelize 是一个<strong>基于promise</strong>的 <em>Node.js</em> <strong>ORM（对象关系映射库—Object-Relational Mapping Library）</strong>。它具有强大的事务支持，关联关系，预读和延迟加载，读取复制等功能。</p>
-<blockquote>
-<p>它将所有的SQL语句代码映射到Javascript对象中（封装），然后导出变成我们可调用的方法，这样我们就<strong>不用自己编写SQL语句代码</strong>。</p>
-<p>例如：</p>
-<pre><code class="sql">INSERT INTO users VALUE (&#39;Jon&#39;, 28, &#39;HJDFKLS&#39;)
-</code></pre>
-<p>——&gt;</p>
-<pre><code class="js">const user = User.create(&#123; name: &#39;Jon&#39;, age: 28, password: &#39;HJDFKLS&#39;&#125;)
-</code></pre>
-</blockquote>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
-<p>注意：sequelize需要安装数据库的驱动程序，我使用的数据库是MySQL，所以需要安装<strong>mysql2</strong>包！</p>
-</blockquote>
-<pre><code class="bash">npm install --save sequelize
-</code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>database.js</p>
-<pre><code class="js">const Sequelize = require(&#39;sequelize&#39;); // 引入sequelize
-
-const sequelize = new Sequelize(&#39;node-complete&#39;, &#39;root&#39;, &#39;rootpassword&#39;, &#123; // 数据库的库名，用户名，密码以及其他配置
-  dialect: &#39;mysql&#39;, // 数据库语言
-  host: &#39;localhost&#39;, // 连接服务器
-&#125;);
-
-module.exports = sequelize; // @1
-</code></pre>
-<blockquote>
-<p>@1：导出的sequelize对象<strong>本质上也是数据库连接池</strong>（同mysql2连接），只不过通过sequelize管理后我们能使用其他的一些功能。</p>
-</blockquote>
-<h3 id="定义新模型"><a href="#定义新模型" class="headerlink" title="定义新模型"></a>定义新模型</h3><p>使用<code>define()</code>来定义一个新的模型（数据表），它的第一个参数为模型名称（表名），第二个参数为模型的各个参数（表中字段）：</p>
-<p>models&#x2F;product.js</p>
-<pre><code class="js">const Sequelize = require(&#39;sequelize&#39;);
-
-const sequelize = require(&#39;../util/database&#39;);
-
-const Product = sequelize.define(&#39;product&#39;, &#123;
-  id: &#123;
-    type: Sequelize.INTEGER, // 类型
-    autoIncrement: true, // 是否自增
-    allowNull: false, // 是否为Null
-    primaryKey: true // 主键
-  &#125;,
-  title: Sequelize.STRING,
-  price: &#123;
-    type: Sequelize.DOUBLE,
-    allowNull: false
-  &#125;,
-  imageUrl: &#123;
-    type: Sequelize.STRING,
-    allowNull: false
-  &#125;,
-  description: &#123;
-    type: Sequelize.STRING,
-    allowNull: false
-  &#125;
-&#125;);
-
-module.exports = Product;
-</code></pre>
-<h3 id="创建新的表"><a href="#创建新的表" class="headerlink" title="创建新的表"></a>创建新的表</h3><p><strong>将创建的模型转为数据库中的表</strong>：</p>
-<p>app.js</p>
-<pre><code class="js">...
-const sequelize = require(&#39;./util/database&#39;);
-
-sequelize
-  .sync() // @2
-  .then(result =&gt; &#123;
-    app.listen(3000);
-  &#125;)
-  .catch(err =&gt; &#123;
-    console.log(err);
-  &#125;);
-...
-</code></pre>
-<blockquote>
-<p>注：如果数据库中没有这个表，则创建；如果已经存在这个表<strong>则不会覆盖原先的表</strong>。</p>
-<p>@2：如果已经创建了表，想要新建一个覆盖原来的表，可以设置<code>force</code>：</p>
-<pre><code class="js">.sync( &#123; force: true &#125;)
-</code></pre>
-<p>表创建完需删除<code>force</code>，避免每次更新项目都重新创建新表。</p>
-</blockquote>
-<p>之后数据库会自动创建一个与模型字段及信息对应的表。</p>
-<h3 id="向表中新增一条数据"><a href="#向表中新增一条数据" class="headerlink" title="向表中新增一条数据"></a>向表中新增一条数据</h3><p>通过<code>create()</code>向表中新增一条数据：</p>
-<pre><code class="js">...
-const Product = require(&#39;../models/product&#39;);
-
-router.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const price = req.body.price;
-    const description = req.body.description;
-
-    Product.create(&#123;
-      title: title,
-      price: price,
-      imageUrl: imageUrl,
-      description: description
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;Created Product&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; &#123;
-      console.log(err);
-    &#125;)
-&#125;);
-</code></pre>
-<h3 id="查询表中数据"><a href="#查询表中数据" class="headerlink" title="查询表中数据"></a>查询表中数据</h3><h4 id="findAll"><a href="#findAll" class="headerlink" title="findAll()"></a><strong>findAll()</strong></h4><p>通过<code>findAll()</code>来查询表中所有数据：</p>
-<ul>
-<li><p>查询表中所有数据：</p>
-<pre><code class="js">router.get(&#39;/products&#39;, (req, res, next) =&gt; &#123;
-  Product.findAll()
-    .then(products =&gt; &#123;
-      res.render(&#39;shop/index&#39;, &#123;
-        prods: products, 
-        pageTitle: &#39;Shop&#39;,
-        path : &quot;/&quot;,
-      &#125;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-</li>
-<li><p>查询id为prodId的数据：</p>
-<pre><code class="js">router.get(&#39;/products/:productId&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.params.productId;
-  Product.findAll(&#123; where: &#123; id: prodId&#125; &#125;)
-    .then(products =&gt; &#123;
-      res.render(&#39;shop/index&#39;, &#123;
-        prods: products[0], 
-        pageTitle: products[0].title,
-        path : &quot;/products&quot;,
-      &#125;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<blockquote>
-<p>注意：通过<code>where</code>子句返回的then的参数是一个<strong>数组</strong>。</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="findByPk"><a href="#findByPk" class="headerlink" title="findByPk()"></a><strong>findByPk()</strong></h4><p>使用提供的<strong>主键</strong>从表中仅获得一条数据：</p>
-<pre><code class="js">const Product = require(&#39;../models/product&#39;);
-// 此处主键在数据库中为id
-router.get(&#39;/products/:productId&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.params.productId;
-  Product.findByPk(prodId)
-    .then((product) =&gt; &#123;
-      res.render(&#39;shop/product-detail&#39;, &#123; 
-        product: product,
-        pageTitle: product.title,
-        path: &#39;/products&#39;
-      &#125;)
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<h3 id="修改表中数据"><a href="#修改表中数据" class="headerlink" title="修改表中数据"></a>修改表中数据</h3><p>通过主键（id）找到对应数据后，在本地修改数据，修改完后通过<code>save()</code>方法将修改完的数据发送给数据库，如果数据库中存在修改的数据就覆盖它，如果不存在就新建它：</p>
-<pre><code class="js">...
-router.post(&#39;/edit-product&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.body.productId;
-  const updatedTitle = req.body.title;
-  const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
-  const updatedDesc = req.body.description;
-  Product.findByPk(prodId)
-    .then(product =&gt; &#123;
-      product.title = updatedTitle; // 在本地修改数据
-      product.price = updatedPrice; // 在本地修改数据
-      product.description = updatedDesc; // 在本地修改数据
-      product.imageUrl = updatedImageUrl; // 在本地修改数据
-      return product.save(); // 将修改好的数据发给数据库，返回一个Promise
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;UPDATED PRODUCT!&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-...
-</code></pre>
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><p>通过<code>destroy()</code>来删除数据：</p>
-<ul>
-<li><p>删除指定ID数据：</p>
-<pre><code class="js">...
-router.post(&#39;/delete-product&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.body.productId;
-  Product.findByPk(prodId)
-    .then(product =&gt; &#123;
-      return product.destroy();
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;DESTROYED PRODUCT&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<blockquote>
-<p>也可以通过<code>destroy()</code>的where语句来进行指定删除。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h3><p>Sequelize 支持标准关联关系：一对一、一对多和多对多。</p>
-<p>为此,Sequelize 提供了<strong>四种</strong>关联类型,并将它们组合起来以创建关联：</p>
-<ul>
-<li><code>HasOne</code> 关联类型</li>
-<li><code>BelongsTo</code> 关联类型</li>
-<li><code>HasMany</code> 关联类型</li>
-<li><code>BelongsToMany</code> 关联类型</li>
-</ul>
-<h4 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a><strong>一对一</strong></h4><p>每个User只有一个Cart，Cart属于User：</p>
-<pre><code class="js">...
-User.hasOne(Cart);
-Cart.belongsTo(User);
-...
-</code></pre>
-<h4 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a><strong>一对多</strong></h4><p>Product属于User，每个User可以有多个Product：</p>
-<pre><code class="js">...
-Product.belongsTo(User, &#123;
-  constraints: true, // 开启定义关系约束
-  onDelete: &#39;CASCADE&#39; // 级联删除
-&#125;);
-User.hasMany(Product);
-...
-</code></pre>
-<h4 id="多对多"><a href="#多对多" class="headerlink" title="多对多"></a><strong>多对多</strong></h4><p>一个Cart里可以有多个Product，每个Product可以在不同的Cart中：</p>
-<pre><code class="js">...
-Cart.belongsToMany(Product, &#123;
-  through: CartItem // 这些连接存储的位置
-&#125;);
-Product.belongsToMany(Cart, &#123; through: CartItem &#125;);
-...
-</code></pre>
-<h4 id="添加到实例的特殊方法"><a href="#添加到实例的特殊方法" class="headerlink" title="添加到实例的特殊方法"></a><strong>添加到实例的特殊方法</strong></h4><p>当两个模型之间定义了关联时，这些模型的实例将获得特殊的方法来与其关联的另一方进行交互。</p>
-<pre><code class="js">// 定义Product和User的关系
-Product.belongsTo(User, &#123;
-  constraints: true, // 开启定义关系约束
-  onDelete: &#39;CASCADE&#39; // 级联删除
-&#125;);
-User.hasMany(Product);
-</code></pre>
-<h5 id="createXXX"><a href="#createXXX" class="headerlink" title="createXXX()"></a><strong>createXXX()</strong></h5><p>使用<code>instance.createProduct()</code>来创建Product将会自动生成关联User的id：</p>
-<pre><code class="js">const Product = require(&#39;../models/product&#39;);
-
-router.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const price = req.body.price;
-    const description = req.body.description;
-
-    // 创建Product模型，并自动添加userId（关联主键）
-    req.user.createProduct(&#123; // req.user是sequelize保存在数据库中的数据（一个辅助方法）
-      title: title,
-      price: price,
-      imageUrl: imageUrl,
-      description: description,
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;Created Product&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; &#123;
-      console.log(err);
-    &#125;)
-&#125;);
-</code></pre>
-<h5 id="getXXX"><a href="#getXXX" class="headerlink" title="getXXX()"></a><strong>getXXX()</strong></h5><p>使用<code>instance.getProducts()</code>来获取Product：</p>
-<pre><code class="js">router.get(&#39;/edit-product/:productId&#39;,(req, res, next) =&gt; &#123;
-  const editMode = req.query.edit;
-  if (!editMode) &#123;
-    return res.redirect(&#39;/&#39;)
-  &#125;
-  const prodId = req.params.productId;
-  req.user
-    .getProducts(&#123; where: &#123; id: prodId &#125; &#125;) // 获取对应id的Product
-  // Product.findByPk(prodId) // 也可以使用findByPk()来寻找
-    .then(products =&gt; &#123;
-      const product = products[0];
-      if (!product) &#123;
-        return res.redirect(&#39;/&#39;);
-      &#125;
-      res.render(&#39;admin/edit-product&#39;,&#123;
-        pageTitle: &#39;Edit Product&#39;,
-        path: &#39;/admin/edit-product&#39;,
-        editing: editMode,
-        product: product
-      &#125;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<h5 id="addXXX"><a href="#addXXX" class="headerlink" title="addXXX()"></a><strong>addXXX()</strong></h5><p>使用<code>instance.addProducts()</code>来添加Product：</p>
-<pre><code class="js">...
-addProduct(product, &#123;
-    through: &#123; quantity: newQuantity &#125;
-  &#125;);
-&#125;)
-...
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-03-02T16:00:00.000Z" itemprop="datePublished">2023-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -2070,6 +1892,10 @@ addProduct(product, &#123;
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
           </li>
         
@@ -2083,10 +1909,6 @@ addProduct(product, &#123;
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
       </ul>

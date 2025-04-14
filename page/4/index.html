@@ -154,6 +154,65 @@
   
     
       <article
+id="post-Algorithm/binaryTree"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/05/Algorithm/binaryTree/">二叉树</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>根据不同的遍历顺序和对根节点的操作，可以分为<strong>前序遍历、中序遍历、后序遍历</strong>。其根本原理就是递归查询，直到找到叶子节点的子节点（null），然后返回 null。</p>
+<blockquote>
+<p>思考：树节点的遍历有点类似于 js 的捕获冒泡，捕获阶段对应从根节点遍历到叶子节点，冒泡阶段对应从叶子节点处理逻辑回到根节点，这也被称为<strong>递归</strong>。</p>
+</blockquote>
+<p>相关问题只要掌握好二叉树的遍历顺序，就能解决。</p>
+<h2 id="对二叉树进行操作"><a href="#对二叉树进行操作" class="headerlink" title="对二叉树进行操作"></a>对二叉树进行操作</h2><ol>
+<li>确定遍历方法；</li>
+<li>确定每一层节点的操作是什么；</li>
+</ol>
+<blockquote>
+<p>剩下的就交给递归。</p>
+</blockquote>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-04T16:00:00.000Z" itemprop="datePublished">2025-01-05</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Algorithm/link"
 class="article article-type-post"
 >
@@ -1304,74 +1363,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Algorithm/math"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/11/08/Algorithm/math/">math</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="辗转相除法（欧几里得算法）"><a href="#辗转相除法（欧几里得算法）" class="headerlink" title="辗转相除法（欧几里得算法）"></a>辗转相除法（欧几里得算法）</h2><p>用于求两个正整数的<strong>最大公约数</strong>（Greatest Common Divisor，GCD）。</p>
-<p>基本思想：<br>以<strong>除数</strong>和<strong>余数</strong>反复做除法运算，当余数为 0 时，取当前算式除数为最大公约数。</p>
-<p>$$<br>gcd(a, b) &#x3D; gcd(b, a mod b)<br>$$</p>
-<pre><code class="js">// 递归
-function gcd(a, b) &#123;
-  return a % b ? gcd(b, a % b) : b;
-&#125;
-
-// 迭代
-function gcd(a, b) &#123;
-  while (a % b) &#123;
-    [a, b] = [b, a % b];
-  &#125;
-  return b;
-&#125;
-</code></pre>
-<blockquote>
-<p>补充：扩展的欧几里得算法可用于 RSA 加密算法等领域。</p>
-</blockquote>
-<h3 id="最小公倍数（Leatest-Common-Multiple，LCM）"><a href="#最小公倍数（Leatest-Common-Multiple，LCM）" class="headerlink" title="最小公倍数（Leatest Common Multiple，LCM）"></a>最小公倍数（Leatest Common Multiple，LCM）</h3><p>可以用最大公约数求得。</p>
-<p>$$<br>lcm(a, b) &#x3D; \frac{ab}{gcd(a, b)}<br>$$</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-11-07T16:00:00.000Z" itemprop="datePublished">2024-11-08</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1419,6 +1410,10 @@ function gcd(a, b) &#123;
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
           </li>
         
@@ -1432,10 +1427,6 @@ function gcd(a, b) &#123;
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
       </ul>

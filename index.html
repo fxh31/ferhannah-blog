@@ -154,6 +154,182 @@
   
     
       <article
+id="post-Node/fs"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>Nodejs 核心 API。<strong>提供与文件系统交互功能</strong>，包括读写、修改文件权限，创建目录等操作。</p>
+<h1 id="读取文件-readFile"><a href="#读取文件-readFile" class="headerlink" title="读取文件 - readFile"></a>读取文件 - readFile</h1><h2 id="readFile-异步"><a href="#readFile-异步" class="headerlink" title="readFile - 异步"></a>readFile - 异步</h2><p>可指定文件编码格式，不会阻塞下面代码。</p>
+<pre><code class="js">fs.readFile(
+  &quot;./util.md&quot;,
+  &#123;
+    encoding: &quot;utf-8&quot;,
+    flag: &quot;r&quot;,
+  &#125;,
+  (err, data) =&gt; &#123;
+    if (err) &#123;
+      return;
+    &#125;
+    console.log(data);
+  &#125;
+);
+</code></pre>
+<h2 id="readFileSync-同步"><a href="#readFileSync-同步" class="headerlink" title="readFileSync - 同步"></a>readFileSync - 同步</h2><p>会阻塞下面代码，返回一个二进制流，可通过<code>toString()</code>转换。</p>
+<pre><code class="js">const resulet = fs.readFileSync(&quot;./test.js&quot;);
+console.log(resulet.toString(&quot;utf-8&quot;));
+</code></pre>
+<h2 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h2><p>promise 版本。</p>
+<pre><code class="js">const fs2 = require(&quot;node:fs/promises&quot;);
+fs2
+  .readFile(&quot;./test.js&quot;)
+  .then((resulet) =&gt; &#123;
+    console.log(resulet.toString(&quot;utf-8&quot;));
+  &#125;)
+  .catch((err) =&gt; &#123;&#125;);
+</code></pre>
+<h1 id="可读流-createReadStream"><a href="#可读流-createReadStream" class="headerlink" title="可读流 - createReadStream"></a>可读流 - createReadStream</h1><p>可以将文件以二进制流的形式读取，通过监听该文件流对应事件来获取文件数据。</p>
+<blockquote>
+<p>适用于处理大文件。</p>
+</blockquote>
+<pre><code class="js">const readSreanm = fs.createReadStream(&quot;./test.js&quot;);
+readSreanm.on(&quot;data&quot;, (chunk) =&gt; &#123;
+  console.log(chunk.toString());
+&#125;);
+readSreanm.on(&quot;end&quot;, () =&gt; &#123;
+  console.log(&quot;end&quot;);
+&#125;);
+</code></pre>
+<h1 id="创建文件"><a href="#创建文件" class="headerlink" title="创建文件"></a>创建文件</h1><p>创建文件夹。</p>
+<pre><code class="js">fs.mkdirSync(&quot;./ff&quot;); // 创建一个文件夹
+// 创建多层文件夹
+fs.mkdirSync(&quot;./ff/f1/f2&quot;, &#123;
+  recursive: true,
+&#125;);
+</code></pre>
+<h1 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h1><p>删除文件夹。</p>
+<pre><code class="js">// 删除文件夹（如果该文件夹内还有其他文件会报错）
+fs.rmSync(&quot;./ff&quot;);
+// 递归删除文件夹底下的的所有子目录
+fs.rmSync(&quot;./ff&quot;, &#123;
+  recursive: true,
+&#125;);
+</code></pre>
+<h1 id="重命名文件"><a href="#重命名文件" class="headerlink" title="重命名文件"></a>重命名文件</h1><pre><code class="js">fs.renameSync(&quot;./index.txt&quot;, &quot;./index2.txt&quot;);
+</code></pre>
+<h1 id="监听文件变化"><a href="#监听文件变化" class="headerlink" title="监听文件变化"></a>监听文件变化</h1><p>文件有修改时触发。</p>
+<blockquote>
+<p>大部分构建工具的热更新原理。</p>
+</blockquote>
+<pre><code class="js">fs.watch(&quot;./index.txt&quot;, (event, filename) =&gt; &#123;
+  console.log(event, filename);
+&#125;);
+</code></pre>
+<h1 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h1><pre><code class="js">fs.writeFileSync(&quot;./index.txt&quot;, &quot;write cnotent&quot;, &#123;
+  flag: &quot;a&quot;, // 追加内容在文件中，如果没有该文件则覆盖，不然默认覆盖
+&#125;);
+
+fs.appendFileSync(&quot;./index.txt&quot;, &quot;js&quot;);
+</code></pre>
+<ul>
+<li><code>r</code>：以读取模式打开文件。如果文件不存在，则抛出异常。</li>
+<li><code>r+</code>：以读写模式打开文件。如果文件不存在，则抛出异常。</li>
+<li><code>w</code>：以写入模式打开文件。如果文件不存在，则创建文件；如果文件存在，则截断文件。</li>
+<li><code>w+</code>：以读写模式打开文件。如果文件不存在，则创建文件；如果文件存在，则截断文件。</li>
+<li><code>a</code>：以追加模式打开文件。如果文件不存在，则创建文件。</li>
+<li><code>a+</code>：以读和追加模式打开文件。如果文件不存在，则创建文件</li>
+</ul>
+<h1 id="可写流"><a href="#可写流" class="headerlink" title="可写流"></a>可写流</h1><blockquote>
+<p>适用于<strong>大量的数据分批插入</strong>。</p>
+</blockquote>
+<pre><code class="js">const writeStream = fs.createWriteStream(&quot;./index.txt&quot;);
+const verse = [&quot;ddd&quot;, &quot;dddd&quot;, &quot;dddddd&quot;, &quot;dddddddd&quot;];
+verse.forEach((item) =&gt; &#123;
+  writeStream.write(item + &quot;\n&quot;);
+&#125;);
+writeStream.end();
+
+writeStream.on(&quot;finish&quot;, () =&gt; &#123;
+  console.log(&quot;写入完成&quot;);
+&#125;);
+</code></pre>
+<h1 id="软硬链接"><a href="#软硬链接" class="headerlink" title="软硬链接"></a>软硬链接</h1><h2 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h2><p><strong>链接双方共享一个内存地址</strong>。用于<strong>共享文件，备份文件</strong>。（引用类型）</p>
+<pre><code class="js">fs.linkSync(&quot;./index.txt&quot;, &quot;./index2.txt&quot;); // 原始地址，硬链接之后地址
+</code></pre>
+<ul>
+<li>硬链接会<strong>创建一个新的文件，与原始地址文件同步</strong>；</li>
+<li><strong>原始地址文件删除并不影响硬链接文件</strong>；</li>
+</ul>
+<h2 id="软链接（符号链接）"><a href="#软链接（符号链接）" class="headerlink" title="软链接（符号链接）"></a>软链接（符号链接）</h2><blockquote>
+<p>注意：需开启<strong>管理员权限</strong>。</p>
+</blockquote>
+<p>链接文件相当于一个<strong>原始文件的快捷方式</strong>。</p>
+<pre><code class="js">fs.symlinkSync(&quot;./index.txt&quot;, &quot;./index3.txt&quot;);
+</code></pre>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><strong>pnpm</strong> 的底层原理就是通过软硬链接实现的。</p>
+<h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><p>通过 libuv（c++）的对<code>uv_fs_t</code>的封装，也就是将 fs 的参数透传给 libuv 层。</p>
+<pre><code class="c">// - loop：事件循环对象，用于处理异步操作
+// - req：文件系统请求对象，用于保存操作的状态和结果
+// - path：要创建的目录的路径
+// - mode：目标权限模式
+// - cb：操作完成后的回调函数
+int uv_fs_mkdir(uv_loop_t* loop,
+                uv_fs_t* req,
+                const char* path,
+                int mode,
+                uv_fs_cb cb) &#123;
+  INIT(MKDIR);
+  PATH;
+  req-&gt;mode = mode;
+  if (cb != NULL)
+    if (uv__iou_fs_mkdir(loop, req))
+      return 0;
+  POST;
+&#125;
+</code></pre>
+<h1 id="与事件循环的关系"><a href="#与事件循环的关系" class="headerlink" title="与事件循环的关系"></a>与事件循环的关系</h1><p>fs 的 IO 操作都是由 libuv 完成的，它会等到本轮事件循环结束，并且完成任务之后才会将其推入 v8 的事件队列中。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-04-14T15:17:47.758Z" itemprop="datePublished">2025-04-14</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-JS/eventLoop"
 class="article article-type-post"
 >
@@ -972,72 +1148,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Node/Advanced/npx"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
-<blockquote>
-<p>使用完安装包就删。</p>
-</blockquote>
-<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ul>
-<li>避免全局安装；</li>
-<li>总是使用你最新版本；</li>
-<li>可执行任意 npm package 包；</li>
-</ul>
-<h1 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h1><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
-<h1 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h1><ul>
-<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
-<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
-</code></pre>
-<blockquote>
-<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
-</blockquote>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1085,6 +1195,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
           </li>
         
@@ -1098,10 +1212,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
       </ul>

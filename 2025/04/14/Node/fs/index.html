@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     
-    <title>不同环境的 vite 配置文件集成 | Fxh&#39;s blog</title>
+    <title>fs | Fxh&#39;s blog</title>
 
     <meta name="description" content="Fxh&#39;s blog">
     <meta name="keywords" content="">
@@ -15,21 +15,21 @@
 
     <meta property="og:locale" content="cn" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content= "不同环境的 vite 配置文件集成 | Fxh&#39;s blog"  />
+    <meta property="og:title" content= "fs | Fxh&#39;s blog"  />
     <meta property="og:description" content= "Fxh&#39;s blog" />
-    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2024/09/22/buildTools/Vite/env_config_integration/index.html" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/04/14/Node/fs/index.html" />
     <meta property="og:site_name" content="" />
     <meta property="article:author" content="feng xiaohan" />
     <meta property="article:publisher" content="" />
     <meta property="og:description" content="Fxh&#39;s blog" />
-    <meta name="twitter:title" content="不同环境的 vite 配置文件集成 | Fxh&#39;s blog"/>
+    <meta name="twitter:title" content="fs | Fxh&#39;s blog"/>
     <meta name="twitter:description" content="Fxh&#39;s blog"/>
     <script type="application/ld+json">
         {
             "description": "Fxh&#39;s blog",
             "author": { "@type": "Person", "name": "feng xiaohan" },
             "@type": "BlogPosting",
-            "url": "https://fxh31.github.io/ferhannah-blog/2024/09/22/buildTools/Vite/env_config_integration/index.html",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/04/14/Node/fs/index.html",
             "publisher": {
             "@type": "Organization",
             "logo": {
@@ -38,11 +38,11 @@
             },
             "name": "feng xiaohan"
             },
-            "headline": "不同环境的 vite 配置文件集成 | Fxh&#39;s blog",
-            "datePublished": "2024-09-21T16:00:00.000Z",
+            "headline": "fs | Fxh&#39;s blog",
+            "datePublished": "2025-04-14T15:17:47.758Z",
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "https://fxh31.github.io/ferhannah-blog/2024/09/22/buildTools/Vite/env_config_integration/index.html"
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/04/14/Node/fs/index.html"
             },
             "@context": "http://schema.org"
         }
@@ -165,7 +165,7 @@
             <section class="inner">
                 <section class="inner-main">
                     <div class="post">
-    <article id="post-cm9h7xcnz006abcvs8avk9ixq" class="article article-type-post" itemscope
+    <article id="post-cm9h7xcmz002fbcvs7ooc479u" class="article article-type-post" itemscope
     itemprop="blogPost">
 
     <div class="article-inner">
@@ -181,7 +181,7 @@
             
   
     <h1 class="article-title" itemprop="name">
-      不同环境的 vite 配置文件集成
+      fs
     </h1>
   
 
@@ -191,12 +191,12 @@
         <div class="article-more-info article-more-info-post hairline">
 
             <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-04-14T15:17:47.758Z" itemprop="datePublished">2025-04-14</time>
 </div>
 
             
             <div class="article-category">
-                <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+                <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
             </div>
             
 
@@ -207,73 +207,135 @@
         </div>
 
         <div class="article-entry post-inner-html hairline" itemprop="articleBody">
-            <blockquote>
-<p>vite 是运行在 node 环境中的，但是 vite.config.js 却支持 esm 形式的代码，这是因为 vite 在读取 vite.config.js 时，会率先通过 node 解析文件语法， 在加载文件之前进行预处理（如果发现你是 esmodule 规范会直接将你的 esmodule 规范进行替换变成 commonjs 规范）。</p>
-</blockquote>
-<h2 id="指定配置文件"><a href="#指定配置文件" class="headerlink" title="指定配置文件"></a>指定配置文件</h2><p>可以通过<code>--config</code>在 vite 运行的时候指定配置文件入口：</p>
-<pre><code class="bash">vite --config vite.config.js
-</code></pre>
-<h2 id="配置文件语法提示"><a href="#配置文件语法提示" class="headerlink" title="配置文件语法提示"></a>配置文件语法提示</h2><ul>
-<li><p>defineConfig 工具函数<br>适用于 vscode。</p>
-<pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;&#125;);
-</code></pre>
-</li>
-<li><p>jsdoc 注释</p>
-<blockquote>
-<p>Vite 本身附带 TypeScript 类型，所以你可以通过 IDE 和 jsdoc 的配合来实现智能提示</p>
-</blockquote>
-<pre><code class="js">/** @type &#123;import(&#39;vite&#39;).UserConfig&#125; */
-export default &#123;
-  // ...
-&#125;;
-</code></pre>
-<blockquote>
-<p>好像不起作用？</p>
-</blockquote>
-</li>
-<li><p>TS 配置文件</p>
-<pre><code class="ts">import type &#123; UserConfig &#125; from &quot;vite&quot;;
-export default &#123;
-  // ...
-&#125; satisfies UserConfig;
-</code></pre>
-</li>
-</ul>
-<h2 id="多环境配置文件集成"><a href="#多环境配置文件集成" class="headerlink" title="多环境配置文件集成"></a>多环境配置文件集成</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><pre><code class="js">import &#123; defineConfig &#125; from &quot;vite&quot;;
-
-import viteBaseConfig from &quot;./vite.base.config&quot;;
-import viteDevConfig from &quot;./vite.dev.config&quot;;
-import viteProdConfig from &quot;./vite.prod.config&quot;;
-
-export default defineConfig((&#123; command, mode, isSsrBuild &#125;) =&gt; &#123;
-  if (command === &quot;serve&quot;) &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteDevConfig,
-    &#125;;
-  &#125; else &#123;
-    return &#123;
-      ...viteBaseConfig,
-      ...viteProdConfig,
-    &#125;;
+            <p>Nodejs 核心 API。<strong>提供与文件系统交互功能</strong>，包括读写、修改文件权限，创建目录等操作。</p>
+<h1 id="读取文件-readFile"><a href="#读取文件-readFile" class="headerlink" title="读取文件 - readFile"></a>读取文件 - readFile</h1><h2 id="readFile-异步"><a href="#readFile-异步" class="headerlink" title="readFile - 异步"></a>readFile - 异步</h2><p>可指定文件编码格式，不会阻塞下面代码。</p>
+<pre><code class="js">fs.readFile(
+  &quot;./util.md&quot;,
+  &#123;
+    encoding: &quot;utf-8&quot;,
+    flag: &quot;r&quot;,
+  &#125;,
+  (err, data) =&gt; &#123;
+    if (err) &#123;
+      return;
+    &#125;
+    console.log(data);
   &#125;
+);
+</code></pre>
+<h2 id="readFileSync-同步"><a href="#readFileSync-同步" class="headerlink" title="readFileSync - 同步"></a>readFileSync - 同步</h2><p>会阻塞下面代码，返回一个二进制流，可通过<code>toString()</code>转换。</p>
+<pre><code class="js">const resulet = fs.readFileSync(&quot;./test.js&quot;);
+console.log(resulet.toString(&quot;utf-8&quot;));
+</code></pre>
+<h2 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h2><p>promise 版本。</p>
+<pre><code class="js">const fs2 = require(&quot;node:fs/promises&quot;);
+fs2
+  .readFile(&quot;./test.js&quot;)
+  .then((resulet) =&gt; &#123;
+    console.log(resulet.toString(&quot;utf-8&quot;));
+  &#125;)
+  .catch((err) =&gt; &#123;&#125;);
+</code></pre>
+<h1 id="可读流-createReadStream"><a href="#可读流-createReadStream" class="headerlink" title="可读流 - createReadStream"></a>可读流 - createReadStream</h1><p>可以将文件以二进制流的形式读取，通过监听该文件流对应事件来获取文件数据。</p>
+<blockquote>
+<p>适用于处理大文件。</p>
+</blockquote>
+<pre><code class="js">const readSreanm = fs.createReadStream(&quot;./test.js&quot;);
+readSreanm.on(&quot;data&quot;, (chunk) =&gt; &#123;
+  console.log(chunk.toString());
+&#125;);
+readSreanm.on(&quot;end&quot;, () =&gt; &#123;
+  console.log(&quot;end&quot;);
 &#125;);
 </code></pre>
-<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><pre><code class="js">const envResolver = &#123;
-  serve: () =&gt; &#123;
-    console.log(&quot;开发环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteDevConfig);
-  &#125;,
-  build: () =&gt; &#123;
-    console.log(&quot;生产环境&quot;);
-    return Object.assign(&#123;&#125;, viteBaseConfig, viteProdConfig);
-  &#125;,
-&#125;;
-export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
-  return envResolver[command]();
+<h1 id="创建文件"><a href="#创建文件" class="headerlink" title="创建文件"></a>创建文件</h1><p>创建文件夹。</p>
+<pre><code class="js">fs.mkdirSync(&quot;./ff&quot;); // 创建一个文件夹
+// 创建多层文件夹
+fs.mkdirSync(&quot;./ff/f1/f2&quot;, &#123;
+  recursive: true,
 &#125;);
 </code></pre>
+<h1 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h1><p>删除文件夹。</p>
+<pre><code class="js">// 删除文件夹（如果该文件夹内还有其他文件会报错）
+fs.rmSync(&quot;./ff&quot;);
+// 递归删除文件夹底下的的所有子目录
+fs.rmSync(&quot;./ff&quot;, &#123;
+  recursive: true,
+&#125;);
+</code></pre>
+<h1 id="重命名文件"><a href="#重命名文件" class="headerlink" title="重命名文件"></a>重命名文件</h1><pre><code class="js">fs.renameSync(&quot;./index.txt&quot;, &quot;./index2.txt&quot;);
+</code></pre>
+<h1 id="监听文件变化"><a href="#监听文件变化" class="headerlink" title="监听文件变化"></a>监听文件变化</h1><p>文件有修改时触发。</p>
+<blockquote>
+<p>大部分构建工具的热更新原理。</p>
+</blockquote>
+<pre><code class="js">fs.watch(&quot;./index.txt&quot;, (event, filename) =&gt; &#123;
+  console.log(event, filename);
+&#125;);
+</code></pre>
+<h1 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h1><pre><code class="js">fs.writeFileSync(&quot;./index.txt&quot;, &quot;write cnotent&quot;, &#123;
+  flag: &quot;a&quot;, // 追加内容在文件中，如果没有该文件则覆盖，不然默认覆盖
+&#125;);
+
+fs.appendFileSync(&quot;./index.txt&quot;, &quot;js&quot;);
+</code></pre>
+<ul>
+<li><code>r</code>：以读取模式打开文件。如果文件不存在，则抛出异常。</li>
+<li><code>r+</code>：以读写模式打开文件。如果文件不存在，则抛出异常。</li>
+<li><code>w</code>：以写入模式打开文件。如果文件不存在，则创建文件；如果文件存在，则截断文件。</li>
+<li><code>w+</code>：以读写模式打开文件。如果文件不存在，则创建文件；如果文件存在，则截断文件。</li>
+<li><code>a</code>：以追加模式打开文件。如果文件不存在，则创建文件。</li>
+<li><code>a+</code>：以读和追加模式打开文件。如果文件不存在，则创建文件</li>
+</ul>
+<h1 id="可写流"><a href="#可写流" class="headerlink" title="可写流"></a>可写流</h1><blockquote>
+<p>适用于<strong>大量的数据分批插入</strong>。</p>
+</blockquote>
+<pre><code class="js">const writeStream = fs.createWriteStream(&quot;./index.txt&quot;);
+const verse = [&quot;ddd&quot;, &quot;dddd&quot;, &quot;dddddd&quot;, &quot;dddddddd&quot;];
+verse.forEach((item) =&gt; &#123;
+  writeStream.write(item + &quot;\n&quot;);
+&#125;);
+writeStream.end();
+
+writeStream.on(&quot;finish&quot;, () =&gt; &#123;
+  console.log(&quot;写入完成&quot;);
+&#125;);
+</code></pre>
+<h1 id="软硬链接"><a href="#软硬链接" class="headerlink" title="软硬链接"></a>软硬链接</h1><h2 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h2><p><strong>链接双方共享一个内存地址</strong>。用于<strong>共享文件，备份文件</strong>。（引用类型）</p>
+<pre><code class="js">fs.linkSync(&quot;./index.txt&quot;, &quot;./index2.txt&quot;); // 原始地址，硬链接之后地址
+</code></pre>
+<ul>
+<li>硬链接会<strong>创建一个新的文件，与原始地址文件同步</strong>；</li>
+<li><strong>原始地址文件删除并不影响硬链接文件</strong>；</li>
+</ul>
+<h2 id="软链接（符号链接）"><a href="#软链接（符号链接）" class="headerlink" title="软链接（符号链接）"></a>软链接（符号链接）</h2><blockquote>
+<p>注意：需开启<strong>管理员权限</strong>。</p>
+</blockquote>
+<p>链接文件相当于一个<strong>原始文件的快捷方式</strong>。</p>
+<pre><code class="js">fs.symlinkSync(&quot;./index.txt&quot;, &quot;./index3.txt&quot;);
+</code></pre>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><strong>pnpm</strong> 的底层原理就是通过软硬链接实现的。</p>
+<h1 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h1><p>通过 libuv（c++）的对<code>uv_fs_t</code>的封装，也就是将 fs 的参数透传给 libuv 层。</p>
+<pre><code class="c">// - loop：事件循环对象，用于处理异步操作
+// - req：文件系统请求对象，用于保存操作的状态和结果
+// - path：要创建的目录的路径
+// - mode：目标权限模式
+// - cb：操作完成后的回调函数
+int uv_fs_mkdir(uv_loop_t* loop,
+                uv_fs_t* req,
+                const char* path,
+                int mode,
+                uv_fs_cb cb) &#123;
+  INIT(MKDIR);
+  PATH;
+  req-&gt;mode = mode;
+  if (cb != NULL)
+    if (uv__iou_fs_mkdir(loop, req))
+      return 0;
+  POST;
+&#125;
+</code></pre>
+<h1 id="与事件循环的关系"><a href="#与事件循环的关系" class="headerlink" title="与事件循环的关系"></a>与事件循环的关系</h1><p>fs 的 IO 操作都是由 libuv 完成的，它会等到本轮事件循环结束，并且完成任务之后才会将其推入 v8 的事件队列中。</p>
 
         </div>
 
@@ -292,19 +354,10 @@ export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
     
 <nav class="article-nav">
   
-    <a href="/ferhannah-blog/2024/09/22/network/networkState/" id="article-nav-newer" class="article-nav-link-wrap">
-      <div class="article-nav-caption">下一篇</div>
-      <div class="article-nav-title">
-        
-          前端网络状态
-        
-      </div>
-    </a>
   
-  
-    <a href="/ferhannah-blog/2024/09/22/buildTools/Vite/env_variables/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-caption">上一篇</div>
-      <div class="article-nav-title">环境变量</div>
+      <div class="article-nav-title">事件循环</div>
     </a>
   
 </nav>
@@ -313,15 +366,15 @@ export default defineConfig((&#123; command, mode &#125;) =&gt; &#123;
     <section class="share">
         <!-- <div class="share-title">分享</div>
         <a class="share-item" target="_blank"
-            href="https://twitter.com/share?text=不同环境的 vite 配置文件集成 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2024%2F09%2F22%2FbuildTools%2FVite%2Fenv_config_integration%2F">
+            href="https://twitter.com/share?text=fs - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F04%2F14%2FNode%2Ffs%2F">
             <ion-icon name="logo-twitter"></ion-icon>
         </a>
         <a class="share-item" target="_blank"
-            href="https://www.facebook.com/sharer.php?title=不同环境的 vite 配置文件集成 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2024%2F09%2F22%2FbuildTools%2FVite%2Fenv_config_integration%2F">
+            href="https://www.facebook.com/sharer.php?title=fs - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F04%2F14%2FNode%2Ffs%2F">
             <ion-icon name="logo-facebook"></ion-icon>
         </a> -->
         <!-- <a class="share-item" target="_blank"
-            href="https://service.weibo.com/share/share.php?title=不同环境的 vite 配置文件集成 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2024/09/22/buildTools/Vite/env_config_integration/&pic=">
+            href="https://service.weibo.com/share/share.php?title=fs - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/04/14/Node/fs/&pic=">
             <div class="n-icon n-icon-weibo"></div>
         </a> -->
     </section>

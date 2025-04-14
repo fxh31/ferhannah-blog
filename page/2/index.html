@@ -154,6 +154,72 @@
   
     
       <article
+id="post-Node/Advanced/npx"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
+<blockquote>
+<p>使用完安装包就删。</p>
+</blockquote>
+<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ul>
+<li>避免全局安装；</li>
+<li>总是使用你最新版本；</li>
+<li>可执行任意 npm package 包；</li>
+</ul>
+<h1 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h1><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
+<h1 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h1><ul>
+<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
+<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
+</code></pre>
+<blockquote>
+<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
+</blockquote>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/index"
 class="article article-type-post"
 >
@@ -1615,77 +1681,6 @@ router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
 
     
   
-    
-      <article
-id="post-Node/Express/Express.js中间件的包"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <ul>
-<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
-<pre><code class="bash">npm install --save body-parser
-</code></pre>
-<blockquote>
-<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
-</blockquote>
-<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
-...
-app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
-</code></pre>
-</li>
-<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
-<blockquote>
-<p>此包依赖 express 和 express-session。</p>
-</blockquote>
-<pre><code class="bash">npm install --save csurf
-</code></pre>
-</li>
-<li><p>express-validator：Express 验证器</p>
-<pre><code class="bash">npm install --save express-validator
-</code></pre>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1733,6 +1728,10 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
           </li>
         
@@ -1746,10 +1745,6 @@ app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/os/">os</a>
           </li>
         
       </ul>
