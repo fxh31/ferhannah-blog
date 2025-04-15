@@ -154,6 +154,99 @@
   
     
       <article
+id="post-Node/Express/Express.js模块化路由（Router）"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%B7%AF%E7%94%B1%EF%BC%88Router%EF%BC%89/">Express.js模块化路由（Router）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>使用 <code>express.Router</code> 类来创建可安装的模块化路由处理程序。<code>Router</code> <strong>实例是完整的中间件和路由系统</strong>；因此，常常将其称为“<strong>微型应用程序</strong>”（像是在服务器内部嵌套一个小型的服务器）。</p>
+<blockquote>
+<p>router 的用法和<code>const app = express()</code>创建的 app 是一样的。</p>
+</blockquote>
+<p>routes&#x2F;oneRoute.js：</p>
+<pre><code class="js">const express = require(&quot;express&quot;);
+
+const router = express.Router(); // 创建Router实例
+
+router.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  res.send(
+    &#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
+  );
+&#125;);
+
+router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
+  console.log(req.body);
+  res.redirect(&quot;/&quot;);
+&#125;);
+
+module.exports = router; // 导出router
+</code></pre>
+<p>在某个文件中导入：</p>
+<pre><code class="js">const oneRoute = require(&quot;./routes/oneRoute&quot;);
+
+app.use(oneRoute);
+</code></pre>
+<h2 id="添加公共路径路由（过滤路径）"><a href="#添加公共路径路由（过滤路径）" class="headerlink" title="添加公共路径路由（过滤路径）"></a>添加公共路径路由（过滤路径）</h2><p>有时候我们的模块化路由里中间件的路由地址有一段是相同，可以在注册这个路由模块时通过<code>use</code>来定义：</p>
+<pre><code class="js">...
+app.use(&#39;/admin&#39;, adminRoutes); // 公共路径
+...
+</code></pre>
+<p>routes&#x2F;oneRoute.js：</p>
+<pre><code class="js">// /admin/add-product =&gt; GET
+router.get(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  res.send(
+    &#39;&lt;form action=&quot;/admin/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
+  );
+&#125;);
+
+// /admin/product =&gt; POST
+router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
+  console.log(req.body);
+  res.redirect(&quot;/&quot;);
+&#125;);
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-03T14:19:31.961Z" itemprop="datePublished">2025-03-03</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Express/Express.js中间件的包"
 class="article article-type-post"
 >
@@ -1048,7 +1141,7 @@ Promise.try(test).then((res) =&gt; &#123;
   
     
       <article
-id="post-Python/class"
+id="post-Python/operation"
 class="article article-type-post"
 >
 
@@ -1059,24 +1152,38 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
+        <a href="/ferhannah-blog/2025/01/06/Python/operation/">speration</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h1><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
-<ul>
-<li>append(x)：在右侧添加一个元素。</li>
-<li>appendleft(x)：在左侧添加一个元素。</li>
-<li>pop()：移除并返回一个右侧元素。</li>
-<li>popleft()：移除并返回一个左侧元素。</li>
-<li>extend(iterable)：在右侧添加多个元素。</li>
-<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
-<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
-<li>clear()：清空所有元素。</li>
+        <h1 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h1><h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
+<li>切片（:）</li>
+<li>list()</li>
+<li>copy()</li>
 </ul>
-<pre><code class="python">queue = deque()
-queue.append(1)
-queue.popleft(2)
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[:] # 切片
+o2 = list(org) # list()
+o3 = org.copy() # copy()
+</code></pre>
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><ul>
+<li>copy 模块中的 deepcopy()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+od1 = copy.deepcopy(org)
+</code></pre>
+<h1 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h1><ul>
+<li>切片（:）</li>
+<li>reversed()</li>
+</ul>
+<pre><code class="python">org = [1, 2, 3, 4, 5]
+
+o1 = org[::-1] # 切片
+o2 = reversed(org) # reversed()
+</code></pre>
+<h1 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h1><pre><code class="python">print(5 &gt; /
+2) # True
 </code></pre>
 
         
@@ -1163,82 +1270,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-Python/operation"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/01/06/Python/operation/">speration</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h1><h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
-<li>切片（:）</li>
-<li>list()</li>
-<li>copy()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[:] # 切片
-o2 = list(org) # list()
-o3 = org.copy() # copy()
-</code></pre>
-<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><ul>
-<li>copy 模块中的 deepcopy()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-od1 = copy.deepcopy(org)
-</code></pre>
-<h1 id="反转-list"><a href="#反转-list" class="headerlink" title="反转 list"></a>反转 list</h1><ul>
-<li>切片（:）</li>
-<li>reversed()</li>
-</ul>
-<pre><code class="python">org = [1, 2, 3, 4, 5]
-
-o1 = org[::-1] # 切片
-o2 = reversed(org) # reversed()
-</code></pre>
-<h1 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h1><pre><code class="python">print(5 &gt; /
-2) # True
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-01-05T16:00:00.000Z" itemprop="datePublished">2025-01-06</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1263,7 +1294,7 @@ o2 = reversed(org) # reversed()
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1286,6 +1317,10 @@ o2 = reversed(org) # reversed()
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
           </li>
         
@@ -1299,10 +1334,6 @@ o2 = reversed(org) # reversed()
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
       </ul>

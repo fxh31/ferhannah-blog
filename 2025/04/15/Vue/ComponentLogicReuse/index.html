@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>组件逻辑复用 | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "组件逻辑复用 | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="组件逻辑复用 | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "组件逻辑复用 | Fxh&#39;s blog",
+            "datePublished": "2025-04-15T15:44:36.321Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/ferhannah-blog/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cm9ioc5d7002psgvsd7yyh4ta" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      组件逻辑复用
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-04-15T15:44:36.321Z" itemprop="datePublished">2025-04-15</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/Vue/">Vue</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <h1 id="单文件组件"><a href="#单文件组件" class="headerlink" title="单文件组件"></a>单文件组件</h1><p>以 <code>.vue</code> 结尾的文件，在 <code>&lt;script setup&gt;</code> 中定义组件逻辑，在 <code>&lt;template&gt;</code> 中定义组件模板。<strong>可复用组件及其对应逻辑</strong>。用于<strong>构建模块</strong>。</p>
+<h1 id="组合式函数"><a href="#组合式函数" class="headerlink" title="组合式函数"></a>组合式函数</h1><p>约定俗成以 <code>use</code> 开头的函数，他可以将<strong>公共任务逻辑（有状态的逻辑）抽离出来，以函数的形式复用</strong>；在 <code>use</code> 函数内部同样可以使用 Vue 的钩子函数和语法，执行顺序在使用组件前。</p>
+<blockquote>
+<p>官网的例子是追踪鼠标变换。<strong>在实际架构中，会创建一个 hook 文件夹，根据 use 函数的功能，可分为 core、event、setting、web 等文件夹，分别存放对应的 hook 函数</strong>。</p>
+</blockquote>
+<ul>
+<li>core：存放核心通用逻辑，比如 useAtrrs hook 用于组合属性或类名前缀等。</li>
+<li>setting：存放相关配置，比如一些全局的属性（后台应用的菜单详情配置），颜色十六进制转换，不同状态映射关系，还可以将 store 存储的信息用 computed 进行 ref 封装。</li>
+<li>event：存放事件相关的逻辑，比如 useScroll 滚动事件处理，在里面可以配置防抖节流操作。</li>
+<li>web：存放与 web 相关的逻辑，比如 useWebSocket 封装 websocket，useDesign 设置不同类名前缀，use18n 配置国际化等。</li>
+<li>component：…</li>
+</ul>
+<h2 id="组合式函数传参"><a href="#组合式函数传参" class="headerlink" title="组合式函数传参"></a>组合式函数传参</h2><p>组合式函数的执行顺序在当前组件之前，对于需要在当前组件内<strong>动态传参</strong>赋值时，可以<strong>在组合式函数内部使用 <code>toValue()</code> 和 <code>watchEffect()</code>来转换和监听</strong>。</p>
+<blockquote>
+<p>也就是接收一个 ref 或 getter 函数，而 <code>toValue()</code> 可以将 ref 或 getter 规范化为值</p>
+</blockquote>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><ul>
+<li>命名：<strong>以 <code>use</code> 开头的驼峰命名法</strong>；</li>
+<li>动态输入参数：<strong>watch + ref&#x2F;geeter</strong> 或 **watchEffect + toValue()**；</li>
+<li>返回值：<strong>非响应式对象</strong>，该对象中包含<strong>多个 ref 值</strong>；</li>
+<li>副作用：确保在<strong>组件卸载的生命周期中清理副作用</strong>，也可以<strong>封装专门的组合式函数</strong>来处理注册和清除；<blockquote>
+<p>在组合式函数中添加 DOM 实践监听器或请求数据等操作。</p>
+</blockquote>
+</li>
+<li>使用限制：只能<strong>在<code>&lt;script setup&gt;</code> 或 setup() 钩子中被同步调用</strong>。某些情况下也可以像<code>onMounted</code>这样的生命周期钩子中调用。<blockquote>
+<p>这些限制是为了 Vue 能确定当前活跃的组件实例的上下文，用于注册生命周期钩子，添加计算属性和监听器，以便于组件卸载时停止监听，避免内存泄漏。</p>
+</blockquote>
+</li>
+<li>适当抽取组合是函数改善代码结构：组合式 API 可以更灵活的将逻辑部分抽离。</li>
+<li>选项式 API：组合式函数必须在 <code>setup()</code> 中调用，且必须在 <code>setup()</code> 中返回以便暴露给模板；</li>
+</ul>
+<h2 id="与-Mixin-的对比"><a href="#与-Mixin-的对比" class="headerlink" title="与 Mixin 的对比"></a>与 Mixin 的对比</h2><p>Mixin 主要是针对 Vue2，相比组合式函数，它主要的问题有：</p>
+<ul>
+<li>不清晰的数据来源；</li>
+<li>命名空间冲突；</li>
+<li>隐式的跨 mixin 交流；</li>
+</ul>
+<h2 id="与无渲染组件的对比"><a href="#与无渲染组件的对比" class="headerlink" title="与无渲染组件的对比"></a>与无渲染组件的对比</h2><p>一些组件可能只包括了逻辑而不需要自己渲染内容，视图输出通过作用域插槽全权交给了消费者组件。对比它来说组合式函数的优势是：</p>
+<ul>
+<li><strong>不会产生额外的组件开销</strong>；</li>
+</ul>
+<p>所以在纯逻辑复用时还是该使用组合式函数，</p>
+<h1 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h1><p>注册自定义指令，主要是用于重用涉及<strong>普通元素的底层 DOM 访问逻辑</strong>。</p>
+<p>在 <code>&lt;script setup&gt;</code>，任何以* <code>v</code> 开头的<strong>驼峰式命名</strong>的变量都可以当作自定义指令都可以在模板中使用，并且不需要导入。</p>
+<p>自定义指令对象中提供几种生命周期钩子函数，钩子函数的默认参数有：</p>
+<ul>
+<li>el：DOM 元素；</li>
+<li>binding：对象，包含以下属性：<ul>
+<li>value：传递给指令的值（value）；</li>
+<li>oldValue：之前的值，仅在 <code>beforeUpdate</code> 和 <code>updated</code> 钩子中可用；</li>
+<li>arg：传递给指令的参数（<code>:</code>后的参数）；</li>
+<li>modifiers：修饰符对象（<code>.</code>后的参数）；</li>
+<li>instance：组件实例（谁用是谁的）；</li>
+<li>dir：指令的定义对象；</li>
+</ul>
+</li>
+<li>vnode：底层 vnode；</li>
+<li>prevNode：之前的渲染中指令绑定的 vnode，仅在 <code>beforeUpdate</code> 和 <code>updated</code> 钩子中可用；</li>
+</ul>
+<blockquote>
+<p>当需要操纵 DOM 时才使用，一般将<strong>自定义指令放在 directives 文件夹</strong>下，在<strong>挂载 app 前就将所有的自定义指令注册到了全局（setupGlobalDirectives）</strong>。</p>
+</blockquote>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><ol>
+<li>在 <code>&lt;script setup&gt;</code> 中：</li>
+</ol>
+<pre><code class="vue">&lt;script setup&gt;
+const vHighlight = &#123;
+  mounted: (el) =&gt; &#123;
+    el.classList.add(&quot;is-highlight&quot;);
+  &#125;,
+&#125;;
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;p v-highlight&gt;This sentence is important!&lt;/p&gt;
+&lt;/template&gt;
+</code></pre>
+<ol start="2">
+<li>在 <code>setup()</code> 函数中：</li>
+</ol>
+<pre><code class="js">export default &#123;
+  setup() &#123;&#125;,
+  directives: &#123;
+    // 在模板中启用 v-highlight
+    highlight: &#123;
+      /* ... */
+    &#125;,
+  &#125;,
+&#125;;
+</code></pre>
+<ol start="3">
+<li>全局注册：</li>
+</ol>
+<pre><code class="js">const app = createApp(&#123;&#125;);
+app.directive(&quot;highlight&quot;, &#123;
+  /* ... */
+&#125;);
+</code></pre>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>动态参数：自定义指令的参数可以是动态的，他会基于这个动态参数响应式地更新；</li>
+<li>简化形式：可进行<strong>简化</strong>操作，在不指定钩子函数时，默认的<strong>回调函数会在 <code>mounted</code> 和 <code>updated</code>都执行</strong>；</li>
+<li>对象字面量：可向自定义指令传递多个值，以<strong>对象字面量形式传递</strong>，在 bingding.value 中接收；</li>
+<li>组件上使用（*）：会始终<strong>应用于组件的根元素</strong>（和透传 attributes 类似），对于<strong>多根组件会忽略该指令；</strong><blockquote>
+<p>不推荐在组件上使用。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><p>为 Vue 添加全局功能的工具代码。一个插件可以是一个<strong>拥有 <code>install()</code> 方法的对象</strong>，也可以直接是一个<strong>安装函数</strong>本身，使用 <code>app.use()</code> 安装。</p>
+<p>应用：</p>
+<ul>
+<li>全局注册组件、指令；<blockquote>
+<p>组件库。</p>
+</blockquote>
+</li>
+<li>通过 <code>app.provide()</code> 向应用注入整个资源；</li>
+<li>通过 <code>app.config.globalProperties</code> 添加全局实例属性或方法；</li>
+</ul>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+  
+    <a href="/ferhannah-blog/2025/04/14/Node/fs/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">fs</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=组件逻辑复用 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F04%2F15%2FVue%2FComponentLogicReuse%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=组件逻辑复用 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F04%2F15%2FVue%2FComponentLogicReuse%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=组件逻辑复用 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

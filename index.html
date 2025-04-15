@@ -154,6 +154,170 @@
   
     
       <article
+id="post-Vue/ComponentLogicReuse"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="单文件组件"><a href="#单文件组件" class="headerlink" title="单文件组件"></a>单文件组件</h1><p>以 <code>.vue</code> 结尾的文件，在 <code>&lt;script setup&gt;</code> 中定义组件逻辑，在 <code>&lt;template&gt;</code> 中定义组件模板。<strong>可复用组件及其对应逻辑</strong>。用于<strong>构建模块</strong>。</p>
+<h1 id="组合式函数"><a href="#组合式函数" class="headerlink" title="组合式函数"></a>组合式函数</h1><p>约定俗成以 <code>use</code> 开头的函数，他可以将<strong>公共任务逻辑（有状态的逻辑）抽离出来，以函数的形式复用</strong>；在 <code>use</code> 函数内部同样可以使用 Vue 的钩子函数和语法，执行顺序在使用组件前。</p>
+<blockquote>
+<p>官网的例子是追踪鼠标变换。<strong>在实际架构中，会创建一个 hook 文件夹，根据 use 函数的功能，可分为 core、event、setting、web 等文件夹，分别存放对应的 hook 函数</strong>。</p>
+</blockquote>
+<ul>
+<li>core：存放核心通用逻辑，比如 useAtrrs hook 用于组合属性或类名前缀等。</li>
+<li>setting：存放相关配置，比如一些全局的属性（后台应用的菜单详情配置），颜色十六进制转换，不同状态映射关系，还可以将 store 存储的信息用 computed 进行 ref 封装。</li>
+<li>event：存放事件相关的逻辑，比如 useScroll 滚动事件处理，在里面可以配置防抖节流操作。</li>
+<li>web：存放与 web 相关的逻辑，比如 useWebSocket 封装 websocket，useDesign 设置不同类名前缀，use18n 配置国际化等。</li>
+<li>component：…</li>
+</ul>
+<h2 id="组合式函数传参"><a href="#组合式函数传参" class="headerlink" title="组合式函数传参"></a>组合式函数传参</h2><p>组合式函数的执行顺序在当前组件之前，对于需要在当前组件内<strong>动态传参</strong>赋值时，可以<strong>在组合式函数内部使用 <code>toValue()</code> 和 <code>watchEffect()</code>来转换和监听</strong>。</p>
+<blockquote>
+<p>也就是接收一个 ref 或 getter 函数，而 <code>toValue()</code> 可以将 ref 或 getter 规范化为值</p>
+</blockquote>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><ul>
+<li>命名：<strong>以 <code>use</code> 开头的驼峰命名法</strong>；</li>
+<li>动态输入参数：<strong>watch + ref&#x2F;geeter</strong> 或 **watchEffect + toValue()**；</li>
+<li>返回值：<strong>非响应式对象</strong>，该对象中包含<strong>多个 ref 值</strong>；</li>
+<li>副作用：确保在<strong>组件卸载的生命周期中清理副作用</strong>，也可以<strong>封装专门的组合式函数</strong>来处理注册和清除；<blockquote>
+<p>在组合式函数中添加 DOM 实践监听器或请求数据等操作。</p>
+</blockquote>
+</li>
+<li>使用限制：只能<strong>在<code>&lt;script setup&gt;</code> 或 setup() 钩子中被同步调用</strong>。某些情况下也可以像<code>onMounted</code>这样的生命周期钩子中调用。<blockquote>
+<p>这些限制是为了 Vue 能确定当前活跃的组件实例的上下文，用于注册生命周期钩子，添加计算属性和监听器，以便于组件卸载时停止监听，避免内存泄漏。</p>
+</blockquote>
+</li>
+<li>适当抽取组合是函数改善代码结构：组合式 API 可以更灵活的将逻辑部分抽离。</li>
+<li>选项式 API：组合式函数必须在 <code>setup()</code> 中调用，且必须在 <code>setup()</code> 中返回以便暴露给模板；</li>
+</ul>
+<h2 id="与-Mixin-的对比"><a href="#与-Mixin-的对比" class="headerlink" title="与 Mixin 的对比"></a>与 Mixin 的对比</h2><p>Mixin 主要是针对 Vue2，相比组合式函数，它主要的问题有：</p>
+<ul>
+<li>不清晰的数据来源；</li>
+<li>命名空间冲突；</li>
+<li>隐式的跨 mixin 交流；</li>
+</ul>
+<h2 id="与无渲染组件的对比"><a href="#与无渲染组件的对比" class="headerlink" title="与无渲染组件的对比"></a>与无渲染组件的对比</h2><p>一些组件可能只包括了逻辑而不需要自己渲染内容，视图输出通过作用域插槽全权交给了消费者组件。对比它来说组合式函数的优势是：</p>
+<ul>
+<li><strong>不会产生额外的组件开销</strong>；</li>
+</ul>
+<p>所以在纯逻辑复用时还是该使用组合式函数，</p>
+<h1 id="自定义指令"><a href="#自定义指令" class="headerlink" title="自定义指令"></a>自定义指令</h1><p>注册自定义指令，主要是用于重用涉及<strong>普通元素的底层 DOM 访问逻辑</strong>。</p>
+<p>在 <code>&lt;script setup&gt;</code>，任何以* <code>v</code> 开头的<strong>驼峰式命名</strong>的变量都可以当作自定义指令都可以在模板中使用，并且不需要导入。</p>
+<p>自定义指令对象中提供几种生命周期钩子函数，钩子函数的默认参数有：</p>
+<ul>
+<li>el：DOM 元素；</li>
+<li>binding：对象，包含以下属性：<ul>
+<li>value：传递给指令的值（value）；</li>
+<li>oldValue：之前的值，仅在 <code>beforeUpdate</code> 和 <code>updated</code> 钩子中可用；</li>
+<li>arg：传递给指令的参数（<code>:</code>后的参数）；</li>
+<li>modifiers：修饰符对象（<code>.</code>后的参数）；</li>
+<li>instance：组件实例（谁用是谁的）；</li>
+<li>dir：指令的定义对象；</li>
+</ul>
+</li>
+<li>vnode：底层 vnode；</li>
+<li>prevNode：之前的渲染中指令绑定的 vnode，仅在 <code>beforeUpdate</code> 和 <code>updated</code> 钩子中可用；</li>
+</ul>
+<blockquote>
+<p>当需要操纵 DOM 时才使用，一般将<strong>自定义指令放在 directives 文件夹</strong>下，在<strong>挂载 app 前就将所有的自定义指令注册到了全局（setupGlobalDirectives）</strong>。</p>
+</blockquote>
+<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><ol>
+<li>在 <code>&lt;script setup&gt;</code> 中：</li>
+</ol>
+<pre><code class="vue">&lt;script setup&gt;
+const vHighlight = &#123;
+  mounted: (el) =&gt; &#123;
+    el.classList.add(&quot;is-highlight&quot;);
+  &#125;,
+&#125;;
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;p v-highlight&gt;This sentence is important!&lt;/p&gt;
+&lt;/template&gt;
+</code></pre>
+<ol start="2">
+<li>在 <code>setup()</code> 函数中：</li>
+</ol>
+<pre><code class="js">export default &#123;
+  setup() &#123;&#125;,
+  directives: &#123;
+    // 在模板中启用 v-highlight
+    highlight: &#123;
+      /* ... */
+    &#125;,
+  &#125;,
+&#125;;
+</code></pre>
+<ol start="3">
+<li>全局注册：</li>
+</ol>
+<pre><code class="js">const app = createApp(&#123;&#125;);
+app.directive(&quot;highlight&quot;, &#123;
+  /* ... */
+&#125;);
+</code></pre>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>动态参数：自定义指令的参数可以是动态的，他会基于这个动态参数响应式地更新；</li>
+<li>简化形式：可进行<strong>简化</strong>操作，在不指定钩子函数时，默认的<strong>回调函数会在 <code>mounted</code> 和 <code>updated</code>都执行</strong>；</li>
+<li>对象字面量：可向自定义指令传递多个值，以<strong>对象字面量形式传递</strong>，在 bingding.value 中接收；</li>
+<li>组件上使用（*）：会始终<strong>应用于组件的根元素</strong>（和透传 attributes 类似），对于<strong>多根组件会忽略该指令；</strong><blockquote>
+<p>不推荐在组件上使用。</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><p>为 Vue 添加全局功能的工具代码。一个插件可以是一个<strong>拥有 <code>install()</code> 方法的对象</strong>，也可以直接是一个<strong>安装函数</strong>本身，使用 <code>app.use()</code> 安装。</p>
+<p>应用：</p>
+<ul>
+<li>全局注册组件、指令；<blockquote>
+<p>组件库。</p>
+</blockquote>
+</li>
+<li>通过 <code>app.provide()</code> 向应用注入整个资源；</li>
+<li>通过 <code>app.config.globalProperties</code> 添加全局实例属性或方法；</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-04-15T15:44:36.321Z" itemprop="datePublished">2025-04-15</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vue/">Vue</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/fs"
 class="article article-type-post"
 >
@@ -644,83 +808,6 @@ process.on(&quot;message&quot;, (msg) =&gt; &#123;
   
     
       <article
-id="post-Node/Advanced/events"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Nodejs 核心 API，常用于<strong>异步事件驱动</strong>。<strong>采用发布订阅模式</strong>。</p>
-<blockquote>
-<p><strong>发布订阅模式</strong>：_当有新的消息时，发布者会将其发布到一个调度中心，而调度中心会将这个消息发送给所有订阅这个消息的订阅者_。</p>
-</blockquote>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><blockquote>
-<p>用法跟大多数 emit&#x2F;on 差不多。（event bus、mitt 等）</p>
-</blockquote>
-<pre><code class="js">const eventEmitter = require(&quot;events&quot;);
-
-const bus = new eventEmitter();
-// 事件默认只能监听（on） 10 个，但是可以手动设置
-bus.setMaxListeners(20);
-console.log(bus.getMaxListeners();)
-
-const fn = (name) =&gt; &#123;
-  console.log(name);
-&#125;;
-// 订阅一个事件
-bus.on(&quot;test&quot;, fn);
-
-// 只触发一次
-bus.once(&quot;test&quot;, fn);
-
-// 取消订阅（需传入相同的函数 fn）
-bus.off(&quot;test&quot;, fn);
-
-// 发布一个事件
-bus.emit(&quot;test&quot;, &quot;fxh&quot;);
-</code></pre>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="process"><a href="#process" class="headerlink" title="process"></a>process</h2><p><strong>在 node 初始化的时候调用了 <code>setupProcessObject()</code>，这个函数内部会读取 process 原型对象（getPrototypeOf），然后将 eventEmitter 的原型嫁接到这个原型对象上（setPrototypeOf），所以 process 也可以使用 on、emit 等。</strong></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
 id="post-Node/Advanced/os"
 class="article article-type-post"
 >
@@ -812,7 +899,7 @@ const open = (url) =&gt; &#123;
   
     
       <article
-id="post-Node/Advanced/path"
+id="post-Node/Advanced/events"
 class="article article-type-post"
 >
 
@@ -823,60 +910,40 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>path 在不同的操作系统是有差异的。</p>
-<h2 id="posix（unix，likeunix，linux，macOs，windows-wsl）"><a href="#posix（unix，likeunix，linux，macOs，windows-wsl）" class="headerlink" title="posix（unix，likeunix，linux，macOs，windows wsl）"></a>posix（unix，likeunix，linux，macOs，windows wsl）</h2><p>可移植操作系统接口，这是一套标准，为了保证不同遵循它的操作系统的可移植性。</p>
+        <p>Nodejs 核心 API，常用于<strong>异步事件驱动</strong>。<strong>采用发布订阅模式</strong>。</p>
 <blockquote>
-<p>例如：启动一个进程调用 fork 函数，大家都调用这个。</p>
+<p><strong>发布订阅模式</strong>：_当有新的消息时，发布者会将其发布到一个调度中心，而调度中心会将这个消息发送给所有订阅这个消息的订阅者_。</p>
 </blockquote>
-<ul>
-<li>路径分隔符使用正斜杠（<code>/</code>）。</li>
-</ul>
-<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>不遵守 posix。</p>
-<ul>
-<li>路径分隔符使用反斜杠（<code>\</code>）。</li>
-</ul>
-<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><blockquote>
-<p><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；<br><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><blockquote>
+<p>用法跟大多数 emit&#x2F;on 差不多。（event bus、mitt 等）</p>
 </blockquote>
-<h2 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h2><p>返回指定路径的<strong>最后一个（文件&#x2F;文件夹）名</strong>。</p>
-<pre><code class="js">const path = require(&quot;node:path&quot;);
+<pre><code class="js">const eventEmitter = require(&quot;events&quot;);
 
-console.1og(path.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
-console.1og(path.basename(&#39;\\foo\\bar\\baz\\asdf\\xm.html&#39;)) // xm.html
-console.1og(path.posix.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ×
-console.1og(path.win32.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
+const bus = new eventEmitter();
+// 事件默认只能监听（on） 10 个，但是可以手动设置
+bus.setMaxListeners(20);
+console.log(bus.getMaxListeners();)
+
+const fn = (name) =&gt; &#123;
+  console.log(name);
+&#125;;
+// 订阅一个事件
+bus.on(&quot;test&quot;, fn);
+
+// 只触发一次
+bus.once(&quot;test&quot;, fn);
+
+// 取消订阅（需传入相同的函数 fn）
+bus.off(&quot;test&quot;, fn);
+
+// 发布一个事件
+bus.emit(&quot;test&quot;, &quot;fxh&quot;);
 </code></pre>
-<blockquote>
-<p>注意：winddows 兼容正反斜杆写法，posix 不兼容。</p>
-</blockquote>
-<h2 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h2><p>返回<strong>指定路径的目录</strong>（不含<strong>最后一个（文件&#x2F;文件夹）名</strong>。）。</p>
-<pre><code class="js">console.1og(path.dirname(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ../foo/bar/baz/asdf
-</code></pre>
-<h2 id="extname"><a href="#extname" class="headerlink" title="extname"></a>extname</h2><p>返回路径的<strong>扩展名。</strong>如果是文件夹则返回为空。</p>
-<h2 id="join"><a href="#join" class="headerlink" title="join"></a>join</h2><p><strong>拼接路径</strong>。支持操作符。</p>
-<blockquote>
-<p><code>../</code>。栈</p>
-</blockquote>
-<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><p><strong>解析路径，返回绝对路径。</strong></p>
-<blockquote>
-<p>注意：多个路径返回最后一个。（_根据拼接路径的数量和类型会有差异_）</p>
-</blockquote>
-<h2 id="parse（format）"><a href="#parse（format）" class="headerlink" title="parse（format）"></a>parse（format）</h2><p>解析路径，以对象形式。</p>
-<pre><code class="js">console.1og(path.parse(&#39;/home/file.txt&#39;))
-const res = &#123;
-  root: &#39;/&#39;,
-  dir: &#39;home&#39;,
-  base: &#39;file.txt&#39;,
-  ext: &#39;.txt&#39;,
-  name: &#39;file&#39;
-&#125;
-</code></pre>
-<h2 id="format（parse）"><a href="#format（parse）" class="headerlink" title="format（parse）"></a>format（parse）</h2><p>parse 逆向操作。</p>
-<h2 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h2><p>返回<strong>操作系统的路径分隔符</strong>。可用于<strong>实现跨平台</strong>。</p>
+<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><h2 id="process"><a href="#process" class="headerlink" title="process"></a>process</h2><p><strong>在 node 初始化的时候调用了 <code>setupProcessObject()</code>，这个函数内部会读取 process 原型对象（getPrototypeOf），然后将 eventEmitter 的原型嫁接到这个原型对象上（setPrototypeOf），所以 process 也可以使用 on、emit 等。</strong></p>
 
         
     </div>
@@ -1006,6 +1073,103 @@ process.on(&quot;exit&quot;, () =&gt; &#123;&#125;);
   
     
       <article
+id="post-Node/Advanced/path"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/03/20/Node/Advanced/path/">path</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>path 在不同的操作系统是有差异的。</p>
+<h2 id="posix（unix，likeunix，linux，macOs，windows-wsl）"><a href="#posix（unix，likeunix，linux，macOs，windows-wsl）" class="headerlink" title="posix（unix，likeunix，linux，macOs，windows wsl）"></a>posix（unix，likeunix，linux，macOs，windows wsl）</h2><p>可移植操作系统接口，这是一套标准，为了保证不同遵循它的操作系统的可移植性。</p>
+<blockquote>
+<p>例如：启动一个进程调用 fork 函数，大家都调用这个。</p>
+</blockquote>
+<ul>
+<li>路径分隔符使用正斜杠（<code>/</code>）。</li>
+</ul>
+<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>不遵守 posix。</p>
+<ul>
+<li>路径分隔符使用反斜杠（<code>\</code>）。</li>
+</ul>
+<h1 id="api"><a href="#api" class="headerlink" title="api"></a>api</h1><blockquote>
+<p><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；<br><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</p>
+</blockquote>
+<h2 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h2><p>返回指定路径的<strong>最后一个（文件&#x2F;文件夹）名</strong>。</p>
+<pre><code class="js">const path = require(&quot;node:path&quot;);
+
+console.1og(path.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
+console.1og(path.basename(&#39;\\foo\\bar\\baz\\asdf\\xm.html&#39;)) // xm.html
+console.1og(path.posix.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ×
+console.1og(path.win32.basename(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // xm.html
+</code></pre>
+<blockquote>
+<p>注意：winddows 兼容正反斜杆写法，posix 不兼容。</p>
+</blockquote>
+<h2 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h2><p>返回<strong>指定路径的目录</strong>（不含<strong>最后一个（文件&#x2F;文件夹）名</strong>。）。</p>
+<pre><code class="js">console.1og(path.dirname(&#39;/foo/bar/baz/asdf/xm.html&#39;)) // ../foo/bar/baz/asdf
+</code></pre>
+<h2 id="extname"><a href="#extname" class="headerlink" title="extname"></a>extname</h2><p>返回路径的<strong>扩展名。</strong>如果是文件夹则返回为空。</p>
+<h2 id="join"><a href="#join" class="headerlink" title="join"></a>join</h2><p><strong>拼接路径</strong>。支持操作符。</p>
+<blockquote>
+<p><code>../</code>。栈</p>
+</blockquote>
+<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><p><strong>解析路径，返回绝对路径。</strong></p>
+<blockquote>
+<p>注意：多个路径返回最后一个。（_根据拼接路径的数量和类型会有差异_）</p>
+</blockquote>
+<h2 id="parse（format）"><a href="#parse（format）" class="headerlink" title="parse（format）"></a>parse（format）</h2><p>解析路径，以对象形式。</p>
+<pre><code class="js">console.1og(path.parse(&#39;/home/file.txt&#39;))
+const res = &#123;
+  root: &#39;/&#39;,
+  dir: &#39;home&#39;,
+  base: &#39;file.txt&#39;,
+  ext: &#39;.txt&#39;,
+  name: &#39;file&#39;
+&#125;
+</code></pre>
+<h2 id="format（parse）"><a href="#format（parse）" class="headerlink" title="format（parse）"></a>format（parse）</h2><p>parse 逆向操作。</p>
+<h2 id="sep"><a href="#sep" class="headerlink" title="sep"></a>sep</h2><p>返回<strong>操作系统的路径分隔符</strong>。可用于<strong>实现跨平台</strong>。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-03-19T16:00:00.000Z" itemprop="datePublished">2025-03-20</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Node/Advanced/SSRandCSR"
 class="article article-type-post"
 >
@@ -1076,78 +1240,6 @@ fs.writeFileSync(&quot;./index.html&quot;, root.serialize());
 
     
   
-    
-      <article
-id="post-Node/Advanced/module"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Nodejs 模块化遵循两套规范：CommonJS 和 ESM 规范。</p>
-<h1 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h1><p>使用<code>require()</code>引入模块，一共五种类型引入模块：<strong>自定义、第三方、内置、C++扩展、JSON 文件</strong><br>使用<code>module.exports</code>导出，支持解构。</p>
-<h1 id="ESM"><a href="#ESM" class="headerlink" title="ESM"></a>ESM</h1><p>使用<code>import</code>引入，<code>export</code>导出。</p>
-<p><strong>注意</strong>： esm 不支持引入 JSON 文件。但是 node16 以上可以使用断言来引入：</p>
-<pre><code class="js">import json from &quot;./test.json&quot; assert &#123; type: &quot;json&quot; &#125;;
-</code></pre>
-<h1 id="CommonJS-和-ESM-区别"><a href="#CommonJS-和-ESM-区别" class="headerlink" title="CommonJS 和 ESM 区别"></a>CommonJS 和 ESM 区别</h1><ul>
-<li>CJS 是基于<strong>运行时</strong>同步加载，ESM 是基于<strong>编译时异步加载</strong>；<blockquote>
-<p>一般<code>import</code>语句只能在顶层，而<code>require()</code>可以在块级作用域底下；但是可以<strong>使用<code>import()</code>的函数模式，返回一个 promise</strong>。</p>
-</blockquote>
-</li>
-<li>CJS 可以修改值，ESM 只读；</li>
-<li>CJS <strong>不支持 tree shaking</strong>，ESM 支持；</li>
-<li>CJS 中顶层的 <strong>this 指向模块本身</strong>，而 ES6 中顶层 <strong>this 指向 undefined</strong>；</li>
-</ul>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>各个文件引入并使用的原理。</p>
-<h2 id="json"><a href="#json" class="headerlink" title=".json"></a><code>.json</code></h2><p>使用 fs 直接读取文件内容并转换为 utf-8 字符串，然后再将其转换为对象。</p>
-<h2 id="node"><a href="#node" class="headerlink" title=".node"></a><code>.node</code></h2><p>使用 process 读取文件内容。</p>
-<h2 id="js"><a href="#js" class="headerlink" title=".js"></a><code>.js</code></h2><ol>
-<li>在类 weakmap 中查找是否有缓存，如果没有则通过 fs 读取文件内容并转换为 utf-8 字符串；</li>
-<li>判断是否是以<code>.js</code>结尾，是则读取 package.json 的 type，如果不是 module 则获取父级以及确认报错的行号和错误信息；</li>
-<li>如果都没问题则会调用<code>_compile()</code>进行编译，在这个方法中会将文件名和文件内容进行拼接，将文件内容包装进一个匿名函数中（类似 js 沙箱，隔离上下文环境）；</li>
-<li>调用 script 去执行这个匿名函数，并查看里面是否有动态引入的 import，有的话就引入对应模块，最后返回一个执行结果；</li>
-<li>在拼接文件时，会传递五个参数，执行完匿名函数后会有去组装这五个参数（export、require、module、filename、dirname），再使用 ReflectApply 透传给匿名函数，最后返回结果。</li>
-</ol>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1172,7 +1264,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1195,6 +1287,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
           </li>
         
@@ -1208,10 +1304,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
       </ul>

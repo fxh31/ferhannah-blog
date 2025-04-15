@@ -154,6 +154,67 @@
   
     
       <article
+id="post-buildTools/Vite/index"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/11/16/buildTools/Vite/index/">vite</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="vite-加载文件原理"><a href="#vite-加载文件原理" class="headerlink" title="vite 加载文件原理"></a>vite 加载文件原理</h2><ul>
+<li><p>vite 在启动时会以 ESModule 模块化规范来加载文件，所以会先<strong>将所有文件转换为 ES Module 的 js 文件</strong>，再执行。</p>
+<blockquote>
+<p>包括但不限于<code>.css</code>、<code>.vue</code>等。</p>
+</blockquote>
+</li>
+<li><p>对所有打包资源文件进行依赖预构建，将其统放在<code>node_modules/.vite</code>下，这样方便浏览器引用资源路径。</p>
+</li>
+<li><p>浏览器请求资源文件时，对返回的文件内容中的资源请求路径继续拦截预处理，将请求路径统一替换为<code>node_modules/.vite</code>下的路径。</p>
+</li>
+<li><p>资源能正确访问。</p>
+</li>
+</ul>
+<h2 id="vue-文件处理"><a href="#vue-文件处理" class="headerlink" title=".vue 文件处理"></a>.vue 文件处理</h2><p>对于<code>.vue</code>的文件会先用对应的编译工具将其转换为 esm 模块，，然后以 js（application&#x2F;javascript）的形式返回给浏览器，这样浏览器就能正确识别到了。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-11-15T16:00:00.000Z" itemprop="datePublished">2024-11-16</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Algorithm/math"
 class="article article-type-post"
 >
@@ -915,114 +976,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-buildTools/Vite/ts"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/ts/">vite 中使用 ts</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>vite 中默认支持 ts，不需要额外配置。</p>
-<h2 id="vite-plugin-checker"><a href="#vite-plugin-checker" class="headerlink" title="vite-plugin-checker"></a>vite-plugin-checker</h2><p>它是一个可以在工作线程中运行 TypeScript、 VLS、 vue-tsc、 ESLint 的插件，可以根据配置，阻断编译，在控制台及浏览器展示报错信息。</p>
-<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><ul>
-<li>安装：</li>
-</ul>
-<pre><code class="bash">npm i vite-plugin-checker -D
-</code></pre>
-<ul>
-<li>vite config 中配置：</li>
-</ul>
-<pre><code class="js">// vite.config.js
-import checker from &quot;vite-plugin-checker&quot;;
-import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  plugins: [
-    checker(&#123;
-      typescript: true,
-    &#125;),
-  ],
-&#125;);
-</code></pre>
-<ul>
-<li>生成 tsconfig.json 配置文件：</li>
-</ul>
-<pre><code class="bash">npm tsc --init
-</code></pre>
-<ul>
-<li>指定需要进行 ts check 的文件：</li>
-</ul>
-<pre><code class="json">// tsconfig.json
-&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;]
-&#125;
-</code></pre>
-<blockquote>
-<p>注意：以上配置不影响正常打包，只是在运行的时候出报错。</p>
-</blockquote>
-<h2 id="打包前进行-ts-检查"><a href="#打包前进行-ts-检查" class="headerlink" title="打包前进行 ts 检查"></a>打包前进行 ts 检查</h2><p>vite 本身仅执行 .ts 文件的转译工作，并不执行任何类型检查。所以我们可以借助 ts 本身的类型检查功能，在打包前对代码进行类型检查：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;build&quot;: &quot;tsc --noEmit &amp;&amp; vite build&quot;
-&#125;
-</code></pre>
-<blockquote>
-<p>对于 .vue 文件，可以安装 vue-tsc 然后运行 vue-tsc –noEmit 来对 *.vue 文件做类型检查。</p>
-</blockquote>
-<p><strong>原理：</strong><br><code>tsc</code>是 TypeScript 的编译器，它负责将 TypeScript 代码转换为 JavaScript 代码。<code>tsc</code> 会读取配置文件获取参数值，<code>--noEmit</code> 的作用是只进行检查，不进行编译输出。如果我们的代码无错，会直接退出，执行下一条语句，否则报错。</p>
-<h2 id="ts-智能提示"><a href="#ts-智能提示" class="headerlink" title="ts 智能提示"></a>ts 智能提示</h2><p>默认情况下，vite 在 vite&#x2F;client.d.ts 中为<code>import.meta.env</code>提供了类型定义。但是如果我们设置了一些自定义的环境变量（<code>.env[mode]</code>）是没有提示的，如果也想在<strong>浏览器环境代码</strong>中有智能提示，可以在<code>env.d.ts</code>中定义：</p>
-<pre><code class="ts">/// &lt;reference types=&quot;vite/client&quot; /&gt;
-
-interface ImportMetaEnv &#123;
-  readonly VITE_APP_TITLE: string;
-&#125;
-interface ImportMeta &#123;
-  readonly env: ImportMetaEnv;
-&#125;
-</code></pre>
-<p><strong>注意：</strong>定义的文件名和文件位置其实不重要，重要的是需要在 tsconfig.json 配置将其文件进行 ts 检查：</p>
-<pre><code class="json">&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;, &quot;env.d.ts&quot;]
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1047,7 +1000,7 @@ interface ImportMeta &#123;
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1070,6 +1023,10 @@ interface ImportMeta &#123;
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
           </li>
         
@@ -1083,10 +1040,6 @@ interface ImportMeta &#123;
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
       </ul>

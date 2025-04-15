@@ -154,6 +154,68 @@
   
     
       <article
+id="post-Python/class"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/06/Python/class/">collection</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h1><p>双端队列，可在两端快速进行插入和删除的序列容器。</p>
+<ul>
+<li>append(x)：在右侧添加一个元素。</li>
+<li>appendleft(x)：在左侧添加一个元素。</li>
+<li>pop()：移除并返回一个右侧元素。</li>
+<li>popleft()：移除并返回一个左侧元素。</li>
+<li>extend(iterable)：在右侧添加多个元素。</li>
+<li>extendleft(iterable)：在左侧添加多个元素（注意：添加的元素顺序会被反转）。</li>
+<li>rotate(n)：向右旋转 n 步（负数表示向左旋转）。</li>
+<li>clear()：清空所有元素。</li>
+</ul>
+<pre><code class="python">queue = deque()
+queue.append(1)
+queue.popleft(2)
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-05T16:00:00.000Z" itemprop="datePublished">2025-01-06</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
 id="post-Algorithm/binaryTree"
 class="article article-type-post"
 >
@@ -1302,67 +1364,6 @@ class="article article-type-post"
 
     
   
-    
-      <article
-id="post-buildTools/Vite/index"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/11/16/buildTools/Vite/index/">vite</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="vite-加载文件原理"><a href="#vite-加载文件原理" class="headerlink" title="vite 加载文件原理"></a>vite 加载文件原理</h2><ul>
-<li><p>vite 在启动时会以 ESModule 模块化规范来加载文件，所以会先<strong>将所有文件转换为 ES Module 的 js 文件</strong>，再执行。</p>
-<blockquote>
-<p>包括但不限于<code>.css</code>、<code>.vue</code>等。</p>
-</blockquote>
-</li>
-<li><p>对所有打包资源文件进行依赖预构建，将其统放在<code>node_modules/.vite</code>下，这样方便浏览器引用资源路径。</p>
-</li>
-<li><p>浏览器请求资源文件时，对返回的文件内容中的资源请求路径继续拦截预处理，将请求路径统一替换为<code>node_modules/.vite</code>下的路径。</p>
-</li>
-<li><p>资源能正确访问。</p>
-</li>
-</ul>
-<h2 id="vue-文件处理"><a href="#vue-文件处理" class="headerlink" title=".vue 文件处理"></a>.vue 文件处理</h2><p>对于<code>.vue</code>的文件会先用对应的编译工具将其转换为 esm 模块，，然后以 js（application&#x2F;javascript）的形式返回给浏览器，这样浏览器就能正确识别到了。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-11-15T16:00:00.000Z" itemprop="datePublished">2024-11-16</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
 
   
     <nav class="pagination">
@@ -1387,7 +1388,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1410,6 +1411,10 @@ class="article article-type-post"
       <ul>
         
           <li>
+            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+          </li>
+        
+          <li>
             <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
           </li>
         
@@ -1423,10 +1428,6 @@ class="article article-type-post"
         
           <li>
             <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
-          </li>
-        
-          <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/events/">event</a>
           </li>
         
       </ul>
