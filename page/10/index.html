@@ -154,7 +154,7 @@
   
     
       <article
-id="post-Node/Cookie和Session"
+id="post-JS/setTimout"
 class="article article-type-post"
 >
 
@@ -165,190 +165,98 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/03/Node/Cookie%E5%92%8CSession/">Cookie 和 Session</a>
+        <a href="/ferhannah-blog/2024/09/22/JS/setTimout/">setTimeout</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a><strong>Cookie</strong></h2><p>Cookie 是一段不超过 4KB 的小型文本数据，由一个名称（Name）、一个值（Value）和其它几个用于控制 Cookie 有效期、安全性、使用范围的可选属性组成。它通常是网站<strong>为了辨别用户身份</strong>，<strong>储存在客户端</strong>（用户本地）上的数据（通常经过加密），是由用户客户端计算机暂时或永久保存的信息。</p>
-<blockquote>
-<p>问题：express 所有的 render（redirect 等）都会发送一个新的请求，在执行 render 的中间件之前存储数据，可以让整个 render 的中间件里访问到这个数据。但是如果在 render 的中间件里写入数据，则每次执行该数据都会被刷新，无法存储。</p>
-<ul>
-<li>可以将数据存储为全局变量。但因为该变量在所有请求之间共享，所以也会在用户之间共享（不安全）；</li>
-<li>使用 cookie。cookie 可以帮助我们将数据存储在单个用户的浏览器中，不会影响其他用户。</li>
-</ul>
-</blockquote>
-<h3 id="设置-Cookie"><a href="#设置-Cookie" class="headerlink" title="设置 Cookie"></a><strong>设置 Cookie</strong></h3><p>通过<code>setHeader()</code>的<code>Set-Cookie</code>关键字来设置一个 cookie，以<code>=</code>分隔来设置 cookie 的 name 和 value：</p>
-<pre><code class="js">res.setHeader(&quot;Set-Cookie&quot;, &quot;name=value&quot;);
+        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
+<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
+<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
+<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
 </code></pre>
-<blockquote>
-<p>cookie 设置完以后，默认情况下浏览器会将<strong>它发送到服务器的每个请求</strong>。</p>
-</blockquote>
-<ul>
-<li><p><strong>设置多个 cookie</strong></p>
-<p>我们可以同时设置多个 cookie 值：</p>
-<pre><code class="js">res.setHeader(&quot;Set-Cookie&quot;, &quot;name=value; name2=666 &quot;);
-</code></pre>
-</li>
-<li><p><strong>设置 cookie 失效时长</strong></p>
-<p><strong>默认情况下的 cookie 在关闭浏览器后就会失效</strong>，我们可以 cookie 设置某个过期时间：</p>
-<pre><code class="js">res.setHeader(
-  &quot;Set-Cookie&quot;,
-  &quot;name=value; expires=&quot; +
-    new Date(new Date().getTime() + 86409000).toUTCString()
-);
-</code></pre>
-</li>
-<li><p><strong>设置 cookie 的 Secure</strong></p>
-<p>设置 Secure 意味着<strong>cookie 只有在页面通过 HTTPS 请求时才会被设置</strong>，<strong>保护 cookie 在浏览器和 Web 服务器间的传输过程中不被窃取和篡改。</strong>：</p>
-<pre><code class="JS">res.setHeader(&#39;Set-Cookie&#39;, &#39;name=value; Secure&#39;);
-</code></pre>
-</li>
-<li><p><strong>设置 cookie 的 HttpOnly</strong></p>
-<p>设置 HttpOnly 意味着<strong>我们无法通过客户端的 JS 访问和修改 cookie 的值</strong>（前端也可以使用 <code>document.cookie</code> 去获取和修改 <code>cookie</code> ），<strong>它保护 cookie 不被跨站脚本攻击窃取或篡改</strong>：</p>
-<pre><code class="js">res.setHeader(&quot;Set-Cookie&quot;, &quot;name=value; HttpOnly&quot;);
-</code></pre>
-<blockquote>
-<p>跨域脚本攻击：客户端 JS 中可能被注入了恶意代码，如果没有限制客户端 JS 访问 cookie，可能会存在身份泄露等问题。</p>
 </blockquote>
 </li>
 </ul>
-<h3 id="获取-Cookie"><a href="#获取-Cookie" class="headerlink" title="获取 Cookie"></a><strong>获取 Cookie</strong></h3><p>通过请求的<code>get(&#39;Cookie&#39;)</code>方法来获取一个 cookie：</p>
-<pre><code class="js">req.get(&quot;Cookie&quot;); // 获取的cookie为name=value形式，需要可以自己进行拆分
+<p>要解决这个问题可以使用：</p>
+<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
+<pre><code class="js">setTimeout(function () &#123;
+  console.log(this);
+  myArray.myMethod();
+&#125;, 1.0 * 1000);
 </code></pre>
-<blockquote>
-<p>拆分 cookie：</p>
-<pre><code class="js">req.get(&quot;Cookie&quot;).trim().split(&quot;=&quot;)[0]; // 获取cookie的name
-req.get(&quot;Cookie&quot;).trim().split(&quot;=&quot;)[1]; // 获取cookie的value
+<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
 </code></pre>
+<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
+<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
+<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
+<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
+<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
 </blockquote>
-<p>我们可以从浏览器端修改 cookie 的值，所以 cookie 通常用<strong>于跨域请求存储数据</strong>（cookie 是存储在本地浏览器上，所以它可以发送到我们每个发起请求的页面，所以它可以从一个页面发送到另一个页面，即使这两个页面存在于不同的服务器上），但是一些敏感的数据不能让用户修改，这时候就可以使用 session：</p>
-<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a><strong>Session</strong></h2><p>session 是当我们访问服务某个网页的时候，在<strong>服务器端的内存</strong>开辟一块内存。它存储在服务器的内存中，session 只有对应的浏览器才能访问。</p>
-<blockquote>
-<p>客户端需要告诉服务器它对应的 session，因为 session 也是存储在内存或数据库中的一条条数据。</p>
-</blockquote>
-<p><strong>使用（实现）原理：</strong></p>
-<ul>
-<li><p>我们使用<strong>cookie 来存储 session 的 ID</strong>，但实际上存储的值并不是 ID，而是<strong>经过哈希处理只有服务器可以识别的、以加密方式存储的 ID</strong>，这样在 cookie 中就存储了一个我们无法浏览器内部改变、较为安全的值；</p>
 </li>
-<li><p>当用户保持当前浏览器的情况下再去访问服务器时，会把 session 的 ID 传给服务器，<strong>服务器根据 session 的 ID</strong>来为用户提供相应的服务。</p>
-</li>
+<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
+<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
+<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
 </ul>
-<h2 id="在-Node（Express）中使用-Session"><a href="#在-Node（Express）中使用-Session" class="headerlink" title="在 Node（Express）中使用 Session"></a><strong>在 Node（Express）中使用 Session</strong></h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a><strong>安装</strong></h3><p>使用时需下载<code>express-session</code>这个包：</p>
-<pre><code class="bash">npm install --save express-session
-</code></pre>
-<blockquote>
-<p>它是 Express 官方拓展包，但并不包含在 Express 里。</p>
-</blockquote>
-<h3 id="初始化-session-中间件"><a href="#初始化-session-中间件" class="headerlink" title="初始化 session 中间件"></a><strong>初始化 session 中间件</strong></h3><p>app.js</p>
-<pre><code class="js">const express = require(&quot;express&quot;);
-const session = require(&quot;express-session&quot;); // 引入express-session
+<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
 
-const app = express();
+        
+    </div>
+    </div>
 
-app.use(
-  session(&#123;
-    // 初始化设置session
-    secret: &quot;my secret&quot;, // 用于标记存储在cookie中的ID的hash
-    resave: false, // session不会再每完成一个请求就保存 @1
-    saveUninitialized: false, // 确保不为不需要保存的请求保存session
-    // cookie: &#123;&#125; // 设置cookie相关配置
-  &#125;)
-);
-</code></pre>
-<blockquote>
-<p>@1：设置<code>resave: false</code>意味着当 session 发生变化时才会保存，有利于提高性能；</p>
-</blockquote>
-<h3 id="设置-session-的值"><a href="#设置-session-的值" class="headerlink" title="设置 session 的值"></a><strong>设置 session 的值</strong></h3><p>使用<code>req.session.xxx = value;</code>来定义存储一个 sessionID 的 cookie，cookie 的 value 为 session 加密的 ID：</p>
-<pre><code class="js">exports.postLogin = (req, res, next) =&gt; &#123;
-  // res.setHeader(&#39;Set-Cookie&#39;, &#39;loggedIn=true; Secure&#39;);
-  req.session.isLoggedIn = true; // 设置一个session
-  res.redirect(&quot;/&quot;);
-&#125;;
-</code></pre>
-<blockquote>
-<p>设置的 session 的名字是为了方便我们获取，其在 cookie 中存储的名字统称为<code>connect.sid</code>。</p>
-</blockquote>
-<h3 id="获取-session-的值"><a href="#获取-session-的值" class="headerlink" title="获取 session 的值"></a>获取 session 的值</h3><p>使用<code>req.session.xxx</code>来获取一个 session 的值：</p>
-<pre><code class="js">exports.getLogin = (req, res, next) =&gt; &#123;
-  console.log(req.session.isLoggedIn); // 获取session的值
-&#125;;
-</code></pre>
-<h3 id="存储-session-的值"><a href="#存储-session-的值" class="headerlink" title="存储 session 的值"></a><strong>存储 session 的值</strong></h3><p>通过<code>req.session.xxx = value;</code>设置的 session 是<strong>存储在内存中</strong>的，但内存是有限的，所以我们需要根据不同情况采用不同的存储方式。</p>
-<blockquote>
-<p>对于开发者来说需要存储的用户的 session 较少，内存够用；但生产服务器可能会存储上千万的用户，每个用户都有自己的 session，这很快就会造成内存溢出。</p>
-</blockquote>
-<ul>
-<li><p><strong>使用 MongoDB 数据库存储</strong></p>
-<p>对于 express-session，需要下载<code>connect-mongodb-session</code>这个包：</p>
-<pre><code class="bash">npm install --save connect-mongodb-session
-</code></pre>
-<p>引入 connect-mongodb-session：</p>
-<p>app.js</p>
-<pre><code class="js">const session = require(&quot;express-session&quot;);
-const MongoDBStore = require(&quot;connect-mongodb-session&quot;)(session); // 实际上提供了一个需要传递session执行函数
-// ...
-const app = express();
-const store = new MongoDBStore(&#123;
-  // 创建数据库存储
-  uri: &quot;mongodb+srv://&lt;name&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop&quot;, // 数据库连接地址
-  collection: &quot;sessions&quot;, // 集合名称（如果不存在就创建）
-&#125;);
+    <div class="article-badge">
+        
+        
+    </div>
 
-app.use(
-  session(&#123;
-    secret: &quot;my secret&quot;,
-    resave: false,
-    saveUninitialized: false,
-    store: store, // 设置初始化存储
-  &#125;)
-);
-</code></pre>
-</li>
-</ul>
-<h3 id="删除-session-的值"><a href="#删除-session-的值" class="headerlink" title="删除 session 的值"></a><strong>删除 session 的值</strong></h3><p>通过<code>req.session.destroy()</code>来删除一个 session，它内部包含一个错误信息的回调函数：</p>
-<pre><code class="js">exports.postLogout = (req, res, next) =&gt; &#123;
-  req.session.destroy((err) =&gt; &#123;
-    console.log(err);
-  &#125;);
-&#125;;
-</code></pre>
-<blockquote>
-<p>注意：该删除会将数据库中的 session 删除，浏览器里的 cookie 不会删除，但是其中 cookie 存储的 session 的 ID 在删除后会在数据库中找不到匹配。</p>
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-HTML/innerText和textContent"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
+<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
+<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
+<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
+<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
 </blockquote>
-<h3 id="确保-session-保存-更新后处理逻辑"><a href="#确保-session-保存-更新后处理逻辑" class="headerlink" title="确保 session 保存&#x2F;更新后处理逻辑"></a>确保 session 保存&#x2F;更新后处理逻辑</h3><p>有时候我们执行代码还没有等到 session 保存&#x2F;更新好之后就已经执行完了，如果想等 session 完全保存好之后再进行执行，可以使用<code>req.session.save()</code>：</p>
-<pre><code class="js">req.session.save((err) =&gt; &#123;
-  console.log(err);
-  res.redirect(&quot;/&quot;);
-&#125;);
-</code></pre>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>Cookie：</strong></p>
-<ul>
-<li><p><strong>存储在浏览器</strong>上（客户端）；</p>
 </li>
-<li><p><strong>可以被用户看到和操纵</strong>，不应该用来存储一些敏感的信息；</p>
-</li>
-<li><p>通常不会直接设置 cookie 的值，而是通过类似 session 的包使用 cookie；</p>
-</li>
-<li><p>可以配置各种各样的 cookie，如什么时候失效（expire）；</p>
-<blockquote>
-<p>默认情况下在浏览器关闭时过期，而这类 cookie 被称为<code>session cookie</code>！</p>
-<ul>
-<li><strong><code>session cookie</code>不一定用来识别 session</strong>，之所以被称为<code>session cookie</code>是因为它们只在使用当前浏览器页面时存在；</li>
+<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
 </ul>
-</blockquote>
-</li>
-<li><p>设置 cookie 的失效时间到具体某个日期、年龄，这相当于某种意义上的<strong>永久 cookie</strong>（它不会在关闭浏览器时就消失）；</p>
-</li>
-<li><p>cookie 能和 session 一起使用，但<strong>它并不仅限于和 session 一起使用</strong>；</p>
-</li>
-</ul>
-<p><strong>Session：</strong></p>
-<ul>
-<li><strong>存储在服务器</strong>上（服务端）；</li>
-<li><strong>用户无法查看或操纵</strong>，适合存储跨域请求保留的敏感数据；</li>
-<li>可以在 session<strong>存储任何形式的数据</strong>，通常用来存储用户数据或身份验证状态信息；</li>
-<li>seesion 需要一个 cookie 来识别（这个 cookie 不是<code>session cookie</code>，而是永久 cookie），一个 cookie 识别一个 session；</li>
-<li>可以选择不同的方式存储 session 数据，如：数据库存储、文件存储等；</li>
+<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
+<li>innerHTML 是 Element 对象的属性；</li>
+<li>innerHTML 返回完整的 DOM 元素；</li>
 </ul>
 
         
@@ -365,11 +273,11 @@ app.use(
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2023-03-02T16:00:00.000Z" itemprop="datePublished">2023-03-03</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
         </div>
     
     
@@ -382,7 +290,7 @@ app.use(
   
     
       <article
-id="post-Node/Sequelize"
+id="post-network/Fetch"
 class="article article-type-post"
 >
 
@@ -393,310 +301,520 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/03/Node/Sequelize/">Sequelize</a>
+        <a href="/ferhannah-blog/2024/09/22/network/Fetch/">Fetch</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Sequelize 是一个<strong>基于promise</strong>的 <em>Node.js</em> <strong>ORM（对象关系映射库—Object-Relational Mapping Library）</strong>。它具有强大的事务支持，关联关系，预读和延迟加载，读取复制等功能。</p>
+        <p>也是用于客户端和服务端数据交互的技术。相对于 xhr，它的更加简洁、易于使用。并且基于 Promise，可以使用链式调用。<br>但是它不支持超时控制（如果需要则要手动设置 setTimeout），终止请求很麻烦（需要基于一个构造函数 AbortController 完成）</p>
+<h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><h2 id="Fetch-使用"><a href="#Fetch-使用" class="headerlink" title="Fetch 使用"></a>Fetch 使用</h2><p>fetch 可以设置两个参数，第一个参数是必填的，也就是访问的 url 地址；第二个参数是一个对象，可以配置一些请求的信息，比如请求方法、请求头、请求体等。</p>
+<p>设置好之后 fetch 其实返回的是一个 Promise，在.then()中接收的默认参数其实是一个 response 对象，并不是一个拿到值的结果。</p>
+<p>在这个 response 对象中有各种响应的信息，并且在它的原型对象上有一些响应体解析方法，我们需要根据后端返回的格式来调用不同的响应体解析方法来拿到这个结果：</p>
+<ul>
+<li>text()：将响应体解析为纯文本字符串返回；</li>
+<li>json()：将响应体解析为 JSON 格式并返回一个 JS 对象；</li>
+<li>blob()：将响应体解析为二进制数据并返回一个 Blob 对象；</li>
+<li>arrayBuffer()：将响应体解析为二进制数据并返回一个 ArrayBuffer 对象；</li>
+<li>formData()：将响应体解析为 FormData 对象；</li>
+</ul>
+<p>然后在第二个.then()中拿到最终的结果。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/AJAX"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/AJAX/">AJAX</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>异步的 JS 和 XML，是一种用于网页进行异步交换数据的技术，它可以在不刷新整个页面的情况下向服务器异步发起请求获取数据，从而实现动态更新页面（异步更新页面）。它减少了响应实现和带宽的消耗，提高了用户的交互体验。但是它不利于 SEO。（因为 SEO 在进行爬虫抓取的时候没有办法去抓取 AJAX 里的内容以及发送的 url），如果要做 SEO 可以使用服务端渲染技术（SSR）</p>
 <blockquote>
-<p>它将所有的SQL语句代码映射到Javascript对象中（封装），然后导出变成我们可调用的方法，这样我们就<strong>不用自己编写SQL语句代码</strong>。</p>
-<p>例如：</p>
-<pre><code class="sql">INSERT INTO users VALUE (&#39;Jon&#39;, 28, &#39;HJDFKLS&#39;)
-</code></pre>
-<p>——&gt;</p>
-<pre><code class="js">const user = User.create(&#123; name: &#39;Jon&#39;, age: 28, password: &#39;HJDFKLS&#39;&#125;)
-</code></pre>
+<p>没有 AJAX 时需要手动刷新页面。</p>
 </blockquote>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><blockquote>
-<p>注意：sequelize需要安装数据库的驱动程序，我使用的数据库是MySQL，所以需要安装<strong>mysql2</strong>包！</p>
+<h3 id="SEO"><a href="#SEO" class="headerlink" title="SEO"></a>SEO</h3><p>搜索引擎优化。</p>
+<h2 id="AJAX-实现"><a href="#AJAX-实现" class="headerlink" title="AJAX 实现"></a>AJAX 实现</h2><ul>
+<li>创建一个 XMLHttpRequest 的实例对象；</li>
+<li>使用 open 方法定义请求的方式、url 地址、是否异步（默认异步）；</li>
+<li>如果是 post 请求需要设置请求头 setRequestHeader；</li>
+<li>如果需要向后端传递信息，可以使用 send 方法传递；<blockquote>
+<p>get 请求一般不用 xhr.send(null)，有也是作为 query 在 url 地址中传递；</p>
 </blockquote>
-<pre><code class="bash">npm install --save sequelize
+</li>
+<li>通过在 onreadystatechange 函数中监听 readyState 的值，来接收后端返回的数据，这个函数在整个 AJAX 初始到连接到结束都会执行；<blockquote>
+<p>0: 未初始化 —— XMLHttpRequest 对象已经创建，但还没有调用 open 方法；<br>1：已开启 —— open 方法被调用，send 方法没被调用；<br>2：已发送 —— send 方法已调用，请求已经发给服务器了；<br>3：正在接收 —— 服务器正在处理请求并返回数据；<br>4：完成 —— 服务器已经完成了数据传输；<br>status 200： 服务器返回状态码。</p>
+</blockquote>
+</li>
+<li>或者直接使用 addEventListener 去监听 load 事件，该事件只会在 readyState&#x3D;4 的时候执行。</li>
+<li>也可以使用 addEventListener 去监听一个 progress，来获取一个进度；</li>
+<li>也可以设置超时时间 timeout，然后使用 addEventListener 去监听一个 timeout；</li>
+<li>也可也中断请求；</li>
+</ul>
+<h3 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h3><ul>
+<li>1xx：信息性状态码。比如 102 服务器已经收到并正在处理该请求；</li>
+<li>2xx：请求成功响应。</li>
+<li>3xx：重定向消息。304 服务端告诉客户端数据没有变换，可以使用缓存。</li>
+<li>4xx：客户端响应错误。400 参数错误，401 可能是 token 掉了，403 没有权限。</li>
+<li>5xx：服务端错误。</li>
+</ul>
+<h3 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h3><p>JSON 是一种数据格式，常用于前后端数据传输。它体积小，传输快，易于用户阅读和编写，也可也被各种编程语言轻松解析。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/SSE"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/SSE/">SSE</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>server sent events。是一种用于实现服务器主动向客户端单向推送数据的技术，也被称为事件流。它是基于 HTTP 协议的，实现在客户端和服务端之间建立一条持久化连接（长连接），并通过这条连接实现服务器向客户端的实时数据推送。单工通讯</p>
+<blockquote>
+<p>客户端向服务端发起请求后，服务端就与客户端建立连接，服务端一有数据就向客户端发送，不需要客户端再发起请求。</p>
+</blockquote>
+<h3 id="HTTP-协议特性"><a href="#HTTP-协议特性" class="headerlink" title="HTTP 协议特性"></a>HTTP 协议特性</h3><p>是否有长连接。</p>
+<h3 id="协议对比-AJAX（HTTP）-SSE-WebSocket"><a href="#协议对比-AJAX（HTTP）-SSE-WebSocket" class="headerlink" title="协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket"></a>协议对比-AJAX（HTTP）&#x2F; SSE &#x2F; WebSocket</h3><h4 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h4><p>客户端向服务端发送一个 HTTP 请求后，服务端响应一次。一来一回一来一回。</p>
+<h4 id="SSE"><a href="#SSE" class="headerlink" title="SSE"></a>SSE</h4><p>客户端向服务端发起请求，传递 SSE 数据，此时服务端可以不立即返回消息，隔一阵之后在返回消息，并且不用客户端再次发起请求，就可以一直给客户端返回消息，实现单工通讯。</p>
+<h4 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h4><p>客户端向服务端发起请求后，客户端和服务端都可以向对方发送消息，全双工通讯。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>chatGPT 返回的数据、实时数据大屏（后端实时向前端推送数据，不一定非要使用 WebSocket）。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>需要使用 HTML5 提供的 EventSource API。</p>
+<ul>
+<li>构造一个 EventSource 的实例，该构造函数需要传入一个用于建立连接的 url，还可以传入一个可选的配置对象。<ul>
+<li>配置对象可以配置发送请求头信息，与服务器失去连接之后重新连接的时间间隔等。</li>
+</ul>
+</li>
+<li>然后可以使用实例对象的一些方法来监听或者操纵整个 SSE 连接：<ul>
+<li>close()：关闭与服务端的连接，停止接收服务端发送的数据；</li>
+<li>onopen()：和服务器建立好连接之后触发的函数（第一次建立连接）；</li>
+<li>onerror()：建立连接失败触发的函数；</li>
+<li>onmessage()：接收到服务端数据时触发的函数，默认参数为后端返回的数据；<blockquote>
+<p>注意：后端可以设置返回多个事件的名称（res.write(‘event: ‘)），默认为 message。前端需要监听这个事件名称，才能接收到对应数据。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>需要在返回响应里设置请求头信息 Content-Type 为 text&#x2F;event-stream</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/Cross-domain"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/Cross-domain/">跨域解决</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>由于浏览器的同源策略，浏览器会拒绝跨域请求。</p>
+<h2 id="jsonp（前后端协作）"><a href="#jsonp（前后端协作）" class="headerlink" title="jsonp（前后端协作）"></a>jsonp（前后端协作）</h2><p>利用 script 标签的 src 不受同源策略的限制，（通过动态创建 script 发送）可以跨域请求数据。但是只能发送 get 请求。</p>
+<blockquote>
+<p>后端返回的是一个函数，该函数是在前端定义的，后端把要返回的值注入到函数的参数里面。</p>
+</blockquote>
+<h2 id="代理服务器（前端）"><a href="#代理服务器（前端）" class="headerlink" title="代理服务器（前端）"></a>代理服务器（前端）</h2><p>webpack、vite 等。</p>
+<blockquote>
+<p>注意：该方法只在<strong>开发环境</strong>生效，如果需要生产环境需要修改 nginx 配置。</p>
+</blockquote>
+<h2 id="设置请求头-跨域资源共享-cors（后端）"><a href="#设置请求头-跨域资源共享-cors（后端）" class="headerlink" title="设置请求头-跨域资源共享 cors（后端）"></a>设置请求头-跨域资源共享 cors（后端）</h2><p>后端设置请求头 Access-Control-Allow-Origin。</p>
+<h2 id="nginx-代理"><a href="#nginx-代理" class="headerlink" title="nginx 代理"></a>nginx 代理</h2><p>适合于上线时使用，前后端不需要有什么修改。</p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/HTTPS"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/HTTPS/">HTTP 和 HTTPS</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><h3 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h3><ul>
+<li>使用明文传输（不加密），内容可能会被盗用；</li>
+<li>不会验证通信方的身份，可能会被劫持或伪装；</li>
+<li>无法验证报文的完整性，报文可能会被篡改；</li>
+</ul>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>对信息进行加密，有信息完整性校验和通信方身份校验。</p>
+<p>HTTPS &#x3D; HTTP + TLS&#x2F;SSL</p>
+<h2 id="TLS-和-SSL"><a href="#TLS-和-SSL" class="headerlink" title="TLS 和 SSL"></a>TLS 和 SSL</h2><p>TLS（Transport Layer Security）和 SSL（Secure Sockets Layer）是用于保护网络通信安全的协议。他们提供了加密和认证机制，用于确保数据传输的机密性和完整性。</p>
+<blockquote>
+<p>TLS 是将对称加密、非对称加密和散列函数融合起来，安全性很高。</p>
+</blockquote>
+<p>SSL 是最早的加密协议，后来被 TLS 取代。TLS 是 SSL 的升级版本，提供更强大的安全性和更先进的加密算法。目前主流的浏览器和服务器都支持 TLS 协议。</p>
+<blockquote>
+<p>目前广泛使用的是 TLS 1.2 和 TLS 1.3.</p>
+</blockquote>
+<p>** 是在应用层的下面，传输层的上面去做的加密。**</p>
+<h2 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>加密和解密的密钥是相同的。</p>
+<blockquote>
+<p>常见的有 DES、AES。<br>发送方（加密方）：AES 算法 + 密钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：AES 算法 + 密钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>加密和解密使用不同的密钥，使用接收方的公钥进行加密，接收方用自己的私钥进行解密。</p>
+<blockquote>
+<p>常见的有 RSA、DSA。<br>发送方（加密方）：RSA + 公钥 + 明文（传输信息）&#x3D; CDSABIFHSC&#x3D;&#x3D;（生成乱码）<br>接收方（解密方）：RSA + 私钥 + CDSABIFHSC&#x3D;&#x3D;（生成乱码）&#x3D; 明文（传输信息</p>
+</blockquote>
+<h2 id="例子——将网站变为使用-HTTPS-的服务"><a href="#例子——将网站变为使用-HTTPS-的服务" class="headerlink" title="例子——将网站变为使用 HTTPS 的服务"></a>例子——将网站变为使用 HTTPS 的服务</h2><blockquote>
+<p>该方法在开发和测试环境中使用，生产环境上还是使用第三方机构（阿里云、腾讯云等）颁发的证书文件。</p>
+</blockquote>
+<ul>
+<li>安装 openSSL 生成私钥；<blockquote>
+<p>Mac 自带，Windows 需要去官网下载。</p>
+</blockquote>
+</li>
+</ul>
+<p>需要用到以下文件来完成证书相关操作：</p>
+<ol>
+<li>私钥文件：用于对加密数据进行解密（如 private-key.pem）；</li>
+<li>证书签名请求文件：用于向 CA 申请 SSL&#x2F;TSL 证书签名（如 certificate.csr）；</li>
+<li>SSL&#x2F;TSL 证书文件：用于对客户端发送的请求进行验证，确保通信的安全和可靠（如 certificate.pem）；</li>
+</ol>
+<ul>
+<li>创建私钥</li>
+</ul>
+<pre><code class="bash">openssl genpkey -algorithm RSA -out private-key.pem -aes256
 </code></pre>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>database.js</p>
-<pre><code class="js">const Sequelize = require(&#39;sequelize&#39;); // 引入sequelize
-
-const sequelize = new Sequelize(&#39;node-complete&#39;, &#39;root&#39;, &#39;rootpassword&#39;, &#123; // 数据库的库名，用户名，密码以及其他配置
-  dialect: &#39;mysql&#39;, // 数据库语言
-  host: &#39;localhost&#39;, // 连接服务器
-&#125;);
-
-module.exports = sequelize; // @1
+<ul>
+<li>生成 pem 签名文件</li>
+</ul>
+<pre><code class="bash">openssl req -new -key private-key.pem -out certificate.csr
 </code></pre>
 <blockquote>
-<p>@1：导出的sequelize对象<strong>本质上也是数据库连接池</strong>（同mysql2连接），只不过通过sequelize管理后我们能使用其他的一些功能。</p>
+<p>“-key private-key.pem”：表示使用指定的私钥文件”private-key.pem”来加密证书签名请求中的密钥对。</p>
 </blockquote>
-<h3 id="定义新模型"><a href="#定义新模型" class="headerlink" title="定义新模型"></a>定义新模型</h3><p>使用<code>define()</code>来定义一个新的模型（数据表），它的第一个参数为模型名称（表名），第二个参数为模型的各个参数（表中字段）：</p>
-<p>models&#x2F;product.js</p>
-<pre><code class="js">const Sequelize = require(&#39;sequelize&#39;);
+<ul>
+<li>生成数字证书</li>
+</ul>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><pre><code class="js">import https from &quot;https&quot;;
+import fs from &quot;node:fs&quot;;
 
-const sequelize = require(&#39;../util/database&#39;);
+//http 端口号 80 https端口号 443
+https
+  .createserver(
+    &#123;
+      key: fs.readFilesync(&quot;private-key.pem&quot;),
+      cert: fs.readFilesync(&quot;certificate.pem&quot;),
+      //密码短语
+      passphrase: &quot;123456&quot;,
+    &#125;,
+    (req, res) =&gt; &#123;
+      res.writeHead(200);
+      res.end(&quot;success&quot;);
+    &#125;
+  )
+  .listen(443, () =&gt; &#123;
+    console.log(&quot;https server is running at https://localhost:433&quot;);
+  &#125;);
+</code></pre>
+<h3 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h3><p>在 nginx 的安装目录的 conf&#x2F;nginx.conf 下配置。</p>
 
-const Product = sequelize.define(&#39;product&#39;, &#123;
-  id: &#123;
-    type: Sequelize.INTEGER, // 类型
-    autoIncrement: true, // 是否自增
-    allowNull: false, // 是否为Null
-    primaryKey: true // 主键
-  &#125;,
-  title: Sequelize.STRING,
-  price: &#123;
-    type: Sequelize.DOUBLE,
-    allowNull: false
-  &#125;,
-  imageUrl: &#123;
-    type: Sequelize.STRING,
-    allowNull: false
-  &#125;,
-  description: &#123;
-    type: Sequelize.STRING,
-    allowNull: false
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-network/JWT"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2024/09/22/network/JWT/">JWT</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>json web token。实现身份验证或授权，也就是鉴权。（常用于用户登录后需要存储用户信息）</p>
+<blockquote>
+<p>有点类似 cookie 和 session。</p>
+</blockquote>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>在服务端生成一个加密的令牌（token），将用户的信息封装到这个令牌中；前端每一次发送请求时去携带这个 token，服务端就可以将这个 token 进行解码，读取用户的信息，这样就达到了一个身份验证和鉴权。</p>
+<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><p>JWT 由 . 分割为三个部分：</p>
+<ul>
+<li>头部（Header）：一般由令牌的类型和使用的签名算法组成（一般不用去管），是一个 json 对象。</li>
+<li>负载（Payload）：包含需要传输的信息（用户身份、权限、令牌发布者等），也是一个 json 对象，使用 Base64 进行编码。</li>
+<li>验证签名（Verify Signature）：通过指定算法对 Header 和 Payload 生成数字签名。</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="后端（express）"><a href="#后端（express）" class="headerlink" title="后端（express）"></a>后端（express）</h3><ul>
+<li>安装所需依赖</li>
+</ul>
+<pre><code class="bash">pnpm i express cors jsonwebtoken
+</code></pre>
+<blockquote>
+<p>cors：用于解决跨域。</p>
+</blockquote>
+<pre><code class="js">import express from &quot;express&quot;;
+import jwt from &quot;jsonwebtoken&quot;;
+import cors from &quot;cors&quot;;
+
+let Key = &quot;SVCSD&quot;; // 加验私钥，一般藏在环境变量里
+const app = express();
+app.use(express.json()); // 中间件支持json
+app.use(express.urlencoded(&#123; extended: false &#125;));
+app.use(cors()); // 中间件解决跨域
+
+let user = &#123;
+  name: &quot;admin&quot;,
+  password: &quot;123456&quot;,
+  id: 1,
+&#125;;
+
+// 1.登录返回前端token用于授权
+app.post(&quot;/api/login&quot;, (req, res) =&gt; &#123;
+  if (req.body.name == user.name &amp;&amp; req.body.password == user.password) &#123;
+    res.json(&#123;
+      message: &quot;登录成功&quot;,
+      token: jwt.sign(&#123; id: user.id &#125;, Key, &#123; expiresIn: &quot;1h&quot; &#125;), // payload，私钥，token配置对象（如 token 过期时间）
+    &#125;);
+  &#125; else &#123;
+    res.status(403).json(&#123; message: &quot;用户名或密码错误&quot; &#125;);
   &#125;
 &#125;);
 
-module.exports = Product;
-</code></pre>
-<h3 id="创建新的表"><a href="#创建新的表" class="headerlink" title="创建新的表"></a>创建新的表</h3><p><strong>将创建的模型转为数据库中的表</strong>：</p>
-<p>app.js</p>
-<pre><code class="js">...
-const sequelize = require(&#39;./util/database&#39;);
+// 2.列表接口，只有授权状态才能访问，不然就会403
+app.post(&quot;/api/list&quot;, (req, res) =&gt; &#123;
+  let token = req.headers.authorization; // 前端 token 存放在请求头的 authorization 里，规范
+  jwt.verify(token, Key, (err, decode) =&gt; &#123;
+    // 使用 jwt 去验证 token 是否正确
+    if (err) &#123;
+      // token 没有权限按规范返回403
+      res.status(403).json(&#123; message: &quot;无权限&quot; &#125;);
+    &#125; else &#123;
+      res.json(&#123;
+        list: [
+          &#123; id: 1, title: &quot;标题1&quot; &#125;,
+          &#123; id: 2, title: &quot;标题2&quot; &#125;,
+        ],
+      &#125;);
+    &#125;
+  &#125;);
+&#125;);
 
-sequelize
-  .sync() // @2
-  .then(result =&gt; &#123;
-    app.listen(3000);
+app.listen(3000, () =&gt; &#123;
+  console.log(&quot;server started&quot;);
+&#125;);
+</code></pre>
+<h3 id="前端（fetch）"><a href="#前端（fetch）" class="headerlink" title="前端（fetch）"></a>前端（fetch）</h3><pre><code class="js">btn.onclick = () =&gt; &#123;
+  fetch(&quot;http://localhost:3000/api/login&quot;, &#123;
+    method: &quot;POST&quot;,
+    headers: &#123;
+      &quot;Content-Type&quot;: &quot;application/json&quot;,
+    &#125;,
+    body: JSON.stringify(&#123;
+      name: name.value,
+      password: password.value,
+    &#125;),
   &#125;)
-  .catch(err =&gt; &#123;
-    console.log(err);
-  &#125;);
-...
+    .then((res) =&gt; res.json())
+    .then((res) =&gt; &#123;
+      cnosole.log(res);
+      localStorage.setItem(&quot;token&quot;, res.token);
+    &#125;);
+&#125;;
 </code></pre>
-<blockquote>
-<p>注：如果数据库中没有这个表，则创建；如果已经存在这个表<strong>则不会覆盖原先的表</strong>。</p>
-<p>@2：如果已经创建了表，想要新建一个覆盖原来的表，可以设置<code>force</code>：</p>
-<pre><code class="js">.sync( &#123; force: true &#125;)
-</code></pre>
-<p>表创建完需删除<code>force</code>，避免每次更新项目都重新创建新表。</p>
-</blockquote>
-<p>之后数据库会自动创建一个与模型字段及信息对应的表。</p>
-<h3 id="向表中新增一条数据"><a href="#向表中新增一条数据" class="headerlink" title="向表中新增一条数据"></a>向表中新增一条数据</h3><p>通过<code>create()</code>向表中新增一条数据：</p>
-<pre><code class="js">...
-const Product = require(&#39;../models/product&#39;);
-
-router.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const price = req.body.price;
-    const description = req.body.description;
-
-    Product.create(&#123;
-      title: title,
-      price: price,
-      imageUrl: imageUrl,
-      description: description
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;Created Product&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; &#123;
-      console.log(err);
-    &#125;)
-&#125;);
-</code></pre>
-<h3 id="查询表中数据"><a href="#查询表中数据" class="headerlink" title="查询表中数据"></a>查询表中数据</h3><h4 id="findAll"><a href="#findAll" class="headerlink" title="findAll()"></a><strong>findAll()</strong></h4><p>通过<code>findAll()</code>来查询表中所有数据：</p>
-<ul>
-<li><p>查询表中所有数据：</p>
-<pre><code class="js">router.get(&#39;/products&#39;, (req, res, next) =&gt; &#123;
-  Product.findAll()
-    .then(products =&gt; &#123;
-      res.render(&#39;shop/index&#39;, &#123;
-        prods: products, 
-        pageTitle: &#39;Shop&#39;,
-        path : &quot;/&quot;,
-      &#125;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-</li>
-<li><p>查询id为prodId的数据：</p>
-<pre><code class="js">router.get(&#39;/products/:productId&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.params.productId;
-  Product.findAll(&#123; where: &#123; id: prodId&#125; &#125;)
-    .then(products =&gt; &#123;
-      res.render(&#39;shop/index&#39;, &#123;
-        prods: products[0], 
-        pageTitle: products[0].title,
-        path : &quot;/products&quot;,
-      &#125;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<blockquote>
-<p>注意：通过<code>where</code>子句返回的then的参数是一个<strong>数组</strong>。</p>
-</blockquote>
-</li>
-</ul>
-<h4 id="findByPk"><a href="#findByPk" class="headerlink" title="findByPk()"></a><strong>findByPk()</strong></h4><p>使用提供的<strong>主键</strong>从表中仅获得一条数据：</p>
-<pre><code class="js">const Product = require(&#39;../models/product&#39;);
-// 此处主键在数据库中为id
-router.get(&#39;/products/:productId&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.params.productId;
-  Product.findByPk(prodId)
-    .then((product) =&gt; &#123;
-      res.render(&#39;shop/product-detail&#39;, &#123; 
-        product: product,
-        pageTitle: product.title,
-        path: &#39;/products&#39;
-      &#125;)
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<h3 id="修改表中数据"><a href="#修改表中数据" class="headerlink" title="修改表中数据"></a>修改表中数据</h3><p>通过主键（id）找到对应数据后，在本地修改数据，修改完后通过<code>save()</code>方法将修改完的数据发送给数据库，如果数据库中存在修改的数据就覆盖它，如果不存在就新建它：</p>
-<pre><code class="js">...
-router.post(&#39;/edit-product&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.body.productId;
-  const updatedTitle = req.body.title;
-  const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
-  const updatedDesc = req.body.description;
-  Product.findByPk(prodId)
-    .then(product =&gt; &#123;
-      product.title = updatedTitle; // 在本地修改数据
-      product.price = updatedPrice; // 在本地修改数据
-      product.description = updatedDesc; // 在本地修改数据
-      product.imageUrl = updatedImageUrl; // 在本地修改数据
-      return product.save(); // 将修改好的数据发给数据库，返回一个Promise
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;UPDATED PRODUCT!&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-...
-</code></pre>
-<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><p>通过<code>destroy()</code>来删除数据：</p>
-<ul>
-<li><p>删除指定ID数据：</p>
-<pre><code class="js">...
-router.post(&#39;/delete-product&#39;, (req, res, next) =&gt; &#123;
-  const prodId = req.body.productId;
-  Product.findByPk(prodId)
-    .then(product =&gt; &#123;
-      return product.destroy();
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;DESTROYED PRODUCT&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<blockquote>
-<p>也可以通过<code>destroy()</code>的where语句来进行指定删除。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h3><p>Sequelize 支持标准关联关系：一对一、一对多和多对多。</p>
-<p>为此,Sequelize 提供了<strong>四种</strong>关联类型,并将它们组合起来以创建关联：</p>
-<ul>
-<li><code>HasOne</code> 关联类型</li>
-<li><code>BelongsTo</code> 关联类型</li>
-<li><code>HasMany</code> 关联类型</li>
-<li><code>BelongsToMany</code> 关联类型</li>
-</ul>
-<h4 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a><strong>一对一</strong></h4><p>每个User只有一个Cart，Cart属于User：</p>
-<pre><code class="js">...
-User.hasOne(Cart);
-Cart.belongsTo(User);
-...
-</code></pre>
-<h4 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a><strong>一对多</strong></h4><p>Product属于User，每个User可以有多个Product：</p>
-<pre><code class="js">...
-Product.belongsTo(User, &#123;
-  constraints: true, // 开启定义关系约束
-  onDelete: &#39;CASCADE&#39; // 级联删除
-&#125;);
-User.hasMany(Product);
-...
-</code></pre>
-<h4 id="多对多"><a href="#多对多" class="headerlink" title="多对多"></a><strong>多对多</strong></h4><p>一个Cart里可以有多个Product，每个Product可以在不同的Cart中：</p>
-<pre><code class="js">...
-Cart.belongsToMany(Product, &#123;
-  through: CartItem // 这些连接存储的位置
-&#125;);
-Product.belongsToMany(Cart, &#123; through: CartItem &#125;);
-...
-</code></pre>
-<h4 id="添加到实例的特殊方法"><a href="#添加到实例的特殊方法" class="headerlink" title="添加到实例的特殊方法"></a><strong>添加到实例的特殊方法</strong></h4><p>当两个模型之间定义了关联时，这些模型的实例将获得特殊的方法来与其关联的另一方进行交互。</p>
-<pre><code class="js">// 定义Product和User的关系
-Product.belongsTo(User, &#123;
-  constraints: true, // 开启定义关系约束
-  onDelete: &#39;CASCADE&#39; // 级联删除
-&#125;);
-User.hasMany(Product);
-</code></pre>
-<h5 id="createXXX"><a href="#createXXX" class="headerlink" title="createXXX()"></a><strong>createXXX()</strong></h5><p>使用<code>instance.createProduct()</code>来创建Product将会自动生成关联User的id：</p>
-<pre><code class="js">const Product = require(&#39;../models/product&#39;);
-
-router.post(&#39;/product&#39;, (req, res, next) =&gt; &#123;
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const price = req.body.price;
-    const description = req.body.description;
-
-    // 创建Product模型，并自动添加userId（关联主键）
-    req.user.createProduct(&#123; // req.user是sequelize保存在数据库中的数据（一个辅助方法）
-      title: title,
-      price: price,
-      imageUrl: imageUrl,
-      description: description,
-    &#125;)
-    .then(result =&gt; &#123;
-      console.log(&#39;Created Product&#39;);
-      res.redirect(&#39;/admin/products&#39;);
-    &#125;)
-    .catch(err =&gt; &#123;
-      console.log(err);
-    &#125;)
-&#125;);
-</code></pre>
-<h5 id="getXXX"><a href="#getXXX" class="headerlink" title="getXXX()"></a><strong>getXXX()</strong></h5><p>使用<code>instance.getProducts()</code>来获取Product：</p>
-<pre><code class="js">router.get(&#39;/edit-product/:productId&#39;,(req, res, next) =&gt; &#123;
-  const editMode = req.query.edit;
-  if (!editMode) &#123;
-    return res.redirect(&#39;/&#39;)
-  &#125;
-  const prodId = req.params.productId;
-  req.user
-    .getProducts(&#123; where: &#123; id: prodId &#125; &#125;) // 获取对应id的Product
-  // Product.findByPk(prodId) // 也可以使用findByPk()来寻找
-    .then(products =&gt; &#123;
-      const product = products[0];
-      if (!product) &#123;
-        return res.redirect(&#39;/&#39;);
-      &#125;
-      res.render(&#39;admin/edit-product&#39;,&#123;
-        pageTitle: &#39;Edit Product&#39;,
-        path: &#39;/admin/edit-product&#39;,
-        editing: editMode,
-        product: product
-      &#125;);
-    &#125;)
-    .catch(err =&gt; console.log(err));
-&#125;);
-</code></pre>
-<h5 id="addXXX"><a href="#addXXX" class="headerlink" title="addXXX()"></a><strong>addXXX()</strong></h5><p>使用<code>instance.addProducts()</code>来添加Product：</p>
-<pre><code class="js">...
-addProduct(product, &#123;
-    through: &#123; quantity: newQuantity &#125;
-  &#125;);
+<pre><code class="js">fetch(&quot;http://localhost:3000/api/list&quot;, &#123;
+  headers: &#123;
+    Authorization: localStorage.getItem(&quot;token&quot;),
+    // &quot;Authorization&quot;: `Bearer $&#123;localStorage.getItem(&quot;token&quot;)&#125;`
+  &#125;,
 &#125;)
-...
+  .then((res) =&gt; res.json())
+  .then((res) =&gt; &#123;
+    cnosole.log(res);
+  &#125;);
 </code></pre>
+<blockquote>
+<p>注意：Bearer 字段不是一定要加的，它是一个规范，只要看见 token 前面加了这个东西，就说明它使用了 OAuth 2.0 规范(jwt 也使用了该规范)。加了后端也需要去处理这个 Bearer</p>
+</blockquote>
 
         
     </div>
@@ -712,14 +830,18 @@ addProduct(product, &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2023-03-02T16:00:00.000Z" itemprop="datePublished">2023-03-03</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
         </div>
     
     
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li></ul>
+        </div>
+    
     </div>
 </footer>
 
@@ -729,7 +851,7 @@ addProduct(product, &#123;
   
     
       <article
-id="post-Node/身份认证（Authentication）"
+id="post-network/TCP"
 class="article article-type-post"
 >
 
@@ -740,21 +862,35 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2023/03/03/Node/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%EF%BC%88Authentication%EF%BC%89/">身份认证（Authentication）</a>
+        <a href="/ferhannah-blog/2024/09/22/network/TCP/">TCP</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><ul>
-<li><p>用户发动登录请求（之前已经注册了用户信息）到服务端，服务端验证用户信息是否有效，数据库中是否存有该用户的信息（此时服务器会为用户创建一个识别用户的 session）。</p>
-<blockquote>
-<p>如果没有 session，即使用户发送的登录信息是有效的，用户下一个请求仍然会被注销登录，因为请求和请求之间是完全独立分开的，所以我们需要一个 session 来连接它们。</p>
-</blockquote>
-</li>
-<li><p>验证成功后服务器会返回一个状态码为 200 的响应，将对应存储的 seesion ID 返回给浏览器并使用 cookie 存储 。</p>
-</li>
-<li><p><strong>cookie 会伴随每个请求发送，服务器可以根据 cookie 中的 session ID 来找到对应的 session 数据</strong>（如是否登录等信息）。</p>
-</li>
+        <p><img src="/ferhannah-blog/./images/tcpip.png" alt="tcp/ip"></p>
+<h2 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h2><ul>
+<li>seq：sequence number，序列号（通过各种算法 isn 随机生成的）；</li>
+<li>ack：acknowledgement number，确认号（ack &#x3D; seq + 1）；</li>
+<li>ACK：acknowledgement，确认序列号有效；</li>
+<li>SYN：synchronous，发起新连接；</li>
+<li>FIN：finish，完成；</li>
 </ul>
+<p>第一次握手：<br>客户端向服务端发起建立新连接（SYN），并且发送序列号（seq）；</p>
+<blockquote>
+<p>序列号用于确保发送消息的顺序不乱。</p>
+</blockquote>
+<p>第二次握手：<br>服务端接收到客户端的序列号（seq），判断该序列号的确认号是否正确（ack），如果正确就标记一个 ACK，然后向客户端发起建立新连接（SYN），并且带上服务端自己的序列号（seq）；</p>
+<p>第三次握手：<br>客户端接收到之后会判断服务端的 seq 是否正确，如果正确的话也会标记一个 ACK</p>
+<blockquote>
+<p>客户端的 seq &#x3D; 第一次握手客户端的 seq + 1<br>ack &#x3D; 服务端 seq + 1</p>
+</blockquote>
+<h3 id="TCP-四次挥手"><a href="#TCP-四次挥手" class="headerlink" title="TCP 四次挥手"></a>TCP 四次挥手</h3><p>四次挥手可以由客户端或者服务端发起。此处以客户端主动发起为例子。</p>
+<p>第一次挥手：<br>客户端向服务端发送连接完成状态（FIN），并添加上客户端的 seq；此时客户端从 established 状态变为 fin_wait_1 等待状态；</p>
+<p>第二次挥手：<br>服务端收到客户端的信息后需要去验证 seq，判断 ack 是否正确，如果正确就标记一个 ACK 返回给客户端；<br>此时客户端会进入 fin_wait_2 阶段，在这个阶段内，如果有未完成或未处理的任务，会将所有任务处理完成，处理完之后服务端才会发起第三次挥手，最终来结束状态；</p>
+<p>第三次挥手：<br>服务端发起 FIN + ACK（ack）+ 服务端 seq；<br>此时客户端进入超时等待状态 time_wait。</p>
+<blockquote>
+<p>该状态的存在是为了确保第四次挥手的 ACK 标记不丢失，确保连接能正常断开，保证 TCP 的可靠性。如果 ACK 标记丢失了，服务端会再次发起断开连接请求（FIN），传递 ACK（再执行一次第三次挥手）。</p>
+</blockquote>
+<p>第四次挥手：<br>客户端超时等待完成后回向服务端发起 ACK （ack）+ seq，并彻底关闭连接。</p>
 
         
     </div>
@@ -770,203 +906,18 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2023-03-02T16:00:00.000Z" itemprop="datePublished">2023-03-03</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
         </div>
     
     
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/MVC"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/02/14/Node/MVC/">MVC</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>MVC 是模型（Model）、视图（View）、控制器（Controller）的简写，是一种架构模式，它将业务逻辑、数据和显示（M 和 V）的代码分离，从而使同一个程序可以使用不同的表现形式。</p>
-<h2 id="M（Model）"><a href="#M（Model）" class="headerlink" title="M（Model）"></a>M（Model）</h2><p>模型，针对应用程序<strong>数据</strong>，包含<strong>业务逻辑</strong>和<strong>状态</strong>，也包含一些<strong>HTTP 库</strong>，对数据进行操作（如保存，获取数据）。</p>
-<h2 id="V（View）"><a href="#V（View）" class="headerlink" title="V（View）"></a>V（View）</h2><p>视图，针对<strong>表示逻辑层</strong>，用户能看到的部分。</p>
-<h2 id="C（Controller）"><a href="#C（Controller）" class="headerlink" title="C（Controller）"></a>C（Controller）</h2><p>控制器，包含<strong>应用（程序）逻辑</strong>的内容。位于 Model 和 View 之间，为两者创建桥梁（如 Routes）。它规定了使用哪个模型渲染哪个视图。</p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-02-13T16:00:00.000Z" itemprop="datePublished">2023-02-14</time>
-</div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Node.js"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/02/06/Node/Node.js/">Node.js</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h2><h3 id="什么是-Node-js"><a href="#什么是-Node-js" class="headerlink" title="什么是 Node.js"></a><strong>什么是 Node.js</strong></h3><p>Node.js 是一个基于 Chrome V8 引擎的 <strong>JavaScript 运行环境</strong>，它可以<strong>让 JavaScript 在服务端运行</strong>。</p>
-<blockquote>
-<p>注意：<strong>Node.js</strong>不仅仅可以在服务端运行（这是在 JS 运行时），<strong>也可以在本地脚本或构建工具中使用</strong>。（例如 Vue 等框架实际上运用了 Node.js 构建多功能脚本，因为它可以访问文件系统，进行文件读写操作等）</p>
-</blockquote>
-<ul>
-<li>引擎：将在浏览器或 node 中运行的 JavaScript 代码编译为机器代码；</li>
-</ul>
-<h3 id="Node-与-JS-组成差别"><a href="#Node-与-JS-组成差别" class="headerlink" title="Node 与 JS 组成差别"></a><strong>Node 与 JS 组成差别</strong></h3><table>
-<thead>
-<tr>
-<th align="center">Node.js</th>
-<th align="center">JavaScript</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">ECMAScript（语言基础，如：语法、数据类型结构以及一些内置对象）</td>
-<td align="center">ECMAScript（语言基础，如：语法、数据类型结构以及一些内置对象）</td>
-</tr>
-<tr>
-<td align="center">OS（操作系统）</td>
-<td align="center">DOM（一些操作页面元素的方法）</td>
-</tr>
-<tr>
-<td align="center">file（文件系统）</td>
-<td align="center">BOM（一些操作浏览器的方法）</td>
-</tr>
-<tr>
-<td align="center">net（网络系统）</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">database（数据库）</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<p>JavaScript 本身是只能在浏览器中运行的，但是现在通过 Node.js 我们可以让它在服务器端运行，这样可以让它执行一些在浏览器内因为性能或安全问题导致我们不能或不想执行的任务（如连接数据库和存储数据，用户身份验证，输入验证，业务逻辑）。</p>
-<blockquote>
-<p>因为浏览器端始终是面向用户的，用户可以看到甚至修改浏览器端的信息，所以需要服务端来做这些。</p>
-</blockquote>
-<h3 id="Node-js-在-Web-开发中的作用"><a href="#Node-js-在-Web-开发中的作用" class="headerlink" title="Node.js 在 Web 开发中的作用"></a><strong>Node.js 在 Web 开发中的作用</strong></h3><ul>
-<li>建立一个服务端：监听我们从浏览器端发送的请求；</li>
-<li>运行业务逻辑：处理请求数据、文件，连接并使用数据库等；</li>
-<li>处理响应：返回响应数据（例如 HTML 页面动态内容或数据的 json 文件等）给客户端</li>
-</ul>
-<p><strong>Web 的工作原理</strong>：</p>
-<ul>
-<li><p>用户（浏览器）输入网址；</p>
-<blockquote>
-<p>该网址会进行域名解析并最终找到正确的目标 IP 地址。</p>
-</blockquote>
-</li>
-<li><p>浏览器带着正确的 IP 地址向服务器发送请求；</p>
-</li>
-<li><p>具有该 IP 的服务器端代码开始运行；</p>
-<blockquote>
-<p>此时 Node.js 就开始了工作（当然也可以有其他的语言代替），在这里 node.js 可以进行用户输入验证，连接数据库。</p>
-</blockquote>
-</li>
-<li><p>服务端执行完成后向客户端返回一些响应；</p>
-<blockquote>
-<ul>
-<li>响应可以是一些 HTML 文本或者 HTML 代码，还有可以被客户端处理的一些其他类型的数据，例如 json 或 xml 文件等；</li>
-<li>响应不仅仅有内容，还有请求体和请求头等元信息；</li>
-</ul>
-</blockquote>
-<p>请求和响应传输是通过某种协议（标准化的沟通方式）完成的：</p>
-</li>
-</ul>
-<p><strong>HTTP&#x2F;HTTPS</strong>：</p>
-<p>HTTP：超文本传输协议，定义了请求的格式以及数据如何从浏览器传输到服务器等；</p>
-<p>HTTPS：超文本传输加密协议，传输的数据是经过 SSL 加密的；</p>
-<h2 id="使用-Node"><a href="#使用-Node" class="headerlink" title="使用 Node"></a><strong>使用 Node</strong></h2><h3 id="REPL"><a href="#REPL" class="headerlink" title="REPL"></a><strong>REPL</strong></h3><p>在<strong>控制终端</strong>输入<code>node</code>后进入，在这可以进行 REPL 的操作。</p>
-<p>R：read，读取用户的输入；</p>
-<p>E：eval，评估用户的输入 ；</p>
-<p>P：print，打印输出的结果；</p>
-<p>L：loop，循环返回并等待新一轮的用户输入；</p>
-<pre><code class="bash">ndoe
-&gt; 1 + 1
-4
-</code></pre>
-<blockquote>
-<p>注意：一旦控制终端关闭或者退出 node 我们将不能再进入到刚才的 node 文件空间！</p>
-</blockquote>
-<h3 id="执行-Node-js-代码文件"><a href="#执行-Node-js-代码文件" class="headerlink" title="执行 Node.js 代码文件"></a><strong>执行 Node.js 代码文件</strong></h3><p>将 node 代码写在一个文件中，执行这个文件。</p>
-<pre><code class="js">node app.js
-</code></pre>
-<blockquote>
-<p>通常使用这种模式执行 node 代码。</p>
-</blockquote>
-<h2 id="Node-js-框架"><a href="#Node-js-框架" class="headerlink" title="Node.js 框架"></a>Node.js 框架</h2><ul>
-<li>Express.js：最流行最常用的 Node.js 框架。</li>
-<li>Adonis.js：受 laravel（PHP）启发的框架。</li>
-<li>Koa</li>
-<li>Sails.js</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-02-05T16:00:00.000Z" itemprop="datePublished">2023-02-06</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li></ul>
         </div>
     
-    
     </div>
 </footer>
 
@@ -976,7 +927,7 @@ class="article article-type-post"
   
     
       <article
-id="post-Node/生命周期(事件循环)"
+id="post-network/URL"
 class="article article-type-post"
 >
 
@@ -987,33 +938,86 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2023/02/02/Node/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F(%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)/">Node.js程序的生命周期以及事件循环</a>
+        <a href="/ferhannah-blog/2024/09/22/network/URL/">浏览器中输入 url 到底发生了什么</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="Node-js-程序的生命周期"><a href="#Node-js-程序的生命周期" class="headerlink" title="Node.js 程序的生命周期"></a>Node.js 程序的生命周期</h2><p>当我们使用<code>node app.js</code>执行文件时，node.js 会运行整个文件，解析代码，注册变量和函数等，我们会一直处于这个运行文件中，这是因为 node.js 的事件循环。</p>
-<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>事件循环处理处理所有的回调</p>
-<p>由 node.js 管理的循环进程。只要其中的工作没有做完，它就会一直运行程序。</p>
-<blockquote>
-<p>这意味着这样注册了事件监听器程序就会一直执行（没有手动强制退出的情况下）。</p>
+        <p>首先解释 url 是什么。</p>
+<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>访问协议 + 域名（服务器名称地址）+ 请求文件（资源）路径名</p>
+<p>有了域名就可以进行一个 DNS 查询</p>
+<h2 id="DNS（域名系统，domain-name-system）"><a href="#DNS（域名系统，domain-name-system）" class="headerlink" title="DNS（域名系统，domain name system）"></a>DNS（域名系统，domain name system）</h2><p>域名系统产生：服务器一般都有一个 IP，而这个 IP 地址很难记住（168.127.4.xxxx）。如果使用域名就很好记了（bing.com）。<br>DNS 主要是将 IP 和域名进行一个映射，通过域名找到对应的 IP 的服务器，然后去找到正确的资源。</p>
+<p>所以用户再输入 url 后，会去查找 dns。</p>
+<h3 id="DNS-查找顺序"><a href="#DNS-查找顺序" class="headerlink" title="DNS 查找顺序"></a>DNS 查找顺序</h3><ol>
+<li>首先去浏览器的 dns 缓存 中查找；</li>
+<li>如果没有命中就去操作系统中 dns 缓存中找；</li>
+<li>如果没有命中，去本地 hosts 文件查找；<blockquote>
+<p>hosts 文件：定义了一个映射关系，也就是一个 IP 地址和一个与之有映射关系的主机名。</p>
+</blockquote>
+</li>
+<li>如果没有命中，操作系统会向域名服务器发送请求（递归查找）；</li>
+</ol>
 <ul>
-<li>告诉 node.js 这里的工作都执行完了，强制退出：</li>
+<li>首先查找本地 dns 服务器；</li>
+<li>如果没有找到，会向根域名服务器查找（.）；</li>
+<li>如果没有找到，会向顶级域名服务器查找（com.）；</li>
+<li>如果没有找到，会向权威域名服务器查找（baidu.com.）；但是如果配置了 CDN，dns 会将最终的域名解释权通过获取对应的 cname 域名交给 cdn 专用的 dns 服务器。</li>
 </ul>
-<pre><code class="js">process.exit();
-</code></pre>
+<p>通过 dns 查询到了对应的 IP 地址之后，就可以向它发送网络请求了。<br>发送请求前会通过传输层 TCP&#x2F;IP 进行三次握手，保证数据传输的可靠，然后就可以发送 HTTP 请求了。</p>
+<h2 id="HTTP-的-options-预检请求"><a href="#HTTP-的-options-预检请求" class="headerlink" title="HTTP 的 options 预检请求"></a>HTTP 的 options 预检请求</h2><blockquote>
+<p>浏览器在发送一个跨域的 HTTP 的 post 请求时，通常会发送一个 options 的请求：这个 OPTIONS 请求被称为预检请求(pre-flightrequest)，用于确定接收请求的服务端能否进行正常通讯（浏览器有可能已经缓存了这个预检请求导致不发送）；预检请求发送条件：</p>
+<ul>
+<li>请求头 Content-Type 设置 application&#x2F;json；</li>
+<li>用户自定义了请求头；</li>
+</ul>
 </blockquote>
-<p>node.js 不止在服务器上使用事件循环，也在其他地方使用，例如数据库。</p>
-<p><strong>原因</strong>：</p>
-<p><strong>node.js 使用事件循环是因为它实际上执行的 JS 是单线程，整个 node 程序使用的是计算机里的一个线程；而如果用 node 创建一个服务器，那它应该能够处理传入的多个数据请求，而不是因为一个请求暂停而导致所有请求等待</strong>。</p>
-<p>当我们执行 node.js 时事件循环就自动开启了，它负责处理事件回调函数。它会优先处理快速完成的回调函数。</p>
-<p>而 fs 模块的功能会被发送到一个工作池中，这个工作池运行在不同的线程中，跟 JS 代码是完全分离的。这个工作池和操作系统密切相关，可以启动多个线程 。我们读取或写入文件就在这个工作池中进行，而当读写或写入（工作）完成后，它会触发事件循环里对应的回调函数进入事件循环的队列。</p>
-<p><img src="D:\typora\notes\photo\singleThread.png" alt="image-20230202102955839"></p>
-<h2 id="事件循环（）"><a href="#事件循环（）" class="headerlink" title="事件循环（）"></a>事件循环（）</h2><p>Node.js 在主线程里维护了一个<strong>事件队列，</strong>当接到请求后，就将该请求作为一个事件放入这个队列中，然后继续接收其他请求。当主线程空闲时(没有请求接入时)，就开始循环事件队列，检查队列中是否有要处理的事件，这时要分两种情况：如果是非 I&#x2F;O 任务，就亲自处理，并通过回调函数返回到上层调用；如果是 I&#x2F;O 任务，就从 **线程池 **中拿出一个线程来处理这个事件，并指定回调函数，然后继续循环队列中的其他事件。</p>
-<p>当线程中的 I&#x2F;O 任务完成以后，就执行指定的回调函数，并把这个完成的事件放到事件队列的尾部，等待事件循环，当主线程再次循环到该事件时，就直接处理并返回给上层调用。 这个过程就叫 **事件循环 **(Event Loop)</p>
+<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><p>浏览器的缓存分为强缓存和协商缓存；</p>
+<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>让浏览器强制缓存服务端提供的资源。一般是用于静态资源的缓存（css 等）。</p>
 <blockquote>
-<p><strong>Node.js 本身是一个多线程平台，而它对 JavaScript 层面的任务处理是单线程的。</strong></p>
+<p>该缓存可以通过后端配置 <code>Expires</code>或<code>Cache-Control max-age=10</code>。</p>
 </blockquote>
-<h2 id="Node-js-事件循环和-JS-事件循环"><a href="#Node-js-事件循环和-JS-事件循环" class="headerlink" title="Node.js 事件循环和 JS 事件循环"></a>Node.js 事件循环和 JS 事件循环</h2><p><img src="D:\typora\notes\photo\enventLoop.png" alt="image-20230202103531435"></p>
+<p>这样浏览器在第二次请求这个资源时就不需要经过服务端了，直接从缓存中读取。<br>存储位置有硬盘缓存和内存缓存。浏览器多次读取缓存时可能会直接从内存缓存中读取，第一次都是从硬盘缓存中读取。</p>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>浏览器跟后端协商进行缓存。</p>
+<blockquote>
+<p>通过对比 last-modified 和 if-modified-since（GMT 时间），etag 和 if-none-match（任意形式）来判断该资源是否被改动过。</p>
+</blockquote>
+<p><strong>如果发现该资源没有变动，服务端则会返回 304，表示资源没有改变，并且响应体为空。浏览器拿到后，就知道原本可能过期的缓存其实还可以继续使用。如果资源改变了，就会返回 200，且响应体带上最新资源。</strong></p>
+<p>浏览器缓存完成后，就进行 TCP 的四次挥手了断开连接了。此时浏览器已经拿到了对应的 html 资源准备开始渲染。</p>
+<h2 id="浏览器渲染页面"><a href="#浏览器渲染页面" class="headerlink" title="浏览器渲染页面"></a>浏览器渲染页面</h2><ul>
+<li><p>浏览器将 html 里的标签解析成一个 dom 树（抽象语法树）；</p>
+</li>
+<li><p>浏览器的渲染引擎将 CSS 样式表转化为浏览器可以理解的 styleSheets，计算出 DOM 节点的样式，该过程会处理样式的继承和层叠，属性值标准化，被称为 cssom；</p>
+<blockquote>
+<p>css 样式的来源主要有三种：link 外部引入的 css、style 标签内的 css、内联 css。</p>
+</blockquote>
+</li>
+<li><p>浏览器渲染时肯定会触发回流和重绘。</p>
+</li>
+</ul>
+<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>当渲染树中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部 document 的过程称为回流。</p>
+<p>能够引起回流的操作：</p>
+<ul>
+<li>页面首次渲染</li>
+<li>浏览器窗口大小发生变换</li>
+<li>元素尺寸或位置发生改变</li>
+<li>元素内容发生改变</li>
+<li>元素字体大小变换</li>
+<li>添加或删除可见的 dom 元素</li>
+<li>激活 css 伪类（:hover）</li>
+<li>查询某些属性或调用某些方法<blockquote>
+<p>clientwidth、clientHeight 、clientTop、clientLeftoffsetwidth 、offsetHeight 、offsetTop 等</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="重绘"><a href="#重绘" class="headerlink" title="重绘"></a>重绘</h3><p>当页面中元素样式的改变并不影响它在文档流中的位置时，浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
+<p>然后浏览器通过 v8 引擎（c++编写）解析 js。</p>
+<h3 id="浏览器解析-js"><a href="#浏览器解析-js" class="headerlink" title="浏览器解析 js"></a>浏览器解析 js</h3><blockquote>
+<p>涉及编译原理一些内容。</p>
+</blockquote>
+<p>通过解析器将我们输入的代码变成抽象语法树，然后再转换为中间代码（字节码），再由解释器将字节码解析成机器码。</p>
+<blockquote>
+<p>中间代码的存在是为了兼容不同的操作系统，让我们的代码具有跨平台执行的功能。<br>v8 使用的是 jit 解析器，即即时编译，边解析边执行；（中间有一个监视器去寻找后续需要解析的代码）<br>还有 AOT 解析器，直接编译成二进制文件，苹果里用的很多。</p>
+</blockquote>
+<p>通过解释器解释后的机器码（0101）就到了 CPU 中。开始进入计算机组成原理部分，输入设备-&gt; 存储器 -&gt; 输出设备</p>
 
         
     </div>
@@ -1029,68 +1033,11 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2023-02-01T16:00:00.000Z" itemprop="datePublished">2023-02-02</time>
+  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Streams&amp;Buffers"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2023/02/01/Node/Streams&Buffers/">treams&amp;BuffersS</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="Streams（数据流）"><a href="#Streams（数据流）" class="headerlink" title="Streams（数据流）"></a>Streams（数据流）</h2><p>从浏览器发送的数据是作为数据流（stream）传递的。</p>
-<blockquote>
-<p>数据流是 JS 中一种特殊的概念，JavaScript 自身不具备直接操作二进制文件的能力，所以实质上 Buffer 在 nodejs 底层上还有一个 C++模块。这是因为 IO 操作是非常消耗性能的，所以 nodejs 在 Buffer 模块构建设计上，将性能部分用 C++实现，将非性能部分用 JavaScript 实现。</p>
-</blockquote>
-<p>例如：接收浏览器请求</p>
-<p><strong>数据流（stream）是一个持续的过程。</strong>浏览器请求被 Node.js 分为多个块（chunks）的形式读取，最后在某个事件完成整个请求的读取；而单个块并不需要等到完整请求被读取后执行，这就需要缓冲区（buffers）来实现：</p>
-<h2 id="Buffers（缓冲区）"><a href="#Buffers（缓冲区）" class="headerlink" title="Buffers（缓冲区）"></a>Buffers（缓冲区）</h2><p>通常，数据的移动是为了处理或者读取它，并根据它进行决策。伴随着时间的推移，每一个过程都会有一个最小或最大数据量。如果数据到达的速度比进程消耗的速度快，那么少数早到达的数据会处于等待区（缓冲区）等候被处理。</p>
-<blockquote>
-<p>缓冲区就像一个公共汽车站，公共汽车（数据流）总是在行驶，需要乘坐或离开这个汽车的人（请求块）需要在公共汽车站（缓冲区）等待公共汽车。</p>
-</blockquote>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2023-01-31T16:00:00.000Z" itemprop="datePublished">2023-02-01</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
         </div>
     
     
@@ -1104,7 +1051,7 @@ class="article article-type-post"
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/9/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/8/">8</a><a class="page-number" href="/ferhannah-blog/page/9/">9</a><span class="page-number current">10</span>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/9/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/8/">8</a><a class="page-number" href="/ferhannah-blog/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/ferhannah-blog/page/11/">11</a><a class="page-number" href="/ferhannah-blog/page/12/">12</a><a class="page-number" href="/ferhannah-blog/page/13/">13</a><a class="extend next" rel="next" href="/ferhannah-blog/page/11/">Next</a>
     </nav>
   
 </div>
@@ -1125,7 +1072,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/TS/">TS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1148,23 +1095,23 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/">装饰器（Decorator）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/">联合类型</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/">类（class）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80/">类型断言（*）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA%E5%92%8C%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D/">类型推论和类型别名</a>
           </li>
         
       </ul>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>TS高级-Proxy和Reflect | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "TS高级-Proxy和Reflect | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-Proxy%E5%92%8CReflect/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="TS高级-Proxy和Reflect | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-Proxy%E5%92%8CReflect/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "TS高级-Proxy和Reflect | Fxh&#39;s blog",
+            "datePublished": "2025-06-24T00:07:09.457Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-Proxy%E5%92%8CReflect/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/ferhannah-blog/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cmc9sonsh003clgvs55l7bas9" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      TS高级-Proxy和Reflect
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.457Z" itemprop="datePublished">2025-06-24</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p><strong>ES6 新增</strong>的<strong>对象代理，相当于一个拦截器</strong>。</p>
+<blockquote>
+<p>详情见 JS 代理（Proxy）一章。</p>
+</blockquote>
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><pre><code class="ts">let person = &#123; name: &quot;张三&quot;, age: 18 &#125;;
+
+person.name; // 取值操作
+person.name = &quot;李四&quot;; // 赋值操作
+
+let personProxy = new Proxy(person, &#123;
+  // 创建一个拦截器 @1
+  // 拦截取值操作
+  get() &#123;&#125;,
+  // 拦截赋值操作
+  set(target, key, value, receiver) &#123;
+    // @2
+    return true;
+  &#125;,
+  // 拦截函数调用
+  apply() &#123;&#125;,
+  // 拦截in操作符,
+  has() &#123;&#125;,
+  // 拦截for in
+  ownKeys() &#123;&#125;,
+  // 拦截new操作符
+  construct() &#123;&#125;,
+  // 拦截delete操作符
+  deleteProperty() &#123;&#125;,
+&#125;);
+</code></pre>
+<blockquote>
+<p>@1：拦截器接收两个参数：</p>
+<ul>
+<li><strong>target</strong>：需要被代理的对象（只接收<strong>引用数据类型</strong>：对象、数组、函数、set、map）；</li>
+<li><strong>handler</strong>：一个通常以函数作为属性的对象，处理器对象占位符，对处理对象的描述；</li>
+</ul>
+<p>@2：set 接收四个参数：</p>
+<ul>
+<li><strong>target：</strong>代理对象本身（此处为 person）；</li>
+<li><strong>key：</strong>操作的属性（此处为 name）；</li>
+<li><strong>value：</strong>操作的属性的值（此处为李四）；</li>
+<li><strong>receiver：</strong>也是代理对象本身，主要是为了内部嵌套多个函数时保证上下文的正确。</li>
+</ul>
+</blockquote>
+<h2 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h2><p>反射。和 Proxy13 个代理方法是一样的。但是它可以直接操作对象。</p>
+<h3 id="get"><a href="#get" class="headerlink" title="get()"></a>get()</h3><p>可以通过 Reflect.get()来获取一个对象的属性：</p>
+<pre><code class="ts">Reflect.get(target, key, receiver);
+</code></pre>
+<ul>
+<li><strong>target：</strong>需要被反射的对象（只接收<strong>引用数据类型</strong>：对象、数组、函数、set、map）；</li>
+<li><strong>key：</strong>需要获取值的属性；</li>
+<li><strong>receiver：</strong>也是被反射的对象本身，主要是为了内部嵌套多个函数时保证上下文的正确。</li>
+</ul>
+<blockquote>
+<p>例如：</p>
+<pre><code class="ts">let person = &#123; name: &quot;张三&quot;, age: 18 &#125;;
+
+console.log(person.name); // 可以直接获取
+console.log(Reflect.get(person, &quot;name&quot;)); // 通过Reflect.get()获取
+</code></pre>
+</blockquote>
+<h3 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h3><p>可以通过 Reflect.set()来修改一个对象的属性：</p>
+<pre><code class="ts">Reflect.get(target, key, value, receiver);
+</code></pre>
+<ul>
+<li><strong>target：</strong>需要被反射的对象（只接收<strong>引用数据类型</strong>：对象、数组、函数、set、map）；</li>
+<li><strong>key：</strong>需要修改值的属性；</li>
+<li><strong>value</strong>：修改的值；</li>
+<li><strong>receiver：</strong>也是被反射的对象本身，主要是为了内部嵌套多个函数时保证上下文的正确。</li>
+</ul>
+<pre><code class="ts">console.log(Reflect.set(person, &quot;name&quot;, &quot;李四&quot;, person)); // true
+console.log(person); // &#123; name: &quot;李四&quot;, age: 18 &#125;
+</code></pre>
+<blockquote>
+<p>返回值：true&#x2F;false</p>
+</blockquote>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><pre><code class="ts">let person = &#123; name: &quot;张三&quot;, age: 18 &#125;;
+
+let personProxy = new Proxy(person, &#123;
+  get(target, key, receiver) &#123;
+    if (target.age &lt;= 18) &#123;
+      return Reflect.get(target, key, receiver);
+    &#125; else &#123;
+      return &quot;已成年&quot;;
+    &#125;
+  &#125;,
+&#125;);
+
+cnosole.log(personProxy.age); // 18
+</code></pre>
+<h2 id="实现观察者模式"><a href="#实现观察者模式" class="headerlink" title="实现观察者模式"></a>实现观察者模式</h2><pre><code class="ts">const list: Set&lt;Function&gt; = new Set();
+
+const autoRun = (cb: Function) =&gt; &#123;
+  if (!list.has(cb)) &#123;
+    list.add(cb);
+  &#125;
+&#125;;
+
+const observable = &lt;T extends object&gt;(params: T) =&gt; &#123;
+  // Proxy代理对象只支持引用数据类型，所以需要限制传入的类型
+  return new Proxy(params, &#123;
+    set(target, key, value, receiver) &#123;
+      const result = Reflect.set(target, key, value, receiver);
+      list.forEach((fn) =&gt; fn());
+      return result;
+    &#125;,
+  &#125;);
+&#125;;
+</code></pre>
+<p>测试观察者模式：</p>
+<pre><code class="ts">// 设置一个可供观察的对象
+const personProxy = observable(&#123; name: &quot;张三&quot;, attr: &quot;摸鱼&quot; &#125;);
+
+autoRun(() =&gt; &#123;
+  // 订阅函数
+  console.log(&quot;有变化了&quot;);
+&#125;);
+
+personProxy.name = &quot;李四&quot;; // 有变化了 @1
+</code></pre>
+<blockquote>
+<p>@1：在尝试修改的时候观察对象的值时，会调用订阅的函数。修改几次数据将会执行几次订阅函数</p>
+</blockquote>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-Record%E5%92%8CReadonly/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          TS高级-Record和Readonly
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-Partial%E5%92%8CPick/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">TS高级-Partial和Pick</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=TS高级-Proxy和Reflect - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2FTS%25E9%25AB%2598%25E7%25BA%25A7-Proxy%25E5%2592%258CReflect%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=TS高级-Proxy和Reflect - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2FTS%25E9%25AB%2598%25E7%25BA%25A7-Proxy%25E5%2592%258CReflect%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=TS高级-Proxy和Reflect - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-Proxy%E5%92%8CReflect/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/TS/">TS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/">装饰器（Decorator）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/">联合类型</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/">类（class）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80/">类型断言（*）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA%E5%92%8C%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D/">类型推论和类型别名</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

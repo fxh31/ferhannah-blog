@@ -154,7 +154,7 @@
   
     
       <article
-id="post-buildTools/Vite/ts"
+id="post-Node/Express/Node（Express）与数据库"
 class="article article-type-post"
 >
 
@@ -165,70 +165,149 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/10/10/buildTools/Vite/ts/">vite 中使用 ts</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>vite 中默认支持 ts，不需要额外配置。</p>
-<h2 id="vite-plugin-checker"><a href="#vite-plugin-checker" class="headerlink" title="vite-plugin-checker"></a>vite-plugin-checker</h2><p>它是一个可以在工作线程中运行 TypeScript、 VLS、 vue-tsc、 ESLint 的插件，可以根据配置，阻断编译，在控制台及浏览器展示报错信息。</p>
-<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><ul>
-<li>安装：</li>
-</ul>
-<pre><code class="bash">npm i vite-plugin-checker -D
+        <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p><strong>关系型数据库</strong>。</p>
+<h2 id="使用-mysql-的-connection-连接数据库"><a href="#使用-mysql-的-connection-连接数据库" class="headerlink" title="使用 mysql 的 connection 连接数据库"></a><strong>使用 mysql 的 connection 连接数据库</strong></h2><blockquote>
+<p>准备工作跟下一章节相同。</p>
+</blockquote>
+<p>我们可以使用它来进行查询，查询完成之后会关闭连接。</p>
+<blockquote>
+<p>这种方法较为底层，且<strong>每次操作数据库都需要新建数据库连接</strong>，若数据库操作需求多，对服务器消耗较大，因此，可以使用第二种连接方式。</p>
+</blockquote>
+<pre><code class="js">const mysql = require(&quot;mysql&quot;);
+const connection = mysql.createConnection(&#123;
+  host: &quot;localhost&quot;,
+  user: &quot;me&quot;,
+  password: &quot;secret&quot;,
+  database: &quot;my_db&quot;,
+&#125;);
+
+connection.connect();
+
+connection.query(&quot;SELECT 1 + 1 AS solution&quot;, function (err, rows, fields) &#123;
+  if (err) throw err;
+
+  console.log(&quot;The solution is: &quot;, rows[0].solution);
+&#125;);
+
+connection.end();
 </code></pre>
-<ul>
-<li>vite config 中配置：</li>
+<h2 id="使用-mysql-建立数据库连接池连接数据库"><a href="#使用-mysql-建立数据库连接池连接数据库" class="headerlink" title="使用 mysql 建立数据库连接池连接数据库"></a><strong>使用 mysql 建立数据库连接池连接数据库</strong></h2><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h2><ul>
+<li><p>需要下载 MySQL 数据库在电脑上；</p>
+</li>
+<li><p>项目中下载 mysql2 来辅助连接 MySQL 数据库：</p>
+<pre><code class="bash">npm install --save mysql2
+</code></pre>
+<blockquote>
+<p>mysql2 就是 mysql 的升级版。</p>
+</blockquote>
+</li>
 </ul>
-<pre><code class="js">// vite.config.js
-import checker from &quot;vite-plugin-checker&quot;;
-import &#123; defineConfig &#125; from &quot;vite&quot;;
-export default defineConfig(&#123;
-  plugins: [
-    checker(&#123;
-      typescript: true,
-    &#125;),
-  ],
+<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h2><p>以连接池的方式连接数据库：</p>
+<p>database.js</p>
+<pre><code class="js">const mysql = require(&quot;mysql2&quot;); // 导入mysql2模块
+
+// 创建一个连接池 @1
+const pool = mysql.createPool(&#123;
+  host: &quot;localhost&quot;, // 连接的服务器的IP地址
+  user: &quot;root&quot;, // 数据库用户
+  database: &quot;node-complete&quot;, // 连接的具体数据库
+  password: &quot;159638&quot;, // 安装时填写的密码
+&#125;);
+
+// 导出连接池
+module.exports = pool.promise(); // @2
+</code></pre>
+<blockquote>
+<p>@1：连接池方式——每当我们运行一个查询语句时能随时访问它，然后从管理的多个连接池中获取一个新连接，这样就可以同时运行多个查询，因为每个查询都需要自己的连接，并且一次查询完成后连接会交还到连接池中用于新的查询，最后在应用程序关闭时完成连接池。</p>
+<p>@2：以 Promise 的方式导出，我们在其他地方使用的时候可以处理异步任务。</p>
+</blockquote>
+<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a><strong>获取数据</strong></h2><p>我们要获取数据库表中的数据，需要<strong>使用<code>execute()</code>结合一条数据库语句</strong>来实现对数据库中表的操作：</p>
+<p>app.js</p>
+<pre><code class="js">const db = require(&#39;./util/database&#39;);
+...
+// 查询数据库中的products表
+db.execute(&#39;SELECT * FROM products&#39;)
+    .then(([rows, fieldData]) =&gt; &#123;
+        console.log(rows); // 存储了数据库表中的数据
+        console.log(fieldData); // 存储数据库表的一些元字段
+    &#125;)
+    .catch(err =&gt; console.log(err));
+
+// 增加一条数据
+db.execute(
+    &#39;INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)&#39;,
+    [this.title, this.price, this.imageUrl, this.description] // 增加数据字段（与库中的表相对应）
+).then(() =&gt; &#123;&#125;).catch(err =&gt; console.log(err));
+</code></pre>
+<h2 id="使用-sequelize-连接数据库"><a href="#使用-sequelize-连接数据库" class="headerlink" title="使用 sequelize 连接数据库"></a><strong>使用 sequelize 连接数据库</strong></h2><p>详情见 sequelize 一章。</p>
+<h1 id="MongDB"><a href="#MongDB" class="headerlink" title="MongDB"></a>MongDB</h1><p><strong>非关系型数据库。</strong>MongoDB 是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似<em>json</em>的 bson<em>格式</em>，因此可以存储比较复杂的数据类型。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>能存储大量的数据；</li>
+<li>支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，查询速度块；</li>
+<li>而且还支持对数据建立索引；</li>
+</ul>
+<h2 id="使用-mongodb-连接数据库"><a href="#使用-mongodb-连接数据库" class="headerlink" title="使用 mongodb 连接数据库"></a><strong>使用 mongodb 连接数据库</strong></h2><h2 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h2><p>下载 mongodb：</p>
+<pre><code class="bash">npm instal --save mongodb
+</code></pre>
+<blockquote>
+<p>准备一个 MongoDB 数据库连接地址，我使用的是云数据库 MongoDB Atlas。</p>
+</blockquote>
+<h2 id="连接数据库-1"><a href="#连接数据库-1" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h2><p>database.js</p>
+<pre><code class="js">const mongodb = require(&quot;mongodb&quot;); // 引入mongodb
+const MongoClient = mongodb.MongoClient; // 新建一个MongoClient用于连接数据库
+
+const mongoConnect = (callback) =&gt; &#123;
+  MongoClient.connect(
+    // 连接数据库地址
+    &quot;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/?retryWrites=true&amp;w=majority&quot;
+  ) // @1
+    .then((client) =&gt; &#123;
+      console.log(&quot;Connected!&quot;);
+      callback(client);
+    &#125;)
+    .catch((err) =&gt; &#123;
+      console.log(err);
+    &#125;);
+&#125;;
+
+module.exports = mongoConnect;
+</code></pre>
+<blockquote>
+<p>@1：该 url 是云数据库的地址，其中包含了云数据库存储的用户名和密码。</p>
+</blockquote>
+<p>app.js</p>
+<pre><code class="js">const mongoConnect = require(&#39;./util/database&#39;);
+const app = express();
+...
+mongoConnect(client =&gt; &#123;
+  console.log(client);
+  app.listen(3000);
 &#125;);
 </code></pre>
-<ul>
-<li>生成 tsconfig.json 配置文件：</li>
-</ul>
-<pre><code class="bash">npm tsc --init
-</code></pre>
-<ul>
-<li>指定需要进行 ts check 的文件：</li>
-</ul>
-<pre><code class="json">// tsconfig.json
-&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;]
-&#125;
-</code></pre>
 <blockquote>
-<p>注意：以上配置不影响正常打包，只是在运行的时候出报错。</p>
+<p>更多详细信息见 MongoDB 一章。</p>
 </blockquote>
-<h2 id="打包前进行-ts-检查"><a href="#打包前进行-ts-检查" class="headerlink" title="打包前进行 ts 检查"></a>打包前进行 ts 检查</h2><p>vite 本身仅执行 .ts 文件的转译工作，并不执行任何类型检查。所以我们可以借助 ts 本身的类型检查功能，在打包前对代码进行类型检查：</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;build&quot;: &quot;tsc --noEmit &amp;&amp; vite build&quot;
-&#125;
+<h2 id="使用-mongoose-连接数据库"><a href="#使用-mongoose-连接数据库" class="headerlink" title="使用 mongoose 连接数据库"></a>使用 mongoose 连接数据库</h2><h2 id="准备工作-2"><a href="#准备工作-2" class="headerlink" title="准备工作"></a>准备工作</h2><p>下载 mongoose：</p>
+<pre><code class="bash">npm install --save mongoose
 </code></pre>
-<blockquote>
-<p>对于 .vue 文件，可以安装 vue-tsc 然后运行 vue-tsc –noEmit 来对 *.vue 文件做类型检查。</p>
-</blockquote>
-<p><strong>原理：</strong><br><code>tsc</code>是 TypeScript 的编译器，它负责将 TypeScript 代码转换为 JavaScript 代码。<code>tsc</code> 会读取配置文件获取参数值，<code>--noEmit</code> 的作用是只进行检查，不进行编译输出。如果我们的代码无错，会直接退出，执行下一条语句，否则报错。</p>
-<h2 id="ts-智能提示"><a href="#ts-智能提示" class="headerlink" title="ts 智能提示"></a>ts 智能提示</h2><p>默认情况下，vite 在 vite&#x2F;client.d.ts 中为<code>import.meta.env</code>提供了类型定义。但是如果我们设置了一些自定义的环境变量（<code>.env[mode]</code>）是没有提示的，如果也想在<strong>浏览器环境代码</strong>中有智能提示，可以在<code>env.d.ts</code>中定义：</p>
-<pre><code class="ts">/// &lt;reference types=&quot;vite/client&quot; /&gt;
-
-interface ImportMetaEnv &#123;
-  readonly VITE_APP_TITLE: string;
-&#125;
-interface ImportMeta &#123;
-  readonly env: ImportMetaEnv;
-&#125;
-</code></pre>
-<p><strong>注意：</strong>定义的文件名和文件位置其实不重要，重要的是需要在 tsconfig.json 配置将其文件进行 ts 检查：</p>
-<pre><code class="json">&#123;
-  &quot;include&quot;: [&quot;src/*.ts&quot;, &quot;env.d.ts&quot;]
-&#125;
+<h2 id="连接数据库-2"><a href="#连接数据库-2" class="headerlink" title="连接数据库"></a>连接数据库</h2><p>app.js</p>
+<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
+...
+mongoose
+  .connect(
+    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
+  ) // 连接MongoDB数据库
+  .then(result =&gt; &#123;
+    app.listen(3000);
+  &#125;)
+  .catch(err =&gt; &#123;
+    console.log(err);
+  &#125;);
 </code></pre>
 
         
@@ -245,11 +324,11 @@ interface ImportMeta &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-10-09T16:00:00.000Z" itemprop="datePublished">2024-10-10</time>
+  <time datetime="2025-03-03T14:19:31.963Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/Vite/">Vite</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
         </div>
     
     
@@ -262,7 +341,7 @@ interface ImportMeta &#123;
   
     
       <article
-id="post-CSS/cssModule"
+id="post-Node/Express/Express"
 class="article article-type-post"
 >
 
@@ -273,187 +352,176 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/CSS/cssModule/">CSS Modules</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express/">Express</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>CSS 模块化，主要是包括两个方面：局部作用域和模块依赖。</p>
-<h2 id="局部作用域"><a href="#局部作用域" class="headerlink" title="局部作用域"></a>局部作用域</h2><p>保证某个组件的样式不会影响到其他组件，其原理就是<strong>使用一个独一无二的 class 名</strong>，不会与其他选择器重名。</p>
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">npm install --save express
+</code></pre>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Express.js 所有都是关于中间件的。中间件意味着传入的请求会通过一堆由 Express.js 汇集（封装）的函数。（实际上挂载并拥有多个请求处理程序，而不是一个请求处理程序。请求将一步一步通过这个功能，直到我们发出响应）</p>
+<p><img src="D:\typora\notes\photo\middleware.png" alt="image-20230206142003029"></p>
+<p>中间件允许我们将代码拆分为多个块或片段，而不是一个包含许多功能的巨大函数。这就是 Express.js 的<strong>可插拔性</strong>(<strong>pluggable</strong>)，我们可以在其中轻松添加其他第三方包（添加中间件）</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>下载完后引入 Express.js 的模块，并创建一个由 Express.js 管理的对象：</p>
+<pre><code class="js">const express = require(&quot;express&quot;);
+
+const app = express();
+</code></pre>
+<p>在我们把它传递给创建的服务器之前，我们可以通过 Express.js 使用 app 并调用定义的方法——<code>use</code>：</p>
+<h3 id="添加中间件"><a href="#添加中间件" class="headerlink" title="添加中间件"></a>添加中间件</h3><p><code>use()</code>允许我们添加一个新的中间件，它接收一个必填的函数，<strong>所有传入的请求都会执行它</strong>；这个函数接收三个参数：</p>
+<ul>
+<li><p><strong>request</strong>：请求对象</p>
+</li>
+<li><p><strong>response</strong>：响应对象</p>
+</li>
+<li><p><strong>next</strong>：Express.js 提供的内部函数，<strong>前往下一个中间件</strong></p>
 <blockquote>
-<p>为什么不使用 id 来确定：样式复用，样式覆盖问题，语义化。</p>
-</blockquote>
-<p>CSS Modules 提供各种插件，支持不同的构建工具。</p>
-<h2 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h2><p>CSS Modules 允许使用<code>:global(.className)</code>的语法，声明一个全局规则。凡是这样声明的 class，都不会被编译成哈希字符串。</p>
-<h2 id="局部作用域-1"><a href="#局部作用域-1" class="headerlink" title="局部作用域"></a>局部作用域</h2><ul>
-<li>显示局部作用域：<code>:local(.className)</code></li>
-<li>（隐式）局部作用域：<code>.className</code>（直接写）</li>
-</ul>
-<h2 id="定制哈希类名"><a href="#定制哈希类名" class="headerlink" title="定制哈希类名"></a>定制哈希类名</h2><p>对于插件 css-loader 来说，默认的哈希算法是[hash:base64]，这会将<code>.title</code> 编译成<code>.\_3zyde4l1yATCOkgn-DBWEL</code>这样的字符串。</p>
-<h2 id="CSS-组合"><a href="#CSS-组合" class="headerlink" title="CSS 组合"></a>CSS 组合</h2><p>在 CSS Module 中可以使用<code>composes</code>继承别的 class 的样式：</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-
-.title &#123;
-  composes: className;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="引入其他-CSS-模块样式"><a href="#引入其他-CSS-模块样式" class="headerlink" title="引入其他 CSS 模块样式"></a>引入其他 CSS 模块样式</h2><p>选择器也可以继承其他 CSS 文件里面的规则。</p>
-<pre><code class="css">.className &#123;
-  background-color: blue;
-&#125;
-</code></pre>
-<pre><code class="css">.title &#123;
-  composes: className from &quot;./another.css&quot;;
-  color: red;
-&#125;
-</code></pre>
-<h2 id="导出变量"><a href="#导出变量" class="headerlink" title="导出变量"></a>导出变量</h2><p>CSS Modules 支持使用变量，不过需要安装 PostCSS 和 postcss-modules-values 插件。</p>
-<pre><code class="bash">npm install --save postcss-loader postcss-modules-values
-</code></pre>
-<ul>
-<li>例如在 webpack 中引入 postcss-loader</li>
-</ul>
-<pre><code class="js">var path = require(&quot;path&quot;);
-var webpack = require(&quot;webpack&quot;);
-var ExtractTextPlugin = require(&quot;extract-text-webpack-plugin&quot;);
-var values = require(&quot;postcss-modules-values&quot;);
-
-module.exports = &#123;
-  entry: [&quot;./src/index&quot;],
-  output: &#123;
-    filename: &quot;bundle.js&quot;,
-    path: path.join(__dirname, &quot;public&quot;),
-    publicPath: &quot;/public/&quot;,
-  &#125;,
-  module: &#123;
-    loaders: [
-      &#123; test: /\.js$/, loader: &quot;babel-loader&quot;, exclude: /node_modules/ &#125;,
-      &#123;
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract(
-          &quot;style-loader&quot;,
-          &quot;css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader&quot;
-        ),
-      &#125;,
-    ],
-  &#125;,
-  postcss: [values],
-  plugins: [new ExtractTextPlugin(&quot;style.css&quot;, &#123; allChunks: true &#125;)],
-&#125;;
-</code></pre>
-<ul>
-<li>设置变量</li>
-</ul>
-<p>colors.css</p>
-<pre><code class="css">@value blue: #0c77f8;
-@value red: #ff0000;
-@value green: #aaf200;
-</code></pre>
-<ul>
-<li>引入 css 文件中</li>
-</ul>
-<pre><code class="css">/* import your colors... */
-@value colors: &quot;./colors.css&quot;;
-@value blue, red, green from colors;
-
-.button &#123;
-  color: blue;
-  display: inline-block;
-&#125;
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/CSS/">CSS</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Algorithm/binary"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/binary/">二进制的一些小技巧</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id=""><a href="#" class="headerlink" title="^"></a>^</h2><ul>
-<li>找到汉明距离（两个数对应二进制位不同的数目）；<blockquote>
-<p>汉明距离是使用在数据传输差错控制编码里。</p>
+<p>如果不调用<code>next</code>，就不会前往下一个中间件。</p>
 </blockquote>
 </li>
 </ul>
-<h2 id="num-1-num"><a href="#num-1-num" class="headerlink" title="(num - 1) &amp; num"></a>(num - 1) &amp; num</h2><ul>
-<li>用于清除 num 最右边的 1；</li>
-</ul>
-<blockquote>
-<p>Brian Kernighan（布莱恩 柯林汉） 算法是一种用于统计一个二进制数中 1 的个数的算法，通过不断将数字中的最低位的 1 变成 0 的方式统计二进制数中的 1 的个数。</p>
-</blockquote>
-<h2 id="num-1"><a href="#num-1" class="headerlink" title="num &amp; 1"></a>num &amp; 1</h2><ul>
-<li>用于判断 num 的二进制表示中最右边的位是否为 1；</li>
-</ul>
-<h2 id="num-1-1"><a href="#num-1-1" class="headerlink" title="num &gt;&gt; 1"></a>num &gt;&gt; 1</h2><ul>
-<li>用于将 num 的二进制表示向右移动一位；</li>
-</ul>
-<h2 id="1-n-1"><a href="#1-n-1" class="headerlink" title="(1 &lt;&lt; n) - 1"></a>(1 &lt;&lt; n) - 1</h2><ul>
-<li>生成一个长度为 n 并且全为 1 的二进制数；<blockquote>
-<p>用于使用异或快速将一个数进行取反， 如果直接取反一个数的话得到的是负数。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="1-k-n"><a href="#1-k-n" class="headerlink" title="(1 &lt;&lt; k) &amp; n"></a>(1 &lt;&lt; k) &amp; n</h2><p>k 从 30 开始递减。</p>
-<ul>
-<li>用于比较一个二进制数的高位是否为 1。</li>
-</ul>
-<h2 id="快速构造小于-num-的-2-的幂次方的数组"><a href="#快速构造小于-num-的-2-的幂次方的数组" class="headerlink" title="快速构造小于 num 的 2 的幂次方的数组"></a>快速构造小于 num 的 2 的幂次方的数组</h2><pre><code class="js">const num = 15; // 最多为 2^3，也就是 8
-
-let x = num;
-const ans = [];
-while (x &gt; 0) &#123;
-  ans.push(lowbit(x));
-  x -= lowbit(x);
-&#125;
-
-function lowbit(x) &#123;
-  return x &amp; -x;
-&#125;
+<pre><code class="js">app.use((req, res, next) =&gt; &#123;
+  console.log(&quot;我是中间件&quot;);
+  next(); // 前往下一个中间件
+&#125;);
 </code></pre>
-<h2 id="异或前缀和"><a href="#异或前缀和" class="headerlink" title="异或前缀和"></a>异或前缀和</h2><p>一个子数组的异或和（i, j）&#x3D; 异或前缀和（j + 1）^ 异或前缀和（i）</p>
 <blockquote>
-<p>异或前缀和数组比原数组长度多 1，多了一个 0.</p>
+<p>注意：中间件是根据代码的先后顺序，从上到下执行的。</p>
+</blockquote>
+<h3 id="不同路由"><a href="#不同路由" class="headerlink" title="不同路由"></a>不同路由</h3><p><code>use()</code>的第一个参数是可选的<strong>路径字符串</strong>，通过它来区分不同的路由：</p>
+<pre><code class="js">app.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  console.log(&quot;我是中间件&quot;);
+  res.send(&#39;&lt;h1&gt;The &quot;Add Product&quot; Page&lt;/h1&gt;&#39;);
+&#125;);
+
+app.use(&quot;/&quot;, (req, res, next) =&gt; &#123;
+  console.log(&quot;我是另一个中间件&quot;);
+  res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
+&#125;);
+</code></pre>
+<p>可以通过调整中间件的位置，控制路由先后或是否执行：</p>
+<pre><code class="js">app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
+    console.log(&#39;总是要通过我才能进入下一个&#39;);
+    next();
+&#125;)
+...
+</code></pre>
+<h3 id="设置响应标头"><a href="#设置响应标头" class="headerlink" title="设置响应标头"></a>设置响应标头</h3><p>默认响应标头是<code>text/html</code></p>
+<h3 id="发送响应"><a href="#发送响应" class="headerlink" title="发送响应"></a>发送响应</h3><p>使用<code>res.send()</code>发送响应：</p>
+<pre><code class="js">app.use((req, res, next) =&gt; &#123;
+  res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
+&#125;);
+</code></pre>
+<p>使用<code>res.sendFile()</code>发送响应 HTML 文件（路径需<code>path</code>模块）：</p>
+<pre><code class="js">app.use((req, res, next) =&gt; &#123;
+  res.sendFile(path.join(&quot;../&quot;, &quot;views&quot;, &quot;shop.html&quot;));
+&#125;);
+</code></pre>
+<h3 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h3><pre><code class="js">app.listen(3000);
+</code></pre>
+<blockquote>
+<p>Express.js 会帮我们完成（背后原理）：</p>
+<pre><code class="js">const http = require(&quot;http&quot;);
+const server = http.createServer(app);
+server.listen(3000);
+</code></pre>
+</blockquote>
+<h3 id="解析请求体"><a href="#解析请求体" class="headerlink" title="解析请求体"></a>解析请求体</h3><p>通过第三方包中间件（body-parser）来解析，比使用 Node.js 本身的 Buffer 的存储机制来解析要简单得多：</p>
+<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
+...
+app.use(bodyParser.urlencoded(&#123;extended: false&#125;));
+</code></pre>
+<h3 id="启动静态文件（CSS-JS-…）"><a href="#启动静态文件（CSS-JS-…）" class="headerlink" title="启动静态文件（CSS&#x2F;JS&#x2F;…）"></a>启动静态文件（CSS&#x2F;JS&#x2F;…）</h3><p>静态文件的启动需要借助<code>express.static()</code>来访问，例如静态文件存存储在根目录下<code>public/css/main.css</code>中：</p>
+<pre><code class="js">app.use(express.static(path.join(__dirname, &quot;public&quot;)));
+</code></pre>
+<blockquote>
+<p>express.static 会寻找在<code>...（根目录）/public</code>下的所有地址文件。</p>
+</blockquote>
+<p>在需要使用的 HTML 中：</p>
+<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/main.css&quot; /&gt;
+</code></pre>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><pre><code class="js">const express = require(&quot;express&quot;);
+const bodyParser = require(&quot;body-parser&quot;);
+
+const app = express();
+
+app.use(bodyParser.urlencoded(&#123; extended: false &#125;));
+
+// app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
+//     console.log(&#39;总是要通过我&#39;);
+//     next();
+// &#125;)
+
+app.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  res.send(
+    &#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
+  );
+&#125;);
+
+app.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
+  console.log(req.body);
+  res.redirect(&quot;/&quot;);
+&#125;);
+
+app.use(&quot;/&quot;, (req, res, next) =&gt; &#123;
+  res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
+&#125;);
+
+app.listen(3000);
+</code></pre>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a><strong>附录</strong></h2><h3 id="app"><a href="#app" class="headerlink" title="app"></a><strong>app</strong></h3><h4 id="use"><a href="#use" class="headerlink" title="use()"></a>use()</h4><p>注册一个中间件。总是会按顺序执行的中间件，<strong>所有传入的请求都会执行它</strong>（无论请求是 GET 还是 POST）。</p>
+<p><strong>用途：</strong></p>
+<ul>
+<li><p>添加中间件</p>
+</li>
+<li><p>不同路由</p>
+</li>
+<li><p>添加多个回调函数（中间件）</p>
+<p>在注册中间件时可以添加多个回调函数，不同回调函数之间用逗号隔开：</p>
+<pre><code class="js">app.use(&quot;/add-product&quot;, callback1, callback2);
+</code></pre>
+</li>
+</ul>
+<h4 id="get-post-…"><a href="#get-post-…" class="headerlink" title="get()&#x2F;post()…"></a>get()&#x2F;post()…</h4><p><strong>只会在传入 GET&#x2F;POST&#x2F;…请求（request）时触发</strong>。</p>
+<h4 id="listen"><a href="#listen" class="headerlink" title="listen()"></a>listen()</h4><p>监听端口。</p>
+<h4 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h4><p>允许我们设置任何全局变量的值。</p>
+<pre><code class="js">const app = express();
+
+app.set(&quot;view engine&quot;, &quot;pug&quot;); // 设置模板引擎
+</code></pre>
+<blockquote>
+<p>注意：因为 Pug 下载后是内置的，所以可以使用 set 直接引用。</p>
+</blockquote>
+<h4 id="engine"><a href="#engine" class="headerlink" title="engine()"></a>engine()</h4><p>注册一个非内置的模板引擎。</p>
+<pre><code class="js">app.engine(&quot;handlebars&quot;, expressHba());
+</code></pre>
+<h3 id="res"><a href="#res" class="headerlink" title="res"></a><strong>res</strong></h3><p>响应相关信息。</p>
+<h4 id="send"><a href="#send" class="headerlink" title="send()"></a>send()</h4><p>发送响应。默认响应标头是<code>text/html</code>。</p>
+<pre><code class="js">res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
+</code></pre>
+<h4 id="sendFile"><a href="#sendFile" class="headerlink" title="sendFile()"></a>sendFile()</h4><p>传入一个需响应的文件地址，发送响应文件。需借助 path（Node.js）模块。</p>
+<pre><code class="js">res.sendFile(path.join(&quot;../&quot;, &quot;views&quot;, &quot;shop.html&quot;));
+</code></pre>
+<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect()"></a>redirect()</h4><p>路由重定向。</p>
+<pre><code class="js">res.redirect(&quot;/&quot;);
+</code></pre>
+<h4 id="render"><a href="#render" class="headerlink" title="render()"></a>render()</h4><p>发送默认模板引擎渲染的文件。</p>
+<pre><code class="js">res.render(&quot;shop&quot;); // 发送渲染shop.pug文件
+</code></pre>
+<p>它可以使用第二个参数，向模板文件中传递参数：</p>
+<pre><code class="js">const products = &quot;apple&quot;;
+res.render(&quot;shop&quot;, &#123; prods: products, docTitle: &quot;Shop&quot; &#125;); // 发送到shop.pug的参数
+</code></pre>
+<h4 id="locals"><a href="#locals" class="headerlink" title="locals"></a>locals</h4><p>设置局部变量传递给视图。</p>
+<pre><code class="js">res.locals.xxx =
+</code></pre>
+<blockquote>
+<p>例子：</p>
+<pre><code class="js">app.use((res, req, next) =&gt; &#123;
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+&#125;);
+</code></pre>
 </blockquote>
 
         
@@ -470,11 +538,11 @@ function lowbit(x) &#123;
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-03-03T14:19:31.962Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
         </div>
     
     
@@ -487,7 +555,7 @@ function lowbit(x) &#123;
   
     
       <article
-id="post-HTML/Node和Element"
+id="post-Node/Express/Express.js模块化路由（Router）"
 class="article article-type-post"
 >
 
@@ -498,12 +566,56 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/Node%E5%92%8CElement/">Node 和 Element</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E6%A8%A1%E5%9D%97%E5%8C%96%E8%B7%AF%E7%94%B1%EF%BC%88Router%EF%BC%89/">Express.js模块化路由（Router）</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>Node 是一个接口，各种类型的 DOM API 对象会从这个接口继承。它允许我们使用相似的方式对待这些不同类型的对象。</p>
-<h2 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h2><p>Element 是元素，是网页组成的一部分。一个典型的元素包括一个开始标签，中间文本和结束标签。</p>
+        <h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>使用 <code>express.Router</code> 类来创建可安装的模块化路由处理程序。<code>Router</code> <strong>实例是完整的中间件和路由系统</strong>；因此，常常将其称为“<strong>微型应用程序</strong>”（像是在服务器内部嵌套一个小型的服务器）。</p>
+<blockquote>
+<p>router 的用法和<code>const app = express()</code>创建的 app 是一样的。</p>
+</blockquote>
+<p>routes&#x2F;oneRoute.js：</p>
+<pre><code class="js">const express = require(&quot;express&quot;);
+
+const router = express.Router(); // 创建Router实例
+
+router.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  res.send(
+    &#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
+  );
+&#125;);
+
+router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
+  console.log(req.body);
+  res.redirect(&quot;/&quot;);
+&#125;);
+
+module.exports = router; // 导出router
+</code></pre>
+<p>在某个文件中导入：</p>
+<pre><code class="js">const oneRoute = require(&quot;./routes/oneRoute&quot;);
+
+app.use(oneRoute);
+</code></pre>
+<h2 id="添加公共路径路由（过滤路径）"><a href="#添加公共路径路由（过滤路径）" class="headerlink" title="添加公共路径路由（过滤路径）"></a>添加公共路径路由（过滤路径）</h2><p>有时候我们的模块化路由里中间件的路由地址有一段是相同，可以在注册这个路由模块时通过<code>use</code>来定义：</p>
+<pre><code class="js">...
+app.use(&#39;/admin&#39;, adminRoutes); // 公共路径
+...
+</code></pre>
+<p>routes&#x2F;oneRoute.js：</p>
+<pre><code class="js">// /admin/add-product =&gt; GET
+router.get(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
+  res.send(
+    &#39;&lt;form action=&quot;/admin/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
+  );
+&#125;);
+
+// /admin/product =&gt; POST
+router.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
+  console.log(req.body);
+  res.redirect(&quot;/&quot;);
+&#125;);
+</code></pre>
 
         
     </div>
@@ -519,11 +631,11 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-03-03T14:19:31.961Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
         </div>
     
     
@@ -536,7 +648,7 @@ class="article article-type-post"
   
     
       <article
-id="post-Algorithm/slidedWindow"
+id="post-Node/Express/Express.js中间件的包"
 class="article article-type-post"
 >
 
@@ -547,63 +659,33 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/Algorithm/slidedWindow/">滑动窗口</a>
+        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express.js%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%9A%84%E5%8C%85/">Express.js中间件的包</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="窗口定长"><a href="#窗口定长" class="headerlink" title="窗口定长"></a>窗口定长</h2><p>根据题目可以分为几种：<br><a target="_blank" rel="noopener" href="https://leetcode.cn/circle/discuss/0viNMK/">https://leetcode.cn/circle/discuss/0viNMK/</a></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-HTML/dataset"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/dataset/">dataset</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>html 中使用<code>data-</code>来定义自定义属性，这是因为：</p>
-<ul>
-<li>通过添加<code>data-</code>前缀，可以避免与未来版本中的 HTML 引入的新属性名称发生冲突；</li>
-<li>提高代码的可读性和维护性，让开发者清晰的知道哪些是自定义的属性；</li>
-<li>可以使用 dataset 将所有的自定义属性获取到；</li>
+        <ul>
+<li><p><strong>body-parser</strong>：解析传入的请求体（request body）</p>
+<pre><code class="bash">npm install --save body-parser
+</code></pre>
+<blockquote>
+<p>注意：body-parser 实际上是默认包含在 Express.js 中的，但是 Express.js 很可能在以后又删除，所以我们可以使用第三方包来确定这个功能的稳定性。</p>
+</blockquote>
+<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
+...
+app.use(bodyParser.urlencoded(&#123;extended: false&#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
+</code></pre>
+</li>
+<li><p><strong>csurf</strong>：允许我们生成 CSRF Token</p>
+<blockquote>
+<p>此包依赖 express 和 express-session。</p>
+</blockquote>
+<pre><code class="bash">npm install --save csurf
+</code></pre>
+</li>
+<li><p>express-validator：Express 验证器</p>
+<pre><code class="bash">npm install --save express-validator
+</code></pre>
+</li>
 </ul>
 
         
@@ -620,11 +702,11 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-03-03T14:19:31.960Z" itemprop="datePublished">2025-03-03</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
         </div>
     
     
@@ -637,7 +719,7 @@ class="article article-type-post"
   
     
       <article
-id="post-HTML/innerText和textContent"
+id="post-UniApp/Vue速通uniapp"
 class="article article-type-post"
 >
 
@@ -648,22 +730,200 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/HTML/innerText%E5%92%8CtextContent/">textContent 和别的区别</a>
+        <a href="/ferhannah-blog/2025/03/01/UniApp/Vue%E9%80%9F%E9%80%9Auniapp/">uni-app 和 Vue</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="textContent-和别的区别"><a href="#textContent-和别的区别" class="headerlink" title="textContent 和别的区别"></a>textContent 和别的区别</h1><p>两者都是用于获取元中的内容的。</p>
-<h2 id="innerText"><a href="#innerText" class="headerlink" title="innerText"></a>innerText</h2><ul>
-<li>textContent 是 Node 对象提供的；而 innerText 是 HTMLElement 对象提供的。</li>
-<li>textContent 会获取该元素里所有的内容，包括受 css 样式影响（隐藏）的元素内容和 script 标签里的内容；innerText 则不会。<br>因此使用 textContent 可以防止 XSS 攻击。<blockquote>
-<p>在 IE 小于等于 11 的版本，对 innerText 的行为有修改。</p>
+        <h1 id="迁移对比"><a href="#迁移对比" class="headerlink" title="迁移对比"></a>迁移对比</h1><p>uni-app 与 Vue 相对比。</p>
+<h2 id="js"><a href="#js" class="headerlink" title="js"></a>js</h2><ul>
+<li>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置：<ul>
+<li>按下样式</li>
+<li>事件冒泡</li>
+<li>手指按住和松开状态时间</li>
+</ul>
+</li>
+</ul>
+<h2 id="html"><a href="#html" class="headerlink" title="html"></a>html</h2><p>uni-app 与 html 的标签对应。</p>
+<ul>
+<li>view：div</li>
+<li>text：span</li>
+<li>ul&#x2F;li：view v-for</li>
+<li>img：image</li>
+<li>a：navigator</li>
+<li>iframe：web-view</li>
+<li>select：picker</li>
+<li>table：uni-table</li>
+</ul>
+<blockquote>
+<p>其他没提到的大致相同。</p>
+</blockquote>
+<h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><ul>
+<li>一些在 <strong>css 需要设置定义的属性可直接通过对应容器和标签属性来开启</strong>：scroll-view</li>
+</ul>
+<h1 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h1><h2 id="视图容器"><a href="#视图容器" class="headerlink" title="视图容器"></a>视图容器</h2><ul>
+<li>view：div</li>
+<li>scroll-view：区域滚动。</li>
+<li>swiper：滑块区域。类似实现轮播图。</li>
+</ul>
+<h2 id="表单组件"><a href="#表单组件" class="headerlink" title="表单组件"></a>表单组件</h2><ul>
+<li>button：原生组件就跟用了组件库的效果差不多，还可以设置大小，样式。</li>
+<li>input：输入框，同 html 差不多，但是还可以指定设备弹出键盘。</li>
+<li>switch：开关。</li>
+</ul>
+<h2 id="路由（页面跳转）"><a href="#路由（页面跳转）" class="headerlink" title="路由（页面跳转）"></a>路由（页面跳转）</h2><ul>
+<li>navigator：可设置是否可以返回上一个页面（<code>open-type</code>）。</li>
+</ul>
+<h2 id="媒体组件"><a href="#媒体组件" class="headerlink" title="媒体组件"></a>媒体组件</h2><ul>
+<li>image：通过 <code>mode</code> 属性来设置图像相对容器的适应（缩放、裁剪等）。</li>
+</ul>
+<h1 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h1><h2 id="页面级别"><a href="#页面级别" class="headerlink" title="页面级别"></a>页面级别</h2><ul>
+<li><p><strong>onLoad</strong>：页面进入后执行（只执行一次）。</p>
+<blockquote>
+<p>默认参数接收 url 参数，代替 vue-router。</p>
 </blockquote>
 </li>
-<li>由于 innerText 受 CSS 样式的影响，它会触发回流去确保是最新的计算样式。</li>
+<li><p><strong>onShow</strong>（keep-alive）：进入页面时触发，离开页面再回来也能触发。</p>
+<blockquote>
+<p>广告植入（讨厌）。</p>
+</blockquote>
+</li>
+<li><p><strong>onReady</strong>（onMounted）（只执行一次）。</p>
+</li>
+<li><p><strong>onHide</strong>：离开页面时触发。</p>
+<blockquote>
+<p>清除生命周期钩子等。</p>
+</blockquote>
+</li>
+<li><p><strong>onUnload</strong>：需要配置 <code>open-type=reLaunch</code>。</p>
+<blockquote>
+<p>卸载页面是进行数据缓存的清理。</p>
+</blockquote>
+</li>
+<li><p>onPageScroll：监听页面滚动。</p>
+</li>
+<li><p>onPullDownRefresh：监听用户下拉动作。</p>
+<blockquote>
+<p>下拉刷新。</p>
+</blockquote>
+</li>
+<li><p>onReachBottom：页面滚动到底部的事件（不是 scroll-view 滚到底）。</p>
+<blockquote>
+<p>用于下拉到下一页数据。</p>
+</blockquote>
+</li>
 </ul>
-<h2 id="innerHTML"><a href="#innerHTML" class="headerlink" title="innerHTML"></a>innerHTML</h2><ul>
-<li>innerHTML 是 Element 对象的属性；</li>
-<li>innerHTML 返回完整的 DOM 元素；</li>
+<h2 id="应用级别"><a href="#应用级别" class="headerlink" title="应用级别"></a>应用级别</h2><ul>
+<li><p><strong>onLaunch</strong>：第一次进入应用执行。</p>
+<blockquote>
+<p>验证本地缓存是否有登录信息。</p>
+</blockquote>
+</li>
+<li><p><strong>onShow</strong>：应用级别。（全局）</p>
+</li>
+<li><p><strong>onHide</strong>：应用级别。（全局）</p>
+</li>
+</ul>
+<h2 id="生命周期顺序"><a href="#生命周期顺序" class="headerlink" title="生命周期顺序"></a>生命周期顺序</h2><blockquote>
+<p>应用 -&gt; 页面</p>
+</blockquote>
+<p><strong>不包含组件</strong>：</p>
+<p><strong>onLoad -&gt; onShow -&gt;onReady</strong></p>
+<p><strong>包含组件</strong>：</p>
+<p><strong>onLoad -&gt; onShow -&gt; setup -&gt; beforeMount -&gt; onReady -&gt; mounted</strong></p>
+<blockquote>
+<p>onReady 和 mounted 文档是 onReady 在后面，但实际测试确实在前面执行？</p>
+</blockquote>
+<p><strong>uni-app 的生命周期虽然支持与 Vue 混用，但是最好还是只用一个。</strong></p>
+<h1 id="尺寸单位"><a href="#尺寸单位" class="headerlink" title="尺寸单位"></a>尺寸单位</h1><h2 id="rpx"><a href="#rpx" class="headerlink" title="rpx"></a>rpx</h2><p>微信小程序提出的一种用于响应式布局的单位，可以根据屏幕自适应的动态单位。（以 750 像素为基准）</p>
+<blockquote>
+<p>一般来说 UI 稿子等比缩放宽以 750 为基准。</p>
+</blockquote>
+<h1 id="pages-json"><a href="#pages-json" class="headerlink" title="pages.json"></a>pages.json</h1><p>该文件可以：</p>
+<ul>
+<li><strong>定义路由</strong>。对于每个路由页面也<strong>可也设置单独的窗口页面表现</strong>。pages</li>
+<li><strong>设置默认窗口页面表现</strong>（导航栏等）。globalStyle</li>
+<li>设置<strong>自动引入组件规则</strong>（默认开启）。easycom</li>
+<li>设置<strong>页面底部切换按钮栏</strong>。tabBar</li>
+<li>模拟直达页面场景（仅限开发，用于测试）。condition</li>
+</ul>
+<h1 id="manifest-json"><a href="#manifest-json" class="headerlink" title="manifest.json"></a>manifest.json</h1><p>进行一些应用的配置。</p>
+<ul>
+<li><p>如果想上传应用，或者进行真机调试，需要定义好 AppId。</p>
+<blockquote>
+<p>这个 AppId 需要进行小程序注册才可以获得</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><blockquote>
+<p>注意：针对不同的平台可能某些 API 或者事件等不可使用，具体需要查阅官方标准。</p>
+</blockquote>
+<ul>
+<li><p>有些标签的名字有变化：div（view）、span（text）</p>
+</li>
+<li><p>一些在 <strong>js 中的事件直接作为标签</strong>的属性来设置；</p>
+</li>
+<li><p>一些之前需要<strong>引用组件库或者手写的样式，直接被容器集成</strong>了；并且可以在<strong>容器上直接设置属性来设置</strong>，<strong>无需使用 js</strong>；</p>
+</li>
+<li><p>使用路由跳转时可设置 <code>open-type</code> 模式来控制跳转后上一个页面的行为（是否可以回跳）；</p>
+</li>
+<li><p>Vue 的<strong>一些语法和事件可以参照官方对照表</strong>将其一一对应起来；</p>
+</li>
+<li><p>uni-app <strong>有对应的 js&#x2F;vue 事件，也有自己原生的事件</strong>；</p>
+</li>
+<li><p>uni-app 中的<strong>组件不需要手动导入，只需要放在 components 文件夹</strong>下即可；</p>
+</li>
+<li><p>uni-app 中的生命周期除了继承 Vue 的组件生命周期，还有应用级别和页面级别的生命周期；</p>
+</li>
+<li><p>可以在 uni.scss 中<strong>定义一些全局的 css 变量</strong>；也可以指定<strong>小程序特有的环境变量（例如 env(safe-area-inset-bottom)）来设置其独有的样式属性</strong>。</p>
+<blockquote>
+<p>如果想定义局部的变量可以在 common 文件夹中定义好后，在 uni.scss 中使用<code>@import</code>导入，重启生效。</p>
+</blockquote>
+</li>
+<li><p>内置有 API 可以完成交互反馈（uni.showToast 等），类似于全局封装好的组件；</p>
+</li>
+<li><p>发送请求也可<strong>以使用 uni.request 完成，自身支持 Promise，不需要额外使用 axios 等网络请求库</strong>；</p>
+</li>
+<li><p>可直接配置跨域；</p>
+<blockquote>
+<p>微信小程序：在本地设置配置不检验 https，上线时在小程序的后台里配置服务器域名即可。</p>
+</blockquote>
+</li>
+<li><p>官方有扩展组件可直接安装使用（官方组件库）；</p>
+<blockquote>
+<p>安装好之后会出现在 uni_modules 底下。</p>
+</blockquote>
+</li>
+<li><p>对于不同端的适配，<strong>可以使用<code>#ifdef</code>、<code>#ifndef</code>和<code>#endif</code>来根据设备控制不同的 dom 元素渲染</strong>；</p>
+<blockquote>
+<p>例如对于小程序来说可以配置联系客服，就可以直接到达客服的微信；而对于 pc 端，可以展示电话号码。</p>
+</blockquote>
+</li>
+<li><p>改变小程序<strong>内置图标样式也需添加一个类名，再深度选择即可</strong>；</p>
+</li>
+<li><p>针对不同的设备，<strong>uni-app 会提供 api 来获取当前设备的信息，我们可以根据里面的设备型号做处</strong>理；</p>
+<blockquote>
+<p>uni.getSystemInfoSync、uni.getSystemInfo。</p>
+</blockquote>
+</li>
+<li><p>一些样式需要和<strong>胶囊按钮对齐</strong>，可以用 <strong>api 获取胶囊按钮的位置信息，做动态的自适应</strong>；</p>
+<blockquote>
+<p>uni.getMenuButtonBoundingClientRect。一般将其抽离出来在 utils 下的 system.ts 中。</p>
+</blockquote>
+</li>
+<li><p><strong>路由传参直接拼在 url</strong> 上，再在<strong>组件内的生命周期的默认参数中获取</strong>；</p>
+<blockquote>
+<p>navigator；load。</p>
+</blockquote>
+</li>
+<li><p>uni-app 中同样也可以将<strong>数据放入缓存</strong>中；</p>
+<blockquote>
+<p>uni.setStorage。</p>
+</blockquote>
+</li>
+<li><p>调用小程序 api 分享时，可以<strong>通过 url 传参到达指定的分享页面</strong>；</p>
+</li>
+<li><p>对于<strong>富文本的渲染</strong>，<strong>uni-app 有专门的插件，还可以渲染 dom 元素</strong>；</p>
+</li>
 </ul>
 
         
@@ -680,11 +940,11 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-02-28T16:00:00.000Z" itemprop="datePublished">2025-03-01</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/HTML/">HTML</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a>
         </div>
     
     
@@ -697,7 +957,7 @@ class="article article-type-post"
   
     
       <article
-id="post-JS/copyObject"
+id="post-hello-world"
 class="article article-type-post"
 >
 
@@ -708,13 +968,119 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/JS/copyObject/">js 拷贝数组（对象）</a>
+        <a href="/ferhannah-blog/2025/02/27/hello-world/">Hello World</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><ul>
-<li>slice()</li>
-<li>扩展运算符 […]</li>
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy
+</code></pre>
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-02-27T12:03:55.763Z" itemprop="datePublished">2025-02-27</time>
+</div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-JS/WebWorker"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/02/26/JS/WebWorker/">Web Worker</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>浏览器</strong>为 JS 提供的<strong>多线程技术</strong>，允许在后台运行脚本，避免阻塞主线程（UI 线程），从而提升复杂任务的性能和用户体验。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li><strong>独立线程</strong>：运行在浏览器后台线程，与主线程隔离。两者之间无法直接操作。</li>
+<li><strong>通信</strong>：主线程和独立线程都可通过 <code>postMessage</code> 和 <code>onmessage</code> 与主线程交换数据。<blockquote>
+<p>注意：数据传递时是<strong>被复制</strong>的，而不是共享。</p>
+</blockquote>
+</li>
+<li><strong>兼容性</strong>：现代浏览器普遍支持（IE10+）。</li>
+<li><strong>错误处理</strong>：通过 worker.onerror 捕获 Worker 错误。</li>
+<li><strong>资源释放</strong>：用 worker.terminate() 手动关闭 Worker。</li>
+</ul>
+<h2 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h2><ul>
+<li><strong>不能访问 <code>dom</code> 和 <code>window</code> 对象</strong>。<blockquote>
+<p>Worker 有自己的线程对象 <code>DedicatedWorkerGlobalScope</code>。</p>
+</blockquote>
+</li>
+<li><strong>同源限制</strong>：Worker 脚本需与主线程同源。</li>
+<li><strong>不能使用 <code>alert()</code> 和 <code>confirm()</code> 方法</strong>。<blockquote>
+<p>但是可以使用 AJAX 。</p>
+</blockquote>
+</li>
+<li><strong>无法读取本地文件</strong>：不能直接打开 <code>file://</code> 协议的资源。</li>
+</ul>
+<h2 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h2><p><strong>浏览器环境本身是多线程</strong>的（如网络请求、定时器、渲染引擎等由浏览器管理），当我们创建一个 worker 时，浏览器就会为其分配一个独立的线程与主线程并行执行。该线程由浏览器底层管理，操作系统可能进一步分配 CPU 核心资源。</p>
+<blockquote>
+<p>浏览器的<strong>多线程能力</strong>基于<strong>操作系统</strong>（如 Windows 的线程 API、Linux 的 pthread）或引擎（如 V8 的 Isolate 机制）实现。</p>
+</blockquote>
+<h2 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h2><p>主线程和 Worker 线程各自运行在独立的线程中，二者的代码执行顺序取决于<strong>浏览器的线程调度</strong>，我们无法直接控制。通过 <strong>postMessage</strong> 发送的消息会进入接收线程的消息队列，按<strong>事件循环</strong>机制处理。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><strong>经测试</strong>，Web Worker 自身拥有自己的事件循环，主线程和 Worker 中的通信都是在对应触发 postMessage 才会运行接收的，相当于挂载监听器事件；而且两者的微任务和宏任务都是谁先执行完毕谁输出，但<strong>是主线程的微任务总是先于 worker 中的微任务，主线程中的宏任务和 worker 的微任务、宏任务执行的顺序就要看浏览器调度了</strong>。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><pre><code class="js">cosnt myWorker = new Worker(jsUrl, options);
+</code></pre>
+<ul>
+<li>jsUrl：必须是 js 脚本，并且地址遵守同源策略。</li>
+<li>options：配置对象。可以用于指定 Worker 的名称。</li>
+</ul>
+<h3 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h3><p><code>onmessage</code> 和 <code>postMessage</code>。</p>
+<h3 id="加载脚本"><a href="#加载脚本" class="headerlink" title="加载脚本"></a>加载脚本</h3><p><code>importScripts</code>。可动态加载多个脚本。</p>
+<pre><code class="js">importScripts(&quot;script1.js&quot;, &quot;script2.js&quot;);
+</code></pre>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p><code>onerror</code>。</p>
+<h3 id="关闭-Worker"><a href="#关闭-Worker" class="headerlink" title="关闭 Worker"></a>关闭 Worker</h3><ul>
+<li>主线程关闭：<code>worker.terminate()</code>;</li>
+<li>Worker 内部关闭：<code>self.close()</code>;</li>
+</ul>
+<h2 id="SharedArrayBuffer"><a href="#SharedArrayBuffer" class="headerlink" title="SharedArrayBuffer"></a>SharedArrayBuffer</h2><blockquote>
+<p>Web Worker 在进行消息传递的时候数据会被复制，而不是共享，这对于大数据量或频繁通信的情况来说可能效率不高。</p>
+</blockquote>
+<p>SharedArrayBuffer 是 JavaScript 中的一个对象，用于在<strong>多个线程</strong>（如主线程和 Web Workers）之间<strong>共享同一块内存区域（固定长度的原始二进制数据缓冲区）</strong>。它允许<strong>不同线程直接读写同一块内存</strong>，从而实现高效的数据共享，避免了通过 postMessage 复制数据的性能开销。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>共享内存</li>
+<li>固定长度：创建时需指定缓冲区大小，不可动态调整。</li>
+<li>类型化视图：通过 TypedArray（如 Int32Array）或 DataView 访问和操作内存。</li>
+<li>线程安全依赖：需配合 Atomics 方法实现原子操作，避免竞争条件。</li>
 </ul>
 
         
@@ -731,7 +1097,7 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-02-25T16:00:00.000Z" itemprop="datePublished">2025-02-26</time>
 </div>
     
         <div class="article-category">
@@ -748,7 +1114,7 @@ class="article article-type-post"
   
     
       <article
-id="post-JS/es6"
+id="post-network/CDN"
 class="article article-type-post"
 >
 
@@ -759,107 +1125,309 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/JS/es6/">ES6 特性</a>
+        <a href="/ferhannah-blog/2025/01/19/network/CDN/">CDN</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="let-和-const"><a href="#let-和-const" class="headerlink" title="let 和 const"></a>let 和 const</h2><h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><pre><code class="js">const obj = &#123; a: 1, b: 2 &#125;;
-const &#123; a, b &#125; = obj;
-console.log(a, b); // 1, 2
-
-const arr = [1, 2, 3];
-const [x, y, z] = arr;
-console.log(x, y, z); // 1, 2, 3
-</code></pre>
-<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><pre><code class="js">function foo(a, b = 2, c = 3) &#123;&#125;
-</code></pre>
-<h2 id="剩余（rest）参数"><a href="#剩余（rest）参数" class="headerlink" title="剩余（rest）参数"></a>剩余（rest）参数</h2><pre><code class="js">function sum(...nums) &#123;
-  return nums.reduce((a, b) =&gt; a + b);
-&#125;
-sum(1, 2, 3, 4, 5);
-</code></pre>
-<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h2><pre><code class="js">const arr1 = [1, 2, 3];
-const arr2 = [...arr, 4, 5];
-
-const obj1 = &#123; a: 1, b: 2 &#125;;
-const obj2 = &#123; ...obj, c: 3 &#125;;
-</code></pre>
-<h2 id="扩展对象字面量"><a href="#扩展对象字面量" class="headerlink" title="扩展对象字面量"></a>扩展对象字面量</h2><h2 id="对象属性简写"><a href="#对象属性简写" class="headerlink" title="对象属性简写"></a>对象属性简写</h2><pre><code class="js">const name = &quot;zhangsan&quot;;
-const age = 18;
-const preson = &#123; name, age &#125;;
-</code></pre>
-<h2 id="对象方法简写"><a href="#对象方法简写" class="headerlink" title="对象方法简写"></a>对象方法简写</h2><pre><code class="js">const person = &#123;
-  name: &quot;zhangsan&quot;,
-  greet() &#123;
-    console.log(&quot;Hello！&quot;);
-  &#125;,
-&#125;;
-</code></pre>
-<h2 id="for…of-循环"><a href="#for…of-循环" class="headerlink" title="for…of 循环"></a>for…of 循环</h2><h2 id="模块化（import-export）"><a href="#模块化（import-export）" class="headerlink" title="模块化（import&#x2F;export）"></a>模块化（import&#x2F;export）</h2><pre><code class="js">// foo.js
-export const foo = () =&gt; &#123;&#125;;
-
-// main.js
-import &#123; foo &#125; from &quot;./foo&quot;;
-</code></pre>
-<h2 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h2><pre><code class="js">// foo.js
-export default () =&gt; &#123;&#125;;
-
-// main.js
-import foo from &quot;./foo&quot;;
-foo();
-</code></pre>
-<h2 id="类（class）"><a href="#类（class）" class="headerlink" title="类（class）"></a>类（class）</h2><pre><code class="js">class Person &#123;
-  constructor(name) &#123;
-    this.name = name;
-  &#125;
-  say() &#123;&#125;
-&#125;
-
-class Student extends Person &#123;
-  say() &#123;
-    console.log(`I&#39;m a student, $&#123;this.name&#125;`);
-  &#125;
-&#125;
-const s = new Student(&quot;zhangsan&quot;);
-s.say();
-</code></pre>
-<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><h2 id="生成器和迭代器"><a href="#生成器和迭代器" class="headerlink" title="生成器和迭代器"></a>生成器和迭代器</h2><h2 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h2><h2 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h2><pre><code class="js">class MathUtil &#123;
-  static add(a, b) &#123;
-    return a + b;
-  &#125;
-&#125;
-console.log(MathUtil.add(1, 2));
-</code></pre>
-<h2 id="字符串新方法"><a href="#字符串新方法" class="headerlink" title="字符串新方法"></a>字符串新方法</h2><ul>
-<li>startsWith</li>
-<li>endsWith</li>
-<li>includes</li>
+        <p>content delivery network。内容分发网络。<br>用于优化网络资源请求的时间。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>核心原理就是将用户所需要的内容缓存在就近的服务器中。通过中心平台的调度、负载均衡、内容分发等功能模块，使用户就近获取所需资源。</strong><br>我们所请求的资源最终都是存放在一个服务器里，这个服务器的存放的地址一般是固定的，如果我们在很远的地方访问这个服务器资源，其访问速度就可能变得很慢，而 cdn 就是在各个地区放了服务器，当你访问资源时会查找离你最近的 cdn 专用服务器，然后将资源返回。如果没有找到则一层一层网上找，直到找到源服务器，将源服务器中所需要的资源再一层一层缓存下来，最后最近的服务器将资源缓存下来之后返回给你。</p>
+<blockquote>
+<p>这个过程是再配置 dns 解析的时候，会将 cdn 专用服务器的地址配置按远近配置进去。</p>
+</blockquote>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>基于 CDN 就近原则，可将所有静态资源全部部署到 CDN 服务器里。可降低网络拥塞，提高用户访问响应速度和命中率。</p>
+<h2 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h2><ul>
+<li>可以做异地容灾；</li>
+<li>负载均衡；在 CDN 中，负载均衡又分为服务器负载均衡和服务器整体负载均衡。如果一个地区的服务器流量访问较高，他会向旁边就近的一些服务器分一些流量。</li>
 </ul>
-<h2 id="数组新方法"><a href="#数组新方法" class="headerlink" title="数组新方法"></a>数组新方法</h2><ul>
-<li>find</li>
-<li>findIndex</li>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-01-18T16:00:00.000Z" itemprop="datePublished">2025-01-19</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/network/">network</a>
+        </div>
+    
+    
+        <div class="article-tag">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li></ul>
+        </div>
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-Python/base"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/01/11/Python/base/">grammar</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h1 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h1><h2 id="Walrus-操作符（海象操作符）"><a href="#Walrus-操作符（海象操作符）" class="headerlink" title="Walrus 操作符（海象操作符）"></a>Walrus 操作符（海象操作符）</h2><blockquote>
+<p><code>:=</code></p>
+</blockquote>
+<p>赋值表达式。在 Python 3.8 中引入的新特性。这个操作符允许你在表达式中进行赋值，而不仅仅是语句中。</p>
+<pre><code class="python">if (t := sum ^ value) in cnt:
+    ans += cnt[t] * key - total[t]
+</code></pre>
+<h2 id="切片操作"><a href="#切片操作" class="headerlink" title="切片操作"></a>切片操作</h2><p>用于截取子字符串，子列表也可可以，只要<strong>数据类型为 list</strong>。</p>
+<pre><code class="python">test = &#39;hello world
+
+# 截取前 7 个字符：hello w
+substring = test[:7]
+substring = test[0:7]
+
+# 截取第 1 个到第 5 个字符（不包含）：ello
+substring = test[1:5]
+
+# 截取后 3 个字符：rld
+substring = test[-3:]
+
+# 从第 1 个到第 6 个字符，步长为3（每隔 2 个取一个）：eo
+substring = test[1:6:3]
+substring = test[::3] # 对整个字符串每隔步长为 3 进行取
+substring = test[::-1] # 反转字符串
+
+# 截取到第 1 个空格：hello
+substring = test[:test.find(&#39; &#39;)]
+</code></pre>
+<h2 id="nonlocal"><a href="#nonlocal" class="headerlink" title="nonlocal"></a>nonlocal</h2><p>用于在嵌套函数中声明一个变量不是局部变量。如果不申明的话，就会将同名变量当作嵌套作用域内部自己的局部变量。</p>
+<pre><code class="python">def wrappedFunc() -&gt; None:
+    ans = 0
+    def insideFunc() -&gt; None:
+        nonlocal ans # 声明为非局部变量
+        ans += 1
+</code></pre>
+<h2 id="内置方法"><a href="#内置方法" class="headerlink" title="内置方法"></a>内置方法</h2><h2 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h2><p>用于将一个字符串列表连接成一个单一的字符串。</p>
+<pre><code class="python">separator.join(iterable)
+</code></pre>
+<h2 id="count"><a href="#count" class="headerlink" title="count()"></a>count()</h2><p>获取一个字符串中某个字符的数量。</p>
+<pre><code class="python">print(&#39;1jjjjj0&#39;.count(&#39;j&#39;)) # 5
+</code></pre>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h2><p>原地排序。默认从小到大。</p>
+<pre><code class="python">arr = [1,4,6,2,4,9]
+people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
+
+# 根据第一项从大到小排序后根据第二项从小到大
+people.sort(key = lambda x : (-x[0], x[1])) # [[7, 0], [7, 1], [6, 1], [5, 0], [5, 2], [4, 4]]
+</code></pre>
+<h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><p>拆分字符串。</p>
+<pre><code class="python">text = &quot;hello world&quot;
+words = text.split() # 默认以空格为分隔符 [&#39;hello&#39;, &#39;world&#39;]
+</code></pre>
+<h2 id="items"><a href="#items" class="headerlink" title="items()"></a>items()</h2><p>用于返回字典（dict、Counter）的键值对列表。</p>
+<blockquote>
+<p>Counter 继承于字典。</p>
+</blockquote>
+<pre><code class="python">arr = [1,1,1,2,2,3]
+cnt = Counter(arr)
+for c in cnt.items():
+  print(c)
+</code></pre>
+<h2 id="二进制操作"><a href="#二进制操作" class="headerlink" title="二进制操作"></a>二进制操作</h2><h2 id="bit"><a href="#bit" class="headerlink" title="bit()"></a>bit()</h2><p>返回一个数字的二进制。</p>
+<blockquote>
+<p>但是在 python 中该二进制的数字是以 0b 开头，所以需要进行拆分。</p>
+</blockquote>
+<pre><code class="python">bit(3)[2:] # 11
+</code></pre>
+<h2 id="bit-count"><a href="#bit-count" class="headerlink" title="bit_count()"></a>bit_count()</h2><p>返回一个数字的二进制形式的 1 的数量。</p>
+<h1 id="库函数"><a href="#库函数" class="headerlink" title="库函数"></a>库函数</h1><h2 id="Counter"><a href="#Counter" class="headerlink" title="Counter()"></a>Counter()</h2><p>计数器。专门用于计数元素的频率，默认值是一个整形（0），是一个特殊的字典类。</p>
+<blockquote>
+<p>可以实现类似 js map 的数据结构。</p>
+</blockquote>
+<h2 id="defaultdict-list"><a href="#defaultdict-list" class="headerlink" title="defaultdict(list)"></a>defaultdict(list)</h2><p>创建一个字典类，当你访问一个不存在的键时，它会自动返回一个默认值（这个是空列表）。</p>
+<blockquote>
+<p>可以实现类似 js map 的数据结构。</p>
+</blockquote>
+<pre><code class="python">idx = &#123;&#125; # &#123;&#125; 被认为是一个空的字典
+</code></pre>
+<h2 id="enumerate"><a href="#enumerate" class="headerlink" title="enumerate()"></a>enumerate()</h2><p>迭代函数。</p>
+<blockquote>
+<p>对于遍历的数组来说，可以遍历获取它的索引和值。第二个参数可以控制遍历的开始的索引值。</p>
+</blockquote>
+<pre><code class="python">for i, h in enumerate(hours, 1):
+  print(i) # 1...
+</code></pre>
+<h2 id="accumulate"><a href="#accumulate" class="headerlink" title="accumulate()"></a>accumulate()</h2><p>累加函数。</p>
+<blockquote>
+<p>可遍历累加后的值。</p>
+</blockquote>
+<h2 id="sum"><a href="#sum" class="headerlink" title="sum()"></a>sum()</h2><p>累加函数。</p>
+<blockquote>
+<p>累加遍历的值。</p>
+</blockquote>
+<pre><code class="python">arr = [1, 2, 3, 4, 5]
+total1 = sum(arr)
+total2 = sum(-(-x // 2) for x in arr)
+</code></pre>
+<p>遍历累加符合的值（找到符合的值将其映射为 1）</p>
+<pre><code class="python">max_count = sum(1 for v in cnt.values() if v == max_exec)
+</code></pre>
+<h2 id="max"><a href="#max" class="headerlink" title="max()"></a>max()</h2><p>遍历元素获取最大值。</p>
+<ul>
+<li>获取二维数组中的最大值：</li>
 </ul>
-<h2 id="对象合并"><a href="#对象合并" class="headerlink" title="对象合并"></a>对象合并</h2><pre><code class="js">const obj1 = &#123; a: 1, b: 2 &#125;;
-const obj2 = &#123; b: 3, c: 5 &#125;;
-const obj3 = &#123; ...obj1, ...obj2 &#125;;
+<pre><code class="python"># intervals = [[1, 8], [2, 3], [3, 4]]
+len = max(max(x) for x in intervals)
 </code></pre>
-<h2 id="空值合并运算符"><a href="#空值合并运算符" class="headerlink" title="空值合并运算符"></a>空值合并运算符</h2><pre><code class="js">const foo = null ?? &quot;default&quot;;
-const bar = 0 ?? 42;
-console.log(bar); // 0
+<h2 id="list"><a href="#list" class="headerlink" title="list()"></a>list()</h2><p>动态数组类型，它可以存储任何类型的元素，并且支持动态扩展。</p>
+<h2 id="range-start-end-step"><a href="#range-start-end-step" class="headerlink" title="range(start, end, step)"></a>range(start, end, step)</h2><p>创建一个整数序列，从 start 到 end，步长为 step。</p>
+<h2 id="ord"><a href="#ord" class="headerlink" title="ord()"></a>ord()</h2><p>获取一个字符对应的 Unicode 编码。</p>
+<h2 id="all"><a href="#all" class="headerlink" title="all()"></a>all()</h2><p>用于检测一个可迭代对象（如列表、元组、集合等）中的所有元素是否都为 True 或者是否都满足某个条件。</p>
+<pre><code class="python"># all(iterable)
+if all(i &gt; 0 for i in [1, 2, 3]):
 </code></pre>
-<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><p>Proxy 对象用于创建一个对象的代理，从而实现基本操作的拦截和自定义（如属性查找、赋值、枚举、函数调用等）。</p>
-<pre><code class="js">const target = &#123;
-  message: &quot;hello world&quot;,
-&#125;;
-const handler = &#123;
-  get: (obj, prop) =&gt; &#123;
-    return prop in obj ? obj[prop] : &quot;not fount prop&quot;;
-  &#125;,
-  set: (obj, prop, value) =&gt; &#123;
-    return value;
-  &#125;,
-&#125;;
-const proxy = new Proxy(target, handler);
+<h2 id="zip"><a href="#zip" class="headerlink" title="zip()"></a>zip()</h2><p>将多个可迭代对象（如列表、元组等）中的元素按位置配对，返回一个迭代器。如果可迭代对象的长度不一致，则返回的迭代器长度与<strong>最短</strong>的可迭代对象相同。</p>
+<pre><code class="python"># 将两个列表的元素配对
+list1 = [1, 2, 3]
+list2 = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+zipped = zip(list1, list2)
+
+# 将zip对象转换为列表
+zipped_list = list(zipped)
+print(zipped_list)  # [(1, &#39;a&#39;), (2, &#39;b&#39;), (3, &#39;c&#39;)]
+
+# 直接遍历 zip 对象
+for x, y in zipped:
+  print(x, y)
+
+# 解码 zip （in place）
+a, b = zip(*zipped)
+print(a, b) # (1, 2, 3) (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+print(list(zipped)) # []
+</code></pre>
+<h2 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h2><p>将可迭代对象转换为集合。</p>
+<pre><code class="python">s = set([2, 3, 3]) # &#123;2, 3&#125;
+
+s1 = s - &#123;2&#125; # &#123;3&#125;
+
+print(s) # &#123;2, 3&#125;
+</code></pre>
+<p><strong>注意</strong>：python 可以<strong>使用<code>-&#123;&#125;</code>直接减去</strong> set 中的某个值，并且会<strong>生成一个新的 set</strong>，而不会修改原 set！！！</p>
+<blockquote>
+<p>哇哦！真是方便呢（js 没有，叽叽叽）</p>
+</blockquote>
+<h2 id="permutations"><a href="#permutations" class="headerlink" title="permutations"></a>permutations</h2><p>对迭代器进行排列组合。</p>
+<pre><code class="js">nums = [1, 2, 3]
+for p in permutations(nums):
+  print(p)
+</code></pre>
+<h1 id="heapq"><a href="#heapq" class="headerlink" title="heapq"></a>heapq</h1><p>使用 heapq 库创建一个小根堆，如果想用大根堆可以将里面的数值变为负数然后再处理。</p>
+<h2 id="heapify"><a href="#heapify" class="headerlink" title="heapify"></a>heapify</h2><p>初始化堆。</p>
+<pre><code class="python">heap = [4,5,7,2,3,9]
+heapq.heapify(heap)
+</code></pre>
+<h2 id="heappop"><a href="#heappop" class="headerlink" title="heappop"></a>heappop</h2><p>弹出堆顶。</p>
+<h2 id="heappush"><a href="#heappush" class="headerlink" title="heappush"></a>heappush</h2><p>入堆顶。</p>
+<h2 id="heapreplace"><a href="#heapreplace" class="headerlink" title="heapreplace"></a>heapreplace</h2><p>弹出堆的最小元素，并将给定的新元素插入到堆中。这个操作是一个原子操作，即在单次操作中完成弹出和插入的过程。</p>
+<blockquote>
+<p>新元素也会根据按照堆进行排序。</p>
+</blockquote>
+<h1 id="itertools"><a href="#itertools" class="headerlink" title="itertools"></a>itertools</h1><p>为高效循环创建迭代器的函数。</p>
+<h2 id="chain-from-iterable"><a href="#chain-from-iterable" class="headerlink" title="chain.from_iterable"></a>chain.from_iterable</h2><p>可用于扁平化数组。</p>
+<h1 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h1><p>函数定义的语法：</p>
+<p>使用<code>def</code>来定义一个函数。</p>
+<ul>
+<li>self 是类方法中的第一个参数，它代表类的实例本身。具体来说，在类的方法定义中，self 参数是用来访问类的属性和其他方法的。</li>
+</ul>
+<pre><code class="python">class Solution:
+    def backspaceCompare(self, s: str, t: str) -&gt; bool:
+        self.getStr(&#39;ert&#39;)
+    def getStr(self, s: str):
+        print(self)
+</code></pre>
+<h1 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h1><h2 id=""><a href="#" class="headerlink" title="&#x3D;"></a>&#x3D;</h2><p>python 中的数组其实是一个 list（列表），它是可以直接进行比较的。<code>==</code> 操作符可以用来比较两个列表是否相等，它会逐元素地比较两个列表的内容和顺序是否完全相同。如果两个列表的内容和顺序都相同，则返回 True；否则返回 False。</p>
+<blockquote>
+<p>js 中是不能直接进行数组比较的，数组是引用数据类型，比较的永远是内存地址，永远是 false。</p>
+</blockquote>
+<h1 id="time"><a href="#time" class="headerlink" title="time"></a>time</h1><p>该模块提供了各种与时间相关的函数。</p>
+<blockquote>
+<p>此模块中定义的大多数函数的实现都是调用其所在平台的 C 语言库的同名函数。因为这些函数的语义可能因平台而异，所以使用时最好查阅对应平台的相关文档。</p>
+</blockquote>
+<p>下面是一些术语和惯例的解释.</p>
+<h2 id="time-1"><a href="#time-1" class="headerlink" title="time()"></a>time()</h2><p>返回以浮点数表示的从 epoch 开始的秒数形式的时间。</p>
+<blockquote>
+<p>epoch 是起始的时间点，即 time.gmtime(0) 的返回值。 这在所有平台上都是 1970-01-01, 00:00:00 (UTC)。</p>
+</blockquote>
+<h1 id="匿名函数（lambda）"><a href="#匿名函数（lambda）" class="headerlink" title="匿名函数（lambda）"></a>匿名函数（lambda）</h1><pre><code class="python">lambda arguments: expression
+</code></pre>
+<pre><code class="python"># 定义一个加法的 lambda 函数
+add = lambda x, y: x + y
+print(add(2, 3))  # 输出: 5
+
+points = [(2, 3), (1, 2), (4, 1)]
+# 根据 y 坐标排序
+sorted_points = sorted(points, key=lambda p: p[1])
+print(sorted_points)
+</code></pre>
+<h1 id="bisect"><a href="#bisect" class="headerlink" title="bisect"></a>bisect</h1><p>bisect 是 Python 内置的二分查找模块，用于在已排序的列表中查找元素。</p>
+<h2 id="bisect-left"><a href="#bisect-left" class="headerlink" title="bisect_left"></a>bisect_left</h2><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素左边插入的索引。</p>
+<pre><code class="python">arr = [1, 2, 5, 9, 12]
+print(bisect.bisect_left(arr, 3)) # 2
+print(bisect.bisect_left(arr, 2)) # 1
+</code></pre>
+<blockquote>
+<p>可以相当于找的是<strong>大于等于 target</strong> 的第一个元素的索引值。</p>
+</blockquote>
+<h2 id="bisect-right"><a href="#bisect-right" class="headerlink" title="bisect_right"></a>bisect_right</h2><p>查找元素在列表中的插入位置，如果元素在列表中，则返回该元素右边插入的索引。</p>
+<pre><code class="python">arr = [1, 2, 5, 9, 12]
+print(bisect.bisect_right(arr, 3)) # 2
+print(bisect.bisect_right(arr, 2)) # 2
+</code></pre>
+<blockquote>
+<p>可以相当于找的是<strong>大于 target</strong> 的第一个元素的索引值。</p>
+</blockquote>
+<h2 id="自定义函数（key）"><a href="#自定义函数（key）" class="headerlink" title="自定义函数（key）"></a>自定义函数（key）</h2><p>使用二分时可以通过自定义目标值（目标值可以是任何类型）和函数来控制二分的结果和方向。</p>
+<pre><code class="python">def check(size: int) -&gt; bool:
+    if size &lt; 11:
+        return True
+    return False
+ans = bisect_left(range(20), True, key = check) # 找到 key=True 的值后往左二分，如果找不到则一直往右二分
+ans2 = bisect_right(range(20), True, key = check) # 找到 key=True 的值后往右二分，如果找不到则一直往左二分
+</code></pre>
+<h1 id="操作符技巧"><a href="#操作符技巧" class="headerlink" title="操作符技巧"></a>操作符技巧</h1><h2 id="-1"><a href="#-1" class="headerlink" title="&#x2F;&#x2F;"></a>&#x2F;&#x2F;</h2><p>做除法，向下取整。</p>
+<pre><code class="python"># 向下取整
+print(5 // 2) # 2
+
+# 向上取整
+print(-(-5 // 2)) # 3
+</code></pre>
+<h1 id="math"><a href="#math" class="headerlink" title="math"></a>math</h1><h2 id="lcm"><a href="#lcm" class="headerlink" title="lcm"></a>lcm</h2><p>找到两个数的最小公倍数。</p>
+<pre><code class="python">num = math.lcm(2, 3) # 6
+</code></pre>
+<h2 id="gcd"><a href="#gcd" class="headerlink" title="gcd"></a>gcd</h2><p>找到两个数的最大公约数。</p>
+<pre><code class="python">num = math.gcd(2, 3) # 1
+</code></pre>
+<h2 id="isqrt"><a href="#isqrt" class="headerlink" title="isqrt"></a>isqrt</h2><p>返回一个整数，它是给定整数的平方根。如果给定整数不是平方数，则返回一个小于给定整数的平方数的整数。</p>
+<pre><code class="python">num = math.isqrt(9) # 3
+num2 = math.isqrt(8) # 2
 </code></pre>
 
         
@@ -876,11 +1444,11 @@ const proxy = new Proxy(target, handler);
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-01-10T16:00:00.000Z" itemprop="datePublished">2025-01-11</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/JS/">JS</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/python/">python</a>
         </div>
     
     
@@ -893,7 +1461,7 @@ const proxy = new Proxy(target, handler);
   
     
       <article
-id="post-JS/setTimout"
+id="post-JS/promise"
 class="article article-type-post"
 >
 
@@ -904,39 +1472,44 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2024/09/22/JS/setTimout/">setTimeout</a>
+        <a href="/ferhannah-blog/2025/01/08/JS/promise/">Promise</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="this-问题"><a href="#this-问题" class="headerlink" title="this 问题"></a>this 问题</h1><ul>
-<li>setTimeout 的第一个参数是回调函数，无论传入的是什么样的函数，在调用它的时候都是没有 this 指向的，所以默认都指向 window 对象（无论是否是严格模式）；</li>
-<li>setTimeout 也不能直接使用 call 等方法；<blockquote>
-<pre><code class="js">setTimeout.call(myArray, myArray.myMethod, 2.0 * 1000); // 出错
-</code></pre>
+        <blockquote>
+<p>注意不是实例上的方法。</p>
+</blockquote>
+<ul>
+<li><strong>any()：</strong>传入一个 promise 实例 数组，<strong>返回第一个 fulfiiled promise 的值</strong>，如果都 rejected，则会在 catch 中捕获到 All promises were rejected，并且包含一个 reject 函数传递值得数组。</li>
+<li><strong>all()<strong>：传入一个 promise 实例 数组，</strong>返回一个 fulfiiled promise 的值的数组</strong>，如果有一个 rejected，则会在 catch 中捕获第一个 reject 函数传递值得数组。<blockquote>
+<p>webpack 的动态组件引入是借助的<code>Promise.all()</code>。</p>
 </blockquote>
 </li>
+<li><strong>allSettled()<strong>：传入一个 promise 实例 数组，</strong>返回所有 promise 的值的数组，无论是 fulfilled 还是 rejected</strong>。</li>
+<li><strong>race()<strong>：传入一个 promise 实例 数组，</strong>返回第一个被处理的 promise 的值，无论 fulfilled 还是 rejected</strong>。</li>
 </ul>
-<p>要解决这个问题可以使用：</p>
-<h2 id="设置包装函数"><a href="#设置包装函数" class="headerlink" title="设置包装函数"></a>设置包装函数</h2><p>包装函数可以是具名函数，也可以是箭头函数，它们唯一的区别就是在<strong>严格模式下</strong>函数中的 this 指向问题，具名函数中的 this 是 window，而箭头函数是 undefined。</p>
-<pre><code class="js">setTimeout(function () &#123;
-  console.log(this);
-  myArray.myMethod();
-&#125;, 1.0 * 1000);
-</code></pre>
-<h2 id="使用-bind"><a href="#使用-bind" class="headerlink" title="使用 bind"></a>使用 bind</h2><pre><code class="js">setTimeout(myArray.myMethod.bind(myArray), 1.0 * 1000);
-</code></pre>
-<h1 id="延时比指定值更长"><a href="#延时比指定值更长" class="headerlink" title="延时比指定值更长"></a>延时比指定值更长</h1><ul>
-<li>嵌套延时：HTML 标准中规定，一旦 setTimeout 嵌套了 5 次，浏览器将强制执行 4ms 的最小超时；</li>
-<li>非活动标签延时：为了优化后台标签的加载损耗（以及降低耗电量），浏览器会在非活动标签中强制执行一个最小的超时延迟；</li>
-<li>超时延迟：浏览器（页面，操作系统）忙于其他任务，导致时间执行比预期晚；<blockquote>
-<p>毕竟 setTimeout 是一个异步的宏任务，是要加入任务队列里的，哪怕设置延时为 0 也是要比同步任务晚执行的。</p>
+<blockquote>
+<p>2024 新特性。</p>
 </blockquote>
-</li>
-<li>加载页面时延时：当前标签页正在加载时，Firefox 将推迟触发 setTimeout() 计时器。直到主线程被认为是空闲的（类似于 <code>window.requestIdleCallback()</code>），或者直到加载事件触发完毕，才开始触发。</li>
-<li>webExtension：在浏览器扩展中 setTimeout 不会可靠的工作；</li>
-<li>最大延时：浏览器内部以 32 位带符号整数存储延时，如果设置的时延超出了大约 24.8 天时就会溢出，导致定时器会被立刻执行；</li>
+<ul>
+<li>withResolvers()：解构 promise，可以让我们在外面使用 resolve、reject 函数。</li>
 </ul>
-<h2 id="requestIdleCallback"><a href="#requestIdleCallback" class="headerlink" title="requestIdleCallback"></a>requestIdleCallback</h2><p>插入一个函数，这个函数将在浏览器空闲时期被调用。</p>
+<pre><code class="js">(&#123; promise, resolve, reject &#125; = Promise.withResolvers());
+</code></pre>
+<blockquote>
+<p>火狐暂不支持。</p>
+</blockquote>
+<ul>
+<li>try()：可以简化在 promise 中 resolve 一个函数的写法，该函数也需要返回值、抛出异常或者返回一个 promise。</li>
+</ul>
+<pre><code class="js">function test() &#123;
+  return 1;
+&#125; // 可异步
+
+Promise.try(test).then((res) =&gt; &#123;
+  console.log(res);
+&#125;);
+</code></pre>
 
         
     </div>
@@ -952,7 +1525,7 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2024-09-21T16:00:00.000Z" itemprop="datePublished">2024-09-22</time>
+  <time datetime="2025-01-07T16:00:00.000Z" itemprop="datePublished">2025-01-08</time>
 </div>
     
         <div class="article-category">
@@ -970,7 +1543,7 @@ class="article article-type-post"
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/5/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/4/">4</a><a class="page-number" href="/ferhannah-blog/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/ferhannah-blog/page/7/">7</a><a class="page-number" href="/ferhannah-blog/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/7/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/page/5/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/4/">4</a><a class="page-number" href="/ferhannah-blog/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/ferhannah-blog/page/7/">7</a><a class="page-number" href="/ferhannah-blog/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/13/">13</a><a class="extend next" rel="next" href="/ferhannah-blog/page/7/">Next</a>
     </nav>
   
 </div>
@@ -991,7 +1564,7 @@ class="article article-type-post"
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/TS/">TS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1014,23 +1587,23 @@ class="article article-type-post"
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/">装饰器（Decorator）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/">联合类型</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/">类（class）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80/">类型断言（*）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA%E5%92%8C%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D/">类型推论和类型别名</a>
           </li>
         
       </ul>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>基础类型 | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "基础类型 | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="基础类型 | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "基础类型 | Fxh&#39;s blog",
+            "datePublished": "2025-06-24T00:07:09.451Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/ferhannah-blog/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cmc9sonse0030lgvs2n403dpp" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      基础类型
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.451Z" itemprop="datePublished">2025-06-24</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <h2 id="布尔值"><a href="#布尔值" class="headerlink" title="布尔值"></a>布尔值</h2><pre><code class="ts">let isDone: boolean = false;
+let isDoneNow: boolean = true;
+</code></pre>
+<h2 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h2><pre><code class="tsx">let deLiteral: number = 1;
+let hexLiteral: number = 0xf00d; // 十六进制
+let binaryLiteral: number = 0b1010; // 二进制
+let octalLiteral: number = 0o744; // 八进制
+</code></pre>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><pre><code class="ts">let studentName: string = &quot;fxh&quot;;
+studentName = &quot;dfs&quot;;
+
+let age: number = 20;
+console.log(
+  `I&#39;m $&#123;studentName&#125;. My age is $&#123;age + 1&#125;. $&#123;age &gt; 18 ? &quot;成年&quot; : &quot;未成年&quot;&#125;`
+);
+</code></pre>
+<blockquote>
+<p>可以使用模板字符串和三元表达式进行简单的运算</p>
+</blockquote>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ul>
+<li><p>使用<code>[]</code></p>
+<pre><code class="ts">let list: number[] = [1, 2, 3];
+let list0: any[] = [1, 2, 3, &quot;sad&quot;];
+</code></pre>
+<blockquote>
+<p>注意：定义的什么类型的数组，在后面数组里就只能使用该类型的值（除非使用<code>any</code>）</p>
+</blockquote>
+</li>
+<li><p>使用数组泛型</p>
+<pre><code class="tsx">let list: Array&lt;number&gt; = [1, 2, 3];
+</code></pre>
+</li>
+</ul>
+<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><p>元组（Tuple）类型允许表示一个<strong>已知元素数量和类型的数组</strong>，各<strong>元素的类型不必相同</strong>。</p>
+<pre><code class="tsx">let x: [string, number];
+x = [&quot;hello&quot;, 30];
+
+const arr: readonly [x: number, y?: boolean] = [1]; // 可以取别名来判断是否存在
+type first = (typeof arr)[0]; // type给类型起一个新的别名
+</code></pre>
+<blockquote>
+<p>注意：类型和定义的值要相匹配</p>
+</blockquote>
+<ul>
+<li><p>访问一个已知索引元素，会得到正确的类型：</p>
+<pre><code class="tsx">console.log(x[0]); // hello
+console.log(x[1]); // 30
+</code></pre>
+</li>
+<li><p><strong>访问一个越界的元素，会使用联合类型替代</strong>：</p>
+<pre><code class="tsx">x[3] = &quot;world&quot;; // 字符串可以赋值给(string | number)类型
+console.log(x[3]); // world
+</code></pre>
+<blockquote>
+<p>注意：这么写编辑器和进行<code>tsc</code>转换时会报错，但是不影响使用转换后的<code>js</code>运行</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="枚举（enum）"><a href="#枚举（enum）" class="headerlink" title="枚举（enum）"></a>枚举（enum）</h2><p><code>enum</code>类型是对 JavaScript 标准数据类型的一个补充。使用枚举类型可以为一组数值赋予友好的名字。</p>
+<pre><code class="tsx">enum Color &#123;
+  Red,
+  Green,
+  Blue,
+&#125;
+let c: Color = Color.Green;
+</code></pre>
+<h3 id="数字枚举"><a href="#数字枚举" class="headerlink" title="数字枚举"></a>数字枚举</h3><p>默认情况下，<strong>从<code>0</code>开始为元素编号</strong>：</p>
+<pre><code class="tsx">console.log(Color);
+// &#123; &#39;0&#39;: &#39;Red&#39;, &#39;1&#39;: &#39;Green&#39;, &#39;2&#39;: &#39;Blue&#39;, Red: 0, Green: 1, Blue: 2 &#125;
+console.log(Color.Blue);
+// 2
+</code></pre>
+<h4 id="自定义枚举"><a href="#自定义枚举" class="headerlink" title="自定义枚举"></a>自定义枚举</h4><p>也可以手动赋值 ：</p>
+<pre><code class="tsx">enum Color &#123;
+  Red = 1,
+  Green = 2,
+  Blue = 4,
+&#125;
+</code></pre>
+<h4 id="增长枚举"><a href="#增长枚举" class="headerlink" title="增长枚举"></a>增长枚举</h4><p>当定义了第一个枚举的值时，后面的枚举值如果没有设置则会从第一个设置的值开始增长。</p>
+<blockquote>
+<p>，枚举类型可以由<strong>枚举的值得到它的名字</strong>：</p>
+</blockquote>
+<pre><code class="tsx">enum Color &#123;
+  Red = 1,
+  Green,
+  Blue,
+&#125;
+let colorName: string = Color[2];
+
+console.log(colorName); // Green
+console.log(Color.Red); // 1
+console.log(Color.Green); // 2
+console.log(Color.Blue); // 3
+</code></pre>
+<h3 id="字符串枚举"><a href="#字符串枚举" class="headerlink" title="字符串枚举"></a>字符串枚举</h3><p>自定义设置字符串后不再具有增长枚举的特性，设置了一个值为字符串最好把所有的值都设置为字符串：</p>
+<pre><code class="ts">enum Color &#123;
+  red = &quot;red&quot;,
+  green = &quot;green&quot;,
+  blue = &quot;blue&quot;,
+&#125;
+console.log(Color.red); // red
+</code></pre>
+<h3 id="异构枚举"><a href="#异构枚举" class="headerlink" title="异构枚举"></a>异构枚举</h3><p>多种类型穿插的枚举（比如说数字和字符串）：</p>
+<pre><code class="ts">enum Color &#123;
+  red = 0,
+  green = &quot;green&quot;,
+&#125;
+console.log(Color.red); // 0
+</code></pre>
+<blockquote>
+<p>注意：异构枚举不允许在数字枚举中插入字符串枚举，因为数字枚举没有办法做递增。</p>
+<pre><code class="ts">enum Color &#123;
+  red,
+  green = &quot;green&quot;,
+  blue, // Error
+&#125;
+</code></pre>
+</blockquote>
+<h3 id="接口枚举"><a href="#接口枚举" class="headerlink" title="接口枚举"></a>接口枚举</h3><p>通过接口和枚举混合定义使用：</p>
+<pre><code class="ts">enum Color &#123;
+  red = 0,
+  green = &quot;green&quot;,
+&#125;
+interface A &#123;
+  blue: Color.red;
+&#125;
+let obj: A = &#123;
+  red: Color.red,
+&#125;;
+</code></pre>
+<h3 id="const-枚举"><a href="#const-枚举" class="headerlink" title="const 枚举"></a>const 枚举</h3><p>const 枚举在 ts 编译的 js 代码中，会<strong>直接将值编译出来</strong>，不会将其（Types）编译为一个对象。</p>
+<pre><code class="ts">const enum Types &#123;
+  sucess,
+  fail,
+&#125;
+let code: number = 0;
+if (code === Types.sucess) &#123;
+&#125;
+</code></pre>
+<blockquote>
+<p>上述代码使用 const 枚举编译的 js 如下：</p>
+<pre><code class="js">var code = 0;
+if (code === 0) &#123;
+&#125; //Types.sucess默认数字第一位为0
+</code></pre>
+<p>普通枚举：</p>
+<pre><code class="js">var Types;
+(function (Types) &#123;
+    Types[Types[&quot;sucess&quot;] = 0] =&quot;sucess&quot;;
+    Types[Types[&quot;fail&quot;] = 0] =&quot;fail&quot;;
+&#125;)(Types || Types = &#123;&#125;);
+var code =0;
+if (code === Types.sucess)&#123;&#125;
+</code></pre>
+</blockquote>
+<h3 id="反向映射"><a href="#反向映射" class="headerlink" title="反向映射"></a>反向映射</h3><p>我们可以通过 key 去读取 value，也可以通过 value 读取 key。</p>
+<blockquote>
+<p>只有数字类型支持，<strong>字符串类型是不支持反向映射的。</strong></p>
+</blockquote>
+<h2 id="any"><a href="#any" class="headerlink" title="any"></a>any</h2><p>为那些在编程阶段还不清楚类型的变量指定一个类型，让其通过编译阶段的检查。可以定义为任何类型。</p>
+<pre><code class="tsx">let notSure: any = true;
+let notSure2: any = 123;
+let notSure3: any = &quot;fxh&quot;;
+
+let list3: any[] = [1, true, &quot;free&quot;];
+list3[0] = &quot;ade&quot;;
+console.log(list3);
+</code></pre>
+<blockquote>
+<p>any 类型的值<strong>可以</strong>和任何类型的值进行<strong>交换赋值</strong>（赋给别人值和被赋值都可以）。</p>
+</blockquote>
+<h2 id="unknown"><a href="#unknown" class="headerlink" title="unknown"></a>unknown</h2><p>同 any 一样，可以定义为任何类型。</p>
+<pre><code class="ts">let a: unknown = 1;
+</code></pre>
+<blockquote>
+<ul>
+<li>unknown 类型<strong>只能赋值给 unknown 或者是 any 类型</strong>。</li>
+<li>unknown 类型无法读取值的任何属性（如果给一个对象<code>&#123;&#125;</code>设置 unknown，则其对象的属性是无法读取的，方法也不能调用）；但是 any 类型可以。</li>
+</ul>
+</blockquote>
+<h2 id="void"><a href="#void" class="headerlink" title="void"></a>void</h2><p>没有任何类型。</p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a><strong>函数</strong></h3><p>当一个<strong>函数没有返回值</strong>的时候，返回类型为<code>void</code>。</p>
+<pre><code class="tsx">function warnUser(): void &#123;
+  console.log(&quot;This is my warning message&quot;);
+&#125;
+</code></pre>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a><strong>变量</strong></h3><p>声明一个<code>void</code>类型的变量没有什么大用处，因为你只能为它赋予<code>undefined</code>和<code>null(测试返回null时会报错，可能是因为在严格模式下)</code>：</p>
+<pre><code class="tsx">let unusable: void = undefined;
+</code></pre>
+<h2 id="null-和-undefined"><a href="#null-和-undefined" class="headerlink" title="null 和 undefined"></a>null 和 undefined</h2><p><code>undefined</code>和<code>null</code>两者各自有自己的类型分别叫做<code>undefined</code>和<code>null</code>。</p>
+<pre><code class="tsx">let u: undefined = undefined;
+let n: null = null;
+</code></pre>
+<ul>
+<li><p>默认情况下<code>null</code>和<code>undefined</code>是<strong>所有类型的子类型</strong>，你可以把<code>null</code>和<code>undefined</code>赋值给其他类型</p>
+<pre><code class="tsx">let otherValue:number = null;
+let otherValue:string = null;
+let otherValue:boolean = null;
+let otherValue:void = null;
+let otherValue:any = null;
+....
+</code></pre>
+</li>
+<li><p>当你指定了<code>--strictNullChecks</code>标记，<code>null</code>和<code>undefined</code>只能赋值给<code>void</code>和它们各自。</p>
+</li>
+</ul>
+<h2 id="never"><a href="#never" class="headerlink" title="never"></a>never</h2><p>表示的是那些<strong>永不存在的值的类型</strong>。</p>
+<blockquote>
+<p>注意：never 在使用联合类型时会被忽略。</p>
+</blockquote>
+<ul>
+<li><p>可以进行一些返回错误的函数：</p>
+<pre><code class="tsx">// 返回never的函数必须存在无法达到的终点
+function error(message: string): never &#123;
+  throw new Error(message); // 抛出错误
+&#125;
+
+// 推断的返回值类型为never
+function fail() &#123;
+  return error(&quot;Something failed&quot;);
+&#125;
+
+// 返回never的函数必须存在无法达到的终点
+function infiniteLoop(): never &#123;
+  while (true) &#123;
+    // 死循环
+  &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p><code>never</code>类型是任何类型的子类型，也可以赋值给任何类型；然而，<em>没有</em>类型是<code>never</code>的子类型或可以赋值给<code>never</code>类型（除了<code>never</code>本身之外）。 即使 <code>any</code>也不可以赋值给<code>never</code>。</p>
+<ul>
+<li>实际上 <code>let num2:never = null;</code>是可以被赋值为 null ，但 never 赋值不了任何值</li>
+</ul>
+</blockquote>
+</li>
+<li><p>进行兜底逻辑的判断：</p>
+<pre><code class="ts">type fruits = &quot;apple&quot; | &quot;banana&quot; | &quot;pear&quot;;
+
+function eat(value: A) &#123;
+  switch (value) &#123;
+    case &quot;apple&quot;:
+      break;
+    case &quot;banana&quot;:
+      break;
+    case &quot;pear&quot;:
+      break;
+    default:
+      const error: never = value;
+      break;
+  &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>这样如果修改了 fruits 的类型，使用 eat 时也能知道是哪里出了问题。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="object"><a href="#object" class="headerlink" title="object"></a>object</h2><p><code>object</code>表示所有<strong>非原始类型</strong>，也就是除<code>number</code>，<code>string</code>，<code>boolean</code>，<code>symbol</code>，<code>null</code>或<code>undefined</code>之外的类型。</p>
+<blockquote>
+<p>可以表示所有引用类型。</p>
+</blockquote>
+<p>使用<code>object</code>类型，就可以更好的表示像<code>Object.create</code>这样的 API。例如：</p>
+<pre><code class="ts">declare function create(o: object | null): void;
+
+create(&#123; prop: 0 &#125;); // OK
+create(null); // OK
+
+create(42); // Error
+create(&quot;string&quot;); // Error
+create(false); // Error
+create(undefined); // Error
+
+let a: object = &quot;123&quot;; // Error
+let a: object = 456; // Error
+let a: object = false; // Error
+let a: object = []; // OK
+let a: object = &#123;&#125;; // OK
+let a: object = () =&gt; 678; // ok
+</code></pre>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>大写的<code>Object</code>类型相当于原型链最顶端的 Object。它可以定义所有基础的类型。</p>
+<pre><code class="ts">let a: Object = 123;
+let a1: Object = &quot;123&quot;;
+</code></pre>
+<h2 id="对象字面量"><a href="#对象字面量" class="headerlink" title="对象字面量"></a>对象字面量</h2><p>跟 Object 定义范围类似，包含所有类型，可以理解为<code>new Object</code>。</p>
+<pre><code class="ts">let a: &#123;&#125; = 123;
+let a1: &#123;&#125; = &quot;456&quot;;
+let a2: &#123;&#125; = false;
+let a3: &#123;&#125; = [];
+let a4: &#123;&#125; = &#123; name: &quot;zs&quot; &#125;;
+</code></pre>
+<blockquote>
+<p>对象字面量进行赋值之后，无法再对该值进行修改。</p>
+</blockquote>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><h2 id="类型等级"><a href="#类型等级" class="headerlink" title="类型等级"></a>类型等级</h2><ul>
+<li>顶级类型：any、unknown</li>
+<li>第二大类型：Object</li>
+<li>第三大类型：Number、String、Boolean</li>
+<li>第四大类型：number、string、boolean</li>
+<li>第五大类型：123、’张三’、false（直接赋值的类型）</li>
+<li>第六大类型：never</li>
+</ul>
+<blockquote>
+<p><strong>上层类型可以覆盖下层类型。</strong></p>
+</blockquote>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/TS%E5%AE%9E%E7%8E%B0%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E8%80%85%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          TS 实现发布订阅者模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/TS%E5%85%A8%E5%B1%80%E7%B1%BB%E5%9E%8B%E5%A3%B0%E6%98%8E%E6%9D%A5%E6%BA%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">TS全局类型声明来源</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=基础类型 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2FTS%25E5%259F%25BA%25E7%25A1%2580%25E7%25B1%25BB%25E5%259E%258B%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=基础类型 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2FTS%25E5%259F%25BA%25E7%25A1%2580%25E7%25B1%25BB%25E5%259E%258B%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=基础类型 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/TS%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/TS/">TS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/">装饰器（Decorator）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/">联合类型</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/">类（class）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80/">类型断言（*）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA%E5%92%8C%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D/">类型推论和类型别名</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

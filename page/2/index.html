@@ -154,7 +154,7 @@
   
     
       <article
-id="post-Node/Advanced/module"
+id="post-TS/对象的类型（interface）"
 class="article article-type-post"
 >
 
@@ -165,283 +165,511 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/module/">Nodejs 模块化</a>
+        <a href="/ferhannah-blog/2025/06/24/TS/%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%B1%BB%E5%9E%8B%EF%BC%88interface%EF%BC%89/">对象的类型（接口）</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>Nodejs 模块化遵循两套规范：CommonJS 和 ESM 规范。</p>
-<h1 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h1><p>使用<code>require()</code>引入模块，一共五种类型引入模块：<strong>自定义、第三方、内置、C++扩展、JSON 文件</strong><br>使用<code>module.exports</code>导出，支持解构。</p>
-<h1 id="ESM"><a href="#ESM" class="headerlink" title="ESM"></a>ESM</h1><p>使用<code>import</code>引入，<code>export</code>导出。</p>
-<p><strong>注意</strong>： esm 不支持引入 JSON 文件。但是 node16 以上可以使用断言来引入：</p>
-<pre><code class="js">import json from &quot;./test.json&quot; assert &#123; type: &quot;json&quot; &#125;;
+        <p>在 TypeScript 中，我们使用接口（<strong>Interface</strong>）来定义对象的类型。</p>
+<blockquote>
+<p>用于匹配两个对象是否相等。</p>
+</blockquote>
+<pre><code class="ts">interface Person &#123;
+  name: string;
+  age: number;
+&#125;
+
+let tom: Person = &#123;
+  name: &quot;Tom&quot;,
+  age: 25,
+&#125;;
 </code></pre>
-<h1 id="CommonJS-和-ESM-区别"><a href="#CommonJS-和-ESM-区别" class="headerlink" title="CommonJS 和 ESM 区别"></a>CommonJS 和 ESM 区别</h1><ul>
-<li>CJS 是基于<strong>运行时</strong>同步加载，ESM 是基于<strong>编译时异步加载</strong>；<blockquote>
-<p>一般<code>import</code>语句只能在顶层，而<code>require()</code>可以在块级作用域底下；但是可以<strong>使用<code>import()</code>的函数模式，返回一个 promise</strong>。</p>
-</blockquote>
-</li>
-<li>CJS 可以修改值，ESM 只读；</li>
-<li>CJS <strong>不支持 tree shaking</strong>，ESM 支持；</li>
-<li>CJS 中顶层的 <strong>this 指向模块本身</strong>，而 ES6 中顶层 <strong>this 指向 undefined</strong>；</li>
-</ul>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>各个文件引入并使用的原理。</p>
-<h2 id="json"><a href="#json" class="headerlink" title=".json"></a><code>.json</code></h2><p>使用 fs 直接读取文件内容并转换为 utf-8 字符串，然后再将其转换为对象。</p>
-<h2 id="node"><a href="#node" class="headerlink" title=".node"></a><code>.node</code></h2><p>使用 process 读取文件内容。</p>
-<h2 id="js"><a href="#js" class="headerlink" title=".js"></a><code>.js</code></h2><ol>
-<li>在类 weakmap 中查找是否有缓存，如果没有则通过 fs 读取文件内容并转换为 utf-8 字符串；</li>
-<li>判断是否是以<code>.js</code>结尾，是则读取 package.json 的 type，如果不是 module 则获取父级以及确认报错的行号和错误信息；</li>
-<li>如果都没问题则会调用<code>_compile()</code>进行编译，在这个方法中会将文件名和文件内容进行拼接，将文件内容包装进一个匿名函数中（类似 js 沙箱，隔离上下文环境）；</li>
-<li>调用 script 去执行这个匿名函数，并查看里面是否有动态引入的 import，有的话就引入对应模块，最后返回一个执行结果；</li>
-<li>在拼接文件时，会传递五个参数，执行完匿名函数后会有去组装这五个参数（export、require、module、filename、dirname），再使用 ReflectApply 透传给匿名函数，最后返回结果。</li>
-</ol>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Advanced/npx"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/12/Node/Advanced/npx/">npx</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>npx 是命令行工具，npm 5.2.0 以上新增的功能。让用户不安装全局包的情况运行已安装在本地项目中的包或远程包。</p>
+<p>上面的例子中，我们定义了一个接口 <code>Person</code>，接着定义了一个变量 <code>tom</code>，它的类型是 <code>Person</code>。这样，我们就约束了 <code>tom</code> 的形状必须和接口 <code>Person</code> 一致。</p>
 <blockquote>
-<p>使用完安装包就删。</p>
+<p>接口一般首字母大写。</p>
 </blockquote>
-<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ul>
-<li>避免全局安装；</li>
-<li>总是使用你最新版本；</li>
-<li>可执行任意 npm package 包；</li>
+<p><strong>赋值的时候，变量的形状必须和接口的形状保持一致</strong>。</p>
+<ul>
+<li><strong>对象的属性要完全和 interface 里定义的相同</strong>；</li>
+<li>如果有<strong>同名的 interface，则会自动产生合并</strong>；</li>
 </ul>
-<h1 id="与-npm-区别"><a href="#与-npm-区别" class="headerlink" title="与 npm 区别"></a>与 npm 区别</h1><p>npx 更侧重于执行某个包（模块）的某个命令；<br>npm 侧重于安装和卸载这个包（模块）；</p>
-<h1 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h1><ul>
-<li><strong>运用脚手架工具执行安装模板命令</strong>；</li>
-<li><strong>可在命令行中执行没有在全局安装</strong>，但是在项目中安装好的包（模块）的命令；<pre><code class="bash">npx vite
+<h2 id="可选属性"><a href="#可选属性" class="headerlink" title="可选属性"></a>可选属性</h2><p>有时我们希望不要完全匹配一个形状，那么可以用可选属性（**?**）：</p>
+<pre><code class="ts">interface Person &#123;
+  name: string;
+  age?: number;
+&#125;
+
+let tom: Person = &#123;
+  name: &quot;Tom&quot;,
+&#125;;
+</code></pre>
+<pre><code class="ts">interface Person &#123;
+  name: string;
+  age?: number;
+&#125;
+
+let tom: Person = &#123;
+  name: &quot;Tom&quot;,
+  age: 25,
+&#125;;
+</code></pre>
+<p>可选属性的含义是<strong>该属性可以不存在</strong>，<strong>但仍然不允许添加未定义的属性</strong>。</p>
+<h2 id="索引签名——定义任意属性（-）"><a href="#索引签名——定义任意属性（-）" class="headerlink" title="索引签名——定义任意属性（*）"></a>索引签名——定义任意属性（*）</h2><p>有时候我们希望一个接口允许有任意的属性（<strong>不确定还有什么类型的其他值</strong>），可以使用如下方式：</p>
+<pre><code class="ts">interface Person &#123;
+  name: string;
+  age?: number;
+  [propName: string]: any;
+&#125;
+
+let tom: Person = &#123;
+  name: &quot;Tom&quot;,
+  gender: &quot;male&quot;,
+  a: 1,
+  b: &quot;456&quot;,
+&#125;;
+</code></pre>
+<p>使用 <code>[propName: string]</code> 定义了任意属性取 <code>string</code> 类型的值。</p>
+<blockquote>
+<p>注意：<strong>一旦定义了任意属性（索引签名），那么确定属性和可选属性的类型都必须是它的类型的子集</strong>，例：</p>
+</blockquote>
+<pre><code class="ts">interface Person &#123;
+  name: string;
+  age?: number;
+  [propName: string]: string; // 其中的类型必须是string或是其子类型，不然就会报错，所以一般写any
+&#125;
+
+let tom: Person = &#123;
+  name: &quot;Tom&quot;,
+  age: 25,
+  gender: &quot;male&quot;,
+&#125;;
+
+// index.ts(3,5): error TS2411: Property &#39;age&#39; of type &#39;number&#39; is not assignable to string index type &#39;string&#39;.
+// index.ts(7,5): error TS2322: Type &#39;&#123; [x: string]: string | number; name: string; age: number; gender: string; &#125;&#39; is not assignable to type &#39;Person&#39;.
+//   Index signatures are incompatible.
+//     Type &#39;string | number&#39; is not assignable to type &#39;string&#39;.
+//       Type &#39;number&#39; is not assignable to type &#39;string&#39;.
+</code></pre>
+<p><strong>一个接口</strong>中只能定义<strong>一个任意属性</strong>。如果接口中有<strong>多个类型的属性</strong>，则可以在任意属性中使用联合类型：</p>
+<pre><code class="ts">interface Person &#123;
+  name: string;
+  age?: number;
+  [propName: string]: string | number;
+&#125;
+
+let tom: Person = &#123;
+  name: &quot;Tom&quot;,
+  age: 25,
+  gender: &quot;male&quot;,
+&#125;;
+</code></pre>
+<h2 id="只读属性"><a href="#只读属性" class="headerlink" title="只读属性"></a>只读属性</h2><blockquote>
+<p><strong>对于可有可无的值，可以使用<code>?</code>来定义</strong>。</p>
+</blockquote>
+<p>有时候我们希望对象中的一些字段<strong>只能在创建的时候被赋值</strong>，那么可以用 <strong>readonly</strong>定义<strong>只读属性</strong>：</p>
+<blockquote>
+<p>被赋予只读的属性，只能被访问，不能被修改。</p>
+</blockquote>
+<pre><code class="ts">interface Person &#123;
+  readonly id: number; // 只读属性
+  name: string;
+  age?: number;
+  [propName: string]: any;
+&#125;
+
+let tom: Person = &#123;
+  id: 89757,
+  name: &quot;Tom&quot;,
+  gender: &quot;male&quot;,
+&#125;;
+
+tom.id = 9527;
+
+// index.ts(14,5): error TS2540: Cannot assign to &#39;id&#39; because it is a constant or a read-only property.
 </code></pre>
 <blockquote>
-<p>这样和在 script 编写好后再由 npm run 来执行是一样的。npx 能找到当前下载好的包并使用。</p>
+<p>上例中，使用 <code>readonly</code> 定义的属性 <code>id</code> 初始化后，又被赋值了，所以报错了。</p>
 </blockquote>
-</li>
-</ul>
+<p><strong>注意，只读的约束存在于第一次给对象赋值的时候，而不是第一次给只读属性赋值的时候</strong>：</p>
+<pre><code class="ts">interface Person &#123;
+  readonly id: number;
+  name: string;
+  age?: number;
+  [propName: string]: any;
+&#125;
 
-        
-    </div>
-    </div>
+let tom: Person = &#123;
+  name: &quot;Tom&quot;,
+  gender: &quot;male&quot;,
+&#125;;
 
-    <div class="article-badge">
-        
-        
-    </div>
+tom.id = 89757;
 
-</div>
+// index.ts(8,5): error TS2322: Type &#39;&#123; name: string; gender: string; &#125;&#39; is not assignable to type &#39;Person&#39;.
+//   Property &#39;id&#39; is missing in type &#39;&#123; name: string; gender: string; &#125;&#39;.
+// index.ts(13,5): error TS2540: Cannot assign to &#39;id&#39; because it is a constant or a read-only property.
+</code></pre>
+<p>上例中，报错信息有两处，第一处是在对 <code>tom</code> 进行赋值的时候，没有给 <code>id</code> 赋值。</p>
+<p>第二处是在给 <code>tom.id</code> 赋值的时候，由于它是只读属性，所以报错了。</p>
+<h2 id="接口继承——extends"><a href="#接口继承——extends" class="headerlink" title="接口继承——extends"></a>接口继承——extends</h2><p>被继承的接口会合并到当前接口里。</p>
+<pre><code class="ts">interface A extends B &#123;
+  name: string;
+  age: number;
+  readonly id: number;
+&#125;
 
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-11T16:00:00.000Z" itemprop="datePublished">2025-03-12</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
+interface B &#123;
+  sex: string;
+&#125;
 
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Advanced/npm"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/npm/">npm</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Node Pacakge Manager。Nodejs 的包管理工具。</p>
-<blockquote>
-<p>类似于：PHP-Composer，Java-Maven，Python-pip，Rust-Cargo。</p>
-</blockquote>
-<h1 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h1><pre><code class="json">&#123;
-  &quot;name&quot;: &quot;ferhannah-cli&quot;,
-  &quot;version&quot;: &quot;1.0.1&quot;, // 主版本号(大版本架构更新).次版本号(功能更新).bug修复
-  &quot;description&quot;: &quot;ferhannah-cli 脚手架工具&quot;,
-  // 模块化相关--
-  &quot;main&quot;: &quot;index.js&quot;, // 用户用的时候找的路径
-  &quot;type&quot;: &quot;module&quot;,
-  &quot;module&quot;: &quot;&quot;,
-  &quot;browser&quot;: &quot;&quot;,
-  //---
-  &quot;scripts&quot;: &#123;
-    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
-    &quot;build&quot;: &quot;rollup -c rollup.config.js&quot;,
-    &quot;build-ts&quot;: &quot;rollup --config rollup.config.ts --configPlugin typescript&quot;
-  &#125;,
-  &quot;keywords&quot;: [&quot;Vite&quot;, &quot;Vue3&quot;, &quot;React&quot;, &quot;CLI&quot;, &quot;Ant Design&quot;, &quot;Element Plus&quot;],
-  &quot;bin&quot;: &#123;
-    // 配置可执行文件
-    &quot;ferhannah&quot;: &quot;./bin/index.js&quot;
-  &#125;,
-  &quot;devDependencies&quot;: &#123;&#125;, // 开发时依赖
-  &quot;dependencies&quot;: &#123;&#125;, // 生产环境依赖
-  &quot;peerDependencies&quot;: &#123;&#125;, // 对等依赖，一般是插件人员和npm包开发人员使用；如果需要安装开发的插件必须下载其依赖的插件（对等插件）
-  // npm 仓库配置信息--
-  &quot;repository&quot;: &#123;
-    &quot;type&quot;: &quot;git&quot;,
-    &quot;url&quot;: &quot;&quot;
-  &#125;,
-  &quot;files&quot;: [], // 发布后能看到的文件
-  &quot;homepage&quot;: &quot;&quot;,
-  &quot;author&quot;: &quot;fxh&quot;,
-  &quot;license&quot;: &quot;ISC&quot;
-  //--
+let a: A = &#123;
+  id: 2,
+  name: &quot;张三&quot;,
+  age: 18,
+  sex: &quot;男&quot;,
+&#125;;
+</code></pre>
+<h2 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h2><p>使用 interface 定义函数类。</p>
+<pre><code class="ts">interface Fn &#123;
+  (name: string): number[];
 &#125;
 </code></pre>
-<h1 id="npm-install-原理"><a href="#npm-install-原理" class="headerlink" title="npm install 原理"></a>npm install 原理</h1><blockquote>
-<p>npm install 发生了什么？</p>
+<ul>
+<li>()：定义函数传递的参数名称和类型；</li>
+<li>number[]：定义了函数返回值的类型，此处为 number 类型的数组；</li>
+</ul>
+<pre><code class="ts">const fn: Fn = function (name: string) &#123;
+  return [1];
+&#125;;
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.467Z" itemprop="datePublished">2025-06-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-TS/声明文件"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/06/24/TS/%E5%A3%B0%E6%98%8E%E6%96%87%E4%BB%B6/">声明文件</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p><strong>当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能。</strong></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li><p>声明文件是形如<code>xx.d.ts</code>的文件类型；</p>
+</li>
+<li><p>有些第三方库需要并没有编写好声明文件，需要自己去获取；如果是流行的库，可能网上有别人（社区）写好的声明文件，可以尝试下载，声明文件一般为<code>@type/库名</code>；如果是不活跃的库，可能需要我们手动去声明；</p>
+<p>例如：为 express 手写一个声明库（见示例）</p>
+</li>
+</ul>
+<h2 id="书写声明文件"><a href="#书写声明文件" class="headerlink" title="书写声明文件"></a>书写声明文件</h2><p>在不同的场景下，声明文件的内容和使用方式会有所区别。</p>
+<p>库的使用场景主要有以下几种：</p>
+<ul>
+<li><strong>全局变量</strong>：通过 <code>&lt;script&gt;</code> 标签引入第三方库，注入全局变量</li>
+<li><strong>npm 包</strong>：通过 <code>import foo from &#39;foo&#39;</code> 导入，符合 ES6 模块规范</li>
+<li><strong>UMD 库</strong>：既可以通过 <code>&lt;script&gt;</code> 标签引入，又可以通过 <code>import</code> 导入</li>
+<li><strong>直接扩展全局变量</strong>：通过 <code>&lt;script&gt;</code> 标签引入后，改变一个全局变量的结构</li>
+<li><strong>在 npm 包或 UMD 库中扩展全局变量</strong>：引用 npm 包或 UMD 库后，改变一个全局变量的结构</li>
+<li><strong>模块插件</strong>：通过 <code>&lt;script&gt;</code> 或 <code>import</code> 导入后，改变另一个模块的结构</li>
+</ul>
+<h2 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h2><blockquote>
+<p>注意：<strong>所有声明语句中只能定义类型，切勿在声明语句中定义具体的实现</strong>。</p>
 </blockquote>
-<p>安装的依赖会存放在根目录的 node_modules 下，默认<strong>采用扁平化</strong>的方式安装。在遍历依赖书时<strong>使用广度优先算法逐层处理每个依赖包中的依赖，直到所有的依赖都被处理完毕</strong>。在处理依赖时，npm 会检查该依赖的版本号是否符合依赖树中其他依赖版本要求，如果不合适则会尝试安装合适的版本。</p>
+<ul>
+<li><p><strong>declare var</strong></p>
+<p>用来定义一个<strong>全局变量的类型</strong>。</p>
+<pre><code class="ts">// src/jQuery.d.ts
+
+declare let jQuery: (selector: string) =&gt; any;
+// src/index.ts
+
+jQuery(&quot;#foo&quot;);
+// 使用 declare let 定义的 jQuery 类型，允许修改这个全局变量
+jQuery = function (selector) &#123;
+  return document.querySelector(selector);
+&#125;;
+</code></pre>
+</li>
+<li><p><strong>declare function</strong></p>
+<p>用来定义<strong>全局函数的类型</strong>。Query 其实就是一个函数，所以也可以用 <code>function</code> 来定义：</p>
+<pre><code class="ts">// src/jQuery.d.ts
+declare function jQuery(selector: string): any;
+
+// src/index.ts
+jQuery(&quot;#foo&quot;);
+</code></pre>
+</li>
+<li><p><strong>declare class</strong></p>
+<p>当全局变量是一个类的时候，我们用 <code>declare class</code> 来定义它的类型：</p>
+<pre><code class="ts">// src/Animal.d.ts
+
+declare class Animal &#123;
+  name: string;
+  constructor(name: string);
+  sayHi(): string;
+&#125;
+// src/index.ts
+
+let cat = new Animal(&quot;Tom&quot;);
+</code></pre>
+</li>
+<li><p><strong>declare enum</strong></p>
+<p>使用 <code>declare enum</code> 定义的枚举类型也称作外部枚举（Ambient Enums）。</p>
+<pre><code class="ts">// src/Directions.d.ts
+
+declare enum Directions &#123;
+  Up,
+  Down,
+  Left,
+  Right,
+&#125;
+// src/index.ts
+
+let directions = [
+  Directions.Up,
+  Directions.Down,
+  Directions.Left,
+  Directions.Right,
+];
+</code></pre>
+</li>
+<li><p><strong>declare namespace（淘汰）</strong></p>
+</li>
+<li><p><strong>嵌套的命名空间（*）</strong></p>
+</li>
+<li><p><strong>interface 和 type</strong></p>
+<p>除了全局变量之外，可能有一些类型我们也希望能暴露出来。在类型声明文件中，我们可以直接使用 <code>interface</code> 或 <code>type</code> 来声明一个全局的接口或类型<a target="_blank" rel="noopener" href="https://github.com/xcatliu/typescript-tutorial/tree/master/examples/declaration-files/12-interface">12</a>：</p>
+<pre><code class="ts">// src/jQuery.d.ts
+
+interface AjaxSettings &#123;
+  method?: &quot;GET&quot; | &quot;POST&quot;;
+  data?: any;
+&#125;
+declare namespace jQuery &#123;
+  function ajax(url: string, settings?: AjaxSettings): void;
+&#125;
+</code></pre>
+<p>这样的话，在其他文件中也可以使用这个接口或类型了：</p>
+<pre><code class="ts">// src/index.ts
+
+let settings: AjaxSettings = &#123;
+  method: &quot;POST&quot;,
+  data: &#123;
+    name: &quot;foo&quot;,
+  &#125;,
+&#125;;
+jQuery.ajax(&quot;/api/post_something&quot;, settings);
+</code></pre>
+<p><code>type</code> 与 <code>interface</code> 类似。</p>
+</li>
+<li><p>防止命名冲突</p>
+<p>暴露在最外层的 <code>interface</code> 或 <code>type</code> 会作为全局类型作用于整个项目中，我们应该尽可能的减少全局变量或全局类型的数量。故最好将他们放到 <code>namespace</code></p>
+</li>
+<li><p>声明合并</p>
+</li>
+</ul>
+<h2 id="UMD-库"><a href="#UMD-库" class="headerlink" title="UMD 库"></a>UMD 库</h2><p>既可以通过 <code>&lt;script&gt;</code> 标签引入，又可以通过 <code>import</code> 导入的库，称为 UMD 库。相比于 npm 包的类型声明文件，我们需要额外声明一个全局变量，为了实现这种方式，ts 提供了一个新语法 <code>export as namespace</code>。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><ul>
+<li><p>为 express 手写一个声明库</p>
+<pre><code class="ts">// index.ts
+import express from &quot;express&quot;;
+
+const app = express();
+const router = express.Router();
+
+app.use(&quot;/api&quot;, router);
+router.get(&quot;/api&quot;, (req: any, res: any) =&gt; &#123;
+  res.json(&#123;
+    code: 200,
+  &#125;);
+&#125;);
+app.listen(9002, () =&gt; &#123;
+  console.log(&quot;9002&quot;);
+&#125;);
+</code></pre>
+<pre><code class="ts">// express.d.ts
+declare module &quot;express&quot; &#123;
+  interface Router &#123;
+    get(path: string, cb: (req: any, res: any) =&gt; void): void;
+  &#125;
+  interface App &#123;
+    use(path: string, router: any): void;
+    listen(port: number, cb?: () =&gt; void);
+  &#125;
+  interface Express &#123;
+    (): App;
+    Router(): Router;
+  &#125;
+  const express: Express;
+
+  export default express;
+&#125;
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.466Z" itemprop="datePublished">2025-06-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-TS/命名空间（namespace）"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/06/24/TS/%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%EF%BC%88namespace%EF%BC%89/">命名空间（namespace）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <p>使用命名空间避免全局变量造成的污染。</p>
 <blockquote>
-<p>如果发现需要相同依赖的不同版本，则会在需要该依赖的包下又新建一个 node_modules，再将依赖装进去。</p>
+<p>TS 和 ES6 一样，任何包含顶级的<code>import</code>或者<code>export</code>的文件都被当成一个模块；相反，如果一个文件不带有顶级的<code>import</code>或者<code>export</code>声明，它的内容被视为全局可见，文件和文件之间也是可见的。</p>
+<pre><code class="ts">// index.ts
+const a = 1;
+</code></pre>
+<pre><code class="ts">// index2.ts
+const a = 2; // 报错
+</code></pre>
+<p>可以使用<code>export</code>避免这种情况：</p>
+<pre><code class="ts">// index2.ts
+export const a = 2;
+</code></pre>
 </blockquote>
-<ul>
-<li>先检查 npm config；</li>
-<li>在当前目录下寻找<code>.npmrc</code>文件（项目级别），如果找到；</li>
-<li>再找当前用户的<code>.npmrc</code>文件（用户级别）</li>
-<li>再找全局的<code>.npmrc</code>文件（全局：AppData）</li>
-<li>npm 内置的<code>.npmrc</code>文件（nodejs）</li>
-<li>检查是否有 <code>package-lock.json</code> 文件。<ul>
-<li>有：则比较<code>package.json</code>和<code>package-lock.json</code>内的依赖版本是否一致。<ul>
-<li>不一致：会根据<code>package.json</code>下载并更新<code>package-lock.json</code>。<blockquote>
-<p>针对 npm 高版本，现在基本上都是。</p>
-</blockquote>
-</li>
-<li>一致：检查缓存（之前是否安装过）；<ul>
-<li>有：直接解压到 node_modules。</li>
-<li>没有：去 npm 官网&#x2F;镜像下载资源包，检查完整性，添加到缓存，更新<code>package-lock.json</code>文件；</li>
+<h2 id="命名空间特性"><a href="#命名空间特性" class="headerlink" title="命名空间特性"></a>命名空间特性</h2><ul>
+<li>使用<code>namespace</code>定义命名空间；</li>
+<li>命名空间内部的类默认是私有的，需通过<code>export</code>暴露出来才能使用；</li>
+<li>命名空间相当于内部模块，其主要作用是组织代码，避免命名冲突；</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>没有：获取包信息，构建依赖树和扁平化依赖，然后检查缓存；<ul>
-<li>有：直接解压到 node_modules。</li>
-<li>没有：去 npm 官网&#x2F;镜像下载资源包，检查完整性，添加到缓存，更新<code>package-lock.json</code>文件；</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="package-lock-json"><a href="#package-lock-json" class="headerlink" title="package-lock.json"></a>package-lock.json</h2><p>可以<strong>锁定版本，记录依赖树的详细信息</strong>。</p>
-<ul>
-<li>version：包版本号；</li>
-<li>resolved：包的下载地址；</li>
-<li>integrity：验证包的完整性的哈希值（摘要）；</li>
-<li>dev：当前包是一个开发依赖包；</li>
-<li>bin：包中可执行文件的路径和名称；</li>
-<li>engines：包所依赖的 Nodejs 版本范围；</li>
-</ul>
-<p>它还帮我们<strong>做了缓存</strong>，<strong>通过 name + version + integrity 生成一个唯一的 key</strong>，这个 key 用于<strong>映射 npm 缓存文件</strong>（一般在 npm-catch 下），如果生成的 key 能与 integrity <strong>对上，就会从映射文件中取出缓存的二进制包并解压出来使用</strong>。</p>
-<h1 id="npm-run-原理"><a href="#npm-run-原理" class="headerlink" title="npm run 原理"></a>npm run 原理</h1><blockquote>
-<p>npm run 发生了什么？（也就是指定 node 命令时）</p>
-</blockquote>
-<p>nodejs 的所有命令都在 node_modules&#x2F;.bin 下的可执行文件中。nodejs 支持跨平台、跨系统：</p>
-<ul>
-<li><code>.sh</code>：Unix、Linux 以及 MacOS 使用；</li>
-<li><code>.cmd</code>：cmd 执行文件（windows）；</li>
-<li><code>.ps1</code>：powershell 执行文件（windows）；</li>
-</ul>
-<blockquote>
-<p>命令是在 package.json 中的 bin 内配置的。</p>
-</blockquote>
-<ul>
-<li>会在当前项目找 node_modules&#x2F;.bin 中是否有该命令环境；</li>
-<li>再去全局的 node_modules 下找；</li>
-<li>再去环境变量中找；</li>
-<li>都找不到报错；</li>
-</ul>
-<h1 id="npm-生命周期"><a href="#npm-生命周期" class="headerlink" title="npm 生命周期"></a>npm 生命周期</h1><p>在执行 dev 之前和之后都有对应的生命周期使用，执行 dev 会自动调用 predev 和 postdev：</p>
-<pre><code class="json">&#123;
-  &quot;scripts&quot;: &#123;
-    &quot;predev&quot;: &quot;node prev.js&quot;,
-    &quot;dev&quot;: &quot;node index.js&quot;,
-    &quot;postdev&quot;: &quot;node post.js&quot;
+<pre><code class="ts">// index2.ts
+namespace B &#123;
+  export const a = 2;
+&#125;
+
+console.log(B.a); // 命名空间变量使用
+</code></pre>
+<pre><code class="ts">// index.ts
+namespace A &#123;
+  export const a = 1;
+&#125;
+
+console.log(A.a); // 命名空间变量使用
+</code></pre>
+<h2 id="嵌套命名空间"><a href="#嵌套命名空间" class="headerlink" title="嵌套命名空间"></a>嵌套命名空间</h2><pre><code class="ts">namespace A &#123;
+  export namespace C &#123;
+    export const D = 5;
   &#125;
 &#125;
+console.log(A.C.D);
 </code></pre>
-<p>应用场景：</p>
-<ul>
-<li>predev：打包之前清除 dist 目录；</li>
-<li>postdev：CI 脚本，发布之后自动将代码提交；</li>
+<h2 id="命名空间导出和引入"><a href="#命名空间导出和引入" class="headerlink" title="命名空间导出和引入"></a>命名空间导出和引入</h2><ul>
+<li><p>导出</p>
+<pre><code class="ts">// index2.ts
+export namespace B &#123;
+  export const a = 2;
+&#125;
+</code></pre>
+</li>
+<li><p>引入</p>
+<pre><code class="ts">import &#123; B &#125; from &quot;./index2&quot;;
+console.log(B); // &#123; a: 2 &#125;
+</code></pre>
+</li>
 </ul>
+<h2 id="命名空间别名——简化命名空间"><a href="#命名空间别名——简化命名空间" class="headerlink" title="命名空间别名——简化命名空间"></a>命名空间别名——简化命名空间</h2><pre><code class="ts">namespace A &#123;
+  export namespace C &#123;
+    export const D = 5;
+  &#125;
+&#125;
+import AC = A.C; // 为A.C起别名
+console.log(AC.D); // 5
+// console.log(A.C.D) // 5
+</code></pre>
 <blockquote>
-<p>注意：dev 命令可以换成其他任何自定义命令，周期命令的配置也一样。</p>
+<p>注意：ts-node 不能识别命名空间别名。</p>
 </blockquote>
-<h2 id="npm-私服"><a href="#npm-私服" class="headerlink" title="npm 私服"></a>npm 私服</h2><p><strong>优势：</strong></p>
-<ul>
-<li>可以离线使用；</li>
-<li>提高包的安全性，避免公共 npm 包出现漏洞；</li>
-<li>提高包的下载速度；</li>
-</ul>
-<h3 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h3><p><a target="_blank" rel="noopener" href="https://verdaccio.org/zh-cn/docs/installation/">https://verdaccio.org/zh-cn/docs/installation/</a></p>
-<pre><code class="bash">npm install -g verdaccio
+<h2 id="命名空间重名"><a href="#命名空间重名" class="headerlink" title="命名空间重名"></a>命名空间重名</h2><p>如果两个命名空间具有相同的名称，则它们会<strong>自动合并</strong>。</p>
+<pre><code class="typescript">namespace A &#123;
+  export const a1 = 1;
+&#125;
+namespace A &#123;
+  export const a2 = 2;
+&#125;
 </code></pre>
-<h2 id="npm-ci"><a href="#npm-ci" class="headerlink" title="npm ci"></a>npm ci</h2><p>同 <code>npm install</code>，但是是一种更干净的安装：</p>
-<ul>
-<li>要求 package-lock.json 等锁依赖版本的文件必须存在，且版本必须和 package.json 中要求的版本对应，否则会报错；</li>
-<li>在安装之前先把 node_modules 文件夹（下文可能会称为 modules）删除；</li>
-<li>无法单个安装；</li>
-</ul>
+<p>等价于：</p>
+<pre><code class="ts">namespace A &#123;
+  export const a1 = 1;
+  export const a2 = 2;
+&#125;
+</code></pre>
 <blockquote>
-<p>场景：一般用于 docker 镜像构建时使用。</p>
+<p>合并规则包括将同名接口、类和函数合并为一个接口、类或函数，并将同名变量合并为一个变量。</p>
 </blockquote>
 
         
@@ -458,11 +686,11 @@ class="article article-type-post"
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-10T16:00:00.000Z" itemprop="datePublished">2025-03-11</time>
+  <time datetime="2025-06-24T00:07:09.465Z" itemprop="datePublished">2025-06-24</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
         </div>
     
     
@@ -475,7 +703,7 @@ class="article article-type-post"
   
     
       <article
-id="post-Node/Advanced/index"
+id="post-TS/内置对象"
 class="article article-type-post"
 >
 
@@ -486,551 +714,75 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/11/Node/Advanced/index/">Nodejs</a>
+        <a href="/ferhannah-blog/2025/06/24/TS/%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1/">内置对象</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>Nodejs 是 JS 的<strong>运行时</strong>环境，依赖于 v8 引擎，v8 引擎由 c&#x2F;c++编写，所以 js 代码会转化为 c&#x2F;c++后在执行；</li>
-<li>Nodejs 使用异步 I&#x2F;O 和事件驱动设计理念，可以高效地处理大量并发请求，提供了非阻塞式 I&#x2F;O 接口和事件循环机制；<blockquote>
-<p>异步 I&#x2F;O 最终都是由 libuv 事件循环库去实现的。</p>
-</blockquote>
-</li>
-<li>Nodejs 依靠 libuv，<strong>适合处理一些 IO 密集型应用</strong>；<blockquote>
-<p>由于 js 的单线程，很容易造成 cpu 占用率高，不适合 cpu 密集型应用（图像处理、音频处理等需要大量数据结构 + 算法）；如果非要写可以使用 c++ 插件或 Nodejs 提供的 cluster。</p>
-</blockquote>
-</li>
-</ul>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>常见的一些库和框架都需要依赖 nodejs 环境。</p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="定义全局变量"><a href="#定义全局变量" class="headerlink" title="定义全局变量"></a>定义全局变量</h2><p>Nodejs 可以使用<code>global.xx</code>去定义一个任何模块都能访问到的全局变量。</p>
-<p>但是 <strong>ES2020 新增了一个<code>globalThis</code><strong>可以</strong>兼容浏览器（window）和 Nodejs 的全局变量</strong>。<code>globalThis</code>会自己根据环境变换为 window 或 global，可实现跨平台访问全局变量。</p>
-<h2 id="内置-API"><a href="#内置-API" class="headerlink" title="内置 API"></a>内置 API</h2><ul>
-<li><code>__dirname</code>：当前<strong>运行文件所在目录（绝对路径）</strong>；</li>
-<li><code>__filename</code>：当前<strong>运行文件所在目录的执行文件（绝对路径）</strong>；</li>
-<li>Buffer</li>
-<li>process</li>
-<li>fetch<blockquote>
-<p>node18+ 支持，和浏览器一样。</p>
-</blockquote>
-</li>
-</ul>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-10T16:00:00.000Z" itemprop="datePublished">2025-03-11</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/npm/packages和modules"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/npm/packages%E5%92%8Cmodules/">modules和packages</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="modules"><a href="#modules" class="headerlink" title="modules"></a>modules</h2><p>在 node 中模块（modules）采用的是 CommonJS 规范，该规范定义了：</p>
-<ul>
-<li>一个文件就是一个模块；</li>
-<li>每个模块都有单独的作用域；</li>
-<li>通过<code>module.exports</code>导出成员；</li>
-<li>我们可以通过<code>require</code>函数载入任何文件目录下的模块；</li>
-</ul>
-<blockquote>
-<p>注：更多详情见模块化编程一篇。</p>
-</blockquote>
-<p><img src="D:\typora\notes\photo\module-test.png" alt="image-20230828163817383"></p>
-<h2 id="packages"><a href="#packages" class="headerlink" title="packages"></a>packages</h2><p>一个 packages 是一个文件夹，该文件夹的根目录下必须包含一个<code>package.json</code>，有了这个 json 文件就可以将其发送到 npm 上。<strong>packages 一般是由多个模块组成的一个模块包。</strong></p>
-<p>如果需要通过<code>reqire()</code>加载到这个模块，它必须有：</p>
-<ul>
-<li><strong>一个定义模块功能的 js 文件；</strong></li>
-<li><strong><code>package.json</code>里拥有<code>mian</code>字段来指向入口文件</strong>；</li>
-</ul>
-<blockquote>
-<p><strong>注意</strong>：引用的 packages 应该<strong>在 node_modules 目录底下</strong>，这样才能被 node 识别到！！！</p>
-</blockquote>
-<p><img src="D:\typora\notes\photo\package-test.png" alt="image-20230828173317292"></p>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.980Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/npm/npm"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/npm/npm/">npm</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>过去常常使用<code>script标签</code>将外部资源库直接放在 HTML 中，这会暴露一个全局变量供我们使用，但是当项目很大的时候，这些变量很难被管理：</p>
-<ul>
-<li>在 HTML 中加载所有的 JS 文件，这会让其变得混乱；</li>
-<li>很多时候我们实际上会在计算机中直接下载一个库文件（例如 JQuery），但是每当新版本出来时，我们不得不手动下载并更新这些文件；</li>
-<li>在 npm 之前没有包含我们所需要的所有包的一个个存储库，这对于我们手动下载库并管理它们增加了很大的困难；</li>
-</ul>
-<h2 id="什么是-npm"><a href="#什么是-npm" class="headerlink" title="什么是 npm"></a>什么是 npm</h2><p>Node Package Manager。它既是我们计算机上的一个软件，也是一个 Node.js 包存储（管理）库，用于 Node 插件的管理（安装、卸载和管理依赖等）。</p>
-<h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>npm 会随着 Node.js 安装而安装。</p>
-<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><blockquote>
-<p>本章会持续更新。</p>
-</blockquote>
-<h3 id="检查-npm-版本"><a href="#检查-npm-版本" class="headerlink" title="检查 npm 版本"></a><strong>检查 npm 版本</strong></h3><pre><code class="bash">npm -v
+        <p>JavaScript 中有很多<strong>内置对象</strong>，它们可以直接在 TypeScript 中当做定义好了的类型。</p>
+<h2 id="ECMAScript-的内置对象"><a href="#ECMAScript-的内置对象" class="headerlink" title="ECMAScript 的内置对象"></a>ECMAScript 的内置对象</h2><p>ECMAScript 标准提供的内置对象有：</p>
+<p><code>Boolean</code>、<code>Error</code>、<code>Date</code>、<code>RegExp</code> 等。</p>
+<p>我们可以在 TypeScript 中将变量定义为这些类型：</p>
+<pre><code class="ts">let b: Boolean = new Boolean(1);
+let e: Error = new Error(&quot;Error occurred&quot;);
+let d: Date = new Date();
+let r: RegExp = /[a-z]/;
+let xhr: XMLHttpRequest = new XMLHttpRequest();
+let local: Storage = localStorage;
+let lo: Location = location;
+let promise: Promise&lt;string&gt; = new Promise((r) =&gt; r(&quot;张三&quot;));
+promise.then((res) =&gt; &#123;
+  // res类型为string
+&#125;);
+let cookie: string = document.cookie;
 </code></pre>
-<h3 id="初始化一个包管理文件（package-json）"><a href="#初始化一个包管理文件（package-json）" class="headerlink" title="初始化一个包管理文件（package.json）"></a><strong>初始化一个包管理文件（package.json）</strong></h3><p>这个文件存储了整个项目的配置。</p>
-<pre><code class="bash">npm init
-</code></pre>
-<blockquote>
-<p>它会让你填写一些基本信息。</p>
-</blockquote>
-<h3 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a><strong>安装包</strong></h3><pre><code class="bash">npm install 包名
-npm i 包名
-npm i 包名1 包名2
-npm i 包名@版本号
-</code></pre>
-<blockquote>
-<p>注意：如果不指定版本号，默认下载的是最新的版本。</p>
-</blockquote>
-<p><strong>安装 package.json 中所有的依赖包：</strong></p>
-<pre><code class="bash">npm i
-</code></pre>
-<p><strong>全局安装包：</strong></p>
-<p>这样在计算机上每一个项目都可以使用：</p>
-<pre><code class="bash">npm i 包名 -g
-</code></pre>
-<p>设置安装包的依赖：</p>
-<ul>
-<li><p><strong>生产环境依赖</strong>：</p>
-<p>该选项会将包下载到该项目（地址）下，<strong>这些包是我们项目中所需要的依赖</strong>（比如 UI 组件库，JS 部分工具包，框架等）：</p>
-<pre><code class="bash">npm install 包名 --save
-</code></pre>
-</li>
-<li><p><strong>开发环境依赖</strong>：</p>
-<p>该选项会将包下载到该项目（地址）下，<strong>一般是开发过程中需要借助它完成一些工作，但是项目内容并不需要它</strong>（比如打包工具 webpack 等）：</p>
-<pre><code class="bash">npm install 包名 --save-dev
-</code></pre>
-</li>
-</ul>
-<h3 id="卸载包"><a href="#卸载包" class="headerlink" title="卸载包"></a>卸载包</h3><pre><code class="bash">npm uninstall 包名
-</code></pre>
-<h3 id="查看当前-npm-镜像"><a href="#查看当前-npm-镜像" class="headerlink" title="查看当前 npm 镜像"></a>查看当前 npm 镜像</h3><pre><code class="bash">npm config get registry
-</code></pre>
-<h3 id="切换镜像"><a href="#切换镜像" class="headerlink" title="切换镜像"></a>切换镜像</h3><pre><code class="bash">npm config set registry https://registry.npmjs.org
-</code></pre>
-<blockquote>
-<p>上面是 npm 原镜像，还有：</p>
-<ul>
-<li><p>淘宝镜像：</p>
-<pre><code class="bash">npm config set registry https://registry.npm.taobao.org
-</code></pre>
-<blockquote>
-<p>23.8.21 淘宝镜像修改了：</p>
-<pre><code class="bash">https://registry.npmmirror.com
-</code></pre>
-</blockquote>
-</li>
-<li><p>hh 镜像：</p>
-<pre><code class="bash">npm config set registry http://nexus.lan:8081/repository/npm-public/
-</code></pre>
-</li>
-</ul>
-</blockquote>
-<h3 id="查看代理"><a href="#查看代理" class="headerlink" title="查看代理"></a>查看代理</h3><pre><code class="bash">npm config get proxy
-</code></pre>
-<h3 id="更多权限"><a href="#更多权限" class="headerlink" title="更多权限"></a>更多权限</h3><p>可以在 npm 语句前加上一个 sudo 来获取更高的权限，它会让你输入用户和密码（Linux）：</p>
-<pre><code class="bash">sudo npm i
-</code></pre>
-<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>将开发的代码进行打包，打包后的代码可以发布到 npm 公共仓库里供其他人使用，打包后的文件是以<code>.tgz</code>为后缀。</p>
-<pre><code class="bash">npm pack
-</code></pre>
-<blockquote>
-<p>默认打包后的文件名是以 package.json 里的 name 和 version（版本号）用<code>-</code>拼接而成。</p>
-</blockquote>
-<p><strong>指定打包名称</strong></p>
-<pre><code class="bash">npm pack . --name=mylibname
-</code></pre>
-<h3 id="登录-npm-账号"><a href="#登录-npm-账号" class="headerlink" title="登录 npm 账号"></a>登录 npm 账号</h3><pre><code class="bash">npm login
-</code></pre>
-<h3 id="登出-npm-账号"><a href="#登出-npm-账号" class="headerlink" title="登出 npm 账号"></a>登出 npm 账号</h3><pre><code class="bash">npm logout
-</code></pre>
-<h3 id="发布包到-npm-上"><a href="#发布包到-npm-上" class="headerlink" title="发布包到 npm 上"></a>发布包到 npm 上</h3><blockquote>
-<p>注意：执行该操作必须要先登录 npm 的账号！</p>
-</blockquote>
-<pre><code class="bash">npm publish
-</code></pre>
-<h1 id="package-json-配置信息"><a href="#package-json-配置信息" class="headerlink" title="package.json 配置信息"></a>package.json 配置信息</h1><p>package.json 是 npm 管理包的文件，使用<code>npm init</code>后自动创建的，里面配置了包的所有信息（名字、版本号、依赖项等）。下面是它具体配置信息：</p>
-<pre><code class="json">&#123;
-  &quot;name&quot;: &quot;element-plus&quot;, // 包名。如果要发布这个包，name是必填的，它是发布包的名字；如果不发布就不是必须的 （name）
-  &quot;version&quot;: &quot;1.0.0&quot;, // 版本号。如果要发布这个包，version是必填的（version）
-  &quot;description&quot;: &quot;A Component Library for Vue 3&quot;, // 包的描述（description）
-  &quot;keywords&quot;: [
-    // 包的关键字（keywords）
-    &quot;element-plus&quot;,
-    &quot;element&quot;,
-    &quot;component library&quot;,
-    &quot;ui framework&quot;,
-    &quot;ui&quot;,
-    &quot;vue&quot;
-  ],
-  &quot;homepage&quot;: &quot;https://element-plus.org/&quot;, // 该包项目的首页地址（可以是文档链接地址、项目官网等）
-  &quot;bugs&quot;: &#123;
-    // 项目提交问题地址（bugs）
-    &quot;url&quot;: &quot;https://github.com/element-plus/element-plus/issues&quot;
-  &#125;,
-  &quot;license&quot;: &quot;MIT&quot;, // 表示项目的开源许可证（license）
-  &quot;author&quot;: &quot;Barney Rubble &lt;b@rubble.com&gt; (http://barnyrubble.tumblr.com/)&quot;, // 跟包相关的人的信息 （people fields: author, contributors）
-  &quot;funding&quot;: &#123;
-    // 指定捐赠地址（如果对你有帮助的话可以请我喝咖啡。。）（funding）
-    &quot;type&quot;: &quot;individual&quot;,
-    &quot;url&quot;: &quot;http://example.com/donate&quot;
-  &#125;,
-  &quot;files&quot;: [
-    // 包作为依赖项（dependency）时（就是作为我们所下载的包）所需包含的文件（files）
-    &quot;LICENSE&quot;,
-    &quot;README.md&quot;,
-    &quot;index.js&quot;,
-    &quot;cjs/&quot;,
-    &quot;umd/&quot;,
-    &quot;jsx-runtime.js&quot;,
-    &quot;jsx-dev-runtime.js&quot;,
-    &quot;react.shared-subset.js&quot;
-  ],
-  &quot;main&quot;: &quot;lib/index.js&quot;, // 包的入口文件（main）
-  &quot;browser&quot;: &#123;
-    // 浏览器环境下指定入口文件（默认是在node的环境下）
-    &quot;my-module&quot;: &quot;./src/browser.js&quot;
-  &#125;,
-  &quot;bin&quot;: &quot;./path/to/program&quot;, // （bin）
-  &quot;man&quot;: &quot;./man/doc.1&quot;, // 指定单个文件或文件名数组，以供man查找。
-  &quot;directories&quot;: &#123;
-    // 指定项目的目录结构（可选，默认为CommonJS的结构）
-    &quot;lib&quot;: &quot;src/lib&quot;, // 指定项目的库文件目录
-    &quot;bin&quot;: &quot;src/bin&quot;, // 指定项目的可执行文件目录
-    &quot;man&quot;: &quot;src/man&quot;, // 指定项目的手册文件目录
-    &quot;doc&quot;: &quot;src/doc&quot; // 指定项目的文档文件目录
-  &#125;,
-  &quot;repository&quot;: &#123;
-    // 代码所在的位置，通常在github上
-    &quot;type&quot;: &quot;git&quot;,
-    &quot;url&quot;: &quot;git+https://github.com/element-plus/element-plus.git&quot;
-  &#125;,
-  &quot;scripts&quot;: &#123;
-    // 定义在包不同的生命周期下的脚本命令（scripts）
-    &quot;start&quot;: &quot;node app.js&quot;,
-    &quot;start-server&quot;: &quot;node app.js&quot;
-  &#125;,
-  &quot;config&quot;: &#123;
-    // 用于设置script字段里的脚本运行时的参数（config）
-    &quot;port&quot;: &quot;8080&quot;
-  &#125;,
-  &quot;dependencies&quot;: &#123;
-    // 生产环境依赖包（dependencies）
-    &quot;lodash&quot;: &quot;^4.17.21&quot;
-  &#125;,
-  &quot;devDependencies&quot;: &#123;&#125;, // 开发环境依赖包 （devDependencies）
-  &quot;peerDependencies&quot;: &#123;
-    // 指定包的对等依赖（peerDependencies）
-    &quot;soy-milk&quot;: &quot;1.2&quot;
-  &#125;,
-  &quot;peerDependenciesMeta&quot;: &#123;
-    // 对对等依赖的配置
-    &quot;soy-milk&quot;: &#123;
-      &quot;optional&quot;: true // 对等依赖可选（该项目下没有安装该包不会发出警告）
-    &#125;
-  &#125;,
-  &quot;bundleDependencies&quot;: [
-    // 指定指定哪些依赖项应该被捆绑到包中（bundleDependencies）
-    &quot;renderized&quot;,
-    &quot;super-streams&quot;
-  ],
-  &quot;optionalDependencies&quot;: &#123;
-    // 指定可选依赖项（optionalDependencies）
-    &quot;@element-plus/icons-vue&quot;: &quot;^2.0.6&quot;
-  &#125;,
-  &quot;overrides&quot;: &#123;
-    // 覆盖版本依赖
-    &quot;foo&quot;: &quot;1.0.0&quot;
-  &#125;,
-  &quot;engines&quot;: &#123;
-    // 指定包所依赖的运行时环境或引擎（一般为node和npm）
-    &quot;node&quot;: &quot;&gt;=0.10.3 &lt;15&quot;,
-    &quot;npm&quot;: &quot;&gt;=6.0.0&quot;
-  &#125;,
-  &quot;os&quot;: [&quot;linux&quot;, &quot;!win32&quot;], // 指定包所依赖的操作系统
-  &quot;cpu&quot;: [&quot;!arm&quot;, &quot;x64&quot;], // 指定包所依赖的cpu（可以使用!来表示非）
-  &quot;private&quot;: false, // 设置包的私有性，如果将其设置为true，npm会拒接这个包的publish
-  &quot;publishConfig&quot;: &#123;
-    // 设置包发布的配置属性，只有在进行npm publish时才会生效，不会影响其他npm命令的行为
-    &quot;registry&quot;: &quot;https://registry.npmjs.org/&quot;, // 指定发布到的npm仓库的URL（默认为npm官方仓库）
-    &quot;access&quot;: &quot;public&quot;, // 指定发布的包的访问级别（默认为public，如果设置为&quot;restricted&quot;，则只有特定的用户或团队才能访问该包）
-    &quot;tag&quot;: &quot;latest&quot; // 指定发布的包的标签。可以设置为&quot;latest&quot;（最新版本，默认值）或其他自定义标签
-  &#125;,
-  &quot;workspaces&quot;: [
-    // 定义工作区（workspaces）
-    &quot;./packages/*&quot;
-  ]
-&#125;
-</code></pre>
-<ul>
-<li><p><strong>name</strong>：name 字段遵循以下规则：</p>
-<ul>
-<li>不多于 214 个字符；</li>
-<li>作用域包的名称可以以点或下划线开头。没有作用域是不允许这样做的；</li>
-<li>不可以使用大写字母，不要使用”js“或”node“来命名；</li>
-<li>不能包含任何非 url 安全的字符，因为该名称最终成为 URL、命令行参数和文件夹名称的一部分；</li>
-</ul>
-</li>
-<li><p><strong>version</strong>：当包发生变化时（再次发布包时），版本号也要随之发生变化；且它必须遵循<code>node-semver</code>的版本命名规范（<code>x.y.z</code>）。</p>
-<blockquote>
-<p>semver：Semantic Versioning，语义化版本号。</p>
-</blockquote>
-<ul>
-<li><code>X</code> 为主版本号（<code>major</code>）： 通常在涉及重大功能更新，产生了破坏性变更时会更新此版本号；</li>
-<li><code>Y</code> 为次版本号（<code>Minor</code>）：在引入了新功能，但并未产生破坏性变更，依然向下兼容时更新此版本号；</li>
-<li><code>Z</code> 为修订号（<code>Patch</code>）：在修复了一些问题，但未产生破坏性变更时会更新此版本号；</li>
-</ul>
-<blockquote>
-<p>name 和 version 是用于确定一个唯一包的标识。</p>
-</blockquote>
-</li>
-<li><p><strong>description</strong> ：字符串类型，在搜索的时候可以看到该包的描述，并且该描述也可以作为搜索的关键词。</p>
-</li>
-<li><p><strong>keywords</strong>：字符串数组类型，作为搜索该包的关键词。</p>
-</li>
-<li><p><strong>bugs</strong>：可以是一个字符串，也可以是一个对象类型。该地址一般是 github 上的 issues 地址或者邮箱地址。</p>
-<pre><code class="json">&#123;
-  &quot;url&quot;: &quot;https://github.com/owner/project/issues&quot;,
-  &quot;email&quot;: &quot;project@hostname.com&quot;
-&#125;
-</code></pre>
-</li>
-<li><p><strong>license</strong>：开源许可证，让其他开发者知道如何允许使用这个包，以及操纵这个包的具体限制。如果不想开源，可以配置：</p>
-<pre><code class="json">&#123;
-  &quot;license&quot;: &quot;UNLICENSED&quot;,
-  &quot;private&quot;: true
-&#125;
-</code></pre>
-</li>
-<li><p><strong>people fields：</strong>包的作者或贡献者（维护者）的信息，可以是一个字符串，也可以是一个由 people 组成的数组，该数组每项格式可以有以下两种：</p>
-<pre><code class="json">&#123;
-  &quot;name&quot;: &quot;Barney Rubble&quot;,
-  &quot;email&quot;: &quot;b@rubble.com&quot;,
-  &quot;url&quot;: &quot;http://barnyrubble.tumblr.com/&quot;
-&#125;
-</code></pre>
-<pre><code class="json">&#123;
-  &quot;author&quot;: &quot;Barney Rubble &lt;b@rubble.com&gt; (http://barnyrubble.tumblr.com/)&quot;
-&#125;
-</code></pre>
-</li>
-<li><p><strong>funding</strong>：可以是对象，字符串，数组（数组项为对象和字符串都可以）。</p>
-</li>
-<li><p><strong>files</strong>：匹配文件的字符串数组，可以用来指定哪些文件需要发布到 npm 上以此来控制 npm 包的大小，如果指定的是文件夹，则对应文件夹下的所有文件都会被发布。匹配文件的字符串规则和<code>.gitignore</code>是一样的，也可以在项目的根目录下创建一个<code>.npmignore</code>文件，<code>.npmignore</code>的优先级高于<code>.gitignore</code>。</p>
-<blockquote>
-<p>注意：如果不配置该选项，则默认值为<code>[*]</code>，也就是会包含所有的文件。</p>
-</blockquote>
-</li>
-<li><p><strong>main</strong>：其他开发者引用该包是最先进入的文件。它是一个相对于包文件夹根目录的模块，并且一般来说只会存在一个。</p>
-<blockquote>
-<p>注意：如果不配置该选项，则默认为<code>index.js</code>为包的入口根文件。</p>
-</blockquote>
-</li>
-<li><p><strong>bin</strong>：让包可以作为命令行工具使用。上述配置如下：</p>
-<pre><code class="json">&quot;bin&quot;: &#123;
-  &quot;element-plus&quot;: &quot;./path/to/program&quot;
-&#125;
-</code></pre>
-</li>
-<li><p><strong>scripts</strong>：在 package.json 中有很多内置的生命周期事件（key），或者我们自定义的命令，在这些事件下我们可以执行任意脚本。</p>
-<pre><code class="json">&quot;scripts&quot;: &#123;
-  &quot;prestart&quot;: &quot;npm install&quot;, // 在脚本启动前自动执行这个命令 @1
-  &quot;start&quot;: &quot;node app.js&quot;, // 启动脚本时执行
-  &quot;install&quot; : &quot;scripts/install.js&quot;, // 下载时执行
-  &quot;postinstall&quot;: &quot;npm run build&quot;, // 安装依赖项后自动执行
-  &quot;build&quot;: &quot;webpack&quot;,
-  &quot;uninstall&quot; : &quot;scripts/uninstall.js&quot;, // 卸载时执行
-  &quot;start-server&quot;: &quot;node app.js&quot;, // @2
-  &quot;dev&quot;: &quot;nodemon index.js&quot; // @2
-&#125;
-</code></pre>
-<p>@1：使用<code>start</code>脚本名称简化运行命令，让他人也能轻松运行入口代码文件：</p>
-<blockquote>
-<pre><code class="bash">npm start
-</code></pre>
-</blockquote>
-<p>@2：对于自定义的执行命令脚本名称，需要使用<code>run</code>来执行：</p>
-<blockquote>
-<pre><code class="bash">npm run start-server
-npm run dev
-</code></pre>
-</blockquote>
-<blockquote>
-<p>更多生命周期讲解请见官网。</p>
-</blockquote>
-</li>
-<li><p><strong>config</strong>：用于配置<code>scripts</code>字段里脚本运行的参数，例如配置端口号（port）：</p>
-<pre><code class="json">&quot;config&quot;: &#123;
-  &quot;port&quot;: &quot;8080&quot;
-&#125;
-</code></pre>
-<p>执行脚本时，这个参数会变成<code>npm_package_config_port</code>存储到我们的环境变量中，我们可以通过：</p>
-<pre><code class="js">console.log(process.env.npm_package_config_port); // 8080
-</code></pre>
-<p>访问到我们设置的端口号（port）。</p>
-</li>
-<li><p><strong>dependencies</strong>：运行所需要用的依赖，在该目录下的依赖会在生产环境中。一般是使用<code>npm install &lt;packagename&gt;</code>或<code>npm install &lt;packagename&gt; --save</code>下载以来后自动插入里面的依赖，但是也可以手动在其中添加依赖，然后再通过<code>npm install</code>下载这些依赖。其中依赖的版本范围可以是如下几种：</p>
-<ul>
-<li><p><strong>版本字符串</strong></p>
-<p>版本字符串必须遵守 semver。</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;lodash&quot;: &quot;^4.17.21&quot;,
-  &quot;@types/lodash&quot;: &quot;^4.14.182&quot;, // @3
-  &quot;elf&quot;: &quot;~1.2.3&quot;,
-  &quot;foo&quot;: &quot;1.0.0 - 2.9999.9999&quot;,
-&#125;,
-</code></pre>
-<blockquote>
-<p>@3：npm 包都有一个名字，如果该名字被占用了别人就不能使用了，但是如果后续需要提供与该包名有关的包则可以使用<code>@</code>。npm 官方提供了一个作用域的概念，使用<code>@</code>来表示一个作用域，该作用域遵循包名的通常规则（即 <code>url</code> 安全字符），这样就可以在我们自己的作用域中添加包名了。（一般是用来补 ts 声明哈哈）</p>
-</blockquote>
-</li>
-<li><p><strong>tarball URLs</strong></p>
-<p>使用 tarball URL 指向的一个压缩文件包地址，tarball URL 的格式通常是一个以<code>.tar.gz</code>或<code>.tar.bz2</code>结尾的链接，指向一个可访问的<code>.tar</code>文件。</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;asd&quot;: &quot;http://asdf.com/asdf.tar.gz&quot;,
-&#125;,
-</code></pre>
-</li>
-<li><p><strong>Git URLs</strong></p>
-<p>使用 git urls 直接从 git 仓库上拉取包。格式如下：</p>
-<pre><code class="bash">&lt;protocol&gt;://[&lt;user&gt;[:&lt;password&gt;]@]&lt;hostname&gt;[:&lt;port&gt;][:][/]&lt;path&gt;[#&lt;commit-ish&gt; | #semver:&lt;semver&gt;]
+<h2 id="DOM-和-BOM-的内置对象"><a href="#DOM-和-BOM-的内置对象" class="headerlink" title="DOM 和 BOM 的内置对象"></a>DOM 和 BOM 的内置对象</h2><p>DOM 和 BOM 提供的内置对象有：</p>
+<p><code>Document</code>、<code>HTMLElement</code>、<code>Event</code>、<code>NodeList</code> 等。</p>
+<p>TypeScript 中会经常用到这些类型：</p>
+<pre><code class="ts">let body: HTMLElement = document.body;
+let allDiv: NodeList = document.querySelectorAll(&quot;div&quot;);
+document.addEventListener(&quot;click&quot;, function (e: MouseEvent) &#123;
+  // Do something
+&#125;);
 </code></pre>
 <p>例如：</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;asd1&quot;: &quot;git+ssh://git@github.com:npm/cli.git#v1.0.27&quot;,
-  &quot;asd2&quot;: &quot;git+ssh://git@github.com:npm/cli#semver:^5.0&quot;,
-  &quot;asd3&quot;: &quot;git+https://isaacs@github.com/npm/cli.git&quot;,
-  &quot;asd4&quot;: &quot;git://github.com/npm/cli.git#v1.0.27&quot;,
-&#125;,
+<pre><code class="ts">document.addEventListener(&quot;click&quot;, function (e) &#123;
+  console.log(e.targetCurrent);
+&#125;);
+
+// index.ts(2,17): error TS2339: Property &#39;targetCurrent&#39; does not exist on type &#39;MouseEvent&#39;.
 </code></pre>
-</li>
-<li><p><strong>GitHub URLs</strong></p>
-<p>可以直接指向 github 项目目录地址。</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;express&quot;: &quot;expressjs/express&quot;,
-&#125;,
-</code></pre>
-</li>
-<li><p><strong>Local Paths</strong></p>
-<p>支持本地依赖地址。（一般用于测试本地依赖，要发布到 npm 上的包不应该使用该方法）</p>
-<pre><code class="json">&quot;dependencies&quot;: &#123;
-  &quot;local-module&quot;: &quot;file:../local-module-plugin/local-module-0.0.0.tgz&quot;
-&#125;,
-</code></pre>
-<blockquote>
-<p>当前根目录的上级目录下的<code>local-module-plugin</code>文件夹下的<code>local-module-0.0.0.tgz</code>包，该包由依赖项目<code>npm pack</code>生成而来。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-<li><p><strong>devDependencies</strong>：开发阶段时需要的依赖包，例如一些打包工具，类型检查工具等（webpack、eslint），在生产环境不会出现这个依赖包。一般使用<code>npm install &lt;packagename&gt; --save-dev</code>或者<code>npm install &lt;packagename&gt; -D</code>安装。</p>
-</li>
-<li><p><strong>peerDependencies</strong>：确保包与特定版本的对等包兼容，并避免在运行时出现不兼容或错误的情况。</p>
-<p>当当前包依赖于其他包时，通常会在 dependencies 字段中声明这些依赖关系。但是，有时该包可能需要与特定版本的其他包进行交互，而不是简单地依赖于它们。这时，可以使用 peerDependencies 字段来指定这些对等依赖。</p>
-<pre><code class="json">&quot;peerDependencies&quot;: &#123;
-  &quot;package-name&quot;: &quot;version-range&quot;
+<p>上面的例子中，<code>addEventListener</code> 方法是在 TypeScript 核心库中定义的：</p>
+<pre><code class="ts">interface Document
+  extends Node,
+    GlobalEventHandlers,
+    NodeSelector,
+    DocumentEvent &#123;
+  addEventListener(
+    type: string,
+    listener: (ev: MouseEvent) =&gt; any,
+    useCapture?: boolean
+  ): void;
 &#125;
 </code></pre>
-<blockquote>
-<p><code>package-name</code>是该包所依赖的对等包的名称，<code>version-range</code>是对等包的版本范围。</p>
-<p>包被安装时，npm 会检查对等依赖关系，并确保对等包的正确版本已经安装。如果对等包的版本不符合要求，npm 会发出警告提示。</p>
-<p><strong>注意</strong>：peerDependencies 字段只是声明对等依赖关系，并不会自动安装对等软件包。用户在使用这个包时，需要手动安装对等包。因此，在文档或说明中明确指出对等依赖关系，并提供安装指南是很重要的。</p>
-</blockquote>
-</li>
-<li><p><strong>bundleDependencies</strong>：发布一个软件包时，通常会将其上传到包管理器（npm）供其他人使用。默认情况下，npm 会自动下载和安装软件包的所有依赖项（package.json）。然而，有时我们项将某些依赖项捆绑到包中，以便用户在安装您的软件包时不需要下载这些依赖项。</p>
-<blockquote>
-<p><strong>注意</strong>：这会增加包的大小。</p>
-</blockquote>
-</li>
-<li><p><strong>optionalDependencies</strong>：提供更大的灵活性和兼容性，允许包在某些依赖项无法满足或无法安装的情况下仍然正常运行。这对于与其他包进行集成或依赖于特定平台功能的软件包特别有用。</p>
-<blockquote>
-<p><strong>注意</strong>：optionalDependencies 字段只是声明可选依赖关系，并不会自动安装对等软件包。用户在使用这个包时，需要手动安装对等包。因此，在文档或说明中明确指出可选依赖关系，并提供安装指南是很重要的。</p>
-</blockquote>
-</li>
-<li><p><strong>workspaces</strong>：允许我们在一个 package.json 中的工作区中管理多个相关的子包。它是一个文件匹配字符串的数组。例如：在<code>./packages</code>文件夹下的所有文件都将视作和当前 package.json 在一个工作空间下。</p>
-<pre><code class="json">&quot;workspaces&quot;: [
-    &quot;./packages/*&quot;
-]
+<ul>
+<li><p><strong>定义某个常见 DOM 元素</strong></p>
+<pre><code class="ts">// HTML(元素名称)Element、HTMLElement、Element
+let div: HTMLInputElement = document.querySelector(&quot;input&quot;);
 </code></pre>
-<blockquote>
-<p>工作区功能可以帮助简化多包项目的管理和开发过程，提高效率。它适用于需要同时管理多个相关包的项目，例如 monorepo 或微服务架构。</p>
-</blockquote>
+</li>
+<li><p><strong>定义获取的一组 DOM 元素</strong></p>
+<pre><code class="ts">let div: NodeList = document.querySelector(&quot;input&quot;);
+</code></pre>
+</li>
+<li><p><strong>定义获取一组类型不固定的 DOM 元素</strong></p>
+<pre><code class="ts">let div: NodeListOf&lt;HTMLDivElement | HTMLElement&gt; =
+  document.querySelector(&quot;div footer&quot;);
+</code></pre>
 </li>
 </ul>
+<h2 id="用-TypeScript-写-Node-js"><a href="#用-TypeScript-写-Node-js" class="headerlink" title="用 TypeScript 写 Node.js"></a>用 TypeScript 写 Node.js</h2><p>Node.js 不是内置对象的一部分，如果想用 TypeScript 写 Node.js，则需要引入第三方声明文件：</p>
+<pre><code class="bash">npm install @types/node --save-dev
+</code></pre>
 
         
     </div>
@@ -1046,11 +798,11 @@ npm run dev
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.978Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2025-06-24T00:07:09.464Z" itemprop="datePublished">2025-06-24</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
         </div>
     
     
@@ -1063,7 +815,7 @@ npm run dev
   
     
       <article
-id="post-Node/Express/在Node（Express）中上传或下载文件"
+id="post-TS/函数的类型"
 class="article article-type-post"
 >
 
@@ -1074,347 +826,133 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E5%9C%A8Node%EF%BC%88Express%EF%BC%89%E4%B8%AD%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6/">在 Node（Express）中上传或下载文件</a>
+        <a href="/ferhannah-blog/2025/06/24/TS/%E5%87%BD%E6%95%B0%E7%9A%84%E7%B1%BB%E5%9E%8B/">函数的类型</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <p>在前端页面上传文件表单时，设置一个文件上传器（将输入文本类型设置为<code>file</code>）：</p>
-<pre><code class="html">&lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
+        <h3 id="函数声明（定义）"><a href="#函数声明（定义）" class="headerlink" title="函数声明（定义）"></a>函数声明（定义）</h3><p>一个函数有输入和输出，要在 TypeScript 中对其进行约束，需要把输入和输出都考虑到，其中函数声明的类型定义较简单：</p>
+<pre><code class="ts">function sum(x: number, y: number): number &#123;
+  return x + y;
+&#125;
 </code></pre>
-<h2 id="Multer"><a href="#Multer" class="headerlink" title="Multer"></a>Multer</h2><blockquote>
-<p>纯文本可以使用<code>body-parser</code>：</p>
-<pre><code class="js">const bodyParser = require(&quot;body-parser&quot;);
-app.use(bodyParser.urlencoded(&#123; extended: false &#125;)); // 使用urlencoded解析器解析传入请求体，要求传入的数据为文本数据
-</code></pre>
-</blockquote>
-<p>由于文件不是纯文本，而是二进制数据，我们需要下载一个文件请求解析中间件——<code>multer</code>来识别上传的文件：</p>
-<pre><code class="bash">npm install --save multer
-</code></pre>
-<p><strong><code>multer</code>能解析文件请求数据，能够处理文件请求或文本和文件混合的请求数据。</strong></p>
-<h3 id="发送文件数据"><a href="#发送文件数据" class="headerlink" title="发送文件数据"></a><strong>发送文件数据</strong></h3><ul>
-<li><p><strong>需要在客户端发送表单数据的时候添加<code>enctype</code>来选择发送解析的数据类型</strong>：</p>
-<pre><code class="html">&lt;form action=&quot;/profile&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
-  &lt;input type=&quot;file&quot; name=&quot;image&quot; id=&quot;image&quot; /&gt;
-&lt;/form&gt;
-</code></pre>
-<blockquote>
-<p>multipart&#x2F;form-data：请求不包含纯文本，而是包含文本和二进制的混合数据。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="获取发送的文件数据"><a href="#获取发送的文件数据" class="headerlink" title="获取发送的文件数据"></a><strong>获取发送的文件数据</strong></h3><ul>
-<li><p><strong>引入<code>multer</code>，将其注册为中间件</strong>：</p>
-<pre><code class="js">const express = require(&quot;express&quot;);
-const multer = require(&quot;multer&quot;);
+<p>注意，<strong>输入多余的（或者少于要求的）参数，是不被允许的</strong>：</p>
+<pre><code class="ts">function sum(x: number, y: number): number &#123;
+  return x + y;
+&#125;
+sum(1, 2, 3);
 
-const app = express();
-
-app.use(multer().single(&quot;image&quot;)); // 获取一个文件，文件名为name中的名字 @1
+// index.ts(4,1): error TS2346: Supplied parameters do not match any signature of call target.
 </code></pre>
-<blockquote>
-<p>@1：multer 必须作为一个执行函数注册，它可以调用其他的方法来设置获取文件的形式（如单个文件或多个文件）。</p>
-</blockquote>
-</li>
-<li><p><strong>获取上传的文件数据</strong>：</p>
-<pre><code class="js">app.post(&quot;/add-product&quot;, postAddProduct);
-</code></pre>
-<pre><code class="js">exports.postAddProduct = (req, res, next) =&gt; &#123;
-  const imageUrl = req.file; // req.file中获取文件数据信息 @2
+<h3 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h3><pre><code class="ts">let mySum = function (x: number, y: number): number &#123;
+  return x + y;
+&#125;;
+// 实际
+let mySum: (x: number, y: number) =&gt; number = function (
+  x: number,
+  y: number
+): number &#123;
+  return x + y;
 &#125;;
 </code></pre>
 <blockquote>
-<p>@2：它会返回一个 buffer 的混合数据流，我们可以设置它为一个图片结构（图片名为没有文件扩展名的随机的哈希名称，添加扩展名可以恢复图片）：</p>
-<pre><code class="js">app.use(multer(&#123; dest: &quot;images&quot; &#125;).single(&quot;image&quot;));
-</code></pre>
+<p>在 TypeScript 的类型定义中，<code>=&gt;</code> 用来表示函数的定义，左边是输入类型，需要用括号括起来，右边是输出类型。</p>
 </blockquote>
-</li>
-</ul>
-<h3 id="存储文件数据"><a href="#存储文件数据" class="headerlink" title="存储文件数据"></a>存储文件数据</h3><ul>
-<li><p><strong>设置存储引擎：</strong></p>
-<p><code>diskStorage()</code>是 multer 的存储引擎，它可以通过传递一个 JS 对象来配置，他需要两个 key：</p>
-<ul>
-<li>destination：存储位置（存储文件路径）；</li>
-<li>filename：存储名字</li>
-</ul>
-<pre><code class="js">const fileStorage = multer.diskStorage(&#123;
-  destination: (req, file, cb) =&gt; &#123;
-    cb(null, &quot;images&quot;);
-  &#125;,
-  filename: (req, file, cb) =&gt; &#123;
-    cb(null, file.filename + &quot;-&quot; + file.originalname);
-  &#125;,
-&#125;);
-
-app.use(multer(&#123; storage: fileStorage &#125;).single(&quot;image&quot;));
+<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><pre><code class="ts">let add = (a: number, b: number): number =&gt; a + b;
 </code></pre>
-<p>这样文件就会以指定的名字存储到指定的路径文件中。</p>
-</li>
-</ul>
+<h3 id="用接口定义函数的形状"><a href="#用接口定义函数的形状" class="headerlink" title="用接口定义函数的形状"></a>用接口定义函数的形状</h3><p>我们也可以使用接口的方式来定义一个函数需要符合的形状：</p>
+<pre><code class="ts">interface SearchFunc &#123;
+  (source: string, subString: string): boolean;
+&#125;
 
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.966Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Express/使用Node（Express）发送邮件"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/%E4%BD%BF%E7%94%A8Node%EF%BC%88Express%EF%BC%89%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/">使用Node（Express）发送邮件</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <p>Node（Express）能创建一个服务端（器），但是创建一个邮件服务器是很困难的，处理邮件与处理传入的请求和响应完全不同。我们基本上没有办法创建自己的邮件服务器，所以一般使用<strong>第三方的邮件服务器</strong>。</p>
-<p><strong>第三方邮件服务器</strong>：MailChimp、SendGrid 等</p>
-<h2 id="下载-Nodemailer"><a href="#下载-Nodemailer" class="headerlink" title="下载 Nodemailer"></a>下载 Nodemailer</h2><p>需要利用 nodemailer 发送邮件：</p>
-<pre><code class="bash">npm install --save nodemailer
-</code></pre>
-<h2 id="使用-SendGrid-作为第三方邮件服务器"><a href="#使用-SendGrid-作为第三方邮件服务器" class="headerlink" title="使用 SendGrid 作为第三方邮件服务器"></a>使用 SendGrid 作为第三方邮件服务器</h2><p>使用 SendGrid 作为第三方邮件服务器<strong>还</strong>需要安装<code>nodemailer-sendgrid-transport</code>来与之交互：</p>
-<pre><code class="bash">npm install --save nodemailer-sendgrid-transport
-</code></pre>
-<blockquote>
-<p>注意：注册 SendGrid 账号和开启后续服务均需要挂 VPN，连接外网。</p>
-</blockquote>
-<h3 id="初始化传输器"><a href="#初始化传输器" class="headerlink" title="初始化传输器"></a>初始化传输器</h3><p>app.js</p>
-<pre><code class="js">const nodemailer = require(&quot;nodemailer&quot;); // 引入nodemailer
-const sendgridTransport = require(&quot;nodemailer-sendgrid-transport&quot;); // 引入nodemailer-sendgrid-transport
-
-const transporter = nodemailer.createTransport(
-  sendgridTransport(&#123;
-    auth: &#123;
-      api_user: &quot;fxh&quot;, // SendGrid用户名
-      api_key: &quot;dsafdsfdsf&quot;, // SendGrid获取的密钥
-    &#125;,
-  &#125;)
-); // 设置node传输邮件的方式，并通过sendgridTransport执行（这样可以用nodemailer配置SendGrid）
-</code></pre>
-<h3 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h3><p>通过<code>sendMail()</code>发送邮件，它返回一个 Promise：</p>
-<pre><code class="js">transporter.sendMail(&#123;
-  to: userEmail, // 邮件发送的地址（用户的邮件地址）
-  from: &quot;shop@node-cm.com&quot;, // 发出邮件的地址
-  subject: &quot;Signup succeeded&quot;, // 邮件主题
-  html: &quot;&lt;h1&gt;You successfully signed up!&lt;/h1&gt;&quot;, // 邮件内容
-&#125;);
-</code></pre>
-
-        
-    </div>
-    </div>
-
-    <div class="article-badge">
-        
-        
-    </div>
-
-</div>
-
-<footer class="article-footer">
-    <div class="article-more-info">
-    <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.965Z" itemprop="datePublished">2025-03-03</time>
-</div>
-    
-        <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
-        </div>
-    
-    
-    </div>
-</footer>
-
-</article>
-
-    
-  
-    
-      <article
-id="post-Node/Express/Node（Express）与数据库"
-class="article article-type-post"
->
-
-
-
-<div class="article-inner">
-    
-
-    <div class="article-body">
-    <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Node%EF%BC%88Express%EF%BC%89%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93/">Node（Express）连接数据库</a>
-    </header>
-    <div class="article-entry post-inner-html">
-        
-        <h1 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h1><p><strong>关系型数据库</strong>。</p>
-<h2 id="使用-mysql-的-connection-连接数据库"><a href="#使用-mysql-的-connection-连接数据库" class="headerlink" title="使用 mysql 的 connection 连接数据库"></a><strong>使用 mysql 的 connection 连接数据库</strong></h2><blockquote>
-<p>准备工作跟下一章节相同。</p>
-</blockquote>
-<p>我们可以使用它来进行查询，查询完成之后会关闭连接。</p>
-<blockquote>
-<p>这种方法较为底层，且<strong>每次操作数据库都需要新建数据库连接</strong>，若数据库操作需求多，对服务器消耗较大，因此，可以使用第二种连接方式。</p>
-</blockquote>
-<pre><code class="js">const mysql = require(&quot;mysql&quot;);
-const connection = mysql.createConnection(&#123;
-  host: &quot;localhost&quot;,
-  user: &quot;me&quot;,
-  password: &quot;secret&quot;,
-  database: &quot;my_db&quot;,
-&#125;);
-
-connection.connect();
-
-connection.query(&quot;SELECT 1 + 1 AS solution&quot;, function (err, rows, fields) &#123;
-  if (err) throw err;
-
-  console.log(&quot;The solution is: &quot;, rows[0].solution);
-&#125;);
-
-connection.end();
-</code></pre>
-<h2 id="使用-mysql-建立数据库连接池连接数据库"><a href="#使用-mysql-建立数据库连接池连接数据库" class="headerlink" title="使用 mysql 建立数据库连接池连接数据库"></a><strong>使用 mysql 建立数据库连接池连接数据库</strong></h2><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h2><ul>
-<li><p>需要下载 MySQL 数据库在电脑上；</p>
-</li>
-<li><p>项目中下载 mysql2 来辅助连接 MySQL 数据库：</p>
-<pre><code class="bash">npm install --save mysql2
-</code></pre>
-<blockquote>
-<p>mysql2 就是 mysql 的升级版。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h2><p>以连接池的方式连接数据库：</p>
-<p>database.js</p>
-<pre><code class="js">const mysql = require(&quot;mysql2&quot;); // 导入mysql2模块
-
-// 创建一个连接池 @1
-const pool = mysql.createPool(&#123;
-  host: &quot;localhost&quot;, // 连接的服务器的IP地址
-  user: &quot;root&quot;, // 数据库用户
-  database: &quot;node-complete&quot;, // 连接的具体数据库
-  password: &quot;159638&quot;, // 安装时填写的密码
-&#125;);
-
-// 导出连接池
-module.exports = pool.promise(); // @2
-</code></pre>
-<blockquote>
-<p>@1：连接池方式——每当我们运行一个查询语句时能随时访问它，然后从管理的多个连接池中获取一个新连接，这样就可以同时运行多个查询，因为每个查询都需要自己的连接，并且一次查询完成后连接会交还到连接池中用于新的查询，最后在应用程序关闭时完成连接池。</p>
-<p>@2：以 Promise 的方式导出，我们在其他地方使用的时候可以处理异步任务。</p>
-</blockquote>
-<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a><strong>获取数据</strong></h2><p>我们要获取数据库表中的数据，需要<strong>使用<code>execute()</code>结合一条数据库语句</strong>来实现对数据库中表的操作：</p>
-<p>app.js</p>
-<pre><code class="js">const db = require(&#39;./util/database&#39;);
-...
-// 查询数据库中的products表
-db.execute(&#39;SELECT * FROM products&#39;)
-    .then(([rows, fieldData]) =&gt; &#123;
-        console.log(rows); // 存储了数据库表中的数据
-        console.log(fieldData); // 存储数据库表的一些元字段
-    &#125;)
-    .catch(err =&gt; console.log(err));
-
-// 增加一条数据
-db.execute(
-    &#39;INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)&#39;,
-    [this.title, this.price, this.imageUrl, this.description] // 增加数据字段（与库中的表相对应）
-).then(() =&gt; &#123;&#125;).catch(err =&gt; console.log(err));
-</code></pre>
-<h2 id="使用-sequelize-连接数据库"><a href="#使用-sequelize-连接数据库" class="headerlink" title="使用 sequelize 连接数据库"></a><strong>使用 sequelize 连接数据库</strong></h2><p>详情见 sequelize 一章。</p>
-<h1 id="MongDB"><a href="#MongDB" class="headerlink" title="MongDB"></a>MongDB</h1><p><strong>非关系型数据库。</strong>MongoDB 是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似<em>json</em>的 bson<em>格式</em>，因此可以存储比较复杂的数据类型。</p>
-<p><strong>特点：</strong></p>
-<ul>
-<li>能存储大量的数据；</li>
-<li>支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，查询速度块；</li>
-<li>而且还支持对数据建立索引；</li>
-</ul>
-<h2 id="使用-mongodb-连接数据库"><a href="#使用-mongodb-连接数据库" class="headerlink" title="使用 mongodb 连接数据库"></a><strong>使用 mongodb 连接数据库</strong></h2><h2 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a><strong>准备工作</strong></h2><p>下载 mongodb：</p>
-<pre><code class="bash">npm instal --save mongodb
-</code></pre>
-<blockquote>
-<p>准备一个 MongoDB 数据库连接地址，我使用的是云数据库 MongoDB Atlas。</p>
-</blockquote>
-<h2 id="连接数据库-1"><a href="#连接数据库-1" class="headerlink" title="连接数据库"></a><strong>连接数据库</strong></h2><p>database.js</p>
-<pre><code class="js">const mongodb = require(&quot;mongodb&quot;); // 引入mongodb
-const MongoClient = mongodb.MongoClient; // 新建一个MongoClient用于连接数据库
-
-const mongoConnect = (callback) =&gt; &#123;
-  MongoClient.connect(
-    // 连接数据库地址
-    &quot;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/?retryWrites=true&amp;w=majority&quot;
-  ) // @1
-    .then((client) =&gt; &#123;
-      console.log(&quot;Connected!&quot;);
-      callback(client);
-    &#125;)
-    .catch((err) =&gt; &#123;
-      console.log(err);
-    &#125;);
+let mySearch: SearchFunc;
+mySearch = function (source: string, subString: string) &#123;
+  return source.search(subString) !== -1;
 &#125;;
-
-module.exports = mongoConnect;
+</code></pre>
+<p>采用函数表达式|接口定义函数的方式时，对等号左侧进行类型限制，可以保证以后对函数名赋值时保证参数个数、参数类型、返回值类型不变。</p>
+<h3 id="可选参数"><a href="#可选参数" class="headerlink" title="可选参数"></a>可选参数</h3><p>与接口中的可选属性类似，我们用 <code>?</code> 表示可选的参数：</p>
+<pre><code class="ts">function buildName(firstName: string, lastName?: string) &#123;
+  if (lastName) &#123;
+    return firstName + &quot; &quot; + lastName;
+  &#125; else &#123;
+    return firstName;
+  &#125;
+&#125;
+let tomcat = buildName(&quot;Tom&quot;, &quot;Cat&quot;);
+let tom = buildName(&quot;Tom&quot;);
 </code></pre>
 <blockquote>
-<p>@1：该 url 是云数据库的地址，其中包含了云数据库存储的用户名和密码。</p>
+<p>注意：<strong>可选参数后面不允许再出现必须参数。</strong></p>
 </blockquote>
-<p>app.js</p>
-<pre><code class="js">const mongoConnect = require(&#39;./util/database&#39;);
-const app = express();
-...
-mongoConnect(client =&gt; &#123;
-  console.log(client);
-  app.listen(3000);
-&#125;);
+<h3 id="参数默认值"><a href="#参数默认值" class="headerlink" title="参数默认值"></a>参数默认值</h3><p>在 ES6 中，我们允许给函数的参数添加默认值，<strong>TypeScript 会将添加了默认值的参数识别为可选参数</strong>：</p>
+<pre><code class="ts">function buildName(firstName: string, lastName: string = &quot;Cat&quot;) &#123;
+  return firstName + &quot; &quot; + lastName;
+&#125;
+let tomcat = buildName(&quot;Tom&quot;, &quot;Cat&quot;);
+let tom = buildName(&quot;Tom&quot;);
+</code></pre>
+<p>此时就不受「<strong>可选参数必须接在必需参数后面</strong>」的限制了：</p>
+<pre><code class="ts">function buildName(firstName: string = &quot;Tom&quot;, lastName: string) &#123;
+  return firstName + &quot; &quot; + lastName;
+&#125;
+let tomcat = buildName(&quot;Tom&quot;, &quot;Cat&quot;);
+let cat = buildName(undefined, &quot;Cat&quot;);
 </code></pre>
 <blockquote>
-<p>更多详细信息见 MongoDB 一章。</p>
+<p>注意：<strong>可选参数和默认参数不能同时使用。</strong></p>
 </blockquote>
-<h2 id="使用-mongoose-连接数据库"><a href="#使用-mongoose-连接数据库" class="headerlink" title="使用 mongoose 连接数据库"></a>使用 mongoose 连接数据库</h2><h2 id="准备工作-2"><a href="#准备工作-2" class="headerlink" title="准备工作"></a>准备工作</h2><p>下载 mongoose：</p>
-<pre><code class="bash">npm install --save mongoose
-</code></pre>
-<h2 id="连接数据库-2"><a href="#连接数据库-2" class="headerlink" title="连接数据库"></a>连接数据库</h2><p>app.js</p>
-<pre><code class="js">const mongoose = require(&#39;mongoose&#39;); // 引入mongoose
-...
-mongoose
-  .connect(
-    &#39;mongodb+srv://&lt;user&gt;:&lt;password&gt;@cluster0.mnle1m2.mongodb.net/shop?retryWrites=true&amp;w=majority&#39;
-  ) // 连接MongoDB数据库
-  .then(result =&gt; &#123;
-    app.listen(3000);
-  &#125;)
-  .catch(err =&gt; &#123;
-    console.log(err);
+<h3 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数(*)"></a>剩余参数(*)</h3><p>ES6 中，可以使用 <code>...rest</code> 的方式获取函数中的剩余参数（rest 参数）：</p>
+<pre><code class="js">function push(array, ...items) &#123;
+  items.forEach(function (item) &#123;
+    array.push(item);
   &#125;);
+&#125;
+
+let a: any[] = [];
+push(a, 1, 2, 3);
+</code></pre>
+<p>事实上，<code>items</code> 是一个数组。所以我们可以用数组的类型来定义它：</p>
+<pre><code class="ts">function push(array: any[], ...items: any[]) &#123;
+  items.forEach(function (item) &#123;
+    array.push(item);
+  &#125;);
+&#125;
+
+let a = [];
+push(a, 1, 2, 3);
+</code></pre>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>ts 允许定义 this 的类型（js 不能），函数的<strong>第一个参数</strong>可以定义 this 的类型。</p>
+<pre><code class="ts">interface Obj &#123;
+  user: number[];
+  add: (this: Obj, num: number) =&gt; void; // 定义this的类型为Obj，传递的参数类型为number，函数没有返回值
+&#125;
+let obj: Obj = &#123;
+  user: [1, 2, 3],
+  add(this: Obj, num: number) &#123;
+    this.user.push(num);
+  &#125;,
+&#125;;
+
+obj.add(4);
+</code></pre>
+<h3 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h3><p>允许<strong>一个函数接受不同数量或类型的参数时，作出不同的处理</strong>。</p>
+<pre><code class="ts">let users: number[] = [1, 23, 4];
+function findNum(): number[]; // 如果什么都不传入则查询全部
+function findNum(id: number): number[]; // 传入id则根据id查询
+function findNum(add: number[]): number[]; // 传入number类型数组就将其添加到数组里
+function findNum(id?: number | number[]): number[] &#123;
+  if (typeof id == &quot;number&quot;) &#123;
+    return users.filter((uId) =&gt; uId == id);
+  &#125; else if (Array.isArray(id)) &#123;
+    user.push(...id);
+  &#125; else &#123;
+    return user;
+  &#125;
+&#125;
+
+console.log(findNum()); // [1,23,4]
+console.log(findNum(4)); // [4]
+console.log(findNum([6, 7, 9])); // [1,23,4,6,7,9]
 </code></pre>
 
         
@@ -1431,11 +969,11 @@ mongoose
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.963Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2025-06-24T00:07:09.464Z" itemprop="datePublished">2025-06-24</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
         </div>
     
     
@@ -1448,7 +986,7 @@ mongoose
   
     
       <article
-id="post-Node/Express/Express"
+id="post-TS/三斜线指令"
 class="article article-type-post"
 >
 
@@ -1459,175 +997,379 @@ class="article article-type-post"
 
     <div class="article-body">
     <header class="article-title">
-        <a href="/ferhannah-blog/2025/03/03/Node/Express/Express/">Express</a>
+        <a href="/ferhannah-blog/2025/06/24/TS/%E4%B8%89%E6%96%9C%E7%BA%BF%E6%8C%87%E4%BB%A4/">三斜线指令</a>
     </header>
     <div class="article-entry post-inner-html">
         
-        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">npm install --save express
-</code></pre>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Express.js 所有都是关于中间件的。中间件意味着传入的请求会通过一堆由 Express.js 汇集（封装）的函数。（实际上挂载并拥有多个请求处理程序，而不是一个请求处理程序。请求将一步一步通过这个功能，直到我们发出响应）</p>
-<p><img src="D:\typora\notes\photo\middleware.png" alt="image-20230206142003029"></p>
-<p>中间件允许我们将代码拆分为多个块或片段，而不是一个包含许多功能的巨大函数。这就是 Express.js 的<strong>可插拔性</strong>(<strong>pluggable</strong>)，我们可以在其中轻松添加其他第三方包（添加中间件）</p>
-<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>下载完后引入 Express.js 的模块，并创建一个由 Express.js 管理的对象：</p>
-<pre><code class="js">const express = require(&quot;express&quot;);
-
-const app = express();
-</code></pre>
-<p>在我们把它传递给创建的服务器之前，我们可以通过 Express.js 使用 app 并调用定义的方法——<code>use</code>：</p>
-<h3 id="添加中间件"><a href="#添加中间件" class="headerlink" title="添加中间件"></a>添加中间件</h3><p><code>use()</code>允许我们添加一个新的中间件，它接收一个必填的函数，<strong>所有传入的请求都会执行它</strong>；这个函数接收三个参数：</p>
-<ul>
-<li><p><strong>request</strong>：请求对象</p>
-</li>
-<li><p><strong>response</strong>：响应对象</p>
-</li>
-<li><p><strong>next</strong>：Express.js 提供的内部函数，<strong>前往下一个中间件</strong></p>
+        <p>三斜线指令是包含单个 XML 标签的单行注释。注释的内容会做为编译器指令使用。</p>
 <blockquote>
-<p>如果不调用<code>next</code>，就不会前往下一个中间件。</p>
-</blockquote>
-</li>
+<ul>
+<li>三斜线指令仅可放在包含它的文件的最顶端。</li>
+<li>一个三斜线指令的前面只能出现单行或多行注释，这包括其它的三斜线指令。如果它们出现在一个语句或声明之后，那么它们会被当做普通的单行注释，并且不具有特殊的涵义。</li>
 </ul>
-<pre><code class="js">app.use((req, res, next) =&gt; &#123;
-  console.log(&quot;我是中间件&quot;);
-  next(); // 前往下一个中间件
-&#125;);
-</code></pre>
-<blockquote>
-<p>注意：中间件是根据代码的先后顺序，从上到下执行的。</p>
 </blockquote>
-<h3 id="不同路由"><a href="#不同路由" class="headerlink" title="不同路由"></a>不同路由</h3><p><code>use()</code>的第一个参数是可选的<strong>路径字符串</strong>，通过它来区分不同的路由：</p>
-<pre><code class="js">app.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
-  console.log(&quot;我是中间件&quot;);
-  res.send(&#39;&lt;h1&gt;The &quot;Add Product&quot; Page&lt;/h1&gt;&#39;);
-&#125;);
-
-app.use(&quot;/&quot;, (req, res, next) =&gt; &#123;
-  console.log(&quot;我是另一个中间件&quot;);
-  res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
-&#125;);
-</code></pre>
-<p>可以通过调整中间件的位置，控制路由先后或是否执行：</p>
-<pre><code class="js">app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
-    console.log(&#39;总是要通过我才能进入下一个&#39;);
-    next();
-&#125;)
-...
-</code></pre>
-<h3 id="设置响应标头"><a href="#设置响应标头" class="headerlink" title="设置响应标头"></a>设置响应标头</h3><p>默认响应标头是<code>text/html</code></p>
-<h3 id="发送响应"><a href="#发送响应" class="headerlink" title="发送响应"></a>发送响应</h3><p>使用<code>res.send()</code>发送响应：</p>
-<pre><code class="js">app.use((req, res, next) =&gt; &#123;
-  res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
-&#125;);
-</code></pre>
-<p>使用<code>res.sendFile()</code>发送响应 HTML 文件（路径需<code>path</code>模块）：</p>
-<pre><code class="js">app.use((req, res, next) =&gt; &#123;
-  res.sendFile(path.join(&quot;../&quot;, &quot;views&quot;, &quot;shop.html&quot;));
-&#125;);
-</code></pre>
-<h3 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h3><pre><code class="js">app.listen(3000);
-</code></pre>
-<blockquote>
-<p>Express.js 会帮我们完成（背后原理）：</p>
-<pre><code class="js">const http = require(&quot;http&quot;);
-const server = http.createServer(app);
-server.listen(3000);
-</code></pre>
-</blockquote>
-<h3 id="解析请求体"><a href="#解析请求体" class="headerlink" title="解析请求体"></a>解析请求体</h3><p>通过第三方包中间件（body-parser）来解析，比使用 Node.js 本身的 Buffer 的存储机制来解析要简单得多：</p>
-<pre><code class="js">const bodyParser = require(&#39;body-parser&#39;);
-...
-app.use(bodyParser.urlencoded(&#123;extended: false&#125;));
-</code></pre>
-<h3 id="启动静态文件（CSS-JS-…）"><a href="#启动静态文件（CSS-JS-…）" class="headerlink" title="启动静态文件（CSS&#x2F;JS&#x2F;…）"></a>启动静态文件（CSS&#x2F;JS&#x2F;…）</h3><p>静态文件的启动需要借助<code>express.static()</code>来访问，例如静态文件存存储在根目录下<code>public/css/main.css</code>中：</p>
-<pre><code class="js">app.use(express.static(path.join(__dirname, &quot;public&quot;)));
-</code></pre>
-<blockquote>
-<p>express.static 会寻找在<code>...（根目录）/public</code>下的所有地址文件。</p>
-</blockquote>
-<p>在需要使用的 HTML 中：</p>
-<pre><code class="html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/main.css&quot; /&gt;
-</code></pre>
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><pre><code class="js">const express = require(&quot;express&quot;);
-const bodyParser = require(&quot;body-parser&quot;);
-
-const app = express();
-
-app.use(bodyParser.urlencoded(&#123; extended: false &#125;));
-
-// app.use(&#39;/&#39;, (req, res, next) =&gt; &#123;
-//     console.log(&#39;总是要通过我&#39;);
-//     next();
-// &#125;)
-
-app.use(&quot;/add-product&quot;, (req, res, next) =&gt; &#123;
-  res.send(
-    &#39;&lt;form action=&quot;/product&quot; method=&quot;POST&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;button type=&quot;submit&quot;&gt;Add Product&lt;/button&gt;&lt;/form&gt;&#39;
-  );
-&#125;);
-
-app.post(&quot;/product&quot;, (req, res, next) =&gt; &#123;
-  console.log(req.body);
-  res.redirect(&quot;/&quot;);
-&#125;);
-
-app.use(&quot;/&quot;, (req, res, next) =&gt; &#123;
-  res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
-&#125;);
-
-app.listen(3000);
-</code></pre>
-<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a><strong>附录</strong></h2><h3 id="app"><a href="#app" class="headerlink" title="app"></a><strong>app</strong></h3><h4 id="use"><a href="#use" class="headerlink" title="use()"></a>use()</h4><p>注册一个中间件。总是会按顺序执行的中间件，<strong>所有传入的请求都会执行它</strong>（无论请求是 GET 还是 POST）。</p>
-<p><strong>用途：</strong></p>
 <ul>
-<li><p>添加中间件</p>
+<li><p><code>///&lt;reference path=&quot;...&quot;&gt;</code>指令：用于<strong>声明文件间的依赖</strong>。</p>
+<pre><code class="ts">// index1.ts
+namespace A &#123;
+  export const a = 1;
+&#125;
+</code></pre>
+<pre><code class="ts">// index2.ts
+namespace A &#123;
+  export const b = 1;
+&#125;
+</code></pre>
+<pre><code class="ts">///&lt;reference path=&quot;index1.ts&quot;&gt;
+///&lt;reference path=&quot;index2.ts&quot;&gt;
+
+console.log(A);
+</code></pre>
 </li>
-<li><p>不同路由</p>
-</li>
-<li><p>添加多个回调函数（中间件）</p>
-<p>在注册中间件时可以添加多个回调函数，不同回调函数之间用逗号隔开：</p>
-<pre><code class="js">app.use(&quot;/add-product&quot;, callback1, callback2);
+<li><p><code>/// &lt;reference types=&quot;module-name&quot; /&gt;</code>：用于<strong>引入第三方模块的类型声明文件。</strong></p>
+<pre><code class="bash">npm install @types/node -D
+</code></pre>
+<pre><code class="ts">/// &lt;reference types=&quot;node&quot; /&gt;
 </code></pre>
 </li>
 </ul>
-<h4 id="get-post-…"><a href="#get-post-…" class="headerlink" title="get()&#x2F;post()…"></a>get()&#x2F;post()…</h4><p><strong>只会在传入 GET&#x2F;POST&#x2F;…请求（request）时触发</strong>。</p>
-<h4 id="listen"><a href="#listen" class="headerlink" title="listen()"></a>listen()</h4><p>监听端口。</p>
-<h4 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h4><p>允许我们设置任何全局变量的值。</p>
-<pre><code class="js">const app = express();
 
-app.set(&quot;view engine&quot;, &quot;pug&quot;); // 设置模板引擎
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.462Z" itemprop="datePublished">2025-06-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-TS/Webpack + TS"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/06/24/TS/Webpack%20+%20TS/">Webpack + TS</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p>webpack：</p>
+<pre><code class="bash">npm install webpack -D
+</code></pre>
+</li>
+<li><p>webpack-cli：webpack4 以上需要</p>
+<pre><code class="bash">npm install  webpack-cli -D
+</code></pre>
+</li>
+<li><p>TS 编译器：帮助解析 ts 文件</p>
+<pre><code class="bash">npm install ts-loader -D
+</code></pre>
+</li>
+<li><p>TS 环境：</p>
+<pre><code class="bash">npm install typescript -D
+</code></pre>
+</li>
+<li><p><strong>热更新服务</strong>：</p>
+<pre><code class="bash">npm install  webpack-dev-server -D
+</code></pre>
+</li>
+<li><p>HTML 模板：</p>
+<pre><code class="bash">npm install html-webpack-plugin -D
+</code></pre>
+</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>需要在 webpack.config.js 里配置相关信息：</p>
+<pre><code class="js">const path = require(&quot;path&quot;);
+const htmlWebpackPlugin = require(&quot;html-webpack-plugin&quot;); // 热更新插件
+module.exports = &#123;
+  entry: &quot;./src/index.ts&quot;, // 入口文件
+  mode: &quot;development&quot;, // 开发模式
+  output: &#123;
+    // 出口（输出）文件信息
+    path: path.resolve(__dirname, &quot;./dist&quot;), // 出口文件夹
+    filename: &quot;index.js&quot;, // 出口文件名
+  &#125;,
+  stats: &quot;none&quot;,
+  resolve: &#123;
+    extensions: [&quot;.ts&quot;, &quot;.js&quot;], // 匹配后缀 @1
+    alias: &#123;
+      &quot;@&quot;: path.resolve(__dirname, &quot;./src&quot;),
+    &#125;,
+  &#125;,
+  module: &#123;
+    rules: [
+      // 匹配编译器，如ts、scss等
+      &#123;
+        test: /\.ts$/, // 正则匹配文件
+        use: &quot;ts-loader&quot;, // 使用ts-loader对文件进行处理
+      &#125;,
+    ],
+  &#125;,
+  devServer: &#123;
+    port: 1988, // 启动的端口号
+    proxy: &#123;&#125;, // 代理
+  &#125;,
+  plugins: [
+    new htmlWebpackPlugin(&#123;
+      // 热更新
+      template: &quot;./public/index.html&quot;, // 指定热更新模板（文件）
+    &#125;),
+  ],
+&#125;;
 </code></pre>
 <blockquote>
-<p>注意：因为 Pug 下载后是内置的，所以可以使用 set 直接引用。</p>
+<p>@1：在<code>import</code>时自动查找文件，不用再加上后缀。比如 index.js 可以直接写 index。</p>
 </blockquote>
-<h4 id="engine"><a href="#engine" class="headerlink" title="engine()"></a>engine()</h4><p>注册一个非内置的模板引擎。</p>
-<pre><code class="js">app.engine(&quot;handlebars&quot;, expressHba());
+<h2 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h2><pre><code class="json">&quot;scripts&quot;: &#123;
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;dev&quot;: &quot;webpack-dev-server&quot;, // 启动webpack-dev-server，持续热更新项目
+    &quot;build&quot;:&quot;webpack&quot; // 打包
+&#125;,
 </code></pre>
-<h3 id="res"><a href="#res" class="headerlink" title="res"></a><strong>res</strong></h3><p>响应相关信息。</p>
-<h4 id="send"><a href="#send" class="headerlink" title="send()"></a>send()</h4><p>发送响应。默认响应标头是<code>text/html</code>。</p>
-<pre><code class="js">res.send(&quot;&lt;h1&gt;Hello from Express!&lt;/h1&gt;&quot;);
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.461Z" itemprop="datePublished">2025-06-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-TS/TypeScript入门"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/06/24/TS/TypeScript%E5%85%A5%E9%97%A8/">TypeScript项目构建</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="构建-TS-项目"><a href="#构建-TS-项目" class="headerlink" title="构建 TS 项目"></a>构建 TS 项目</h2><ol>
+<li><p>下载 ts</p>
+<pre><code class="shell">npm install -g typescript
 </code></pre>
-<h4 id="sendFile"><a href="#sendFile" class="headerlink" title="sendFile()"></a>sendFile()</h4><p>传入一个需响应的文件地址，发送响应文件。需借助 path（Node.js）模块。</p>
-<pre><code class="js">res.sendFile(path.join(&quot;../&quot;, &quot;views&quot;, &quot;shop.html&quot;));
-</code></pre>
-<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect()"></a>redirect()</h4><p>路由重定向。</p>
-<pre><code class="js">res.redirect(&quot;/&quot;);
-</code></pre>
-<h4 id="render"><a href="#render" class="headerlink" title="render()"></a>render()</h4><p>发送默认模板引擎渲染的文件。</p>
-<pre><code class="js">res.render(&quot;shop&quot;); // 发送渲染shop.pug文件
-</code></pre>
-<p>它可以使用第二个参数，向模板文件中传递参数：</p>
-<pre><code class="js">const products = &quot;apple&quot;;
-res.render(&quot;shop&quot;, &#123; prods: products, docTitle: &quot;Shop&quot; &#125;); // 发送到shop.pug的参数
-</code></pre>
-<h4 id="locals"><a href="#locals" class="headerlink" title="locals"></a>locals</h4><p>设置局部变量传递给视图。</p>
-<pre><code class="js">res.locals.xxx =
+</li>
+<li><p>构建 ts 文件，创建<code>.ts</code>扩展名的文件并编写 ts 代码</p>
+<p>​ 例如文件叫<code>greeter.ts</code></p>
+</li>
+<li><p>编译代码：将<code>ts</code>文件输出为<code>js</code>文件</p>
+<pre><code class="shell">tsc greeter.ts
 </code></pre>
 <blockquote>
-<p>例子：</p>
-<pre><code class="js">app.use((res, req, next) =&gt; &#123;
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
-  next();
-&#125;);
+<p>正常情况下会出现一个.js 的同名文件</p>
+</blockquote>
+</li>
+<li><p>搭载 node 运行 js 文件</p>
+<pre><code class="shell">node greeter.js
+</code></pre>
+</li>
+</ol>
+<h2 id="解决每次使用都进行tsc转换"><a href="#解决每次使用都进行tsc转换" class="headerlink" title="解决每次使用都进行tsc转换"></a>解决每次使用都进行<code>tsc</code>转换</h2><ul>
+<li><p>将项目初始化一个 npm 进行管理</p>
+<pre><code class="shell">npm init -y
+</code></pre>
+</li>
+<li><p>在<code>packge.json</code>中 编写命令</p>
+<pre><code class="json">&#123;
+  &quot;name&quot;: &quot;lesson01&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;greeter.js&quot;,
+  &quot;scripts&quot;: &#123;
+    &quot;build&quot;: &quot;tsc greeter.ts&quot;,
+    &quot;test&quot;: &quot;node greeter.js&quot;,
+    &quot;start&quot;: &quot;npm run build &amp;&amp; npm run test&quot;
+  &#125;,
+  &quot;keywords&quot;: [],
+  &quot;author&quot;: &quot;&quot;,
+  &quot;license&quot;: &quot;ISC&quot;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="TS-命令行语句"><a href="#TS-命令行语句" class="headerlink" title="TS 命令行语句"></a>TS 命令行语句</h2><h2 id="查看-TS-版本"><a href="#查看-TS-版本" class="headerlink" title="查看 TS 版本"></a>查看 TS 版本</h2><pre><code class="shell">tsc -v
+</code></pre>
+<h2 id="实时编译-TS"><a href="#实时编译-TS" class="headerlink" title="实时编译 TS"></a>实时编译 TS</h2><p>由于浏览器是不认识 ts 文件的，所以可以使用以下指令来监听 ts 文件，将其实时编译成 js 文件。</p>
+<pre><code class="shell">tsc -w
+</code></pre>
+<h2 id="TS-配置文件"><a href="#TS-配置文件" class="headerlink" title="TS 配置文件"></a>TS 配置文件</h2><p>生成一个 ts 的配置文件：<code>tsconfig.json</code></p>
+<pre><code class="shell">tsc --init
+</code></pre>
+<blockquote>
+<p>在这个文件中可以设置：</p>
+<ul>
+<li>strict：严格模式</li>
+</ul>
+</blockquote>
+<h2 id="TS-库"><a href="#TS-库" class="headerlink" title="TS 库"></a>TS 库</h2><ul>
+<li><p>ts-node</p>
+<p>可以直接运行 ts 文件，不需要将其手动编译为 js。</p>
+<pre><code class="shell">npm i ts-node -g
+</code></pre>
+<p>使用：</p>
+<pre><code class="shell">ts-node 文件名
+</code></pre>
+</li>
+<li><p>@types&#x2F;node</p>
+<p>使用 ts 写 node.js。</p>
+<blockquote>
+<p>Node.js 不是内置对象的一部分，如果想用 TypeScript 写 Node.js，则需要引入第三方声明文件。</p>
+</blockquote>
+<pre><code class="shell">npm i @types/node -D
+</code></pre>
+</li>
+</ul>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.460Z" itemprop="datePublished">2025-06-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-TS/TS高级-（类型兼容）协变、逆变、双向协变"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-%EF%BC%88%E7%B1%BB%E5%9E%8B%E5%85%BC%E5%AE%B9%EF%BC%89%E5%8D%8F%E5%8F%98%E3%80%81%E9%80%86%E5%8F%98%E3%80%81%E5%8F%8C%E5%90%91%E5%8D%8F%E5%8F%98/">TS高级-类型兼容（协变、逆变、双向协变）</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="类型兼容"><a href="#类型兼容" class="headerlink" title="类型兼容"></a>类型兼容</h2><p>所谓的类型兼容性，就是用于确定一个类型是否能赋值给其他的类型。typeScript 中的类型兼容性是<strong>基于结构类型</strong>的（也就是形状），如果 A 要兼容 B 那么 A 至少具有 B 相同的属性。</p>
+<h2 id="协变"><a href="#协变" class="headerlink" title="协变"></a>协变</h2><p>如果<strong>类型 <code>S</code> 可以赋值给类型 <code>T</code>，那么我们就说类型 <code>T</code> 是类型 <code>S</code> 的协变类型</strong>。简单来说，就是<strong>子类型可以赋值给父类型，子类型中的属性必须完全覆盖父类型中的属性</strong>。</p>
+<blockquote>
+<p>而这类型也被称为鸭子类型（一只鸟走路像鸭子，游泳也像，做什么都像鸭子，那么这只鸟就可以成为鸭子类型）。</p>
+</blockquote>
+<pre><code class="ts">// 父类型
+interface A &#123;
+  name: string;
+  age: number;
+&#125;
+// 子类型
+interface B &#123;
+  name: string;
+  age: number;
+  sex: string;
+&#125;
+let a: A = &#123;
+  name: &quot;张三&quot;,
+  age: 18,
+&#125;;
+let b: B = &#123;
+  name: &quot;李四&quot;,
+  age: 19,
+  sex: &quot;女&quot;,
+&#125;;
+// 父 = 子
+a = b; // 协变
+</code></pre>
+<blockquote>
+<p>协变是针对值的。</p>
+</blockquote>
+<h2 id="逆变"><a href="#逆变" class="headerlink" title="逆变"></a>逆变</h2><p>协变赋值的相反操作，对于函数来说，拥有父类型的函数赋值给子类型的函数：</p>
+<pre><code class="ts">let fnA = (params: A) =&gt; &#123;&#125;;
+let fnB = (params: B) =&gt; &#123;&#125;;
+// 子 = 父
+fnB = fnA; // 逆变
+</code></pre>
+<blockquote>
+<p>逆变是针对函数（函数参数）的。</p>
+</blockquote>
+<h2 id="双向协变"><a href="#双向协变" class="headerlink" title="双向协变"></a>双向协变</h2><p>是子类型和父类型可以互相赋值。</p>
+<blockquote>
+<p>注意：这在 TypeScript2.0 之前允许这么操作，TypeScript2.0 之后发现这样是不安全的，如果你需要支持双向协变的话需要自己去开启这个属性：</p>
+<pre><code class="json">// tsconfig.json
+&quot;compilerOptions&quot;: &#123;
+    &quot;strictFunctionTypes&quot;: false,
+&#125;
 </code></pre>
 </blockquote>
 
@@ -1645,11 +1387,95 @@ res.render(&quot;shop&quot;, &#123; prods: products, docTitle: &quot;Shop&quot; 
 <footer class="article-footer">
     <div class="article-more-info">
     <div class="article-date">
-  <time datetime="2025-03-03T14:19:31.962Z" itemprop="datePublished">2025-03-03</time>
+  <time datetime="2025-06-24T00:07:09.459Z" itemprop="datePublished">2025-06-24</time>
 </div>
     
         <div class="article-category">
-        <a class="article-category-link" href="/ferhannah-blog/categories/node/">node</a>
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+        </div>
+    
+    
+    </div>
+</footer>
+
+</article>
+
+    
+  
+    
+      <article
+id="post-TS/TS高级-Record和Readonly"
+class="article article-type-post"
+>
+
+
+
+<div class="article-inner">
+    
+
+    <div class="article-body">
+    <header class="article-title">
+        <a href="/ferhannah-blog/2025/06/24/TS/TS%E9%AB%98%E7%BA%A7-Record%E5%92%8CReadonly/">TS高级-Record和Readonly</a>
+    </header>
+    <div class="article-entry post-inner-html">
+        
+        <h2 id="Record"><a href="#Record" class="headerlink" title="Record"></a>Record</h2><p>定义一个<strong>键值对类型的对象</strong>（即可以同时对键和值进行类型约束）。</p>
+<pre><code class="ts">type Person = &#123;
+  name: string;
+  age: number;
+&#125;;
+type K = &quot;A&quot; | &quot;B&quot; | &quot;C&quot;;
+
+type P = Record&lt;K, Person&gt;;
+
+let person: P = &#123;
+  A: &#123; name: &quot;张三&quot;, age: 18 &#125;,
+  B: &#123; name: &quot;李四&quot;, age: 20 &#125;,
+  C: &#123; name: &quot;王五&quot;, age: 22 &#125;,
+&#125;;
+</code></pre>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><pre><code class="ts">type Person&lt;K extends keyof any, T&gt; = &#123;
+  [P in K]: T;
+&#125;;
+</code></pre>
+<blockquote>
+<p><code>keyof any</code>会返回：</p>
+<pre><code class="ts">type key = string | number | symbol;
+</code></pre>
+</blockquote>
+<h2 id="Readonly"><a href="#Readonly" class="headerlink" title="Readonly"></a>Readonly</h2><p>用于定义一个<strong>只读类型的对象</strong>（即对象的属性值不能被修改）。</p>
+<pre><code class="ts">type MyObj = &#123;
+  readonly a: string;
+  readonly b: number;
+&#125;;
+
+const obj: MyObj = &#123;
+  a: &quot;hello&quot;,
+  b: 123,
+&#125;;
+
+obj.a = &quot;world&quot;; // Error: Cannot assign to &#39;a&#39; because it is a read-only property.
+</code></pre>
+
+        
+    </div>
+    </div>
+
+    <div class="article-badge">
+        
+        
+    </div>
+
+</div>
+
+<footer class="article-footer">
+    <div class="article-more-info">
+    <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.458Z" itemprop="datePublished">2025-06-24</time>
+</div>
+    
+        <div class="article-category">
+        <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
         </div>
     
     
@@ -1663,7 +1489,7 @@ res.render(&quot;shop&quot;, &#123; prods: products, docTitle: &quot;Shop&quot; 
 
   
     <nav class="pagination">
-        <a class="extend prev" rel="prev" href="/ferhannah-blog/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="page-number current">2</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="page-number" href="/ferhannah-blog/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/10/">10</a><a class="extend next" rel="next" href="/ferhannah-blog/page/3/">Next</a>
+        <a class="extend prev" rel="prev" href="/ferhannah-blog/">Prev</a><a class="page-number" href="/ferhannah-blog/">1</a><span class="page-number current">2</span><a class="page-number" href="/ferhannah-blog/page/3/">3</a><a class="page-number" href="/ferhannah-blog/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/ferhannah-blog/page/13/">13</a><a class="extend next" rel="next" href="/ferhannah-blog/page/3/">Next</a>
     </nav>
   
 </div>
@@ -1684,7 +1510,7 @@ res.render(&quot;shop&quot;, &#123; prods: products, docTitle: &quot;Shop&quot; 
   <div class="widget-wrap widget-cate">
     <div class="widget-title"><span>Categories</span></div>
     <div class="widget-inner">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/TS/">TS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
     </div>
   </div>
 
@@ -1707,23 +1533,23 @@ res.render(&quot;shop&quot;, &#123; prods: products, docTitle: &quot;Shop&quot; 
       <ul>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/15/Vue/ComponentLogicReuse/">组件逻辑复用</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/">装饰器（Decorator）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/14/Node/fs/">fs</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/">联合类型</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/14/JS/eventLoop/">事件循环</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/">类（class）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/04/06/micro-frontends/index/">微前端</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80/">类型断言（*）</a>
           </li>
         
           <li>
-            <a href="/ferhannah-blog/2025/03/20/Node/Advanced/child_process/">child_process</a>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA%E5%92%8C%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D/">类型推论和类型别名</a>
           </li>
         
       </ul>

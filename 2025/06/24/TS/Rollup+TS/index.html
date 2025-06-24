@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>Rollup + TS | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "Rollup + TS | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/Rollup+TS/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="Rollup + TS | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/Rollup+TS/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "Rollup + TS | Fxh&#39;s blog",
+            "datePublished": "2025-06-24T00:07:09.446Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/Rollup+TS/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/ferhannah-blog/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cmc9sonsc002olgvs1by183gk" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      Rollup + TS
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.446Z" itemprop="datePublished">2025-06-24</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <p>Rollup 是一种 JavaScript 模块打包器，用于将多个模块打包成一个单独的文件。使用 Rollup 打包（构建）ts 项目：</p>
+<ul>
+<li><p><strong>更小的包体积</strong>：Rollup 可以将代码压缩到最小，因为它只包含实际使用的代码，而不是整个库或框架。</p>
+<blockquote>
+<p>相比 webpack，Rollup 打包后的体积更小。</p>
+</blockquote>
+</li>
+<li><p><strong>更快的加载速度</strong>：由于 Rollup 生成的代码更小，因此它加载更快，这对于移动设备和低带宽连接非常有用。</p>
+<blockquote>
+<p>Rollup 适合开发一些小的框架、控件等。</p>
+</blockquote>
+</li>
+<li><p><strong>更好的 Tree-shaking</strong>：Rollup 可以识别和删除未使用的代码，因此可以更有效地进行 Tree-shaking。</p>
+<blockquote>
+<p>Tree-shaking 是一种 JavaScript 代码优化技术，它可以自动删除未使用的代码，以减小代码的体积，提高应用程序的性能。</p>
+<p>它需要使用支持 ES6 模块语法的打包工具，例如 Webpack、Rollup 等。在使用这些工具时，需要确保在配置中启用 Tree-shaking 功能，以便在打包时自动删除未使用的代码。</p>
+</blockquote>
+</li>
+<li><p><strong>支持 ES6 模块</strong>：Rollup 原生支持 ES6 模块，因此可以使用 ES6 的 import 和 export 语法，而不需要使用特殊的语法或工具。</p>
+</li>
+<li><p><strong>插件生态丰富</strong>：Rollup 有许多插件可用于优化、压缩和转换代码，以及处理其他类型的文件，例如 CSS 和图像。</p>
+</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>全局安装 rollup</p>
+<pre><code class="bash">npm install rollup-g
+</code></pre>
+<p>需安装以下的包：</p>
+<p>package.json</p>
+<pre><code class="json">&#123;
+  &quot;name&quot;: &quot;rollupTs&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: &#123;
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;dev&quot;: &quot;cross-env NODE_ENV=development  rollup -c -w&quot;,
+    &quot;build&quot;: &quot;cross-env NODE_ENV=produaction  rollup -c&quot;
+  &#125;,
+  &quot;keywords&quot;: [],
+  &quot;author&quot;: &quot;&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: &#123;
+    &quot;cross-env&quot;: &quot;^7.0.3&quot;, // 在命令时区分生产和开发环境
+    &quot;rollup-plugin-livereload&quot;: &quot;^2.0.5&quot;, // 安装热更新
+    &quot;rollup-plugin-node-resolve&quot;: &quot;^5.2.0&quot;, // 引入外部依赖
+    &quot;rollup-plugin-replace&quot;: &quot;^2.2.0&quot;, // 替换环境变量给浏览器
+    &quot;rollup-plugin-serve&quot;: &quot;^1.1.0&quot;, // 安装rollup web服务
+    &quot;rollup-plugin-terser&quot;: &quot;^7.0.2&quot;, // 安装代码压缩插件
+    &quot;rollup-plugin-typescript2&quot;: &quot;^0.31.1&quot;, // 安装TypeScript转换器，它会去读取tsconfig.json文件
+    &quot;typescript&quot;: &quot;^4.5.5&quot;
+  &#125;
+&#125;
+</code></pre>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>需要在 rollup.config.js 里配置 Rollup 相关信息：</p>
+<pre><code class="js">// rollup.config.js
+console.log(process.env); // cross-en环境变量信息
+import ts from &quot;rollup-plugin-typescript2&quot;; // 识别ts文件
+import path from &quot;path&quot;;
+import serve from &quot;rollup-plugin-serve&quot;; // 启动前端服务
+import livereload from &quot;rollup-plugin-livereload&quot;; // 热更新服务
+import &#123; terser &#125; from &quot;rollup-plugin-terser&quot;; // 代码压缩
+import resolve from &quot;rollup-plugin-node-resolve&quot;;
+import repacle from &quot;rollup-plugin-replace&quot;; // 在打包过程中替换代码中的变量或字符串 @5
+
+const isDev = () =&gt; &#123;
+  // 设置开发环境 @7
+  return process.env.NODE_ENV === &quot;development&quot;;
+&#125;;
+export default &#123;
+  input: &quot;./src/main.ts&quot;, // 入口文件 @1
+  output: &#123;
+    file: path.resolve(__dirname, &quot;./lib/index.js&quot;), // 出口（输出）文件地址，也就是打完包后的文件
+    format: &quot;umd&quot;, // 指定输出文件的格式（模块化规范）
+    sourcemap: true, // 开启源map，可以让打包后的代码对应到源代码，方便调试 @3
+  &#125;,
+
+  plugins: [
+    // 配置插件
+    ts(), // 识别ts文件，它会自动读取tsconfig.json
+    terser(&#123;
+      // 代码压缩 @2
+      compress: &#123;
+        drop_console: !isDev(), // 配置打包后自动删除console.log()
+      &#125;,
+    &#125;),
+    repacle(&#123;
+      // @6
+      &quot;process.env.NODE_ENV&quot;: JSON.stringify(process.env.NODE_ENV),
+    &#125;),
+    resolve([&quot;.js&quot;, &quot;.ts&quot;]),
+    isDev() &amp;&amp; livereload(), // 在开发环境下，livereload()启动热更新服务 @4
+    isDev() &amp;&amp;
+      serve(&#123;
+        // 在开发环境下，serve启动前端（页面）服务
+        open: true, // 是否打开页面
+        port: 8089, // 页面打开的端口
+        openPage: &quot;/public/index.html&quot;, // 页面文件
+      &#125;),
+  ],
+&#125;;
+</code></pre>
+<blockquote>
+<p>@1：rollup 不认识 ts，所以需要安装识别 ts 的插件<code>rollup-plugin-typescript2</code>；</p>
+<p>@2：会将代码压缩打包。但是代码压缩后不方便调试查看。</p>
+<p>@3：开启源 map，可以让打包后的代码对应到源代码，方便调试。需要在 tsconfig.json 里面同样配置：</p>
+<pre><code class="json">&quot;sourceMap&quot;: true
+</code></pre>
+<p>@4：热更新服务会在启动前端（页面）时，修改文件页面会自动刷新；</p>
+<p>@5、@6：由于浏览器里不支持 process.env，它是在 node 端支持的，所以需要将其从 node 里面注册到浏览器中，可以使用<code>rollup-plugin-replace</code>来进行替换；</p>
+<p>@7：如果是开发环境则会启动包含<code>isDev()</code>的配置（如热更新，启动前端打开页面等），如果是生产环境则不启动；</p>
+</blockquote>
+<p>打包基本流程：</p>
+<ul>
+<li>首先需要一个打包的入口文件，一般为 index.js；</li>
+<li>然后再 package.json 里的 main 指定这个文件；</li>
+</ul>
+<h2 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h2><pre><code class="json">&quot;scripts&quot;: &#123;
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;dev&quot;: &quot;rollup -c -w&quot;, // 读取rollup.config.json文件，并监听，如果该文件有改动则会自动重启rollup
+    &quot;build&quot;:&quot;rollup -c&quot; // 读取rollup.config.json文件
+&#125;,
+</code></pre>
+<blockquote>
+<p><code>rollup -c</code>之后会产生一个在指定路径打包好的文件。</p>
+</blockquote>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/Set%E3%80%81Map%E3%80%81WeakSet%E3%80%81WeakMap/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          Set、Map、WeakSet、WeakMap
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/esbuild%20+%20SWC%20+%20TS/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">esbuild + SWC + TS</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=Rollup + TS - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2FRollup%2BTS%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=Rollup + TS - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2FRollup%2BTS%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=Rollup + TS - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/Rollup+TS/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/TS/">TS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/">装饰器（Decorator）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/">联合类型</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/">类（class）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80/">类型断言（*）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA%E5%92%8C%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D/">类型推论和类型别名</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

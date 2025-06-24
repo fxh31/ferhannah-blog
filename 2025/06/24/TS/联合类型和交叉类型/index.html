@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    
+    <title>联合类型 | Fxh&#39;s blog</title>
+
+    <meta name="description" content="Fxh&#39;s blog">
+    <meta name="keywords" content="">
+
+    
+
+    <meta property="og:locale" content="cn" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content= "联合类型 | Fxh&#39;s blog"  />
+    <meta property="og:description" content= "Fxh&#39;s blog" />
+    <meta property="og:url" content="https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/index.html" />
+    <meta property="og:site_name" content="" />
+    <meta property="article:author" content="feng xiaohan" />
+    <meta property="article:publisher" content="" />
+    <meta property="og:description" content="Fxh&#39;s blog" />
+    <meta name="twitter:title" content="联合类型 | Fxh&#39;s blog"/>
+    <meta name="twitter:description" content="Fxh&#39;s blog"/>
+    <script type="application/ld+json">
+        {
+            "description": "Fxh&#39;s blog",
+            "author": { "@type": "Person", "name": "feng xiaohan" },
+            "@type": "BlogPosting",
+            "url": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/index.html",
+            "publisher": {
+            "@type": "Organization",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://fxh31.github.io/ferhannah-blog/ferhannah-blog/images/logo.png"
+            },
+            "name": "feng xiaohan"
+            },
+            "headline": "联合类型 | Fxh&#39;s blog",
+            "datePublished": "2025-06-24T00:07:09.477Z",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/index.html"
+            },
+            "@context": "http://schema.org"
+        }
+    </script>
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/build.css?v=1654266144177.css">
+
+
+    
+<link rel="stylesheet" href="/ferhannah-blog/dist/custom.css?v=1654266144177.css">
+
+
+    <script>
+        window.isPost = true
+        window.aomori = {
+            
+            
+            
+        }
+        window.aomori_logo_typed_animated = true
+        window.aomori_search_algolia = false
+
+    </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+
+    <div class="container">
+    <header class="header">
+        <div class="header-type">
+            
+            <div class="header-type-avatar avatar avatar-sm">
+                <img src="/ferhannah-blog/images/logo.png" alt="feng xiaohan">
+            </div>
+            
+            <div class="header-type-inner">
+                
+                    <div id="typed-strings" style="display:none">
+                        <p>Fxh&#39;s blog</p>
+                    </div>
+                    <a class="header-type-title" id="typed" href="/ferhannah-blog/"></a>
+                
+    
+                
+            </div>
+        </div>
+        <div class="header-menu">
+            <div class="header-menu-inner">
+                
+                <a href="/ferhannah-blog/">首页</a>
+                
+                <a href="/ferhannah-blog/archives">归档</a>
+                
+                <a href="/ferhannah-blog/friends">友链</a>
+                
+            </div>
+            <div class="header-menu-social">
+                
+    <a class="social" target="_blank" href="https://www.ferhannah.cn/">
+        <ion-icon name="planet-sharp"></ion-icon>
+    </a>
+
+    <a class="social" target="_blank" href="https://github.com/fxh31">
+        <ion-icon name="logo-github"></ion-icon>
+    </a>
+
+            </div>
+        </div>
+
+        <div class="header-menu-mobile">
+            <div class="header-menu-mobile-inner" id="mobile-menu-open">
+                <i class="icon icon-menu"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="header-menu-mobile-menu">
+        <div class="header-menu-mobile-menu-bg"></div>
+        <div class="header-menu-mobile-menu-wrap">
+            <div class="header-menu-mobile-menu-inner">
+                <div class="header-menu-mobile-menu-close" id="mobile-menu-close">
+                    <i class="icon icon-cross"></i>
+                </div>
+                <div class="header-menu-mobile-menu-list">
+                    
+                    <a href="/ferhannah-blog/">首页</a>
+                    
+                    <a href="/ferhannah-blog/archives">归档</a>
+                    
+                    <a href="/ferhannah-blog/friends">友链</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <div class="container">
+        <div class="main">
+            <section class="inner">
+                <section class="inner-main">
+                    <div class="post">
+    <article id="post-cmc9sonss004qlgvsbf46adh0" class="article article-type-post" itemscope
+    itemprop="blogPost">
+
+    <div class="article-inner">
+
+        
+          
+        
+        
+        
+
+        
+        <header class="article-header">
+            
+  
+    <h1 class="article-title" itemprop="name">
+      联合类型
+    </h1>
+  
+
+        </header>
+        
+
+        <div class="article-more-info article-more-info-post hairline">
+
+            <div class="article-date">
+  <time datetime="2025-06-24T00:07:09.477Z" itemprop="datePublished">2025-06-24</time>
+</div>
+
+            
+            <div class="article-category">
+                <a class="article-category-link" href="/ferhannah-blog/categories/TS/">TS</a>
+            </div>
+            
+
+            
+
+            
+
+        </div>
+
+        <div class="article-entry post-inner-html hairline" itemprop="articleBody">
+            <p>联合类型（Union Types）表示取值可以为<strong>多种类型中的一种</strong>。</p>
+<pre><code class="ts">let myFavoriteNumber: string | number;
+myFavoriteNumber = &quot;seven&quot;;
+myFavoriteNumber = 7;
+</code></pre>
+<p>联合类型使用 <code>|</code> 分隔每个类型。</p>
+<h3 id="访问联合类型的属性或方法"><a href="#访问联合类型的属性或方法" class="headerlink" title="访问联合类型的属性或方法"></a>访问联合类型的属性或方法</h3><p>当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们<strong>只能访问此联合类型的所有类型里共有的属性或方法</strong>：</p>
+<pre><code class="ts">function getLength(something: string | number): number &#123;
+  return something.length;
+&#125;
+
+// index.ts(2,22): error TS2339: Property &#39;length&#39; does not exist on type &#39;string | number&#39;.
+//   Property &#39;length&#39; does not exist on type &#39;number&#39;.
+</code></pre>
+<p>上例中，<code>length</code> 不是 <code>string</code> 和 <code>number</code> 的共有属性，所以会报错。</p>
+<p>访问 <code>string</code> 和 <code>number</code> 的共有属性是没问题的：</p>
+<pre><code class="ts">function getString(something: string | number): string &#123;
+  return something.toString();
+&#125;
+</code></pre>
+<p>联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型：</p>
+<pre><code class="ts">let myFavoriteNumber: string | number;
+myFavoriteNumber = &quot;seven&quot;;
+console.log(myFavoriteNumber.length); // 5
+myFavoriteNumber = 7;
+console.log(myFavoriteNumber.length); // 编译时报错
+
+// index.ts(5,30): error TS2339: Property &#39;length&#39; does not exist on type &#39;number&#39;.
+</code></pre>
+<p>上例中，第二行的 <code>myFavoriteNumber</code> 被推断成了 <code>string</code>，访问它的 <code>length</code> 属性不会报错。</p>
+<p>而第四行的 <code>myFavoriteNumber</code> 被推断成了 <code>number</code>，访问它的 <code>length</code> 属性时就报错了。</p>
+<h2 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h2><p>使用<code>&amp;</code>将连个类型连接，这两个类型都必须满足：</p>
+<pre><code class="ts">interface People &#123;
+  name: string;
+  age: number;
+&#125;
+interface Man &#123;
+  sex: number;
+&#125;
+const person = (man: People &amp; Man): void =&gt; &#123;
+  console.log(man);
+&#125;;
+
+person(&#123;
+  name: &quot;张三&quot;,
+  age: 18,
+  sex: 0,
+&#125;);
+</code></pre>
+
+        </div>
+
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+<nav class="article-nav">
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-caption">下一篇</div>
+      <div class="article-nav-title">
+        
+          装饰器（Decorator）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-caption">上一篇</div>
+      <div class="article-nav-title">类（class）</div>
+    </a>
+  
+</nav>
+
+
+    <section class="share">
+        <!-- <div class="share-title">分享</div>
+        <a class="share-item" target="_blank"
+            href="https://twitter.com/share?text=联合类型 - Fxh's blog&url=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2F%25E8%2581%2594%25E5%2590%2588%25E7%25B1%25BB%25E5%259E%258B%25E5%2592%258C%25E4%25BA%25A4%25E5%258F%2589%25E7%25B1%25BB%25E5%259E%258B%2F">
+            <ion-icon name="logo-twitter"></ion-icon>
+        </a>
+        <a class="share-item" target="_blank"
+            href="https://www.facebook.com/sharer.php?title=联合类型 - Fxh's blog&u=https%3A%2F%2Ffxh31.github.io%2Fferhannah-blog%2F2025%2F06%2F24%2FTS%2F%25E8%2581%2594%25E5%2590%2588%25E7%25B1%25BB%25E5%259E%258B%25E5%2592%258C%25E4%25BA%25A4%25E5%258F%2589%25E7%25B1%25BB%25E5%259E%258B%2F">
+            <ion-icon name="logo-facebook"></ion-icon>
+        </a> -->
+        <!-- <a class="share-item" target="_blank"
+            href="https://service.weibo.com/share/share.php?title=联合类型 - Fxh's blog&url=https://fxh31.github.io/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/&pic=">
+            <div class="n-icon n-icon-weibo"></div>
+        </a> -->
+    </section>
+
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </section>
+            </section>
+
+            
+            <aside class="sidebar ">
+                
+
+
+<div class="widget" id="widget">
+    
+      
+  <div class="widget-wrap">
+    <div class="widget-inner">
+      <div class="toc post-toc-html"></div>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-cate">
+    <div class="widget-title"><span>Categories</span></div>
+    <div class="widget-inner">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/CSS/">CSS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/HTML/">HTML</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/JS/">JS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/TS/">TS</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vite/">Vite</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/algorithm/">algorithm</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/micro-frontends/">micro-frontends</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/network/">network</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/">node</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/node/express/">express</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/other/">other</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/ferhannah-blog/categories/uni-app/">uni-app</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-tags">
+    <div class="widget-title"><span>Tags</span></div>
+    <div class="widget-inner">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/CDN/" rel="tag">CDN</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/Fetch/" rel="tag">Fetch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/JWT/" rel="tag">JWT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP/" rel="tag">TCP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/TCP%E3%80%81HTTP/" rel="tag">TCP、HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/WebSocket/" rel="tag">WebSocket</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/XSS/" rel="tag">XSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/cross-domain/" rel="tag">cross-domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/ferhannah-blog/tags/wujie/" rel="tag">wujie</a></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap widget-recent-posts">
+    <div class="widget-title"><span>Recent Posts</span></div>
+    <div class="widget-inner">
+      <ul>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89/">装饰器（Decorator）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E8%81%94%E5%90%88%E7%B1%BB%E5%9E%8B%E5%92%8C%E4%BA%A4%E5%8F%89%E7%B1%BB%E5%9E%8B/">联合类型</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%EF%BC%88class%EF%BC%89/">类（class）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%96%AD%E8%A8%80/">类型断言（*）</a>
+          </li>
+        
+          <li>
+            <a href="/ferhannah-blog/2025/06/24/TS/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E8%AE%BA%E5%92%8C%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D/">类型推论和类型别名</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget-wrap widget-archive">
+    <div class="widget-title"><span>Archive</span></div>
+    <div class="widget-inner">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2025/">2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2024/">2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/ferhannah-blog/archives/2023/">2023</a></li></ul>
+    </div>
+  </div>
+
+
+    
+</div>
+
+<div id="backtop"><i class="icon icon-arrow-up"></i></div>
+            </aside>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3c4859" fill-opacity="1" d="M0,160L60,181.3C120,203,240,245,360,240C480,235,600,181,720,186.7C840,192,960,256,1080,261.3C1200,267,1320,213,1380,186.7L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>
+    </div>
+
+    <!-- Please do not remove this -->
+    <!-- 开源不易，请勿删除 -->
+    <div class="footer-wrap">
+        <div class="footer-inner"> 
+            Fxh&#39;s blog &copy; 2025<br>
+        </div>
+    </div>
+
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@6.0.2/dist/ionicons/ionicons.esm.js"></script>
+
+
+
+
+
+
+<script src="/ferhannah-blog/dist/build.js?1654266144177.js"></script>
+
+
+<script src="/ferhannah-blog/dist/custom.js?1654266144177.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
